@@ -1,0 +1,30 @@
+# Compute Bazaar — Python Backend Requirements
+# Install with: pip install -r requirements.txt
+
+# Core Web Framework
+fastapi==0.115.14
+uvicorn[standard]==0.34.3
+
+# Auction / Optimization
+pulp==2.9.0          # Linear programming for Winner Determination Problem
+numpy==2.3.1         # Numerical computations
+
+# Database
+sqlalchemy==2.0.41   # ORM
+alembic==1.16.4      # DB migrations
+aiosqlite==0.21.0    # Async SQLite (Week 1-6)
+
+# Auth & Security
+python-jose[cryptography]==3.5.0  # JWT tokens
+passlib[bcrypt]==1.7.4            # Password hashing
+python-multipart==0.0.20          # Form data parsing
+
+# Utilities
+pydantic==2.11.7      # Data validation
+python-dotenv==1.1.1  # Environment variables
+httpx==0.28.1         # HTTP client (for testing)
+loguru==0.7.3         # Beautiful logging
+
+# Testing
+pytest==8.4.1
+pytest-asyncio==1.0.0

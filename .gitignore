@@ -1,0 +1,51 @@
+# Compute Bazaar — Git Ignore
+# Files and folders that should NOT be committed to git
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Environment files (contains secrets!)
+.env
+.env.local
+
+# Databases (generated, not source code)
+*.db
+*.sqlite
+*.sqlite3
+
+# Node.js (frontend, added in Week 4)
+node_modules/
+.next/
+dist/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+*.log
+logs/
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/
