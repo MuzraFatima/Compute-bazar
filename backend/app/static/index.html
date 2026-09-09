@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compute Bazaar — Real-Time Multi-Agent Combinatorial Auction Dashboard</title>
+    <title>Compute Bazaar 2.0 — Multi-Agent Combinatorial Auction Dashboard</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,8 +37,13 @@
                             500: '#06b6d4',
                         },
                         violet: {
+                            400: '#a78bfa',
                             500: '#8b5cf6',
                             600: '#7c3aed',
+                        },
+                        emerald: {
+                            400: '#34d399',
+                            500: '#10b981',
                         }
                     }
                 }
@@ -48,10 +53,10 @@
     <style>
         /* Glassmorphism utility */
         .glass {
-            background: rgba(15, 23, 42, 0.45);
+            background: rgba(15, 23, 42, 0.55);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         
         .glass-glow-cyan {
@@ -62,13 +67,22 @@
             box-shadow: 0 0 25px -5px rgba(139, 92, 246, 0.15);
         }
 
+        .glass-glow-emerald {
+            box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.15);
+        }
+
         /* Animated background */
         body {
             background-color: #030712;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.12) 0, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.1) 0, transparent 50%),
+                radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.14) 0, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(6, 182, 212, 0.12) 0, transparent 50%),
                 radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.95) 0, rgba(3, 7, 18, 0.98) 100%);
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
             background-attachment: fixed;
             min-height: 100vh;
         }
@@ -93,163 +107,277 @@
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
             background: rgba(15, 23, 42, 0.2);
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.12);
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.25);
         }
     </style>
 </head>
 <body class="text-slate-200 antialiased overflow-x-hidden">
 
-    <!-- Navbar -->
-    <header class="w-full glass border-b border-white/5 py-4 px-6 md:px-12 flex items-center justify-between sticky top-0 z-50">
+    <!-- Header / Top Navbar -->
+    <header class="w-full glass border-b border-white/5 py-4 px-6 md:px-12 flex flex-col md:flex-row items-center justify-between sticky top-0 z-50 gap-4">
         <div class="flex items-center space-x-3">
-            <div class="h-10 w-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-violet-500 flex items-center justify-center font-display font-black text-xl text-white shadow-lg shadow-cyan-500/20">
+            <div class="h-11 w-11 rounded-xl bg-gradient-to-tr from-cyan-500 via-violet-500 to-emerald-400 flex items-center justify-center font-display font-black text-xl text-white shadow-lg shadow-cyan-500/20">
                 CB
             </div>
             <div>
-                <h1 class="font-display font-bold text-lg tracking-tight text-white leading-none">COMPUTE BAZAAR</h1>
-                <span class="text-[10px] uppercase font-semibold text-cyan-400 tracking-wider">Combinatorial Resource Market</span>
+                <div class="flex items-center space-x-2">
+                    <h1 class="font-display font-extrabold text-xl tracking-tight text-white leading-none">COMPUTE BAZAAR 2.0</h1>
+                    <span class="text-[10px] bg-gradient-to-r from-cyan-500 to-violet-500 text-white font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Major Project Demo</span>
+                </div>
+                <span class="text-[11px] font-semibold text-slate-400">Autonomous AI Agent Market & Combinatorial Auction Engine</span>
             </div>
         </div>
         
-        <div class="flex items-center space-x-6">
-            <!-- Active simulation status -->
-            <div class="flex items-center space-x-2 bg-slate-900/60 rounded-full px-4 py-1.5 border border-white/5">
+        <div class="flex flex-wrap items-center gap-4">
+            <!-- LLM Groq Telemetry Badge -->
+            <div class="flex items-center space-x-2 bg-slate-900/80 rounded-full px-3.5 py-1.5 border border-cyan-500/20 text-xs">
+                <span class="h-2 w-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span class="text-slate-300 font-medium">Groq LLM:</span>
+                <span id="nav-llm-status" class="font-bold text-cyan-400">Llama-3.3-70b (Mock Mode)</span>
+            </div>
+
+            <!-- Simulation Status Badge -->
+            <div class="flex items-center space-x-2 bg-slate-900/80 rounded-full px-3.5 py-1.5 border border-white/10 text-xs">
                 <span class="relative flex h-2.5 w-2.5">
                     <span id="status-pulse" class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-slate-500"></span>
                     <span id="status-dot" class="relative inline-flex rounded-full h-2.5 w-2.5 bg-slate-500"></span>
                 </span>
-                <span id="status-text" class="text-xs font-bold uppercase tracking-wider text-slate-400">Simulation Offline</span>
+                <span id="status-text" class="font-bold uppercase tracking-wider text-slate-400">Simulation Offline</span>
             </div>
             
-            <a href="/docs" target="_blank" class="text-sm font-semibold text-slate-400 hover:text-white transition duration-200">API Documentation</a>
+            <a href="/docs" target="_blank" class="text-xs font-semibold bg-white/5 hover:bg-white/10 px-3.5 py-1.5 rounded-full text-slate-300 hover:text-white transition duration-200 border border-white/10">API Docs</a>
         </div>
     </header>
 
-    <!-- Main Grid Dashboard -->
-    <main class="max-w-7xl mx-auto px-4 md:px-8 py-8 space-y-6">
+    <!-- Main Content Container -->
+    <main class="max-w-7xl mx-auto px-4 md:px-8 py-8 space-y-8">
 
-        <!-- Metrics Row -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Metrics Row 1: Key Performance Indicators -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-5">
             
-            <!-- Round Card -->
-            <div class="glass glass-glow-cyan rounded-2xl p-6 relative overflow-hidden">
-                <div class="absolute right-0 bottom-0 translate-x-3 translate-y-3 opacity-5 text-[100px] font-black pointer-events-none text-cyan-400" id="round-bg">1</div>
-                <p class="text-xs uppercase font-semibold tracking-wider text-slate-400">Active Round</p>
-                <div class="flex items-baseline space-x-2 mt-2">
-                    <span class="text-4xl font-display font-extrabold text-white" id="round-number">#1</span>
-                    <span class="text-xs px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20" id="round-status">OPEN</span>
+            <!-- 1. Active Round -->
+            <div class="glass glass-glow-cyan rounded-2xl p-5 relative overflow-hidden flex flex-col justify-between">
+                <p class="text-[11px] uppercase font-bold tracking-wider text-slate-400">Auction Round</p>
+                <div class="flex items-baseline space-x-2 my-1">
+                    <span class="text-3xl font-display font-black text-white" id="metric-round-number">#1</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-bold border border-emerald-500/30 uppercase" id="metric-round-status">OPEN</span>
                 </div>
-                <!-- Mini Progress/Timer Bar -->
-                <div class="w-full bg-slate-900 rounded-full h-1.5 mt-4 overflow-hidden">
+                <div class="w-full bg-slate-900 rounded-full h-1.5 mt-2 overflow-hidden">
                     <div id="round-timer-progress" class="bg-gradient-to-r from-cyan-500 to-violet-500 h-full w-full transition-all duration-1000 ease-linear"></div>
                 </div>
             </div>
 
-            <!-- Bids Received Card -->
-            <div class="glass rounded-2xl p-6 relative overflow-hidden">
-                <p class="text-xs uppercase font-semibold tracking-wider text-slate-400">Bids Received</p>
-                <div class="text-4xl font-display font-extrabold text-white mt-2" id="round-bids-count">0</div>
-                <p class="text-xs text-slate-400 mt-2"><span class="text-cyan-400 font-semibold" id="bids-rate">0 bids</span> in current round</p>
+            <!-- 2. Active Agents -->
+            <div class="glass rounded-2xl p-5 flex flex-col justify-between">
+                <p class="text-[11px] uppercase font-bold tracking-wider text-slate-400">Active AI Agents</p>
+                <div class="text-3xl font-display font-black text-white my-1" id="metric-active-agents">0</div>
+                <p class="text-[11px] text-slate-400"><span class="text-cyan-400 font-semibold" id="metric-agent-details">Coding, Research, Data, Analysis</span></p>
             </div>
 
-            <!-- Total System Value Card -->
-            <div class="glass rounded-2xl p-6 relative overflow-hidden">
-                <p class="text-xs uppercase font-semibold tracking-wider text-slate-400">Total Value Extracted</p>
-                <div class="text-4xl font-display font-extrabold text-white mt-2">$<span id="total-value-extracted">0.00</span></div>
-                <p class="text-xs text-slate-400 mt-2">Cumulative value maximized by LP Solver</p>
+            <!-- 3. Social Welfare / Value Extracted -->
+            <div class="glass rounded-2xl p-5 flex flex-col justify-between">
+                <p class="text-[11px] uppercase font-bold tracking-wider text-slate-400">Social Welfare</p>
+                <div class="text-3xl font-display font-black text-emerald-400 my-1">$<span id="metric-social-welfare">0.00</span></div>
+                <p class="text-[11px] text-slate-400">Maximized by ILP Solver</p>
             </div>
 
-            <!-- Efficiency Gain Card -->
-            <div class="glass glass-glow-purple rounded-2xl p-6 relative overflow-hidden">
-                <p class="text-xs uppercase font-semibold tracking-wider text-slate-400">Efficiency vs Round-Robin</p>
-                <div class="text-4xl font-display font-extrabold text-violet-400 mt-2">+<span id="efficiency-gain">0.0</span>%</div>
-                <p class="text-xs text-slate-400 mt-2">Nobel-prize auction efficiency gain</p>
+            <!-- 4. Spending & Savings -->
+            <div class="glass glass-glow-purple rounded-2xl p-5 flex flex-col justify-between">
+                <p class="text-[11px] uppercase font-bold tracking-wider text-slate-400">VCG Surplus Savings</p>
+                <div class="text-3xl font-display font-black text-violet-400 my-1">$<span id="metric-savings">0.00</span></div>
+                <p class="text-[11px] text-slate-400">Spent: $<span id="metric-spending">0.00</span></p>
+            </div>
+
+            <!-- 5. Jain Fairness Index -->
+            <div class="glass glass-glow-emerald rounded-2xl p-5 flex flex-col justify-between">
+                <p class="text-[11px] uppercase font-bold tracking-wider text-slate-400">Jain Fairness Index</p>
+                <div class="text-3xl font-display font-black text-white my-1" id="metric-jains-index">1.0000</div>
+                <p class="text-[11px] text-slate-400"><span class="text-emerald-400 font-semibold" id="metric-fairness-status">Fair Distribution</span></p>
+            </div>
+
+            <!-- 6. LLM / Groq Telemetry -->
+            <div class="glass rounded-2xl p-5 flex flex-col justify-between">
+                <p class="text-[11px] uppercase font-bold tracking-wider text-slate-400">LLM Telemetry</p>
+                <div class="text-3xl font-display font-black text-cyan-400 my-1"><span id="metric-llm-calls">0</span> <span class="text-xs font-normal text-slate-400">calls</span></div>
+                <p class="text-[11px] text-slate-400"><span id="metric-llm-tokens">0</span> tokens | <span id="metric-llm-latency">0</span>ms avg</p>
             </div>
 
         </div>
 
-        <!-- Middle Section: Heatmap & Sim Console -->
+        <!-- Section 2: 4 Required Real-Data Charts -->
+        <div class="space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="font-display font-bold text-xl text-white">Market Analytics & Performance Charts</h2>
+                    <p class="text-xs text-slate-400">Real-time visualizations rendered from live backend database metrics</p>
+                </div>
+            </div>
+
+            <!-- 2x2 Grid of Charts -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                
+                <!-- Chart 1: Resource Utilization -->
+                <div class="glass rounded-2xl p-6 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="font-display font-bold text-base text-white">Resource Utilization by Category</h3>
+                            <p class="text-xs text-slate-400">Capacity allocation rate for GPU, CPU, RAM, and API Budget</p>
+                        </div>
+                        <span class="text-xs text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full font-bold border border-cyan-500/20">CAPACITY %</span>
+                    </div>
+                    <div class="h-[260px] w-full relative">
+                        <canvas id="resourceUtilChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 2: Costs & Savings Over Time -->
+                <div class="glass rounded-2xl p-6 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="font-display font-bold text-base text-white">Costs & Surplus Savings Over Time</h3>
+                            <p class="text-xs text-slate-400">Social Welfare vs Actual Spending vs VCG Surplus Discount ($)</p>
+                        </div>
+                        <span class="text-xs text-violet-400 bg-violet-500/10 px-2.5 py-1 rounded-full font-bold border border-violet-500/20">CUMULATIVE ($)</span>
+                    </div>
+                    <div class="h-[260px] w-full relative">
+                        <canvas id="costSavingsChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 3: Agent Wins & Losses -->
+                <div class="glass rounded-2xl p-6 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="font-display font-bold text-base text-white">Agent Performance: Wins vs Losses</h3>
+                            <p class="text-xs text-slate-400">Auction allocation outcomes per registered AI agent</p>
+                        </div>
+                        <span class="text-xs text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full font-bold border border-emerald-500/20">AGENT EQUITY</span>
+                    </div>
+                    <div class="h-[260px] w-full relative">
+                        <canvas id="agentWinsLossesChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Chart 4: Auction Activity & Value Extracted -->
+                <div class="glass rounded-2xl p-6 flex flex-col justify-between">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="font-display font-bold text-base text-white">Auction Activity & Social Welfare</h3>
+                            <p class="text-xs text-slate-400">Total Value Extracted (LP Solver) and Bids count per round</p>
+                        </div>
+                        <span class="text-xs text-cyan-400 bg-cyan-500/10 px-2.5 py-1 rounded-full font-bold border border-cyan-500/20">WDP SOLVER</span>
+                    </div>
+                    <div class="h-[260px] w-full relative">
+                        <canvas id="auctionActivityChart"></canvas>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Section 3: Live Data Tables & Controller Panel -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            <!-- Resource Heatmap Panel -->
+            <!-- Active Agents Table (2 Cols) -->
             <div class="lg:col-span-2 glass rounded-2xl p-6 flex flex-col justify-between">
                 <div>
-                    <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center justify-between mb-4">
                         <div>
-                            <h3 class="font-display font-bold text-lg text-white">Compute Resource Heatmap</h3>
-                            <p class="text-xs text-slate-400">Real-time allocation rates and bidding pressure for compute blocks</p>
+                            <h3 class="font-display font-bold text-lg text-white">Registered AI Agents Performance</h3>
+                            <p class="text-xs text-slate-400">Real-time balances, tier rankings, total spending, surplus, and win rates</p>
                         </div>
-                        <span class="text-xs text-cyan-400 bg-cyan-400/10 px-3 py-1 rounded-full font-bold border border-cyan-400/20">LIVE DEMAND</span>
+                        <span class="text-xs text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full font-bold border border-emerald-500/20" id="agent-table-count">0 AGENTS</span>
                     </div>
-                    
-                    <!-- Resources List -->
-                    <div class="space-y-4" id="resource-heatmap-container">
-                        <!-- Dynamic resource bars will be loaded here -->
-                        <div class="text-center py-6 text-slate-500 text-sm">Loading available resources...</div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead>
+                                <tr class="text-slate-400 border-b border-white/10 pb-2">
+                                    <th class="pb-2.5 font-bold">Agent Name</th>
+                                    <th class="pb-2.5 font-bold">Tier</th>
+                                    <th class="pb-2.5 font-bold text-right">Budget (Rem / Total)</th>
+                                    <th class="pb-2.5 font-bold text-right">Spent</th>
+                                    <th class="pb-2.5 font-bold text-right">Surplus</th>
+                                    <th class="pb-2.5 font-bold text-center">Wins / Bids</th>
+                                    <th class="pb-2.5 font-bold text-right">Win Rate</th>
+                                </tr>
+                            </thead>
+                            <tbody id="agent-performance-table-body">
+                                <tr>
+                                    <td colspan="7" class="text-center py-8 text-slate-500">Loading agent performance data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Bidding Simulation Controller -->
-            <div class="glass rounded-2xl p-6 flex flex-col justify-between">
+            <!-- Simulation Console Controls (1 Col) -->
+            <div class="glass rounded-2xl p-6 flex flex-col justify-between space-y-6">
                 <div>
                     <h3 class="font-display font-bold text-lg text-white mb-2">Bidding Simulator Console</h3>
-                    <p class="text-xs text-slate-400 mb-6">Launch autonomous agents executing varying bidding strategies (Truthful, Strategic, ML-Adaptive)</p>
+                    <p class="text-xs text-slate-400 mb-4">Run background simulation loop to spawn autonomous AI agents submitting Groq-powered combinatorial bids</p>
                     
-                    <!-- Simulated Agent Info -->
-                    <div class="space-y-3 mb-6" id="simulation-agents-list">
-                        <!-- Agent items dynamically inserted -->
-                        <div class="flex items-center justify-between text-xs py-1.5 border-b border-white/5">
-                            <span class="text-slate-400">Agent-Alpha</span>
-                            <span class="text-cyan-400 font-bold bg-cyan-500/10 px-2 py-0.5 rounded">ML-Adaptive</span>
+                    <!-- Quick Specs -->
+                    <div class="bg-slate-900/60 rounded-xl p-4 border border-white/5 space-y-2.5 text-xs">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Optimization Solver:</span>
+                            <span class="font-bold text-cyan-400">CBC / PuLP ILP</span>
                         </div>
-                        <div class="flex items-center justify-between text-xs py-1.5 border-b border-white/5">
-                            <span class="text-slate-400">Agent-Beta</span>
-                            <span class="text-violet-400 font-bold bg-violet-500/10 px-2 py-0.5 rounded">Truthful</span>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Pricing Policy:</span>
+                            <span class="font-bold text-violet-400">VCG Mechanism</span>
                         </div>
-                        <div class="flex items-center justify-between text-xs py-1.5 border-b border-white/5">
-                            <span class="text-slate-400">Agent-Gamma</span>
-                            <span class="text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded">Shading (70%)</span>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Fairness Metrics:</span>
+                            <span class="font-bold text-emerald-400">Jain Index + Anti-Starvation</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">ML Predictor:</span>
+                            <span class="font-bold text-slate-200">Active (Week 7)</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Simulation Control Buttons -->
+                <!-- Simulation Action Buttons -->
                 <div class="space-y-3">
-                    <button id="btn-start-sim" class="w-full py-3 bg-gradient-to-r from-cyan-500 to-violet-500 hover:from-cyan-400 hover:to-violet-400 text-white font-bold rounded-xl transition duration-200 shadow-lg shadow-cyan-500/15">
-                        Start Simulation Loop
+                    <button id="btn-start-groq" class="w-full py-3 bg-gradient-to-r from-violet-600 via-purple-500 to-cyan-500 hover:opacity-90 text-white font-bold rounded-xl transition duration-200 shadow-lg shadow-violet-500/30 text-sm flex items-center justify-center space-x-2">
+                        <span>🤖 Groq AI Mode (Live LLM)</span>
                     </button>
-                    <button id="btn-stop-sim" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold rounded-xl transition duration-200 border border-white/5" disabled>
-                        Stop Simulation
+                    <button id="btn-start-classic" class="w-full py-3 bg-gradient-to-r from-cyan-600 to-emerald-500 hover:opacity-90 text-white font-bold rounded-xl transition duration-200 shadow-lg shadow-cyan-500/20 text-sm flex items-center justify-center space-x-2">
+                        <span>▶ Classic Simulation Mode</span>
+                    </button>
+                    <button id="btn-stop-sim" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold rounded-xl transition duration-200 border border-white/10 text-sm" disabled>
+                        <span>⏹ Stop Simulation</span>
                     </button>
                 </div>
             </div>
 
         </div>
 
-        <!-- Lower Section: Live Bid Feed & Allocation Panel -->
+        <!-- Section 4: Live Bidding Ticker & Auction History -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
-            <!-- Real-Time Bid Ticker -->
+            <!-- Live Bidding Ticker -->
             <div class="glass rounded-2xl p-6 flex flex-col h-[400px]">
                 <div class="flex items-center justify-between mb-4">
                     <div>
                         <h3 class="font-display font-bold text-lg text-white">Live Bidding Ticker</h3>
-                        <p class="text-xs text-slate-400">Real-time incoming combinatorial bundle requests from agents</p>
+                        <p class="text-xs text-slate-400">Incoming combinatorial bundle requests submitted to active round</p>
                     </div>
                     <span class="h-2 w-2 rounded-full bg-cyan-400 animate-pulse"></span>
                 </div>
                 
-                <!-- Table Scroll -->
                 <div class="overflow-y-auto flex-1 pr-1" id="bid-ticker-wrapper">
                     <table class="w-full text-left text-xs">
                         <thead>
@@ -258,12 +386,12 @@
                                 <th class="pb-2 font-semibold">Requested Bundle</th>
                                 <th class="pb-2 font-semibold text-right">Bid Value</th>
                                 <th class="pb-2 font-semibold text-center">Priority</th>
+                                <th class="pb-2 font-semibold text-right">Outcome</th>
                             </tr>
                         </thead>
                         <tbody id="bid-ticker-body">
-                            <!-- Dynamic rows injected -->
                             <tr id="empty-bids-message">
-                                <td colspan="4" class="text-center py-16 text-slate-500">
+                                <td colspan="5" class="text-center py-16 text-slate-500">
                                     Waiting for live agent bids... Click "Start Simulation Loop" above to trigger.
                                 </td>
                             </tr>
@@ -272,52 +400,43 @@
                 </div>
             </div>
 
-            <!-- Last Round Allocations & outcomes -->
-            <div class="glass rounded-2xl p-6 flex flex-col h-[400px] justify-between">
-                <div>
-                    <h3 class="font-display font-bold text-lg text-white mb-1">Previous Round Outcomes</h3>
-                    <p class="text-xs text-slate-400 mb-4">Final winning bundle allocations solved via Integer Linear Programming & VCG Pricing</p>
-                    
-                    <div id="allocation-outcome-container" class="overflow-y-auto max-h-[300px] pr-1 space-y-3">
-                        <div class="text-center py-16 text-slate-500 text-xs">
-                            No allocations solved yet. Run simulation to execute the first round.
-                        </div>
+            <!-- Auction History Table -->
+            <div class="glass rounded-2xl p-6 flex flex-col h-[400px]">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h3 class="font-display font-bold text-lg text-white">Closed Auction Rounds History</h3>
+                        <p class="text-xs text-slate-400">Historical ILP solver outcomes and social welfare extracted</p>
                     </div>
+                    <span class="text-xs font-bold text-violet-400 bg-violet-500/10 px-2.5 py-1 rounded-full border border-violet-500/20" id="auction-rounds-count">0 ROUNDS</span>
+                </div>
+                
+                <div class="overflow-y-auto flex-1 pr-1">
+                    <table class="w-full text-left text-xs">
+                        <thead>
+                            <tr class="text-slate-400 border-b border-white/5 pb-2">
+                                <th class="pb-2 font-semibold">Round</th>
+                                <th class="pb-2 font-semibold">Status</th>
+                                <th class="pb-2 font-semibold text-right">Social Welfare</th>
+                                <th class="pb-2 font-semibold text-center">Bids / Winners</th>
+                                <th class="pb-2 font-semibold text-right">Solver</th>
+                            </tr>
+                        </thead>
+                        <tbody id="auction-history-body">
+                            <tr>
+                                <td colspan="5" class="text-center py-16 text-slate-500">No closed auction rounds yet.</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
-        </div>
-
-        <!-- Comparative Chart Panel -->
-        <div class="glass rounded-2xl p-6">
-            <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
-                <div>
-                    <h3 class="font-display font-bold text-lg text-white">Cumulative Efficiency Analysis</h3>
-                    <p class="text-xs text-slate-400">Compute Bazaar (Combinatorial Auction) vs. Round-Robin (First-In First-Queue) Scheduling</p>
-                </div>
-                <div class="mt-3 md:mt-0 flex items-center space-x-6 text-xs font-semibold">
-                    <div class="flex items-center space-x-2">
-                        <span class="h-3 w-3 rounded-full bg-cyan-400"></span>
-                        <span class="text-slate-300">Compute Bazaar (Max Social Welfare)</span>
-                    </div>
-                    <div class="flex items-center space-x-2">
-                        <span class="h-3 w-3 rounded-full bg-slate-600"></span>
-                        <span class="text-slate-400">Round-Robin Scheduling</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Chart Wrapper -->
-            <div class="h-[300px] w-full">
-                <canvas id="efficiencyChart"></canvas>
-            </div>
         </div>
 
     </main>
 
     <!-- Footer -->
     <footer class="w-full py-8 text-center text-xs text-slate-500 border-t border-white/5 mt-12">
-        <p>© 2026 Compute Bazaar. Built with Antigravity IDE.</p>
+        <p>© 2026 Compute Bazaar 2.0. Open-Source Multi-Agent Combinatorial Auction Framework.</p>
     </footer>
 
     <!-- App Logic Script -->

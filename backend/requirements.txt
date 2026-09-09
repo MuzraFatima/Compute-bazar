@@ -25,6 +25,9 @@ python-dotenv==1.1.1  # Environment variables
 httpx==0.28.1         # HTTP client (for testing)
 loguru==0.7.3         # Beautiful logging
 
+# LLM / AI (Week 2+)
+groq==1.7.0           # Groq LLM API client
+
 # Testing
 pytest==8.4.1
 pytest-asyncio==1.0.0

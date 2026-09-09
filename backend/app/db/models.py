@@ -12,8 +12,11 @@
 """
 
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List
+
+def utc_now_iso() -> str:
+    return datetime.now(timezone.utc).isoformat()
 
 from sqlalchemy import (
     create_engine, Column, Integer, String, Float, Boolean, ForeignKey, Index, Table
@@ -39,7 +42,7 @@ class Agent(Base):
     budget_remaining = Column(Float, default=1000.0, nullable=False)
     tier = Column(String, default="bronze", nullable=False)  # 'gold', 'silver', 'bronze'
     is_active = Column(Boolean, default=True, nullable=False)
-    created_at = Column(String, default=lambda: datetime.utcnow().isoformat(), nullable=False)
+    created_at = Column(String, default=utc_now_iso, nullable=False)
     last_active_at = Column(String, nullable=True)
 
     # Relationships
@@ -57,7 +60,7 @@ class Resource(Base):
     unit = Column(String, default="slot", nullable=False)
     cost_per_unit = Column(Float, default=0.0, nullable=False)
     is_available = Column(Boolean, default=True, nullable=False)
-    created_at = Column(String, default=lambda: datetime.utcnow().isoformat(), nullable=False)
+    created_at = Column(String, default=utc_now_iso, nullable=False)
 
 # ── Auction Model ────────────────────────────────────────────
 class Auction(Base):
@@ -66,7 +69,7 @@ class Auction(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     round_number = Column(Integer, unique=True, nullable=False)
     status = Column(String, default="open", nullable=False)  # 'open', 'running', 'closed'
-    started_at = Column(String, default=lambda: datetime.utcnow().isoformat(), nullable=False)
+    started_at = Column(String, default=utc_now_iso, nullable=False)
     closed_at = Column(String, nullable=True)
     total_value_extracted = Column(Float, default=0.0)
     total_agents_participated = Column(Integer, default=0)
@@ -87,7 +90,7 @@ class Bid(Base):
     bid_amount = Column(Float, nullable=False)
     task_description = Column(String, nullable=True)
     priority = Column(String, default="normal")  # 'critical', 'high', 'normal', 'low'
-    submitted_at = Column(String, default=lambda: datetime.utcnow().isoformat(), nullable=False)
+    submitted_at = Column(String, default=utc_now_iso, nullable=False)
     is_winner = Column(Boolean, default=False)
     payment_amount = Column(Float, nullable=True)
 
@@ -108,7 +111,7 @@ class Allocation(Base):
     bid_amount = Column(Float, nullable=False)
     payment_amount = Column(Float, nullable=False)
     value_to_system = Column(Float, nullable=False)
-    allocated_at = Column(String, default=lambda: datetime.utcnow().isoformat(), nullable=False)
+    allocated_at = Column(String, default=utc_now_iso, nullable=False)
 
     # Relationships
     auction = relationship("Auction", back_populates="allocations")
@@ -134,3 +137,6 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 def init_db():
     """Create all tables in the database."""
     Base.metadata.create_all(bind=engine)
+
+# Auto-initialize tables on module import
+init_db()

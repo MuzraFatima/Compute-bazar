@@ -1,0 +1,124 @@
+{
+  "timestamp": "2026-09-01 21:39:26",
+  "architecture_comparison": {
+    "rounds": 20,
+    "round_robin": {
+      "total_welfare": 3364.39,
+      "avg_welfare": 168.22,
+      "avg_utilization_pct": 80.0,
+      "avg_latency_ms": 0.01
+    },
+    "compute_bazaar_1_0": {
+      "total_welfare": 3753.09,
+      "avg_welfare": 187.65,
+      "avg_utilization_pct": 80.0,
+      "avg_latency_ms": 171.346
+    },
+    "compute_bazaar_2_0": {
+      "total_welfare": 3753.09,
+      "avg_welfare": 187.65,
+      "avg_utilization_pct": 80.0,
+      "avg_latency_ms": 119.441,
+      "total_agent_spending": 3547.76,
+      "total_vcg_savings": 205.33,
+      "avg_cost_efficiency_pct": 5.5,
+      "jains_fairness_index": 0.4758,
+      "welfare_gain_vs_round_robin_pct": 11.6,
+      "welfare_gain_vs_bazaar_1_pct": 0.0
+    },
+    "agent_performance": [
+      {
+        "name": "DevBot-Gold",
+        "wins": 0,
+        "win_rate_pct": 0.0,
+        "total_surplus": 0.0
+      },
+      {
+        "name": "ResearchBot-Gold",
+        "wins": 12,
+        "win_rate_pct": 60.0,
+        "total_surplus": 55.65
+      },
+      {
+        "name": "ETLBot-Silver",
+        "wins": 0,
+        "win_rate_pct": 0.0,
+        "total_surplus": 0.0
+      },
+      {
+        "name": "QuantBot-Silver",
+        "wins": 12,
+        "win_rate_pct": 60.0,
+        "total_surplus": 68.74
+      },
+      {
+        "name": "DevBot-Bronze",
+        "wins": 1,
+        "win_rate_pct": 5.0,
+        "total_surplus": 1.03
+      },
+      {
+        "name": "ResearchBot-Bronze",
+        "wins": 8,
+        "win_rate_pct": 40.0,
+        "total_surplus": 45.47
+      },
+      {
+        "name": "ETLBot-Gold",
+        "wins": 0,
+        "win_rate_pct": 0.0,
+        "total_surplus": 0.0
+      },
+      {
+        "name": "QuantBot-Gold",
+        "wins": 7,
+        "win_rate_pct": 35.0,
+        "total_surplus": 34.44
+      }
+    ]
+  },
+  "scalability_benchmarks": [
+    {
+      "agent_count": 4,
+      "total_bids_processed": 4,
+      "bids_generation_time_ms": 1.38,
+      "ilp_solve_time_ms": 193.575,
+      "winners_count": 2,
+      "total_value_extracted": 94.0
+    },
+    {
+      "agent_count": 8,
+      "total_bids_processed": 8,
+      "bids_generation_time_ms": 3.86,
+      "ilp_solve_time_ms": 194.918,
+      "winners_count": 2,
+      "total_value_extracted": 122.0
+    },
+    {
+      "agent_count": 16,
+      "total_bids_processed": 16,
+      "bids_generation_time_ms": 5.71,
+      "ilp_solve_time_ms": 200.002,
+      "winners_count": 2,
+      "total_value_extracted": 178.0
+    },
+    {
+      "agent_count": 32,
+      "total_bids_processed": 32,
+      "bids_generation_time_ms": 12.09,
+      "ilp_solve_time_ms": 223.894,
+      "winners_count": 2,
+      "total_value_extracted": 290.0
+    }
+  ],
+  "llm_prediction_telemetry": {
+    "cold_start_confidence": 0.75,
+    "trained_confidence": 0.95,
+    "total_historical_records_logged": 25,
+    "predicted_runtime_sec": 600.9,
+    "predicted_cost_dollars": 49.71,
+    "llm_total_calls": 0,
+    "llm_total_tokens": 0,
+    "llm_avg_latency_ms": 0.0
+  }
+}

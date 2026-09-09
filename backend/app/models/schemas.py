@@ -7,7 +7,7 @@
 """
 
 from typing import List, Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 # ── Agent Schemas ────────────────────────────────────────────
 class AgentRegister(BaseModel):
@@ -16,6 +16,8 @@ class AgentRegister(BaseModel):
     tier: str = Field("bronze", description="Subscription tier: gold, silver, or bronze")
 
 class AgentResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     name: str
     description: Optional[str]
@@ -26,12 +28,9 @@ class AgentResponse(BaseModel):
     created_at: str
     last_active_at: Optional[str]
 
-    class Config:
-        from_attributes = True
-
 # ── Bid Schemas ──────────────────────────────────────────────
 class BidSubmit(BaseModel):
-    resource_bundle: List[str] = Field(..., min_items=1, description="List of resource names required")
+    resource_bundle: List[str] = Field(..., min_length=1, description="List of resource names required")
     bid_amount: float = Field(..., gt=0.0, description="Valuation amount for the resource bundle")
     task_description: str = Field("", description="Short description of the task")
     priority: str = Field("normal", description="Priority level: critical, high, normal, low")
@@ -60,6 +59,8 @@ class AllocationResponse(BaseModel):
 
 # ── Resource Schemas ─────────────────────────────────────────
 class ResourceResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     name: str
     resource_type: str
@@ -68,11 +69,10 @@ class ResourceResponse(BaseModel):
     cost_per_unit: float
     is_available: bool
 
-    class Config:
-        from_attributes = True
-
 # ── Auction Schemas ──────────────────────────────────────────
 class AuctionRoundResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     id: int
     round_number: int
     status: str
@@ -83,9 +83,6 @@ class AuctionRoundResponse(BaseModel):
     solver_method: str
     bids: List[BidResponse] = []
     allocations: List[AllocationResponse] = []
-
-    class Config:
-        from_attributes = True
 
 # ── Analytics & Comparison ──────────────────────────────────
 class ComparisonAnalytics(BaseModel):

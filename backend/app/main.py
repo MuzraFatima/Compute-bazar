@@ -22,7 +22,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
 from loguru import logger
 
-from backend.app.db.models import init_db, SessionLocal, Resource, Agent
+from backend.app.db.models import init_db, SessionLocal, Resource, Agent, Auction
 from backend.app.api.endpoints import router as api_router
 from backend.app.api.websocket import manager
 from backend.app.auction.scheduler import start_scheduler, stop_scheduler
@@ -64,13 +64,14 @@ def download_static_assets_if_missing():
     threading.Thread(target=_download, daemon=True).start()
 
 
-# ── Seed Default Resources on Startup ────────────────────────
+# ── Seed Default Resources & Agents on Startup ───────────────
 def seed_resources_if_empty():
-    """Seed base resources and simulated agents if database is fresh."""
+    """Seed base resources, simulated agents, and initial round if database is fresh."""
     db = SessionLocal()
     try:
-        count = db.query(Resource).count()
-        if count == 0:
+        # Seed Resources
+        r_count = db.query(Resource).count()
+        if r_count == 0:
             logger.info("Database is empty. Pre-seeding default compute resources...")
             resources = [
                 Resource(name="GPU-Slot-1",     resource_type="gpu",        capacity=1.0,  unit="slot",      cost_per_unit=2.50),
@@ -82,8 +83,31 @@ def seed_resources_if_empty():
             db.bulk_save_objects(resources)
             db.commit()
             logger.info(f"Seeded {len(resources)} default compute resources.")
+
+        # Seed Agents
+        a_count = db.query(Agent).count()
+        if a_count == 0:
+            logger.info("Pre-seeding default autonomous AI agents...")
+            agents = [
+                Agent(name="DevBot-Gold",       description="Autonomous Coding Agent",       api_key="cb_gold_01",   budget_total=1000.0, budget_remaining=850.0, tier="gold"),
+                Agent(name="ResearchBot-Gold",   description="Autonomous Research Agent",     api_key="cb_gold_02",   budget_total=1000.0, budget_remaining=820.0, tier="gold"),
+                Agent(name="ETLBot-Silver",      description="Autonomous Data ETL Agent",     api_key="cb_silver_01", budget_total=600.0,  budget_remaining=480.0, tier="silver"),
+                Agent(name="QuantBot-Bronze",    description="Autonomous Quantitative Agent", api_key="cb_bronze_01",budget_total=400.0,  budget_remaining=350.0, tier="bronze"),
+            ]
+            db.bulk_save_objects(agents)
+            db.commit()
+            logger.info(f"Seeded {len(agents)} default AI agents.")
+
+        # Seed Open Auction Round if none exists
+        auc_count = db.query(Auction).count()
+        if auc_count == 0:
+            logger.info("Pre-seeding initial auction round...")
+            auction = Auction(round_number=1, status="open")
+            db.add(auction)
+            db.commit()
+
     except Exception as e:
-        logger.error(f"Error seeding default resources: {e}")
+        logger.error(f"Error seeding default resources and agents: {e}")
     finally:
         db.close()
 
@@ -100,7 +124,7 @@ async def lifespan(app: FastAPI):
     # 1. Initialize SQLite Database Schema
     init_db()
     
-    # 2. Seed resource items
+    # 2. Seed resource items & baseline agents
     seed_resources_if_empty()
     
     # 3. Start Periodic Auction Loop background task
@@ -134,23 +158,34 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Register REST endpoints under /api/v1 prefix
+# Include API endpoints router
 app.include_router(api_router, prefix="/api/v1")
 
 
 # ── WebSockets Router: Real-time broadcast feed ──────────────
-@app.websocket("/ws/auction-feed")
-async def websocket_auction_feed(websocket: WebSocket):
+@app.websocket("/ws")
+async def websocket_ws(websocket: WebSocket):
     """Real-time updates pushed directly to dashboard."""
     await manager.connect(websocket)
     try:
         while True:
-            # Keep connection alive, listen for any client messages (not expected)
             await websocket.receive_text()
     except WebSocketDisconnect:
         manager.disconnect(websocket)
     except Exception as e:
-        logger.warning(f"WebSocket client session error: {e}")
+        manager.disconnect(websocket)
+
+
+@app.websocket("/ws/auction-feed")
+async def websocket_feed(websocket: WebSocket):
+    """Real-time updates pushed directly to dashboard."""
+    await manager.connect(websocket)
+    try:
+        while True:
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        manager.disconnect(websocket)
+    except Exception as e:
         manager.disconnect(websocket)
 
 

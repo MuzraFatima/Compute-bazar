@@ -23,10 +23,18 @@
 =============================================================
 """
 
+import sys
 import json
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
 from itertools import combinations
+
+# Ensure UTF-8 stdout on Windows terminals
+if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
 
 
 # ============================================================

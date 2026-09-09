@@ -14,7 +14,7 @@
 
 import json
 import secrets
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
@@ -28,6 +28,10 @@ from backend.app.models.schemas import (
 )
 from backend.app.api.auth import get_db, get_current_agent, create_access_token
 from backend.app.auction.simulation import start_simulation_loop, stop_simulation_loop, is_simulation_running
+from backend.app.auction.agent_simulation import (
+    start_autonomous_simulation, stop_autonomous_simulation,
+    is_autonomous_simulation_running, get_llm_telemetry,
+)
 
 router = APIRouter()
 
@@ -130,7 +134,7 @@ def submit_bid(payload: BidSubmit, current_agent: Agent = Depends(get_current_ag
     db.add(bid)
     
     # Update agent activity timestamp
-    current_agent.last_active_at = datetime.utcnow().isoformat()
+    current_agent.last_active_at = datetime.now(timezone.utc).isoformat()
     db.commit()
     db.refresh(bid)
 
@@ -217,27 +221,47 @@ def get_current_auction(db: Session = Depends(get_db)):
 # ── Simulation Controls ──────────────────────────────────────
 
 @router.post("/simulation/start")
-def start_simulation(db: Session = Depends(get_db)):
-    """Start background simulation spawning agents with various bidding strategies."""
-    if is_simulation_running():
-        return {"status": "already_running"}
-    start_simulation_loop()
-    return {"status": "started"}
+async def start_simulation(mode: str = "classic", db: Session = Depends(get_db)):
+    """
+    Start background simulation.
+    - mode=classic   → rule-based bot agents (fast, no LLM)
+    - mode=autonomous → Groq-powered AI agents (real LLM reasoning)
+    """
+    if mode == "autonomous":
+        if is_autonomous_simulation_running():
+            return {"status": "already_running", "mode": "autonomous"}
+        # Stop classic if running
+        if is_simulation_running():
+            stop_simulation_loop()
+        start_autonomous_simulation()
+        return {"status": "started", "mode": "autonomous"}
+    else:
+        if is_simulation_running():
+            return {"status": "already_running", "mode": "classic"}
+        # Stop autonomous if running
+        if is_autonomous_simulation_running():
+            stop_autonomous_simulation()
+        start_simulation_loop()
+        return {"status": "started", "mode": "classic"}
 
 
 @router.post("/simulation/stop")
-def stop_simulation():
-    """Stop the background simulation loop."""
+async def stop_simulation():
+    """Stop whichever simulation is currently running."""
     stop_simulation_loop()
+    stop_autonomous_simulation()
     return {"status": "stopped"}
 
 
 @router.get("/simulation/status")
 def get_simulation_status(db: Session = Depends(get_db)):
-    """Get status of current simulation and agent details."""
+    """Get status of current simulation, mode, and agent details."""
     active_agents = db.query(Agent).filter(Agent.is_active == True).all()
+    autonomous_running = is_autonomous_simulation_running()
+    classic_running = is_simulation_running()
     return {
-        "is_running": is_simulation_running(),
+        "is_running": autonomous_running or classic_running,
+        "mode": "autonomous" if autonomous_running else ("classic" if classic_running else "stopped"),
         "agents": [
             {
                 "name": a.name,
@@ -290,3 +314,144 @@ def get_comparison_analytics(db: Session = Depends(get_db)):
         cumulative_gain_pct=gain,
         savings_total=savings
     )
+
+
+# ── Dashboard 2.0 Real Database Metrics Endpoint ────────────
+
+from compute_bazaar.fairness import jains_fairness_index
+from compute_bazaar.llm import GroqLLMClient
+from backend.app.db.models import Base
+
+@router.get("/dashboard/metrics")
+def get_dashboard_metrics(db: Session = Depends(get_db)):
+    """
+    Returns real, live system metrics computed directly from database tables
+    and active backend components for the Compute Bazaar 2.0 Dashboard.
+    """
+    # Ensure database tables exist on active connection dialect
+    try:
+        Base.metadata.create_all(bind=db.get_bind())
+    except Exception:
+        pass
+
+    # 1. Agents Data & Performance
+    agents = db.query(Agent).all()
+    agent_metrics = []
+    agent_surpluses = []
+    
+    for a in agents:
+        bids = db.query(Bid).filter(Bid.agent_id == a.id).all()
+        total_bids = len(bids)
+        winning_bids = [b for b in bids if b.is_winner]
+        losing_bids = [b for b in bids if not b.is_winner]
+        wins = len(winning_bids)
+        losses = len(losing_bids)
+        win_rate = round((wins / total_bids * 100.0), 1) if total_bids > 0 else 0.0
+        
+        spent = sum(b.payment_amount or 0.0 for b in winning_bids)
+        surplus = sum((b.bid_amount - (b.payment_amount or 0.0)) for b in winning_bids)
+        agent_surpluses.append(surplus)
+        
+        agent_metrics.append({
+            "id": a.id,
+            "name": a.name,
+            "tier": a.tier,
+            "is_active": a.is_active,
+            "budget_total": a.budget_total,
+            "budget_remaining": a.budget_remaining,
+            "total_spent": round(spent, 2),
+            "total_surplus": round(surplus, 2),
+            "total_bids": total_bids,
+            "wins": wins,
+            "losses": losses,
+            "win_rate": win_rate,
+        })
+        
+    jains_index = jains_fairness_index(agent_surpluses) if agent_surpluses else 1.0
+
+    # 2. Resources & Utilization
+    resources = db.query(Resource).all()
+    resource_metrics = []
+    category_utilization = {"gpu": 0.0, "cpu": 0.0, "ram": 0.0, "api_budget": 0.0}
+    
+    recent_allocations = db.query(Allocation).order_by(Allocation.id.desc()).limit(20).all()
+    assigned_counts: dict[str, float] = {}
+    for alloc in recent_allocations:
+        try:
+            allocated_list = json.loads(alloc.resources_allocated)
+            for res_name in allocated_list:
+                assigned_counts[res_name] = assigned_counts.get(res_name, 0.0) + 1.0
+        except Exception:
+            pass
+
+    for r in resources:
+        used = min(r.capacity, assigned_counts.get(r.name, 0.0))
+        util = round((used / r.capacity * 100.0), 1) if r.capacity > 0 else 0.0
+        resource_metrics.append({
+            "id": r.id,
+            "name": r.name,
+            "resource_type": r.resource_type,
+            "capacity": r.capacity,
+            "used": used,
+            "unit": r.unit,
+            "cost_per_unit": r.cost_per_unit,
+            "is_available": r.is_available,
+            "utilization_pct": util,
+        })
+        if r.resource_type in category_utilization:
+            category_utilization[r.resource_type] = max(category_utilization[r.resource_type], util)
+
+    # 3. Financials & Welfare
+    total_bids_count = db.query(Bid).count()
+    winning_bids_count = db.query(Bid).filter(Bid.is_winner == True).count()
+    losing_bids_count = db.query(Bid).filter(Bid.is_winner == False).count()
+    
+    all_winning_bids = db.query(Bid).filter(Bid.is_winner == True).all()
+    social_welfare = sum(b.bid_amount for b in all_winning_bids)
+    total_spending = sum(b.payment_amount or 0.0 for b in all_winning_bids)
+    estimated_savings = max(0.0, social_welfare - total_spending)
+
+    # 4. Auction History
+    all_auctions = db.query(Auction).order_by(Auction.round_number.desc()).limit(15).all()
+    auction_history = []
+    for a in all_auctions:
+        bid_count = len(a.bids)
+        winners_count = sum(1 for b in a.bids if b.is_winner)
+        auction_history.append({
+            "id": a.id,
+            "round_number": a.round_number,
+            "status": a.status,
+            "started_at": a.started_at,
+            "closed_at": a.closed_at,
+            "total_value_extracted": round(a.total_value_extracted, 2),
+            "solver_method": a.solver_method,
+            "bids_count": bid_count,
+            "winners_count": winners_count,
+        })
+
+    # 5. LLM / Groq Telemetry — use real accumulated stats from autonomous simulation
+    try:
+        llm_telemetry = get_llm_telemetry()
+    except Exception:
+        llm_telemetry = {"calls": 0, "tokens": 0, "avg_latency_ms": 0.0, "is_mock": True, "model": "openai/gpt-oss-120b"}
+
+    return {
+        "summary": {
+            "active_agents_count": len([a for a in agents if a.is_active]),
+            "total_resources_count": len(resources),
+            "total_bids_count": total_bids_count,
+            "winning_bids_count": winning_bids_count,
+            "losing_bids_count": losing_bids_count,
+            "social_welfare": round(social_welfare, 2),
+            "total_spending": round(total_spending, 2),
+            "estimated_savings": round(estimated_savings, 2),
+            "jains_fairness_index": round(jains_index, 4),
+            "total_auction_rounds": len(all_auctions),
+        },
+        "agents": agent_metrics,
+        "resources": resource_metrics,
+        "utilization_by_category": category_utilization,
+        "auction_history": auction_history,
+        "llm_telemetry": llm_telemetry,
+    }
+

@@ -11,10 +11,18 @@
 =============================================================
 """
 
+import sys
 import time
 import random
 import uuid
 from typing import List
+
+# Ensure UTF-8 stdout on Windows terminals
+if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+    except Exception:
+        pass
 
 from backend.app.auction.engine import (
     AuctionEngine, Resource, Bid, SolverMethod,

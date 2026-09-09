@@ -15,7 +15,7 @@
 
 import json
 import asyncio
-from datetime import datetime
+from datetime import datetime, timezone
 from loguru import logger
 from sqlalchemy.orm import Session
 
@@ -60,7 +60,7 @@ async def run_auction_round(db: Session):
 
     # Close current round
     current_round.status = "closed"
-    current_round.closed_at = datetime.utcnow().isoformat()
+    current_round.closed_at = datetime.now(timezone.utc).isoformat()
     db.commit()
 
     # 2. Get resources in system to pass to solver
