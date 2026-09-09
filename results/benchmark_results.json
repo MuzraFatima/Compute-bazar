@@ -1,0 +1,5828 @@
+{
+  "metadata": {
+    "title": "Compute Bazaar 2.0 Week 12 Benchmark",
+    "seed": 42,
+    "rounds": 25,
+    "agents_count": 8,
+    "resources": [
+      "GPU-Slot-1",
+      "GPU-Slot-2",
+      "API-Budget-100",
+      "RAM-Block-32GB",
+      "CPU-Cores-8"
+    ],
+    "timestamp": "2026-09-09 23:53:41"
+  },
+  "summary": {
+    "ILP + VCG": {
+      "total_social_welfare": 7647.39,
+      "mean_social_welfare": 305.9,
+      "std_social_welfare": 43.39,
+      "mean_resource_utilization_pct": 87.2,
+      "jains_fairness_welfare": 0.6642,
+      "jains_fairness_wins": 0.8673,
+      "jains_fairness_surplus": 0.7488,
+      "total_cost": 5007.6,
+      "mean_cost_per_round": 200.3,
+      "total_winners": 56,
+      "mean_winners_per_round": 2.24,
+      "avg_clearing_price": 89.42,
+      "mean_execution_time_ms": 127.481,
+      "median_execution_time_ms": 119.262,
+      "max_execution_time_ms": 205.471,
+      "agent_performance": [
+        {
+          "agent": "Agent-Alpha",
+          "tier": "gold",
+          "total_welfare": 1575.75,
+          "total_wins": 9,
+          "total_payments": 1280.84,
+          "total_surplus": 294.91
+        },
+        {
+          "agent": "Agent-Beta",
+          "tier": "gold",
+          "total_welfare": 1860.03,
+          "total_wins": 10,
+          "total_payments": 1324.36,
+          "total_surplus": 535.67
+        },
+        {
+          "agent": "Agent-Gamma",
+          "tier": "silver",
+          "total_welfare": 440.74,
+          "total_wins": 6,
+          "total_payments": 266.03,
+          "total_surplus": 174.71
+        },
+        {
+          "agent": "Agent-Delta",
+          "tier": "silver",
+          "total_welfare": 1173.35,
+          "total_wins": 7,
+          "total_payments": 670.45,
+          "total_surplus": 502.9
+        },
+        {
+          "agent": "Agent-Epsilon",
+          "tier": "bronze",
+          "total_welfare": 71.33,
+          "total_wins": 2,
+          "total_payments": 25.75,
+          "total_surplus": 45.58
+        },
+        {
+          "agent": "Agent-Zeta",
+          "tier": "gold",
+          "total_welfare": 1784.2,
+          "total_wins": 11,
+          "total_payments": 1160.59,
+          "total_surplus": 623.61
+        },
+        {
+          "agent": "Agent-Eta",
+          "tier": "silver",
+          "total_welfare": 492.36,
+          "total_wins": 6,
+          "total_payments": 197.95,
+          "total_surplus": 294.41
+        },
+        {
+          "agent": "Agent-Theta",
+          "tier": "bronze",
+          "total_welfare": 249.63,
+          "total_wins": 5,
+          "total_payments": 81.63,
+          "total_surplus": 168.0
+        }
+      ]
+    },
+    "Round-Robin": {
+      "total_social_welfare": 5536.69,
+      "mean_social_welfare": 221.47,
+      "std_social_welfare": 67.58,
+      "mean_resource_utilization_pct": 80.8,
+      "jains_fairness_welfare": 0.9204,
+      "jains_fairness_wins": 0.9691,
+      "jains_fairness_surplus": 1.0,
+      "total_cost": 5536.69,
+      "mean_cost_per_round": 221.47,
+      "total_winners": 59,
+      "mean_winners_per_round": 2.36,
+      "avg_clearing_price": 93.84,
+      "mean_execution_time_ms": 0.031,
+      "median_execution_time_ms": 0.03,
+      "max_execution_time_ms": 0.045,
+      "agent_performance": [
+        {
+          "agent": "Agent-Alpha",
+          "tier": "gold",
+          "total_welfare": 883.99,
+          "total_wins": 9,
+          "total_payments": 883.99,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Beta",
+          "tier": "gold",
+          "total_welfare": 1015.39,
+          "total_wins": 8,
+          "total_payments": 1015.39,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Gamma",
+          "tier": "silver",
+          "total_welfare": 398.59,
+          "total_wins": 5,
+          "total_payments": 398.59,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Delta",
+          "tier": "silver",
+          "total_welfare": 827.3,
+          "total_wins": 7,
+          "total_payments": 827.3,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Epsilon",
+          "tier": "bronze",
+          "total_welfare": 446.16,
+          "total_wins": 8,
+          "total_payments": 446.16,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Zeta",
+          "tier": "gold",
+          "total_welfare": 772.13,
+          "total_wins": 6,
+          "total_payments": 772.13,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Eta",
+          "tier": "silver",
+          "total_welfare": 615.02,
+          "total_wins": 7,
+          "total_payments": 615.02,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Theta",
+          "tier": "bronze",
+          "total_welfare": 578.11,
+          "total_wins": 9,
+          "total_payments": 578.11,
+          "total_surplus": 0.0
+        }
+      ]
+    },
+    "FCFS": {
+      "total_social_welfare": 6405.35,
+      "mean_social_welfare": 256.21,
+      "std_social_welfare": 52.2,
+      "mean_resource_utilization_pct": 80.0,
+      "jains_fairness_welfare": 0.4179,
+      "jains_fairness_wins": 0.6148,
+      "jains_fairness_surplus": 1.0,
+      "total_cost": 6405.35,
+      "mean_cost_per_round": 256.21,
+      "total_winners": 58,
+      "mean_winners_per_round": 2.32,
+      "avg_clearing_price": 110.44,
+      "mean_execution_time_ms": 0.007,
+      "median_execution_time_ms": 0.007,
+      "max_execution_time_ms": 0.01,
+      "agent_performance": [
+        {
+          "agent": "Agent-Alpha",
+          "tier": "gold",
+          "total_welfare": 3002.37,
+          "total_wins": 21,
+          "total_payments": 3002.37,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Beta",
+          "tier": "gold",
+          "total_welfare": 1610.72,
+          "total_wins": 11,
+          "total_payments": 1610.72,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Gamma",
+          "tier": "silver",
+          "total_welfare": 262.36,
+          "total_wins": 5,
+          "total_payments": 262.36,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Delta",
+          "tier": "silver",
+          "total_welfare": 511.28,
+          "total_wins": 5,
+          "total_payments": 511.28,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Epsilon",
+          "tier": "bronze",
+          "total_welfare": 163.71,
+          "total_wins": 4,
+          "total_payments": 163.71,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Zeta",
+          "tier": "gold",
+          "total_welfare": 282.28,
+          "total_wins": 4,
+          "total_payments": 282.28,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Eta",
+          "tier": "silver",
+          "total_welfare": 462.41,
+          "total_wins": 6,
+          "total_payments": 462.41,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Theta",
+          "tier": "bronze",
+          "total_welfare": 110.22,
+          "total_wins": 2,
+          "total_payments": 110.22,
+          "total_surplus": 0.0
+        }
+      ]
+    },
+    "Random": {
+      "total_social_welfare": 5338.8,
+      "mean_social_welfare": 213.55,
+      "std_social_welfare": 79.89,
+      "mean_resource_utilization_pct": 76.8,
+      "jains_fairness_welfare": 0.7733,
+      "jains_fairness_wins": 0.8543,
+      "jains_fairness_surplus": 1.0,
+      "total_cost": 5338.8,
+      "mean_cost_per_round": 213.55,
+      "total_winners": 53,
+      "mean_winners_per_round": 2.12,
+      "avg_clearing_price": 100.73,
+      "mean_execution_time_ms": 0.018,
+      "median_execution_time_ms": 0.018,
+      "max_execution_time_ms": 0.029,
+      "agent_performance": [
+        {
+          "agent": "Agent-Alpha",
+          "tier": "gold",
+          "total_welfare": 1378.95,
+          "total_wins": 10,
+          "total_payments": 1378.95,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Beta",
+          "tier": "gold",
+          "total_welfare": 709.34,
+          "total_wins": 6,
+          "total_payments": 709.34,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Gamma",
+          "tier": "silver",
+          "total_welfare": 307.33,
+          "total_wins": 4,
+          "total_payments": 307.33,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Delta",
+          "tier": "silver",
+          "total_welfare": 344.79,
+          "total_wins": 3,
+          "total_payments": 344.79,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Epsilon",
+          "tier": "bronze",
+          "total_welfare": 254.13,
+          "total_wins": 4,
+          "total_payments": 254.13,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Zeta",
+          "tier": "gold",
+          "total_welfare": 772.32,
+          "total_wins": 7,
+          "total_payments": 772.32,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Eta",
+          "tier": "silver",
+          "total_welfare": 1001.14,
+          "total_wins": 11,
+          "total_payments": 1001.14,
+          "total_surplus": 0.0
+        },
+        {
+          "agent": "Agent-Theta",
+          "tier": "bronze",
+          "total_welfare": 570.8,
+          "total_wins": 8,
+          "total_payments": 570.8,
+          "total_surplus": 0.0
+        }
+      ]
+    }
+  },
+  "round_records": [
+    {
+      "round_id": 1,
+      "bids_count": 6,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 331.52,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 211.7,
+          "winners_count": 2,
+          "avg_clearing_price": 105.85,
+          "execution_time_ms": 116.261,
+          "winning_bid_ids": [
+            "R01-Agent-Delta-6142ea7d",
+            "R01-Agent-Zeta-d453dd32"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 106.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 225.52,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 211.7,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 106.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 13.82,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 317.7,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 317.7,
+          "winners_count": 3,
+          "avg_clearing_price": 105.9,
+          "execution_time_ms": 0.035,
+          "winning_bid_ids": [
+            "R01-Agent-Alpha-ad3c2d6d",
+            "R01-Agent-Beta-b74d0fb1",
+            "R01-Agent-Delta-6142ea7d"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 46.4,
+            "Agent-Beta": 165.3,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 106.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 46.4,
+            "Agent-Beta": 165.3,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 106.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 317.7,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 317.7,
+          "winners_count": 3,
+          "avg_clearing_price": 105.9,
+          "execution_time_ms": 0.008,
+          "winning_bid_ids": [
+            "R01-Agent-Alpha-ad3c2d6d",
+            "R01-Agent-Beta-b74d0fb1",
+            "R01-Agent-Delta-6142ea7d"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 46.4,
+            "Agent-Beta": 165.3,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 106.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 46.4,
+            "Agent-Beta": 165.3,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 106.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 198.59,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 198.59,
+          "winners_count": 2,
+          "avg_clearing_price": 99.3,
+          "execution_time_ms": 0.027,
+          "winning_bid_ids": [
+            "R01-Agent-Gamma-6c307511",
+            "R01-Agent-Alpha-ad3c2d6d"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 46.4,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 152.19,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 46.4,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 152.19,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 2,
+      "bids_count": 6,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 315.79,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 238.51,
+          "winners_count": 2,
+          "avg_clearing_price": 119.25,
+          "execution_time_ms": 109.133,
+          "winning_bid_ids": [
+            "R02-Agent-Alpha-29a3b2e9",
+            "R02-Agent-Zeta-3f22faf8"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 48.65,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 267.14,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 10.01,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 228.5,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 38.64,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 38.64,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 277.15,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 277.15,
+          "winners_count": 2,
+          "avg_clearing_price": 138.57,
+          "execution_time_ms": 0.032,
+          "winning_bid_ids": [
+            "R02-Agent-Beta-9bf00273",
+            "R02-Agent-Gamma-5304317f"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 91.15,
+            "Agent-Gamma": 186.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 91.15,
+            "Agent-Gamma": 186.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 235.51,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 235.51,
+          "winners_count": 3,
+          "avg_clearing_price": 78.5,
+          "execution_time_ms": 0.007,
+          "winning_bid_ids": [
+            "R02-Agent-Alpha-29a3b2e9",
+            "R02-Agent-Beta-9bf00273",
+            "R02-Agent-Delta-448aaa9e"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 48.65,
+            "Agent-Beta": 91.15,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 95.71,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 48.65,
+            "Agent-Beta": 91.15,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 95.71,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 259.72,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 259.72,
+          "winners_count": 2,
+          "avg_clearing_price": 129.86,
+          "execution_time_ms": 0.015,
+          "winning_bid_ids": [
+            "R02-Agent-Delta-448aaa9e",
+            "R02-Agent-Eta-c17af08a"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 95.71,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 164.01,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 95.71,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 164.01,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 3,
+      "bids_count": 8,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 337.73,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 101.09,
+          "winners_count": 3,
+          "avg_clearing_price": 33.7,
+          "execution_time_ms": 147.677,
+          "winning_bid_ids": [
+            "R03-Agent-Alpha-8da0365b",
+            "R03-Agent-Beta-c4c2e2e3",
+            "R03-Agent-Zeta-5cec4eb5"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 187.26,
+            "Agent-Beta": 89.54,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 60.93,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 101.09,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 86.17,
+            "Agent-Beta": 89.54,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 60.93,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 251.56,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 251.56,
+          "winners_count": 3,
+          "avg_clearing_price": 83.85,
+          "execution_time_ms": 0.031,
+          "winning_bid_ids": [
+            "R03-Agent-Gamma-b8db0672",
+            "R03-Agent-Delta-a39231a7",
+            "R03-Agent-Beta-c4c2e2e3"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 89.54,
+            "Agent-Gamma": 48.85,
+            "Agent-Delta": 113.17,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 89.54,
+            "Agent-Gamma": 48.85,
+            "Agent-Delta": 113.17,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 337.73,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 337.73,
+          "winners_count": 3,
+          "avg_clearing_price": 112.58,
+          "execution_time_ms": 0.006,
+          "winning_bid_ids": [
+            "R03-Agent-Alpha-8da0365b",
+            "R03-Agent-Beta-c4c2e2e3",
+            "R03-Agent-Zeta-5cec4eb5"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 187.26,
+            "Agent-Beta": 89.54,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 60.93,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 187.26,
+            "Agent-Beta": 89.54,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 60.93,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 337.73,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 337.73,
+          "winners_count": 3,
+          "avg_clearing_price": 112.58,
+          "execution_time_ms": 0.018,
+          "winning_bid_ids": [
+            "R03-Agent-Alpha-8da0365b",
+            "R03-Agent-Beta-c4c2e2e3",
+            "R03-Agent-Zeta-5cec4eb5"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 187.26,
+            "Agent-Beta": 89.54,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 60.93,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 187.26,
+            "Agent-Beta": 89.54,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 60.93,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 4,
+      "bids_count": 6,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 258.79,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 130.26,
+          "winners_count": 2,
+          "avg_clearing_price": 65.13,
+          "execution_time_ms": 194.854,
+          "winning_bid_ids": [
+            "R04-Agent-Alpha-3f76be1d",
+            "R04-Agent-Eta-dc96925e"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 230.9,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 27.89,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 130.26,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 100.64,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 27.89,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 138.07,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 138.07,
+          "winners_count": 2,
+          "avg_clearing_price": 69.03,
+          "execution_time_ms": 0.034,
+          "winning_bid_ids": [
+            "R04-Agent-Epsilon-7900f7f9",
+            "R04-Agent-Eta-dc96925e"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 110.18,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 27.89,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 110.18,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 27.89,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 258.79,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 258.79,
+          "winners_count": 2,
+          "avg_clearing_price": 129.4,
+          "execution_time_ms": 0.007,
+          "winning_bid_ids": [
+            "R04-Agent-Alpha-3f76be1d",
+            "R04-Agent-Eta-dc96925e"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 230.9,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 27.89,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 230.9,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 27.89,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 62.95,
+          "resource_utilization_pct": 40.0,
+          "total_cost": 62.95,
+          "winners_count": 2,
+          "avg_clearing_price": 31.48,
+          "execution_time_ms": 0.018,
+          "winning_bid_ids": [
+            "R04-Agent-Theta-474ebc19",
+            "R04-Agent-Eta-dc96925e"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 27.89,
+            "Agent-Theta": 35.06
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 27.89,
+            "Agent-Theta": 35.06
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 1
+          }
+        }
+      }
+    },
+    {
+      "round_id": 5,
+      "bids_count": 8,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 329.42,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 284.15,
+          "winners_count": 2,
+          "avg_clearing_price": 142.07,
+          "execution_time_ms": 205.471,
+          "winning_bid_ids": [
+            "R05-Agent-Gamma-8e46d534",
+            "R05-Agent-Zeta-91d63f78"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 103.98,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 225.44,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 84.7,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 199.45,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 19.28,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 25.99,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 103.26,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 103.26,
+          "winners_count": 2,
+          "avg_clearing_price": 51.63,
+          "execution_time_ms": 0.028,
+          "winning_bid_ids": [
+            "R05-Agent-Epsilon-87f7e1fb",
+            "R05-Agent-Theta-ef8c485b"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 36.78,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 66.48
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 36.78,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 66.48
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 284.15,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 284.15,
+          "winners_count": 3,
+          "avg_clearing_price": 94.72,
+          "execution_time_ms": 0.007,
+          "winning_bid_ids": [
+            "R05-Agent-Alpha-0cf35b58",
+            "R05-Agent-Delta-0f9aea4b",
+            "R05-Agent-Epsilon-87f7e1fb"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 84.7,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 162.67,
+            "Agent-Epsilon": 36.78,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 84.7,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 162.67,
+            "Agent-Epsilon": 36.78,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 284.15,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 284.15,
+          "winners_count": 3,
+          "avg_clearing_price": 94.72,
+          "execution_time_ms": 0.018,
+          "winning_bid_ids": [
+            "R05-Agent-Delta-0f9aea4b",
+            "R05-Agent-Alpha-0cf35b58",
+            "R05-Agent-Epsilon-87f7e1fb"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 84.7,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 162.67,
+            "Agent-Epsilon": 36.78,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 84.7,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 162.67,
+            "Agent-Epsilon": 36.78,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 6,
+      "bids_count": 6,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 306.21,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 256.76,
+          "winners_count": 2,
+          "avg_clearing_price": 128.38,
+          "execution_time_ms": 109.864,
+          "winning_bid_ids": [
+            "R06-Agent-Gamma-fbddcf7c",
+            "R06-Agent-Delta-43b409ef"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 71.19,
+            "Agent-Delta": 235.02,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 38.83,
+            "Agent-Delta": 217.93,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 32.36,
+            "Agent-Delta": 17.09,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 273.85,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 273.85,
+          "winners_count": 2,
+          "avg_clearing_price": 136.93,
+          "execution_time_ms": 0.034,
+          "winning_bid_ids": [
+            "R06-Agent-Zeta-0b49452d",
+            "R06-Agent-Epsilon-b7b56ea7"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 21.35,
+            "Agent-Zeta": 252.5,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 21.35,
+            "Agent-Zeta": 252.5,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 289.12,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 289.12,
+          "winners_count": 2,
+          "avg_clearing_price": 144.56,
+          "execution_time_ms": 0.007,
+          "winning_bid_ids": [
+            "R06-Agent-Beta-3e896c64",
+            "R06-Agent-Gamma-fbddcf7c"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 217.93,
+            "Agent-Gamma": 71.19,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 217.93,
+            "Agent-Gamma": 71.19,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 289.12,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 289.12,
+          "winners_count": 2,
+          "avg_clearing_price": 144.56,
+          "execution_time_ms": 0.018,
+          "winning_bid_ids": [
+            "R06-Agent-Beta-3e896c64",
+            "R06-Agent-Gamma-fbddcf7c"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 217.93,
+            "Agent-Gamma": 71.19,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 217.93,
+            "Agent-Gamma": 71.19,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 7,
+      "bids_count": 7,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 365.37,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 106.87,
+          "winners_count": 3,
+          "avg_clearing_price": 35.62,
+          "execution_time_ms": 136.852,
+          "winning_bid_ids": [
+            "R07-Agent-Beta-dc570131",
+            "R07-Agent-Delta-ecfedb99",
+            "R07-Agent-Eta-3a43b2ba"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 64.17,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 257.12,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 44.08,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 106.87,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 64.17,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 150.25,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 44.08,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 187.93,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 187.93,
+          "winners_count": 4,
+          "avg_clearing_price": 46.98,
+          "execution_time_ms": 0.034,
+          "winning_bid_ids": [
+            "R07-Agent-Eta-3a43b2ba",
+            "R07-Agent-Alpha-25e97977",
+            "R07-Agent-Beta-dc570131",
+            "R07-Agent-Epsilon-ecab3301"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 32.2,
+            "Agent-Beta": 64.17,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 47.48,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 44.08,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 32.2,
+            "Agent-Beta": 64.17,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 47.48,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 44.08,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 187.93,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 187.93,
+          "winners_count": 4,
+          "avg_clearing_price": 46.98,
+          "execution_time_ms": 0.01,
+          "winning_bid_ids": [
+            "R07-Agent-Alpha-25e97977",
+            "R07-Agent-Beta-dc570131",
+            "R07-Agent-Epsilon-ecab3301",
+            "R07-Agent-Eta-3a43b2ba"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 32.2,
+            "Agent-Beta": 64.17,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 47.48,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 44.08,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 32.2,
+            "Agent-Beta": 64.17,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 47.48,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 44.08,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 151.79,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 151.79,
+          "winners_count": 2,
+          "avg_clearing_price": 75.9,
+          "execution_time_ms": 0.019,
+          "winning_bid_ids": [
+            "R07-Agent-Theta-6651529e",
+            "R07-Agent-Beta-dc570131"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 64.17,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 87.62
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 64.17,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 87.62
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        }
+      }
+    },
+    {
+      "round_id": 8,
+      "bids_count": 8,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 286.66,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 195.77,
+          "winners_count": 2,
+          "avg_clearing_price": 97.89,
+          "execution_time_ms": 112.295,
+          "winning_bid_ids": [
+            "R08-Agent-Alpha-1bc044fc",
+            "R08-Agent-Zeta-001a9a8b"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 206.13,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 80.53,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 195.77,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 10.36,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 80.53,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 155.5,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 155.5,
+          "winners_count": 2,
+          "avg_clearing_price": 77.75,
+          "execution_time_ms": 0.037,
+          "winning_bid_ids": [
+            "R08-Agent-Theta-17e8392a",
+            "R08-Agent-Zeta-001a9a8b"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 80.53,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 74.97
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 80.53,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 74.97
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 286.66,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 286.66,
+          "winners_count": 2,
+          "avg_clearing_price": 143.33,
+          "execution_time_ms": 0.01,
+          "winning_bid_ids": [
+            "R08-Agent-Alpha-1bc044fc",
+            "R08-Agent-Zeta-001a9a8b"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 206.13,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 80.53,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 206.13,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 80.53,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 239.94,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 239.94,
+          "winners_count": 2,
+          "avg_clearing_price": 119.97,
+          "execution_time_ms": 0.021,
+          "winning_bid_ids": [
+            "R08-Agent-Beta-30a900ad",
+            "R08-Agent-Zeta-001a9a8b"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 159.41,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 80.53,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 159.41,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 80.53,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 9,
+      "bids_count": 7,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 318.95,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 210.9,
+          "winners_count": 3,
+          "avg_clearing_price": 70.3,
+          "execution_time_ms": 130.673,
+          "winning_bid_ids": [
+            "R09-Agent-Beta-b24445a7",
+            "R09-Agent-Epsilon-fce68504",
+            "R09-Agent-Eta-709b7d97"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 177.32,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 20.55,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 121.08,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 159.73,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 2.96,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 48.21,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 17.59,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 17.59,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 72.87,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 242.9,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 242.9,
+          "winners_count": 3,
+          "avg_clearing_price": 80.97,
+          "execution_time_ms": 0.028,
+          "winning_bid_ids": [
+            "R09-Agent-Alpha-0bd4a990",
+            "R09-Agent-Beta-b24445a7",
+            "R09-Agent-Epsilon-fce68504"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 45.03,
+            "Agent-Beta": 177.32,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 20.55,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 45.03,
+            "Agent-Beta": 177.32,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 20.55,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 242.9,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 242.9,
+          "winners_count": 3,
+          "avg_clearing_price": 80.97,
+          "execution_time_ms": 0.006,
+          "winning_bid_ids": [
+            "R09-Agent-Alpha-0bd4a990",
+            "R09-Agent-Beta-b24445a7",
+            "R09-Agent-Epsilon-fce68504"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 45.03,
+            "Agent-Beta": 177.32,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 20.55,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 45.03,
+            "Agent-Beta": 177.32,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 20.55,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 301.36,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 301.36,
+          "winners_count": 2,
+          "avg_clearing_price": 150.68,
+          "execution_time_ms": 0.017,
+          "winning_bid_ids": [
+            "R09-Agent-Zeta-dc8aee30",
+            "R09-Agent-Eta-709b7d97"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 180.28,
+            "Agent-Eta": 121.08,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 180.28,
+            "Agent-Eta": 121.08,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 10,
+      "bids_count": 7,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 415.92,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 270.12,
+          "winners_count": 3,
+          "avg_clearing_price": 90.04,
+          "execution_time_ms": 129.689,
+          "winning_bid_ids": [
+            "R10-Agent-Alpha-b1a6b1f1",
+            "R10-Agent-Beta-6a702e2f",
+            "R10-Agent-Zeta-64de82e6"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 125.71,
+            "Agent-Beta": 68.19,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 222.02,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 121.61,
+            "Agent-Beta": 64.09,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 84.42,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 4.1,
+            "Agent-Beta": 4.1,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 137.6,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 252.8,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 252.8,
+          "winners_count": 3,
+          "avg_clearing_price": 84.27,
+          "execution_time_ms": 0.023,
+          "winning_bid_ids": [
+            "R10-Agent-Beta-6a702e2f",
+            "R10-Agent-Epsilon-560c95ee",
+            "R10-Agent-Alpha-b1a6b1f1"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 125.71,
+            "Agent-Beta": 68.19,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 58.9,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 125.71,
+            "Agent-Beta": 68.19,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 58.9,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 252.8,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 252.8,
+          "winners_count": 3,
+          "avg_clearing_price": 84.27,
+          "execution_time_ms": 0.006,
+          "winning_bid_ids": [
+            "R10-Agent-Alpha-b1a6b1f1",
+            "R10-Agent-Beta-6a702e2f",
+            "R10-Agent-Epsilon-560c95ee"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 125.71,
+            "Agent-Beta": 68.19,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 58.9,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 125.71,
+            "Agent-Beta": 68.19,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 58.9,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 252.8,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 252.8,
+          "winners_count": 3,
+          "avg_clearing_price": 84.27,
+          "execution_time_ms": 0.016,
+          "winning_bid_ids": [
+            "R10-Agent-Alpha-b1a6b1f1",
+            "R10-Agent-Epsilon-560c95ee",
+            "R10-Agent-Beta-6a702e2f"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 125.71,
+            "Agent-Beta": 68.19,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 58.9,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 125.71,
+            "Agent-Beta": 68.19,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 58.9,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 11,
+      "bids_count": 7,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 373.32,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 217.67,
+          "winners_count": 3,
+          "avg_clearing_price": 72.56,
+          "execution_time_ms": 123.804,
+          "winning_bid_ids": [
+            "R11-Agent-Delta-9b1bc895",
+            "R11-Agent-Zeta-af2b99b4",
+            "R11-Agent-Eta-a9597663"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 86.41,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 218.58,
+            "Agent-Eta": 68.33,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 184.64,
+            "Agent-Eta": 33.03,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 86.41,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 33.94,
+            "Agent-Eta": 35.3,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 338.02,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 338.02,
+          "winners_count": 3,
+          "avg_clearing_price": 112.67,
+          "execution_time_ms": 0.023,
+          "winning_bid_ids": [
+            "R11-Agent-Gamma-1d48a071",
+            "R11-Agent-Delta-9b1bc895",
+            "R11-Agent-Zeta-af2b99b4"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 33.03,
+            "Agent-Delta": 86.41,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 218.58,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 33.03,
+            "Agent-Delta": 86.41,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 218.58,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 304.08,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 304.08,
+          "winners_count": 3,
+          "avg_clearing_price": 101.36,
+          "execution_time_ms": 0.007,
+          "winning_bid_ids": [
+            "R11-Agent-Beta-3f4df561",
+            "R11-Agent-Gamma-1d48a071",
+            "R11-Agent-Delta-9b1bc895"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 184.64,
+            "Agent-Gamma": 33.03,
+            "Agent-Delta": 86.41,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 184.64,
+            "Agent-Gamma": 33.03,
+            "Agent-Delta": 86.41,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 373.32,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 373.32,
+          "winners_count": 3,
+          "avg_clearing_price": 124.44,
+          "execution_time_ms": 0.015,
+          "winning_bid_ids": [
+            "R11-Agent-Eta-a9597663",
+            "R11-Agent-Zeta-af2b99b4",
+            "R11-Agent-Delta-9b1bc895"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 86.41,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 218.58,
+            "Agent-Eta": 68.33,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 86.41,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 218.58,
+            "Agent-Eta": 68.33,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 12,
+      "bids_count": 8,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 272.46,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 240.56,
+          "winners_count": 2,
+          "avg_clearing_price": 120.28,
+          "execution_time_ms": 114.03,
+          "winning_bid_ids": [
+            "R12-Agent-Beta-91e1aa96",
+            "R12-Agent-Theta-96ef2ad6"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 248.92,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 23.54
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 232.97,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 7.59
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 15.95,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 15.95
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 171.54,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 171.54,
+          "winners_count": 2,
+          "avg_clearing_price": 85.77,
+          "execution_time_ms": 0.031,
+          "winning_bid_ids": [
+            "R12-Agent-Delta-b856d035",
+            "R12-Agent-Theta-96ef2ad6"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 148.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 23.54
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 148.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 23.54
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 163.92,
+          "resource_utilization_pct": 40.0,
+          "total_cost": 163.92,
+          "winners_count": 1,
+          "avg_clearing_price": 163.92,
+          "execution_time_ms": 0.007,
+          "winning_bid_ids": [
+            "R12-Agent-Alpha-6f81cf4f"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 163.92,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 163.92,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 163.92,
+          "resource_utilization_pct": 40.0,
+          "total_cost": 163.92,
+          "winners_count": 1,
+          "avg_clearing_price": 163.92,
+          "execution_time_ms": 0.018,
+          "winning_bid_ids": [
+            "R12-Agent-Alpha-6f81cf4f"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 163.92,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 163.92,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 13,
+      "bids_count": 7,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 260.04,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 195.98,
+          "winners_count": 2,
+          "avg_clearing_price": 97.99,
+          "execution_time_ms": 111.255,
+          "winning_bid_ids": [
+            "R13-Agent-Gamma-f72ada9b",
+            "R13-Agent-Eta-0f6b40d0"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 107.43,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 152.61,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 79.27,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 116.71,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 28.16,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 35.9,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 201.2,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 201.2,
+          "winners_count": 2,
+          "avg_clearing_price": 100.6,
+          "execution_time_ms": 0.036,
+          "winning_bid_ids": [
+            "R13-Agent-Epsilon-26d794d3",
+            "R13-Agent-Eta-0f6b40d0"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 48.59,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 152.61,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 48.59,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 152.61,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 190.55,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 190.55,
+          "winners_count": 1,
+          "avg_clearing_price": 190.55,
+          "execution_time_ms": 0.01,
+          "winning_bid_ids": [
+            "R13-Agent-Alpha-88bd13d1"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 190.55,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 190.55,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 84.28,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 84.28,
+          "winners_count": 1,
+          "avg_clearing_price": 84.28,
+          "execution_time_ms": 0.02,
+          "winning_bid_ids": [
+            "R13-Agent-Theta-2812859a"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 84.28
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 84.28
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        }
+      }
+    },
+    {
+      "round_id": 14,
+      "bids_count": 6,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 352.87,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 120.62,
+          "winners_count": 3,
+          "avg_clearing_price": 40.21,
+          "execution_time_ms": 135.885,
+          "winning_bid_ids": [
+            "R14-Agent-Beta-3bc1a987",
+            "R14-Agent-Zeta-9a8cfa3c",
+            "R14-Agent-Eta-964db03f"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 236.31,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 38.19,
+            "Agent-Eta": 78.37,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 120.62,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 115.69,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 38.19,
+            "Agent-Eta": 78.37,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 237.18,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 237.18,
+          "winners_count": 3,
+          "avg_clearing_price": 79.06,
+          "execution_time_ms": 0.028,
+          "winning_bid_ids": [
+            "R14-Agent-Zeta-9a8cfa3c",
+            "R14-Agent-Eta-964db03f",
+            "R14-Agent-Theta-6f962882"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 38.19,
+            "Agent-Eta": 78.37,
+            "Agent-Theta": 120.62
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 38.19,
+            "Agent-Eta": 78.37,
+            "Agent-Theta": 120.62
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 1,
+            "Agent-Theta": 1
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 352.87,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 352.87,
+          "winners_count": 3,
+          "avg_clearing_price": 117.62,
+          "execution_time_ms": 0.007,
+          "winning_bid_ids": [
+            "R14-Agent-Beta-3bc1a987",
+            "R14-Agent-Zeta-9a8cfa3c",
+            "R14-Agent-Eta-964db03f"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 236.31,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 38.19,
+            "Agent-Eta": 78.37,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 236.31,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 38.19,
+            "Agent-Eta": 78.37,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 237.18,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 237.18,
+          "winners_count": 3,
+          "avg_clearing_price": 79.06,
+          "execution_time_ms": 0.018,
+          "winning_bid_ids": [
+            "R14-Agent-Theta-6f962882",
+            "R14-Agent-Eta-964db03f",
+            "R14-Agent-Zeta-9a8cfa3c"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 38.19,
+            "Agent-Eta": 78.37,
+            "Agent-Theta": 120.62
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 38.19,
+            "Agent-Eta": 78.37,
+            "Agent-Theta": 120.62
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 1,
+            "Agent-Theta": 1
+          }
+        }
+      }
+    },
+    {
+      "round_id": 15,
+      "bids_count": 8,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 340.49,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 284.51,
+          "winners_count": 2,
+          "avg_clearing_price": 142.26,
+          "execution_time_ms": 117.619,
+          "winning_bid_ids": [
+            "R15-Agent-Beta-409d3602",
+            "R15-Agent-Epsilon-b5b453ca"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 289.71,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 50.78,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 261.72,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 22.79,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 27.99,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 27.99,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 294.62,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 294.62,
+          "winners_count": 2,
+          "avg_clearing_price": 147.31,
+          "execution_time_ms": 0.021,
+          "winning_bid_ids": [
+            "R15-Agent-Eta-30cbd755",
+            "R15-Agent-Alpha-292bd156"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 105.83,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 188.79,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 105.83,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 188.79,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 294.62,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 294.62,
+          "winners_count": 2,
+          "avg_clearing_price": 147.31,
+          "execution_time_ms": 0.005,
+          "winning_bid_ids": [
+            "R15-Agent-Alpha-292bd156",
+            "R15-Agent-Eta-30cbd755"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 105.83,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 188.79,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 105.83,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 188.79,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 118.06,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 118.06,
+          "winners_count": 1,
+          "avg_clearing_price": 118.06,
+          "execution_time_ms": 0.029,
+          "winning_bid_ids": [
+            "R15-Agent-Theta-d20f87d0"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 118.06
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 118.06
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        }
+      }
+    },
+    {
+      "round_id": 16,
+      "bids_count": 6,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 262.59,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 155.51,
+          "winners_count": 2,
+          "avg_clearing_price": 77.75,
+          "execution_time_ms": 115.295,
+          "winning_bid_ids": [
+            "R16-Agent-Beta-749176f4",
+            "R16-Agent-Gamma-69288e92"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 206.07,
+            "Agent-Gamma": 56.52,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 155.51,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 50.56,
+            "Agent-Gamma": 56.52,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 159.79,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 159.79,
+          "winners_count": 2,
+          "avg_clearing_price": 79.89,
+          "execution_time_ms": 0.029,
+          "winning_bid_ids": [
+            "R16-Agent-Theta-7cea2045",
+            "R16-Agent-Gamma-69288e92"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 56.52,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 103.27
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 56.52,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 103.27
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 262.59,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 262.59,
+          "winners_count": 2,
+          "avg_clearing_price": 131.29,
+          "execution_time_ms": 0.007,
+          "winning_bid_ids": [
+            "R16-Agent-Beta-749176f4",
+            "R16-Agent-Gamma-69288e92"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 206.07,
+            "Agent-Gamma": 56.52,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 206.07,
+            "Agent-Gamma": 56.52,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 212.03,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 212.03,
+          "winners_count": 3,
+          "avg_clearing_price": 70.68,
+          "execution_time_ms": 0.016,
+          "winning_bid_ids": [
+            "R16-Agent-Epsilon-80962718",
+            "R16-Agent-Eta-9f8ded97",
+            "R16-Agent-Gamma-69288e92"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 56.52,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 104.72,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 50.79,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 56.52,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 104.72,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 50.79,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 17,
+      "bids_count": 7,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 290.67,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 134.44,
+          "winners_count": 2,
+          "avg_clearing_price": 67.22,
+          "execution_time_ms": 119.296,
+          "winning_bid_ids": [
+            "R17-Agent-Beta-e746ccb9",
+            "R17-Agent-Delta-87fa841a"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 230.18,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 60.49,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 134.44,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 95.74,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 60.49,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 144.13,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 144.13,
+          "winners_count": 3,
+          "avg_clearing_price": 48.04,
+          "execution_time_ms": 0.045,
+          "winning_bid_ids": [
+            "R17-Agent-Alpha-4991ab9b",
+            "R17-Agent-Delta-87fa841a",
+            "R17-Agent-Eta-4c955f6a"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 34.4,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 60.49,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 49.24,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 34.4,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 60.49,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 49.24,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 144.13,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 144.13,
+          "winners_count": 3,
+          "avg_clearing_price": 48.04,
+          "execution_time_ms": 0.007,
+          "winning_bid_ids": [
+            "R17-Agent-Alpha-4991ab9b",
+            "R17-Agent-Delta-87fa841a",
+            "R17-Agent-Eta-4c955f6a"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 34.4,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 60.49,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 49.24,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 34.4,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 60.49,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 49.24,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 174.82,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 174.82,
+          "winners_count": 3,
+          "avg_clearing_price": 58.27,
+          "execution_time_ms": 0.022,
+          "winning_bid_ids": [
+            "R17-Agent-Alpha-4991ab9b",
+            "R17-Agent-Zeta-49a23a89",
+            "R17-Agent-Eta-4c955f6a"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 34.4,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 91.18,
+            "Agent-Eta": 49.24,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 34.4,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 91.18,
+            "Agent-Eta": 49.24,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 18,
+      "bids_count": 7,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 284.69,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 195.28,
+          "winners_count": 2,
+          "avg_clearing_price": 97.64,
+          "execution_time_ms": 134.063,
+          "winning_bid_ids": [
+            "R18-Agent-Beta-9ef2b93e",
+            "R18-Agent-Theta-bfbf397b"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 249.62,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 35.07
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 195.28,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 54.34,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 35.07
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 284.69,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 284.69,
+          "winners_count": 2,
+          "avg_clearing_price": 142.34,
+          "execution_time_ms": 0.029,
+          "winning_bid_ids": [
+            "R18-Agent-Beta-9ef2b93e",
+            "R18-Agent-Theta-bfbf397b"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 249.62,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 35.07
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 249.62,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 35.07
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 220.59,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 220.59,
+          "winners_count": 1,
+          "avg_clearing_price": 220.59,
+          "execution_time_ms": 0.007,
+          "winning_bid_ids": [
+            "R18-Agent-Alpha-dd750e98"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 220.59,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 220.59,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 220.59,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 220.59,
+          "winners_count": 1,
+          "avg_clearing_price": 220.59,
+          "execution_time_ms": 0.016,
+          "winning_bid_ids": [
+            "R18-Agent-Alpha-dd750e98"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 220.59,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 220.59,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 19,
+      "bids_count": 8,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 283.52,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 259.88,
+          "winners_count": 2,
+          "avg_clearing_price": 129.94,
+          "execution_time_ms": 126.689,
+          "winning_bid_ids": [
+            "R19-Agent-Alpha-ea4e3617",
+            "R19-Agent-Gamma-5efa9c5b"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 209.33,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 74.19,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 199.44,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 60.44,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 9.89,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 13.75,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 273.63,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 273.63,
+          "winners_count": 2,
+          "avg_clearing_price": 136.81,
+          "execution_time_ms": 0.037,
+          "winning_bid_ids": [
+            "R19-Agent-Gamma-5efa9c5b",
+            "R19-Agent-Delta-9d9b6231"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 74.19,
+            "Agent-Delta": 199.44,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 74.19,
+            "Agent-Delta": 199.44,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 283.52,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 283.52,
+          "winners_count": 2,
+          "avg_clearing_price": 141.76,
+          "execution_time_ms": 0.008,
+          "winning_bid_ids": [
+            "R19-Agent-Alpha-ea4e3617",
+            "R19-Agent-Gamma-5efa9c5b"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 209.33,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 74.19,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 209.33,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 74.19,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 253.41,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 253.41,
+          "winners_count": 2,
+          "avg_clearing_price": 126.71,
+          "execution_time_ms": 0.015,
+          "winning_bid_ids": [
+            "R19-Agent-Theta-c3e15a85",
+            "R19-Agent-Alpha-ea4e3617"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 209.33,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 44.08
+          },
+          "agent_payments": {
+            "Agent-Alpha": 209.33,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 44.08
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        }
+      }
+    },
+    {
+      "round_id": 20,
+      "bids_count": 7,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 263.49,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 214.21,
+          "winners_count": 2,
+          "avg_clearing_price": 107.1,
+          "execution_time_ms": 120.795,
+          "winning_bid_ids": [
+            "R20-Agent-Alpha-250a4578",
+            "R20-Agent-Gamma-1d181ee9"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 236.06,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 27.43,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 211.42,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 2.79,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 24.64,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 24.64,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 113.79,
+          "resource_utilization_pct": 40.0,
+          "total_cost": 113.79,
+          "winners_count": 1,
+          "avg_clearing_price": 113.79,
+          "execution_time_ms": 0.036,
+          "winning_bid_ids": [
+            "R20-Agent-Delta-9d77a45e"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 113.79,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 113.79,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 263.49,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 263.49,
+          "winners_count": 2,
+          "avg_clearing_price": 131.75,
+          "execution_time_ms": 0.009,
+          "winning_bid_ids": [
+            "R20-Agent-Alpha-250a4578",
+            "R20-Agent-Gamma-1d181ee9"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 236.06,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 27.43,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 236.06,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 27.43,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 134.34,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 134.34,
+          "winners_count": 2,
+          "avg_clearing_price": 67.17,
+          "execution_time_ms": 0.02,
+          "winning_bid_ids": [
+            "R20-Agent-Eta-8c611654",
+            "R20-Agent-Gamma-1d181ee9"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 27.43,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 106.91,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 27.43,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 106.91,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 1,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 21,
+      "bids_count": 7,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 261.17,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 211.99,
+          "winners_count": 2,
+          "avg_clearing_price": 106.0,
+          "execution_time_ms": 115.643,
+          "winning_bid_ids": [
+            "R21-Agent-Alpha-bac7e2b9",
+            "R21-Agent-Zeta-47503f1d"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 158.54,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 102.63,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 153.75,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 58.24,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 4.79,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 44.39,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 204.96,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 204.96,
+          "winners_count": 2,
+          "avg_clearing_price": 102.48,
+          "execution_time_ms": 0.028,
+          "winning_bid_ids": [
+            "R21-Agent-Epsilon-7b70c3b8",
+            "R21-Agent-Zeta-47503f1d"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 102.33,
+            "Agent-Zeta": 102.63,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 102.33,
+            "Agent-Zeta": 102.63,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 261.17,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 261.17,
+          "winners_count": 2,
+          "avg_clearing_price": 130.58,
+          "execution_time_ms": 0.008,
+          "winning_bid_ids": [
+            "R21-Agent-Alpha-bac7e2b9",
+            "R21-Agent-Zeta-47503f1d"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 158.54,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 102.63,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 158.54,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 102.63,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 222.57,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 222.57,
+          "winners_count": 2,
+          "avg_clearing_price": 111.28,
+          "execution_time_ms": 0.016,
+          "winning_bid_ids": [
+            "R21-Agent-Eta-2e2fbf77",
+            "R21-Agent-Zeta-47503f1d"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 102.63,
+            "Agent-Eta": 119.94,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 102.63,
+            "Agent-Eta": 119.94,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 22,
+      "bids_count": 8,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 255.62,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 107.94,
+          "winners_count": 2,
+          "avg_clearing_price": 53.97,
+          "execution_time_ms": 119.262,
+          "winning_bid_ids": [
+            "R22-Agent-Delta-c47104c0",
+            "R22-Agent-Zeta-12738a23"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 175.92,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 79.7,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 102.08,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 5.86,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 73.84,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 73.84,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 123.64,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 123.64,
+          "winners_count": 2,
+          "avg_clearing_price": 61.82,
+          "execution_time_ms": 0.029,
+          "winning_bid_ids": [
+            "R22-Agent-Zeta-12738a23",
+            "R22-Agent-Theta-75c8e90d"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 79.7,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 43.94
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 79.7,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 43.94
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 181.75,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 181.75,
+          "winners_count": 1,
+          "avg_clearing_price": 181.75,
+          "execution_time_ms": 0.006,
+          "winning_bid_ids": [
+            "R22-Agent-Alpha-b8ba8368"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 181.75,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 181.75,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 97.67,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 97.67,
+          "winners_count": 2,
+          "avg_clearing_price": 48.83,
+          "execution_time_ms": 0.017,
+          "winning_bid_ids": [
+            "R22-Agent-Epsilon-61554667",
+            "R22-Agent-Theta-75c8e90d"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 53.73,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 43.94
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 53.73,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 43.94
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 1,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        }
+      }
+    },
+    {
+      "round_id": 23,
+      "bids_count": 7,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 289.53,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 243.57,
+          "winners_count": 2,
+          "avg_clearing_price": 121.78,
+          "execution_time_ms": 106.682,
+          "winning_bid_ids": [
+            "R23-Agent-Delta-e1cde87f",
+            "R23-Agent-Theta-8de7ad6c"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 252.39,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 37.14
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 243.57,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 8.82,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 37.14
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 1,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 280.71,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 280.71,
+          "winners_count": 3,
+          "avg_clearing_price": 93.57,
+          "execution_time_ms": 0.03,
+          "winning_bid_ids": [
+            "R23-Agent-Theta-8de7ad6c",
+            "R23-Agent-Alpha-1422373f",
+            "R23-Agent-Beta-87d5b7be"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 133.47,
+            "Agent-Beta": 110.1,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 37.14
+          },
+          "agent_payments": {
+            "Agent-Alpha": 133.47,
+            "Agent-Beta": 110.1,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 37.14
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 280.71,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 280.71,
+          "winners_count": 3,
+          "avg_clearing_price": 93.57,
+          "execution_time_ms": 0.008,
+          "winning_bid_ids": [
+            "R23-Agent-Alpha-1422373f",
+            "R23-Agent-Beta-87d5b7be",
+            "R23-Agent-Theta-8de7ad6c"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 133.47,
+            "Agent-Beta": 110.1,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 37.14
+          },
+          "agent_payments": {
+            "Agent-Alpha": 133.47,
+            "Agent-Beta": 110.1,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 37.14
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 280.71,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 280.71,
+          "winners_count": 3,
+          "avg_clearing_price": 93.57,
+          "execution_time_ms": 0.02,
+          "winning_bid_ids": [
+            "R23-Agent-Beta-87d5b7be",
+            "R23-Agent-Alpha-1422373f",
+            "R23-Agent-Theta-8de7ad6c"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 133.47,
+            "Agent-Beta": 110.1,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 37.14
+          },
+          "agent_payments": {
+            "Agent-Alpha": 133.47,
+            "Agent-Beta": 110.1,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 37.14
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 1,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        }
+      }
+    },
+    {
+      "round_id": 24,
+      "bids_count": 8,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 336.6,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 187.78,
+          "winners_count": 2,
+          "avg_clearing_price": 93.89,
+          "execution_time_ms": 117.217,
+          "winning_bid_ids": [
+            "R24-Agent-Zeta-f275b5f3",
+            "R24-Agent-Theta-19e45c6a"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 263.52,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 73.08
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 187.78,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 75.74,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 73.08
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 1,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 260.86,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 260.86,
+          "winners_count": 2,
+          "avg_clearing_price": 130.43,
+          "execution_time_ms": 0.025,
+          "winning_bid_ids": [
+            "R24-Agent-Theta-19e45c6a",
+            "R24-Agent-Alpha-73557b9d"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 187.78,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 73.08
+          },
+          "agent_payments": {
+            "Agent-Alpha": 187.78,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 73.08
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 260.86,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 260.86,
+          "winners_count": 2,
+          "avg_clearing_price": 130.43,
+          "execution_time_ms": 0.008,
+          "winning_bid_ids": [
+            "R24-Agent-Alpha-73557b9d",
+            "R24-Agent-Theta-19e45c6a"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 187.78,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 73.08
+          },
+          "agent_payments": {
+            "Agent-Alpha": 187.78,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 73.08
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 140.54,
+          "resource_utilization_pct": 60.0,
+          "total_cost": 140.54,
+          "winners_count": 1,
+          "avg_clearing_price": 140.54,
+          "execution_time_ms": 0.015,
+          "winning_bid_ids": [
+            "R24-Agent-Eta-36d55494"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 140.54,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 140.54,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 0,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    },
+    {
+      "round_id": 25,
+      "bids_count": 8,
+      "results": {
+        "ILP + VCG": {
+          "method": "ILP + VCG",
+          "social_welfare": 253.97,
+          "resource_utilization_pct": 100.0,
+          "total_cost": 231.53,
+          "winners_count": 2,
+          "avg_clearing_price": 115.77,
+          "execution_time_ms": 116.716,
+          "winning_bid_ids": [
+            "R25-Agent-Alpha-2e4bebc4",
+            "R25-Agent-Theta-195d82f8"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 173.17,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 80.8
+          },
+          "agent_payments": {
+            "Agent-Alpha": 157.49,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 74.04
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 15.68,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 6.76
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 0,
+            "Agent-Theta": 1
+          }
+        },
+        "Round-Robin": {
+          "method": "Round-Robin",
+          "social_welfare": 247.21,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 247.21,
+          "winners_count": 2,
+          "avg_clearing_price": 123.6,
+          "execution_time_ms": 0.028,
+          "winning_bid_ids": [
+            "R25-Agent-Alpha-2e4bebc4",
+            "R25-Agent-Eta-0da23e5c"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 173.17,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 74.04,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 173.17,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 74.04,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "FCFS": {
+          "method": "FCFS",
+          "social_welfare": 247.21,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 247.21,
+          "winners_count": 2,
+          "avg_clearing_price": 123.6,
+          "execution_time_ms": 0.007,
+          "winning_bid_ids": [
+            "R25-Agent-Alpha-2e4bebc4",
+            "R25-Agent-Eta-0da23e5c"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 173.17,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 74.04,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 173.17,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 74.04,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        },
+        "Random": {
+          "method": "Random",
+          "social_welfare": 247.21,
+          "resource_utilization_pct": 80.0,
+          "total_cost": 247.21,
+          "winners_count": 2,
+          "avg_clearing_price": 123.6,
+          "execution_time_ms": 0.016,
+          "winning_bid_ids": [
+            "R25-Agent-Alpha-2e4bebc4",
+            "R25-Agent-Eta-0da23e5c"
+          ],
+          "agent_welfare": {
+            "Agent-Alpha": 173.17,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 74.04,
+            "Agent-Theta": 0.0
+          },
+          "agent_payments": {
+            "Agent-Alpha": 173.17,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 74.04,
+            "Agent-Theta": 0.0
+          },
+          "agent_surplus": {
+            "Agent-Alpha": 0.0,
+            "Agent-Beta": 0.0,
+            "Agent-Gamma": 0.0,
+            "Agent-Delta": 0.0,
+            "Agent-Epsilon": 0.0,
+            "Agent-Zeta": 0.0,
+            "Agent-Eta": 0.0,
+            "Agent-Theta": 0.0
+          },
+          "agent_wins": {
+            "Agent-Alpha": 1,
+            "Agent-Beta": 0,
+            "Agent-Gamma": 0,
+            "Agent-Delta": 0,
+            "Agent-Epsilon": 0,
+            "Agent-Zeta": 0,
+            "Agent-Eta": 1,
+            "Agent-Theta": 0
+          }
+        }
+      }
+    }
+  ]
+}
