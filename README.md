@@ -14,6 +14,7 @@ Autonomous AI agents powered by **Groq LLM reasoning**, cognitive memory (`Agent
 
 ## Table of Contents
 
+- [Live Demo](#live-demo)
 - [Overview](#overview)
 - [Problem Statement](#problem-statement)
 - [System Architecture](#system-architecture)
@@ -35,6 +36,42 @@ Autonomous AI agents powered by **Groq LLM reasoning**, cognitive memory (`Agent
 - [Running Tests](#running-tests)
 - [Future Scope](#future-scope)
 - [License](#license)
+
+---
+
+## Live Demo
+
+> The dashboard runs locally at `http://localhost:8000` after starting the FastAPI server. It live-streams auction rounds via WebSocket, renders real-time Chart.js analytics, and supports both **Groq AI Mode** (live LLM reasoning) and **Classic Simulation Mode** (offline agents).
+
+### 🖥️ Dashboard Hero — Live Market Metrics
+
+![Compute Bazaar 2.0 — Hero Metrics Dashboard](docs/screenshots/dashboard-hero-metrics.jpg)
+
+*Real-time header showing Auction Round #987, 9 Active AI Agents, $10,423.08 Social Welfare (maximized by ILP solver), $4,483.14 VCG Surplus Savings, 0.5488 Jain Fairness Index, and 37 Groq LLM calls with 41,803 tokens. Below: Resource Utilization by Category (GPU/CPU/RAM/API Budget) and Costs & Surplus Savings Over Time trend lines.*
+
+---
+
+### 📊 Market Analytics — Agent Performance Charts
+
+![Compute Bazaar 2.0 — Agent Performance & Auction Activity](docs/screenshots/dashboard-agent-performance.jpg)
+
+*Left: **Agent Performance: Wins vs Losses** — grouped bar chart showing allocation equity across all 9 agents (DevBot-Gold through Agent-Epsilon), with win/loss outcomes tracked per auction round. Right: **Auction Activity & Social Welfare** — combined bar+line chart showing LP ILP solver welfare extraction per round vs. bid arrival count.*
+
+---
+
+### 🤖 Registered AI Agents — Live Leaderboard & Simulator Console
+
+![Compute Bazaar 2.0 — Agents Table & Simulator Console](docs/screenshots/dashboard-agents-table.jpg)
+
+*Full agent leaderboard with real-time budget tracking, VCG surplus savings, tier rankings (Gold/Silver/Bronze), and win rates. Alongside: **Bidding Simulator Console** showing the active solver configuration (CBC / PuLP ILP), pricing policy (VCG Mechanism), and fairness controls (Jain Index + Anti-Starvation). Supports one-click switching between **Groq AI Mode** and **Classic Simulation Mode**.*
+
+---
+
+### ⚡ Live Bidding Ticker & Closed Auction Rounds History
+
+![Compute Bazaar 2.0 — Live Bidding Ticker & Auction History](docs/screenshots/dashboard-bidding-ticker.jpg)
+
+*Left: **Live Bidding Ticker** — real-time WebSocket feed of incoming combinatorial bundle bids (ResearchBot-Gold, QuantBot-Bronze, ETLBot-Silver submitting `API-Budget-100 + CPU-Cores-8 + RAM-Block-32GB` bundles at HIGH priority, PENDING settlement). Right: **Closed Auction Rounds History** — historical ILP solver outcomes per round showing status, social welfare extracted, bid/winner counts, and solver type (LP ILP).*
 
 ---
 
