@@ -24,10 +24,14 @@
 """
 
 import sys
+import os
 import json
 from dataclasses import dataclass, field
 from typing import List, Dict, Optional
 from itertools import combinations
+
+# Add repo root to sys.path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Ensure UTF-8 stdout on Windows terminals
 if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':

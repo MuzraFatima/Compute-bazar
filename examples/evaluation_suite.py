@@ -25,6 +25,7 @@
 =============================================================
 """
 
+import sys
 import os
 import json
 import time
@@ -32,6 +33,9 @@ import random
 import math
 import statistics
 from typing import List, Dict, Any, Tuple
+
+# Add repo root to sys.path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from backend.app.auction.engine import (
     AuctionEngine, Resource, Bid, SolverMethod,
@@ -378,7 +382,8 @@ def run_full_evaluation():
     }
 
     # 1. Write raw JSON results
-    docs_dir = os.path.join(os.path.dirname(__file__), "docs")
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    docs_dir = os.path.join(repo_root, "docs")
     os.makedirs(docs_dir, exist_ok=True)
     json_path = os.path.join(docs_dir, "evaluation_results.json")
     with open(json_path, "w", encoding="utf-8") as f:

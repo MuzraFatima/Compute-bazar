@@ -1,0 +1,34 @@
+{
+  "description": "Evaluation of ResourcePredictor on 50 held-out synthetic tasks (10 per category). Predictor is trained on 50 synthetic training tasks. The predictor uses category-conditional historical averaging (no deep learning). MAPE measures relative error; MAE is in native units.",
+  "train_n": 50,
+  "test_n": 50,
+  "categories": [
+    "llm_training",
+    "data_etl",
+    "research",
+    "quantitative_analysis",
+    "general_compute"
+  ],
+  "metrics": {
+    "gpu_slots": {
+      "mae": 0.0,
+      "mape_pct": 0.0
+    },
+    "cpu_cores": {
+      "mae": 0.0,
+      "mape_pct": 0.0
+    },
+    "ram_gb": {
+      "mae": 0.0,
+      "mape_pct": 0.0
+    },
+    "time_sec": {
+      "mae": 127.4988,
+      "mape_pct": 20.98
+    },
+    "cost_usd": {
+      "mae": 9.7946,
+      "mape_pct": 21.04
+    }
+  }
+}

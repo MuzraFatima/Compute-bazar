@@ -20,8 +20,18 @@ from sqlalchemy.orm import Session
 
 from backend.app.db.models import Agent, SessionLocal
 
-# Auth configuration (fallback to defaults if .env not loaded)
-SECRET_KEY = os.getenv("SECRET_KEY", "computebazaar_super_secret_key_12345")
+# Auth configuration — raise at startup when in production with unset key
+_SECRET_KEY_ENV = os.getenv("SECRET_KEY")
+_DEBUG = os.getenv("DEBUG", "true").lower() in ("1", "true", "yes")
+_HARDCODED_FALLBACK = "computebazaar_super_secret_key_12345"
+
+if not _SECRET_KEY_ENV and not _DEBUG:
+    raise ValueError(
+        "SECRET_KEY environment variable is not set and DEBUG=false. "
+        "Set a strong, random SECRET_KEY before deploying to production."
+    )
+
+SECRET_KEY: str = _SECRET_KEY_ENV or _HARDCODED_FALLBACK
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 1440  # 24 hours
 

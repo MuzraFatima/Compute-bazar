@@ -20,14 +20,36 @@
 
 import pytest
 from fastapi.testclient import TestClient
+from sqlalchemy import create_engine, StaticPool
+from sqlalchemy.orm import sessionmaker
+
 from backend.app.main import app
-from backend.app.db.models import init_db
+from backend.app.db.models import Base
+from backend.app.api.auth import get_db
 
 
 @pytest.fixture(autouse=True)
-def setup_test_database():
-    """Ensure database tables exist before test execution."""
-    init_db()
+def isolated_db():
+    """Give each test its own in-memory SQLite database."""
+    engine = create_engine(
+        "sqlite://",
+        connect_args={"check_same_thread": False},
+        poolclass=StaticPool,
+    )
+    TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    Base.metadata.create_all(bind=engine)
+
+    def override_get_db():
+        db = TestingSessionLocal()
+        try:
+            yield db
+        finally:
+            db.close()
+
+    app.dependency_overrides[get_db] = override_get_db
+    yield
+    app.dependency_overrides.pop(get_db, None)
+    Base.metadata.drop_all(bind=engine)
 
 
 def test_dashboard_metrics_endpoint():

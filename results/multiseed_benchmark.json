@@ -1,0 +1,4310 @@
+{
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "rounds_per_seed": 25,
+  "note": "Baselines (Greedy-Value, Round-Robin, FCFS, Random) use pay-as-bid pricing; cost columns are not like-for-like with ILP+VCG (VCG pricing). Screenshots show 9 simulated dashboard agents \u2014 the benchmark uses 8.",
+  "aggregated": {
+    "ILP + VCG": {
+      "total_social_welfare": {
+        "mean": 7504.89,
+        "std": 295.9162
+      },
+      "mean_resource_utilization_pct": {
+        "mean": 85.6,
+        "std": 3.2
+      },
+      "jains_fairness_welfare": {
+        "mean": 0.6553,
+        "std": 0.0549
+      },
+      "total_cost": {
+        "mean": 4685.795,
+        "std": 258.453
+      }
+    },
+    "Greedy-Value": {
+      "total_social_welfare": {
+        "mean": 7071.724,
+        "std": 237.2429
+      },
+      "mean_resource_utilization_pct": {
+        "mean": 78.0,
+        "std": 3.0696
+      },
+      "jains_fairness_welfare": {
+        "mean": 0.5781,
+        "std": 0.0704
+      },
+      "total_cost": {
+        "mean": 7071.724,
+        "std": 237.2429
+      }
+    },
+    "Round-Robin": {
+      "total_social_welfare": {
+        "mean": 5218.183,
+        "std": 341.113
+      },
+      "mean_resource_utilization_pct": {
+        "mean": 71.6,
+        "std": 3.6417
+      },
+      "jains_fairness_welfare": {
+        "mean": 0.8386,
+        "std": 0.0708
+      },
+      "total_cost": {
+        "mean": 5218.183,
+        "std": 341.113
+      }
+    },
+    "FCFS": {
+      "total_social_welfare": {
+        "mean": 5966.689,
+        "std": 356.7757
+      },
+      "mean_resource_utilization_pct": {
+        "mean": 74.56,
+        "std": 3.9517
+      },
+      "jains_fairness_welfare": {
+        "mean": 0.3977,
+        "std": 0.044
+      },
+      "total_cost": {
+        "mean": 5966.689,
+        "std": 356.7757
+      }
+    },
+    "Random": {
+      "total_social_welfare": {
+        "mean": 5506.123,
+        "std": 309.9168
+      },
+      "mean_resource_utilization_pct": {
+        "mean": 75.52,
+        "std": 2.672
+      },
+      "jains_fairness_welfare": {
+        "mean": 0.8021,
+        "std": 0.0525
+      },
+      "total_cost": {
+        "mean": 5506.123,
+        "std": 309.9168
+      }
+    }
+  },
+  "per_seed": [
+    {
+      "seed": 1,
+      "summary": {
+        "ILP + VCG": {
+          "total_social_welfare": 7349.68,
+          "mean_social_welfare": 293.99,
+          "std_social_welfare": 70.3,
+          "mean_resource_utilization_pct": 85.6,
+          "jains_fairness_welfare": 0.6984,
+          "jains_fairness_wins": 0.8985,
+          "jains_fairness_surplus": 0.7735,
+          "total_cost": 4459.99,
+          "mean_cost_per_round": 178.4,
+          "total_winners": 58,
+          "mean_winners_per_round": 2.32,
+          "avg_clearing_price": 76.9,
+          "mean_execution_time_ms": 293.988,
+          "median_execution_time_ms": 289.403,
+          "max_execution_time_ms": 472.482,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 993.12,
+              "total_wins": 8,
+              "total_payments": 509.88,
+              "total_surplus": 483.24
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 2216.38,
+              "total_wins": 12,
+              "total_payments": 1451.57,
+              "total_surplus": 764.81
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 594.14,
+              "total_wins": 8,
+              "total_payments": 323.94,
+              "total_surplus": 270.2
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 689.75,
+              "total_wins": 7,
+              "total_payments": 327.15,
+              "total_surplus": 362.6
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 147.79,
+              "total_wins": 3,
+              "total_payments": 54.7,
+              "total_surplus": 93.09
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1326.98,
+              "total_wins": 8,
+              "total_payments": 893.51,
+              "total_surplus": 433.47
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 1010.17,
+              "total_wins": 7,
+              "total_payments": 686.5,
+              "total_surplus": 323.67
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 371.35,
+              "total_wins": 5,
+              "total_payments": 212.74,
+              "total_surplus": 158.61
+            }
+          ]
+        },
+        "Greedy-Value": {
+          "total_social_welfare": 6690.51,
+          "mean_social_welfare": 267.62,
+          "std_social_welfare": 80.58,
+          "mean_resource_utilization_pct": 73.6,
+          "jains_fairness_welfare": 0.4066,
+          "jains_fairness_wins": 0.6163,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 6690.51,
+          "mean_cost_per_round": 267.62,
+          "total_winners": 43,
+          "mean_winners_per_round": 1.72,
+          "avg_clearing_price": 155.59,
+          "mean_execution_time_ms": 0.03,
+          "median_execution_time_ms": 0.024,
+          "max_execution_time_ms": 0.058,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 682.28,
+              "total_wins": 4,
+              "total_payments": 682.28,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 3384.0,
+              "total_wins": 16,
+              "total_payments": 3384.0,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 320.09,
+              "total_wins": 4,
+              "total_payments": 320.09,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 395.9,
+              "total_wins": 4,
+              "total_payments": 395.9,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 30.41,
+              "total_wins": 1,
+              "total_payments": 30.41,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1112.39,
+              "total_wins": 6,
+              "total_payments": 1112.39,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 547.36,
+              "total_wins": 5,
+              "total_payments": 547.36,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 218.08,
+              "total_wins": 3,
+              "total_payments": 218.08,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Round-Robin": {
+          "total_social_welfare": 5050.18,
+          "mean_social_welfare": 202.01,
+          "std_social_welfare": 76.19,
+          "mean_resource_utilization_pct": 72.8,
+          "jains_fairness_welfare": 0.9473,
+          "jains_fairness_wins": 0.9084,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5050.18,
+          "mean_cost_per_round": 202.01,
+          "total_winners": 50,
+          "mean_winners_per_round": 2,
+          "avg_clearing_price": 101.0,
+          "mean_execution_time_ms": 0.053,
+          "median_execution_time_ms": 0.043,
+          "max_execution_time_ms": 0.125,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 615.66,
+              "total_wins": 6,
+              "total_payments": 615.66,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 861.1,
+              "total_wins": 5,
+              "total_payments": 861.1,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 646.76,
+              "total_wins": 9,
+              "total_payments": 646.76,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 448.77,
+              "total_wins": 4,
+              "total_payments": 448.77,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 603.66,
+              "total_wins": 9,
+              "total_payments": 603.66,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 842.94,
+              "total_wins": 5,
+              "total_payments": 842.94,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 420.02,
+              "total_wins": 4,
+              "total_payments": 420.02,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 611.27,
+              "total_wins": 8,
+              "total_payments": 611.27,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "FCFS": {
+          "total_social_welfare": 6124.73,
+          "mean_social_welfare": 244.99,
+          "std_social_welfare": 77.51,
+          "mean_resource_utilization_pct": 76.0,
+          "jains_fairness_welfare": 0.4241,
+          "jains_fairness_wins": 0.5379,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 6124.73,
+          "mean_cost_per_round": 244.99,
+          "total_winners": 57,
+          "mean_winners_per_round": 2.28,
+          "avg_clearing_price": 107.45,
+          "mean_execution_time_ms": 0.014,
+          "median_execution_time_ms": 0.012,
+          "max_execution_time_ms": 0.035,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 2817.13,
+              "total_wins": 23,
+              "total_payments": 2817.13,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1598.48,
+              "total_wins": 11,
+              "total_payments": 1598.48,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 333.57,
+              "total_wins": 6,
+              "total_payments": 333.57,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 516.4,
+              "total_wins": 6,
+              "total_payments": 516.4,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 201.03,
+              "total_wins": 3,
+              "total_payments": 201.03,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 249.11,
+              "total_wins": 2,
+              "total_payments": 249.11,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 178.26,
+              "total_wins": 2,
+              "total_payments": 178.26,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 230.75,
+              "total_wins": 4,
+              "total_payments": 230.75,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Random": {
+          "total_social_welfare": 5484.46,
+          "mean_social_welfare": 219.38,
+          "std_social_welfare": 85.87,
+          "mean_resource_utilization_pct": 72.8,
+          "jains_fairness_welfare": 0.7724,
+          "jains_fairness_wins": 0.8942,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5484.46,
+          "mean_cost_per_round": 219.38,
+          "total_winners": 52,
+          "mean_winners_per_round": 2.08,
+          "avg_clearing_price": 105.47,
+          "mean_execution_time_ms": 0.032,
+          "median_execution_time_ms": 0.028,
+          "max_execution_time_ms": 0.066,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 467.37,
+              "total_wins": 5,
+              "total_payments": 467.37,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1122.46,
+              "total_wins": 7,
+              "total_payments": 1122.46,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 657.32,
+              "total_wins": 7,
+              "total_payments": 657.32,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 442.36,
+              "total_wins": 4,
+              "total_payments": 442.36,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 456.34,
+              "total_wins": 7,
+              "total_payments": 456.34,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1462.93,
+              "total_wins": 10,
+              "total_payments": 1462.93,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 315.95,
+              "total_wins": 3,
+              "total_payments": 315.95,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 559.73,
+              "total_wins": 9,
+              "total_payments": 559.73,
+              "total_surplus": 0.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seed": 2,
+      "summary": {
+        "ILP + VCG": {
+          "total_social_welfare": 7414.91,
+          "mean_social_welfare": 296.6,
+          "std_social_welfare": 60.49,
+          "mean_resource_utilization_pct": 83.2,
+          "jains_fairness_welfare": 0.6685,
+          "jains_fairness_wins": 0.8401,
+          "jains_fairness_surplus": 0.6727,
+          "total_cost": 4756.93,
+          "mean_cost_per_round": 190.28,
+          "total_winners": 51,
+          "mean_winners_per_round": 2.04,
+          "avg_clearing_price": 93.27,
+          "mean_execution_time_ms": 284.145,
+          "median_execution_time_ms": 278.788,
+          "max_execution_time_ms": 461.852,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 629.72,
+              "total_wins": 5,
+              "total_payments": 243.59,
+              "total_surplus": 386.13
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1791.31,
+              "total_wins": 10,
+              "total_payments": 1275.39,
+              "total_surplus": 515.92
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 997.77,
+              "total_wins": 7,
+              "total_payments": 717.84,
+              "total_surplus": 279.93
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1183.54,
+              "total_wins": 6,
+              "total_payments": 755.72,
+              "total_surplus": 427.82
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 192.08,
+              "total_wins": 4,
+              "total_payments": 89.95,
+              "total_surplus": 102.13
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 2003.58,
+              "total_wins": 11,
+              "total_payments": 1224.02,
+              "total_surplus": 779.56
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 446.08,
+              "total_wins": 6,
+              "total_payments": 316.94,
+              "total_surplus": 129.14
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 170.83,
+              "total_wins": 2,
+              "total_payments": 133.48,
+              "total_surplus": 37.35
+            }
+          ]
+        },
+        "Greedy-Value": {
+          "total_social_welfare": 7114.42,
+          "mean_social_welfare": 284.58,
+          "std_social_welfare": 62.43,
+          "mean_resource_utilization_pct": 74.4,
+          "jains_fairness_welfare": 0.5911,
+          "jains_fairness_wins": 0.7449,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 7114.42,
+          "mean_cost_per_round": 284.58,
+          "total_winners": 42,
+          "mean_winners_per_round": 1.68,
+          "avg_clearing_price": 169.39,
+          "mean_execution_time_ms": 0.045,
+          "median_execution_time_ms": 0.034,
+          "max_execution_time_ms": 0.171,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 835.64,
+              "total_wins": 6,
+              "total_payments": 835.64,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1696.08,
+              "total_wins": 9,
+              "total_payments": 1696.08,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 651.54,
+              "total_wins": 5,
+              "total_payments": 651.54,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1680.08,
+              "total_wins": 8,
+              "total_payments": 1680.08,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 97.26,
+              "total_wins": 2,
+              "total_payments": 97.26,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1963.03,
+              "total_wins": 9,
+              "total_payments": 1963.03,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 107.04,
+              "total_wins": 2,
+              "total_payments": 107.04,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 83.75,
+              "total_wins": 1,
+              "total_payments": 83.75,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Round-Robin": {
+          "total_social_welfare": 5314.24,
+          "mean_social_welfare": 212.57,
+          "std_social_welfare": 84.53,
+          "mean_resource_utilization_pct": 69.6,
+          "jains_fairness_welfare": 0.8193,
+          "jains_fairness_wins": 0.9474,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5314.24,
+          "mean_cost_per_round": 212.57,
+          "total_winners": 48,
+          "mean_winners_per_round": 1.92,
+          "avg_clearing_price": 110.71,
+          "mean_execution_time_ms": 0.067,
+          "median_execution_time_ms": 0.058,
+          "max_execution_time_ms": 0.163,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 933.37,
+              "total_wins": 7,
+              "total_payments": 933.37,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1291.83,
+              "total_wins": 8,
+              "total_payments": 1291.83,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 569.98,
+              "total_wins": 5,
+              "total_payments": 569.98,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 506.09,
+              "total_wins": 5,
+              "total_payments": 506.09,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 449.95,
+              "total_wins": 8,
+              "total_payments": 449.95,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 848.77,
+              "total_wins": 6,
+              "total_payments": 848.77,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 287.78,
+              "total_wins": 4,
+              "total_payments": 287.78,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 426.47,
+              "total_wins": 5,
+              "total_payments": 426.47,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "FCFS": {
+          "total_social_welfare": 5439.53,
+          "mean_social_welfare": 217.58,
+          "std_social_welfare": 68.45,
+          "mean_resource_utilization_pct": 68.8,
+          "jains_fairness_welfare": 0.3386,
+          "jains_fairness_wins": 0.449,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5439.53,
+          "mean_cost_per_round": 217.58,
+          "total_winners": 50,
+          "mean_winners_per_round": 2,
+          "avg_clearing_price": 108.79,
+          "mean_execution_time_ms": 0.018,
+          "median_execution_time_ms": 0.015,
+          "max_execution_time_ms": 0.036,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 2684.29,
+              "total_wins": 21,
+              "total_payments": 2684.29,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1879.17,
+              "total_wins": 14,
+              "total_payments": 1879.17,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 223.91,
+              "total_wins": 3,
+              "total_payments": 223.91,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 257.99,
+              "total_wins": 3,
+              "total_payments": 257.99,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 233.51,
+              "total_wins": 6,
+              "total_payments": 233.51,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 41.63,
+              "total_wins": 1,
+              "total_payments": 41.63,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 119.03,
+              "total_wins": 2,
+              "total_payments": 119.03,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 0.0,
+              "total_wins": 0,
+              "total_payments": 0.0,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Random": {
+          "total_social_welfare": 5426.12,
+          "mean_social_welfare": 217.04,
+          "std_social_welfare": 68.39,
+          "mean_resource_utilization_pct": 74.4,
+          "jains_fairness_welfare": 0.7912,
+          "jains_fairness_wins": 0.867,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5426.12,
+          "mean_cost_per_round": 217.04,
+          "total_winners": 51,
+          "mean_winners_per_round": 2.04,
+          "avg_clearing_price": 106.39,
+          "mean_execution_time_ms": 0.052,
+          "median_execution_time_ms": 0.037,
+          "max_execution_time_ms": 0.279,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 796.92,
+              "total_wins": 7,
+              "total_payments": 796.92,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1168.33,
+              "total_wins": 9,
+              "total_payments": 1168.33,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 1073.03,
+              "total_wins": 10,
+              "total_payments": 1073.03,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 669.67,
+              "total_wins": 6,
+              "total_payments": 669.67,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 300.36,
+              "total_wins": 5,
+              "total_payments": 300.36,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 902.06,
+              "total_wins": 8,
+              "total_payments": 902.06,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 171.58,
+              "total_wins": 2,
+              "total_payments": 171.58,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 344.17,
+              "total_wins": 4,
+              "total_payments": 344.17,
+              "total_surplus": 0.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "summary": {
+        "ILP + VCG": {
+          "total_social_welfare": 7384.45,
+          "mean_social_welfare": 295.38,
+          "std_social_welfare": 46.55,
+          "mean_resource_utilization_pct": 84.0,
+          "jains_fairness_welfare": 0.6443,
+          "jains_fairness_wins": 0.7903,
+          "jains_fairness_surplus": 0.6225,
+          "total_cost": 4871.51,
+          "mean_cost_per_round": 194.86,
+          "total_winners": 56,
+          "mean_winners_per_round": 2.24,
+          "avg_clearing_price": 86.99,
+          "mean_execution_time_ms": 285.136,
+          "median_execution_time_ms": 264.568,
+          "max_execution_time_ms": 427.01,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 1141.98,
+              "total_wins": 8,
+              "total_payments": 859.72,
+              "total_surplus": 282.26
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1706.53,
+              "total_wins": 11,
+              "total_payments": 1108.45,
+              "total_surplus": 598.08
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 321.2,
+              "total_wins": 4,
+              "total_payments": 251.15,
+              "total_surplus": 70.05
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1997.77,
+              "total_wins": 13,
+              "total_payments": 1320.88,
+              "total_surplus": 676.89
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 204.97,
+              "total_wins": 3,
+              "total_payments": 155.65,
+              "total_surplus": 49.32
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1377.27,
+              "total_wins": 8,
+              "total_payments": 813.65,
+              "total_surplus": 563.62
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 570.18,
+              "total_wins": 7,
+              "total_payments": 362.01,
+              "total_surplus": 208.17
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 64.55,
+              "total_wins": 2,
+              "total_payments": 0.0,
+              "total_surplus": 64.55
+            }
+          ]
+        },
+        "Greedy-Value": {
+          "total_social_welfare": 7000.36,
+          "mean_social_welfare": 280.01,
+          "std_social_welfare": 54.73,
+          "mean_resource_utilization_pct": 75.2,
+          "jains_fairness_welfare": 0.5706,
+          "jains_fairness_wins": 0.6511,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 7000.36,
+          "mean_cost_per_round": 280.01,
+          "total_winners": 43,
+          "mean_winners_per_round": 1.72,
+          "avg_clearing_price": 162.8,
+          "mean_execution_time_ms": 0.038,
+          "median_execution_time_ms": 0.032,
+          "max_execution_time_ms": 0.178,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 895.07,
+              "total_wins": 6,
+              "total_payments": 895.07,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1912.62,
+              "total_wins": 11,
+              "total_payments": 1912.62,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 266.95,
+              "total_wins": 2,
+              "total_payments": 266.95,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1811.56,
+              "total_wins": 10,
+              "total_payments": 1811.56,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 0.0,
+              "total_wins": 0,
+              "total_payments": 0.0,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1664.25,
+              "total_wins": 9,
+              "total_payments": 1664.25,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 385.36,
+              "total_wins": 3,
+              "total_payments": 385.36,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 64.55,
+              "total_wins": 2,
+              "total_payments": 64.55,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Round-Robin": {
+          "total_social_welfare": 5455.8,
+          "mean_social_welfare": 218.23,
+          "std_social_welfare": 58.79,
+          "mean_resource_utilization_pct": 73.6,
+          "jains_fairness_welfare": 0.8652,
+          "jains_fairness_wins": 0.9251,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5455.8,
+          "mean_cost_per_round": 218.23,
+          "total_winners": 57,
+          "mean_winners_per_round": 2.28,
+          "avg_clearing_price": 95.72,
+          "mean_execution_time_ms": 0.064,
+          "median_execution_time_ms": 0.053,
+          "max_execution_time_ms": 0.141,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 735.15,
+              "total_wins": 6,
+              "total_payments": 735.15,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 992.47,
+              "total_wins": 10,
+              "total_payments": 992.47,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 748.68,
+              "total_wins": 8,
+              "total_payments": 748.68,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 654.68,
+              "total_wins": 7,
+              "total_payments": 654.68,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 257.09,
+              "total_wins": 3,
+              "total_payments": 257.09,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1106.47,
+              "total_wins": 9,
+              "total_payments": 1106.47,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 610.2,
+              "total_wins": 6,
+              "total_payments": 610.2,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 351.06,
+              "total_wins": 8,
+              "total_payments": 351.06,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "FCFS": {
+          "total_social_welfare": 6118.12,
+          "mean_social_welfare": 244.72,
+          "std_social_welfare": 69.89,
+          "mean_resource_utilization_pct": 75.2,
+          "jains_fairness_welfare": 0.4016,
+          "jains_fairness_wins": 0.5126,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 6118.12,
+          "mean_cost_per_round": 244.72,
+          "total_winners": 53,
+          "mean_winners_per_round": 2.12,
+          "avg_clearing_price": 115.44,
+          "mean_execution_time_ms": 0.016,
+          "median_execution_time_ms": 0.012,
+          "max_execution_time_ms": 0.045,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 2919.85,
+              "total_wins": 21,
+              "total_payments": 2919.85,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1449.89,
+              "total_wins": 12,
+              "total_payments": 1449.89,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 417.1,
+              "total_wins": 6,
+              "total_payments": 417.1,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 889.46,
+              "total_wins": 7,
+              "total_payments": 889.46,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 37.66,
+              "total_wins": 1,
+              "total_payments": 37.66,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 112.68,
+              "total_wins": 1,
+              "total_payments": 112.68,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 124.52,
+              "total_wins": 2,
+              "total_payments": 124.52,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 166.96,
+              "total_wins": 3,
+              "total_payments": 166.96,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Random": {
+          "total_social_welfare": 5834.81,
+          "mean_social_welfare": 233.39,
+          "std_social_welfare": 73.76,
+          "mean_resource_utilization_pct": 76.0,
+          "jains_fairness_welfare": 0.7415,
+          "jains_fairness_wins": 0.8616,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5834.81,
+          "mean_cost_per_round": 233.39,
+          "total_winners": 59,
+          "mean_winners_per_round": 2.36,
+          "avg_clearing_price": 98.9,
+          "mean_execution_time_ms": 0.049,
+          "median_execution_time_ms": 0.037,
+          "max_execution_time_ms": 0.268,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 448.19,
+              "total_wins": 4,
+              "total_payments": 448.19,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1153.64,
+              "total_wins": 10,
+              "total_payments": 1153.64,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 867.0,
+              "total_wins": 10,
+              "total_payments": 867.0,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1542.14,
+              "total_wins": 10,
+              "total_payments": 1542.14,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 257.78,
+              "total_wins": 3,
+              "total_payments": 257.78,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 747.04,
+              "total_wins": 8,
+              "total_payments": 747.04,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 652.34,
+              "total_wins": 10,
+              "total_payments": 652.34,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 166.68,
+              "total_wins": 4,
+              "total_payments": 166.68,
+              "total_surplus": 0.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seed": 4,
+      "summary": {
+        "ILP + VCG": {
+          "total_social_welfare": 7760.74,
+          "mean_social_welfare": 310.43,
+          "std_social_welfare": 55.73,
+          "mean_resource_utilization_pct": 88.0,
+          "jains_fairness_welfare": 0.6916,
+          "jains_fairness_wins": 0.7409,
+          "jains_fairness_surplus": 0.6678,
+          "total_cost": 4862.58,
+          "mean_cost_per_round": 194.5,
+          "total_winners": 54,
+          "mean_winners_per_round": 2.16,
+          "avg_clearing_price": 90.05,
+          "mean_execution_time_ms": 280.834,
+          "median_execution_time_ms": 280.768,
+          "max_execution_time_ms": 413.45,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 1276.22,
+              "total_wins": 9,
+              "total_payments": 771.76,
+              "total_surplus": 504.46
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1683.24,
+              "total_wins": 10,
+              "total_payments": 960.38,
+              "total_surplus": 722.86
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 622.57,
+              "total_wins": 7,
+              "total_payments": 369.72,
+              "total_surplus": 252.85
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1670.11,
+              "total_wins": 9,
+              "total_payments": 1133.29,
+              "total_surplus": 536.82
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 0.0,
+              "total_wins": 0,
+              "total_payments": 0.0,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1478.98,
+              "total_wins": 10,
+              "total_payments": 872.69,
+              "total_surplus": 606.29
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 1029.62,
+              "total_wins": 9,
+              "total_payments": 754.74,
+              "total_surplus": 274.88
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 0.0,
+              "total_wins": 0,
+              "total_payments": 0.0,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Greedy-Value": {
+          "total_social_welfare": 7201.4,
+          "mean_social_welfare": 288.06,
+          "std_social_welfare": 63.07,
+          "mean_resource_utilization_pct": 80.8,
+          "jains_fairness_welfare": 0.6014,
+          "jains_fairness_wins": 0.716,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 7201.4,
+          "mean_cost_per_round": 288.06,
+          "total_winners": 44,
+          "mean_winners_per_round": 1.76,
+          "avg_clearing_price": 163.67,
+          "mean_execution_time_ms": 0.031,
+          "median_execution_time_ms": 0.031,
+          "max_execution_time_ms": 0.065,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 610.96,
+              "total_wins": 5,
+              "total_payments": 610.96,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1684.28,
+              "total_wins": 8,
+              "total_payments": 1684.28,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 747.31,
+              "total_wins": 6,
+              "total_payments": 747.31,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1838.0,
+              "total_wins": 9,
+              "total_payments": 1838.0,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 46.15,
+              "total_wins": 1,
+              "total_payments": 46.15,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1870.46,
+              "total_wins": 11,
+              "total_payments": 1870.46,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 359.9,
+              "total_wins": 3,
+              "total_payments": 359.9,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 44.34,
+              "total_wins": 1,
+              "total_payments": 44.34,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Round-Robin": {
+          "total_social_welfare": 5282.68,
+          "mean_social_welfare": 211.31,
+          "std_social_welfare": 56.5,
+          "mean_resource_utilization_pct": 68.0,
+          "jains_fairness_welfare": 0.6913,
+          "jains_fairness_wins": 0.8178,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5282.68,
+          "mean_cost_per_round": 211.31,
+          "total_winners": 49,
+          "mean_winners_per_round": 1.96,
+          "avg_clearing_price": 107.81,
+          "mean_execution_time_ms": 0.058,
+          "median_execution_time_ms": 0.058,
+          "max_execution_time_ms": 0.13,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 694.82,
+              "total_wins": 8,
+              "total_payments": 694.82,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1198.92,
+              "total_wins": 8,
+              "total_payments": 1198.92,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 532.58,
+              "total_wins": 5,
+              "total_payments": 532.58,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 478.8,
+              "total_wins": 4,
+              "total_payments": 478.8,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 167.43,
+              "total_wins": 3,
+              "total_payments": 167.43,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1532.41,
+              "total_wins": 12,
+              "total_payments": 1532.41,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 279.31,
+              "total_wins": 3,
+              "total_payments": 279.31,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 398.41,
+              "total_wins": 6,
+              "total_payments": 398.41,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "FCFS": {
+          "total_social_welfare": 6524.41,
+          "mean_social_welfare": 260.98,
+          "std_social_welfare": 66.66,
+          "mean_resource_utilization_pct": 78.4,
+          "jains_fairness_welfare": 0.5002,
+          "jains_fairness_wins": 0.5039,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 6524.41,
+          "mean_cost_per_round": 260.98,
+          "total_winners": 56,
+          "mean_winners_per_round": 2.24,
+          "avg_clearing_price": 116.51,
+          "mean_execution_time_ms": 0.016,
+          "median_execution_time_ms": 0.017,
+          "max_execution_time_ms": 0.033,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 2581.56,
+              "total_wins": 23,
+              "total_payments": 2581.56,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1475.59,
+              "total_wins": 11,
+              "total_payments": 1475.59,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 819.51,
+              "total_wins": 7,
+              "total_payments": 819.51,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 690.96,
+              "total_wins": 5,
+              "total_payments": 690.96,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 0.0,
+              "total_wins": 0,
+              "total_payments": 0.0,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 791.34,
+              "total_wins": 7,
+              "total_payments": 791.34,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 139.02,
+              "total_wins": 2,
+              "total_payments": 139.02,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 26.43,
+              "total_wins": 1,
+              "total_payments": 26.43,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Random": {
+          "total_social_welfare": 5089.88,
+          "mean_social_welfare": 203.6,
+          "std_social_welfare": 61.22,
+          "mean_resource_utilization_pct": 73.6,
+          "jains_fairness_welfare": 0.8912,
+          "jains_fairness_wins": 0.9053,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5089.88,
+          "mean_cost_per_round": 203.6,
+          "total_winners": 47,
+          "mean_winners_per_round": 1.88,
+          "avg_clearing_price": 108.3,
+          "mean_execution_time_ms": 0.036,
+          "median_execution_time_ms": 0.034,
+          "max_execution_time_ms": 0.073,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 604.38,
+              "total_wins": 5,
+              "total_payments": 604.38,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 663.4,
+              "total_wins": 5,
+              "total_payments": 663.4,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 937.95,
+              "total_wins": 7,
+              "total_payments": 937.95,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 643.76,
+              "total_wins": 6,
+              "total_payments": 643.76,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 253.69,
+              "total_wins": 4,
+              "total_payments": 253.69,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 942.49,
+              "total_wins": 8,
+              "total_payments": 942.49,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 387.01,
+              "total_wins": 3,
+              "total_payments": 387.01,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 657.2,
+              "total_wins": 9,
+              "total_payments": 657.2,
+              "total_surplus": 0.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seed": 5,
+      "summary": {
+        "ILP + VCG": {
+          "total_social_welfare": 7441.73,
+          "mean_social_welfare": 297.67,
+          "std_social_welfare": 42.31,
+          "mean_resource_utilization_pct": 84.0,
+          "jains_fairness_welfare": 0.6336,
+          "jains_fairness_wins": 0.7594,
+          "jains_fairness_surplus": 0.7044,
+          "total_cost": 4418.81,
+          "mean_cost_per_round": 176.75,
+          "total_winners": 59,
+          "mean_winners_per_round": 2.36,
+          "avg_clearing_price": 74.9,
+          "mean_execution_time_ms": 297.474,
+          "median_execution_time_ms": 285.556,
+          "max_execution_time_ms": 517.391,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 1733.39,
+              "total_wins": 11,
+              "total_payments": 1051.39,
+              "total_surplus": 682.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1357.54,
+              "total_wins": 10,
+              "total_payments": 766.39,
+              "total_surplus": 591.15
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 833.28,
+              "total_wins": 9,
+              "total_payments": 368.05,
+              "total_surplus": 465.23
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 912.86,
+              "total_wins": 7,
+              "total_payments": 624.67,
+              "total_surplus": 288.19
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 156.22,
+              "total_wins": 3,
+              "total_payments": 37.29,
+              "total_surplus": 118.93
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 2105.27,
+              "total_wins": 14,
+              "total_payments": 1422.78,
+              "total_surplus": 682.49
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 303.66,
+              "total_wins": 4,
+              "total_payments": 140.97,
+              "total_surplus": 162.69
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 39.51,
+              "total_wins": 1,
+              "total_payments": 7.27,
+              "total_surplus": 32.24
+            }
+          ]
+        },
+        "Greedy-Value": {
+          "total_social_welfare": 7084.93,
+          "mean_social_welfare": 283.4,
+          "std_social_welfare": 46.72,
+          "mean_resource_utilization_pct": 79.2,
+          "jains_fairness_welfare": 0.5775,
+          "jains_fairness_wins": 0.7029,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 7084.93,
+          "mean_cost_per_round": 283.4,
+          "total_winners": 49,
+          "mean_winners_per_round": 1.96,
+          "avg_clearing_price": 144.59,
+          "mean_execution_time_ms": 0.034,
+          "median_execution_time_ms": 0.033,
+          "max_execution_time_ms": 0.072,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 1639.51,
+              "total_wins": 11,
+              "total_payments": 1639.51,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1024.69,
+              "total_wins": 7,
+              "total_payments": 1024.69,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 448.77,
+              "total_wins": 6,
+              "total_payments": 448.77,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1330.15,
+              "total_wins": 8,
+              "total_payments": 1330.15,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 153.71,
+              "total_wins": 3,
+              "total_payments": 153.71,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 2253.24,
+              "total_wins": 12,
+              "total_payments": 2253.24,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 234.86,
+              "total_wins": 2,
+              "total_payments": 234.86,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 0.0,
+              "total_wins": 0,
+              "total_payments": 0.0,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Round-Robin": {
+          "total_social_welfare": 5182.78,
+          "mean_social_welfare": 207.31,
+          "std_social_welfare": 70.79,
+          "mean_resource_utilization_pct": 72.0,
+          "jains_fairness_welfare": 0.8062,
+          "jains_fairness_wins": 0.9591,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5182.78,
+          "mean_cost_per_round": 207.31,
+          "total_winners": 51,
+          "mean_winners_per_round": 2.04,
+          "avg_clearing_price": 101.62,
+          "mean_execution_time_ms": 0.059,
+          "median_execution_time_ms": 0.051,
+          "max_execution_time_ms": 0.13,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 916.57,
+              "total_wins": 7,
+              "total_payments": 916.57,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 794.44,
+              "total_wins": 7,
+              "total_payments": 794.44,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 290.36,
+              "total_wins": 5,
+              "total_payments": 290.36,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1253.03,
+              "total_wins": 9,
+              "total_payments": 1253.03,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 348.03,
+              "total_wins": 7,
+              "total_payments": 348.03,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 760.03,
+              "total_wins": 5,
+              "total_payments": 760.03,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 365.97,
+              "total_wins": 5,
+              "total_payments": 365.97,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 454.35,
+              "total_wins": 6,
+              "total_payments": 454.35,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "FCFS": {
+          "total_social_welfare": 6078.54,
+          "mean_social_welfare": 243.14,
+          "std_social_welfare": 64.27,
+          "mean_resource_utilization_pct": 77.6,
+          "jains_fairness_welfare": 0.3966,
+          "jains_fairness_wins": 0.5173,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 6078.54,
+          "mean_cost_per_round": 243.14,
+          "total_winners": 55,
+          "mean_winners_per_round": 2.2,
+          "avg_clearing_price": 110.52,
+          "mean_execution_time_ms": 0.015,
+          "median_execution_time_ms": 0.014,
+          "max_execution_time_ms": 0.034,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 2984.65,
+              "total_wins": 22,
+              "total_payments": 2984.65,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1403.89,
+              "total_wins": 12,
+              "total_payments": 1403.89,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 348.51,
+              "total_wins": 5,
+              "total_payments": 348.51,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 671.19,
+              "total_wins": 7,
+              "total_payments": 671.19,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 178.21,
+              "total_wins": 4,
+              "total_payments": 178.21,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 390.76,
+              "total_wins": 3,
+              "total_payments": 390.76,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 101.33,
+              "total_wins": 2,
+              "total_payments": 101.33,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 0.0,
+              "total_wins": 0,
+              "total_payments": 0.0,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Random": {
+          "total_social_welfare": 5341.89,
+          "mean_social_welfare": 213.68,
+          "std_social_welfare": 77.98,
+          "mean_resource_utilization_pct": 72.8,
+          "jains_fairness_welfare": 0.7919,
+          "jains_fairness_wins": 0.8448,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5341.89,
+          "mean_cost_per_round": 213.68,
+          "total_winners": 56,
+          "mean_winners_per_round": 2.24,
+          "avg_clearing_price": 95.39,
+          "mean_execution_time_ms": 0.039,
+          "median_execution_time_ms": 0.033,
+          "max_execution_time_ms": 0.103,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 756.9,
+              "total_wins": 6,
+              "total_payments": 756.9,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 335.07,
+              "total_wins": 4,
+              "total_payments": 335.07,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 926.39,
+              "total_wins": 12,
+              "total_payments": 926.39,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 789.42,
+              "total_wins": 6,
+              "total_payments": 789.42,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 487.83,
+              "total_wins": 8,
+              "total_payments": 487.83,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1285.6,
+              "total_wins": 10,
+              "total_payments": 1285.6,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 661.4,
+              "total_wins": 8,
+              "total_payments": 661.4,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 99.28,
+              "total_wins": 2,
+              "total_payments": 99.28,
+              "total_surplus": 0.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seed": 6,
+      "summary": {
+        "ILP + VCG": {
+          "total_social_welfare": 8178.06,
+          "mean_social_welfare": 327.12,
+          "std_social_welfare": 43.66,
+          "mean_resource_utilization_pct": 92.0,
+          "jains_fairness_welfare": 0.6933,
+          "jains_fairness_wins": 0.8452,
+          "jains_fairness_surplus": 0.6324,
+          "total_cost": 4503.97,
+          "mean_cost_per_round": 180.16,
+          "total_winners": 63,
+          "mean_winners_per_round": 2.52,
+          "avg_clearing_price": 71.49,
+          "mean_execution_time_ms": 312.108,
+          "median_execution_time_ms": 300.283,
+          "max_execution_time_ms": 497.56,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 1245.26,
+              "total_wins": 10,
+              "total_payments": 601.12,
+              "total_surplus": 644.14
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1909.52,
+              "total_wins": 12,
+              "total_payments": 1203.32,
+              "total_surplus": 706.2
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 684.72,
+              "total_wins": 7,
+              "total_payments": 450.09,
+              "total_surplus": 234.63
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1292.1,
+              "total_wins": 10,
+              "total_payments": 656.65,
+              "total_surplus": 635.45
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 283.04,
+              "total_wins": 6,
+              "total_payments": 173.63,
+              "total_surplus": 109.41
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 2043.07,
+              "total_wins": 11,
+              "total_payments": 927.0,
+              "total_surplus": 1116.07
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 684.29,
+              "total_wins": 6,
+              "total_payments": 492.16,
+              "total_surplus": 192.13
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 36.06,
+              "total_wins": 1,
+              "total_payments": 0.0,
+              "total_surplus": 36.06
+            }
+          ]
+        },
+        "Greedy-Value": {
+          "total_social_welfare": 7463.93,
+          "mean_social_welfare": 298.56,
+          "std_social_welfare": 66.97,
+          "mean_resource_utilization_pct": 82.4,
+          "jains_fairness_welfare": 0.645,
+          "jains_fairness_wins": 0.8358,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 7463.93,
+          "mean_cost_per_round": 298.56,
+          "total_winners": 51,
+          "mean_winners_per_round": 2.04,
+          "avg_clearing_price": 146.35,
+          "mean_execution_time_ms": 0.033,
+          "median_execution_time_ms": 0.033,
+          "max_execution_time_ms": 0.065,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 853.16,
+              "total_wins": 6,
+              "total_payments": 853.16,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1965.04,
+              "total_wins": 11,
+              "total_payments": 1965.04,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 315.25,
+              "total_wins": 4,
+              "total_payments": 315.25,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1457.86,
+              "total_wins": 7,
+              "total_payments": 1457.86,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 110.23,
+              "total_wins": 3,
+              "total_payments": 110.23,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1788.66,
+              "total_wins": 10,
+              "total_payments": 1788.66,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 872.37,
+              "total_wins": 7,
+              "total_payments": 872.37,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 101.36,
+              "total_wins": 3,
+              "total_payments": 101.36,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Round-Robin": {
+          "total_social_welfare": 5886.49,
+          "mean_social_welfare": 235.46,
+          "std_social_welfare": 78.29,
+          "mean_resource_utilization_pct": 79.2,
+          "jains_fairness_welfare": 0.7899,
+          "jains_fairness_wins": 0.9521,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5886.49,
+          "mean_cost_per_round": 235.46,
+          "total_winners": 59,
+          "mean_winners_per_round": 2.36,
+          "avg_clearing_price": 99.77,
+          "mean_execution_time_ms": 0.054,
+          "median_execution_time_ms": 0.052,
+          "max_execution_time_ms": 0.122,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 499.44,
+              "total_wins": 5,
+              "total_payments": 499.44,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1560.13,
+              "total_wins": 10,
+              "total_payments": 1560.13,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 783.31,
+              "total_wins": 7,
+              "total_payments": 783.31,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 923.29,
+              "total_wins": 9,
+              "total_payments": 923.29,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 270.42,
+              "total_wins": 7,
+              "total_payments": 270.42,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 571.0,
+              "total_wins": 5,
+              "total_payments": 571.0,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 881.49,
+              "total_wins": 8,
+              "total_payments": 881.49,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 397.41,
+              "total_wins": 8,
+              "total_payments": 397.41,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "FCFS": {
+          "total_social_welfare": 6225.88,
+          "mean_social_welfare": 249.04,
+          "std_social_welfare": 65.46,
+          "mean_resource_utilization_pct": 77.6,
+          "jains_fairness_welfare": 0.4039,
+          "jains_fairness_wins": 0.5105,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 6225.88,
+          "mean_cost_per_round": 249.04,
+          "total_winners": 54,
+          "mean_winners_per_round": 2.16,
+          "avg_clearing_price": 115.29,
+          "mean_execution_time_ms": 0.014,
+          "median_execution_time_ms": 0.013,
+          "max_execution_time_ms": 0.032,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 2906.82,
+              "total_wins": 21,
+              "total_payments": 2906.82,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1461.7,
+              "total_wins": 11,
+              "total_payments": 1461.7,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 1101.14,
+              "total_wins": 11,
+              "total_payments": 1101.14,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 316.56,
+              "total_wins": 4,
+              "total_payments": 316.56,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 72.4,
+              "total_wins": 2,
+              "total_payments": 72.4,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 299.75,
+              "total_wins": 3,
+              "total_payments": 299.75,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 30.05,
+              "total_wins": 1,
+              "total_payments": 30.05,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 37.46,
+              "total_wins": 1,
+              "total_payments": 37.46,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Random": {
+          "total_social_welfare": 6112.89,
+          "mean_social_welfare": 244.52,
+          "std_social_welfare": 84.86,
+          "mean_resource_utilization_pct": 80.8,
+          "jains_fairness_welfare": 0.7623,
+          "jains_fairness_wins": 0.9278,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 6112.89,
+          "mean_cost_per_round": 244.52,
+          "total_winners": 59,
+          "mean_winners_per_round": 2.36,
+          "avg_clearing_price": 103.61,
+          "mean_execution_time_ms": 0.035,
+          "median_execution_time_ms": 0.036,
+          "max_execution_time_ms": 0.079,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 1151.97,
+              "total_wins": 9,
+              "total_payments": 1151.97,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1479.99,
+              "total_wins": 10,
+              "total_payments": 1479.99,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 439.47,
+              "total_wins": 6,
+              "total_payments": 439.47,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1014.17,
+              "total_wins": 10,
+              "total_payments": 1014.17,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 327.2,
+              "total_wins": 6,
+              "total_payments": 327.2,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1025.83,
+              "total_wins": 6,
+              "total_payments": 1025.83,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 311.06,
+              "total_wins": 4,
+              "total_payments": 311.06,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 363.2,
+              "total_wins": 8,
+              "total_payments": 363.2,
+              "total_surplus": 0.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "summary": {
+        "ILP + VCG": {
+          "total_social_welfare": 7237.73,
+          "mean_social_welfare": 289.51,
+          "std_social_welfare": 48.53,
+          "mean_resource_utilization_pct": 82.4,
+          "jains_fairness_welfare": 0.513,
+          "jains_fairness_wins": 0.6654,
+          "jains_fairness_surplus": 0.6137,
+          "total_cost": 4963.07,
+          "mean_cost_per_round": 198.52,
+          "total_winners": 52,
+          "mean_winners_per_round": 2.08,
+          "avg_clearing_price": 95.44,
+          "mean_execution_time_ms": 277.126,
+          "median_execution_time_ms": 265.821,
+          "max_execution_time_ms": 427.136,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 899.77,
+              "total_wins": 6,
+              "total_payments": 550.24,
+              "total_surplus": 349.53
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 3070.06,
+              "total_wins": 17,
+              "total_payments": 2328.58,
+              "total_surplus": 741.48
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 695.35,
+              "total_wins": 5,
+              "total_payments": 376.65,
+              "total_surplus": 318.7
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1130.03,
+              "total_wins": 10,
+              "total_payments": 654.75,
+              "total_surplus": 475.28
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 200.44,
+              "total_wins": 3,
+              "total_payments": 146.51,
+              "total_surplus": 53.93
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 429.1,
+              "total_wins": 3,
+              "total_payments": 374.16,
+              "total_surplus": 54.94
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 734.0,
+              "total_wins": 6,
+              "total_payments": 526.05,
+              "total_surplus": 207.95
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 78.98,
+              "total_wins": 2,
+              "total_payments": 6.13,
+              "total_surplus": 72.85
+            }
+          ]
+        },
+        "Greedy-Value": {
+          "total_social_welfare": 6951.1,
+          "mean_social_welfare": 278.04,
+          "std_social_welfare": 54.64,
+          "mean_resource_utilization_pct": 77.6,
+          "jains_fairness_welfare": 0.5316,
+          "jains_fairness_wins": 0.6751,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 6951.1,
+          "mean_cost_per_round": 278.04,
+          "total_winners": 47,
+          "mean_winners_per_round": 1.88,
+          "avg_clearing_price": 147.9,
+          "mean_execution_time_ms": 0.036,
+          "median_execution_time_ms": 0.033,
+          "max_execution_time_ms": 0.092,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 707.35,
+              "total_wins": 5,
+              "total_payments": 707.35,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 2664.07,
+              "total_wins": 13,
+              "total_payments": 2664.07,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 642.87,
+              "total_wins": 5,
+              "total_payments": 642.87,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1616.11,
+              "total_wins": 12,
+              "total_payments": 1616.11,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 50.94,
+              "total_wins": 1,
+              "total_payments": 50.94,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 493.27,
+              "total_wins": 4,
+              "total_payments": 493.27,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 697.51,
+              "total_wins": 5,
+              "total_payments": 697.51,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 78.98,
+              "total_wins": 2,
+              "total_payments": 78.98,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Round-Robin": {
+          "total_social_welfare": 4579.26,
+          "mean_social_welfare": 183.17,
+          "std_social_welfare": 60.03,
+          "mean_resource_utilization_pct": 66.4,
+          "jains_fairness_welfare": 0.8386,
+          "jains_fairness_wins": 0.9602,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 4579.26,
+          "mean_cost_per_round": 183.17,
+          "total_winners": 52,
+          "mean_winners_per_round": 2.08,
+          "avg_clearing_price": 88.06,
+          "mean_execution_time_ms": 0.065,
+          "median_execution_time_ms": 0.066,
+          "max_execution_time_ms": 0.111,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 442.66,
+              "total_wins": 5,
+              "total_payments": 442.66,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1140.73,
+              "total_wins": 7,
+              "total_payments": 1140.73,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 583.45,
+              "total_wins": 6,
+              "total_payments": 583.45,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 534.21,
+              "total_wins": 8,
+              "total_payments": 534.21,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 247.9,
+              "total_wins": 4,
+              "total_payments": 247.9,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 726.55,
+              "total_wins": 7,
+              "total_payments": 726.55,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 401.25,
+              "total_wins": 7,
+              "total_payments": 401.25,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 502.51,
+              "total_wins": 8,
+              "total_payments": 502.51,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "FCFS": {
+          "total_social_welfare": 5495.33,
+          "mean_social_welfare": 219.81,
+          "std_social_welfare": 69.75,
+          "mean_resource_utilization_pct": 69.6,
+          "jains_fairness_welfare": 0.3845,
+          "jains_fairness_wins": 0.5523,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5495.33,
+          "mean_cost_per_round": 219.81,
+          "total_winners": 52,
+          "mean_winners_per_round": 2.08,
+          "avg_clearing_price": 105.68,
+          "mean_execution_time_ms": 0.017,
+          "median_execution_time_ms": 0.017,
+          "max_execution_time_ms": 0.027,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 2682.99,
+              "total_wins": 20,
+              "total_payments": 2682.99,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1469.55,
+              "total_wins": 11,
+              "total_payments": 1469.55,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 525.58,
+              "total_wins": 6,
+              "total_payments": 525.58,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 312.96,
+              "total_wins": 5,
+              "total_payments": 312.96,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 54.87,
+              "total_wins": 2,
+              "total_payments": 54.87,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 189.29,
+              "total_wins": 3,
+              "total_payments": 189.29,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 209.24,
+              "total_wins": 4,
+              "total_payments": 209.24,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 50.85,
+              "total_wins": 1,
+              "total_payments": 50.85,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Random": {
+          "total_social_welfare": 5326.5,
+          "mean_social_welfare": 213.06,
+          "std_social_welfare": 81.2,
+          "mean_resource_utilization_pct": 75.2,
+          "jains_fairness_welfare": 0.8665,
+          "jains_fairness_wins": 0.9622,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5326.5,
+          "mean_cost_per_round": 213.06,
+          "total_winners": 55,
+          "mean_winners_per_round": 2.2,
+          "avg_clearing_price": 96.85,
+          "mean_execution_time_ms": 0.039,
+          "median_execution_time_ms": 0.037,
+          "max_execution_time_ms": 0.071,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 398.56,
+              "total_wins": 4,
+              "total_payments": 398.56,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1200.01,
+              "total_wins": 8,
+              "total_payments": 1200.01,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 745.62,
+              "total_wins": 8,
+              "total_payments": 745.62,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 622.33,
+              "total_wins": 6,
+              "total_payments": 622.33,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 621.41,
+              "total_wins": 8,
+              "total_payments": 621.41,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 815.51,
+              "total_wins": 8,
+              "total_payments": 815.51,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 653.1,
+              "total_wins": 7,
+              "total_payments": 653.1,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 269.96,
+              "total_wins": 6,
+              "total_payments": 269.96,
+              "total_surplus": 0.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seed": 8,
+      "summary": {
+        "ILP + VCG": {
+          "total_social_welfare": 7199.27,
+          "mean_social_welfare": 287.97,
+          "std_social_welfare": 53.96,
+          "mean_resource_utilization_pct": 84.0,
+          "jains_fairness_welfare": 0.6935,
+          "jains_fairness_wins": 0.7861,
+          "jains_fairness_surplus": 0.7246,
+          "total_cost": 4243.82,
+          "mean_cost_per_round": 169.75,
+          "total_winners": 55,
+          "mean_winners_per_round": 2.2,
+          "avg_clearing_price": 77.16,
+          "mean_execution_time_ms": 289.03,
+          "median_execution_time_ms": 272.665,
+          "max_execution_time_ms": 498.903,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 1388.24,
+              "total_wins": 9,
+              "total_payments": 805.13,
+              "total_surplus": 583.11
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1417.76,
+              "total_wins": 9,
+              "total_payments": 840.02,
+              "total_surplus": 577.74
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 501.88,
+              "total_wins": 5,
+              "total_payments": 324.06,
+              "total_surplus": 177.82
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1482.75,
+              "total_wins": 10,
+              "total_payments": 878.0,
+              "total_surplus": 604.75
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 91.59,
+              "total_wins": 3,
+              "total_payments": 0.72,
+              "total_surplus": 90.87
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1520.07,
+              "total_wins": 11,
+              "total_payments": 1019.29,
+              "total_surplus": 500.78
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 796.98,
+              "total_wins": 8,
+              "total_payments": 376.6,
+              "total_surplus": 420.38
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 0.0,
+              "total_wins": 0,
+              "total_payments": 0.0,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Greedy-Value": {
+          "total_social_welfare": 6806.71,
+          "mean_social_welfare": 272.27,
+          "std_social_welfare": 57.28,
+          "mean_resource_utilization_pct": 76.0,
+          "jains_fairness_welfare": 0.597,
+          "jains_fairness_wins": 0.721,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 6806.71,
+          "mean_cost_per_round": 272.27,
+          "total_winners": 47,
+          "mean_winners_per_round": 1.88,
+          "avg_clearing_price": 144.82,
+          "mean_execution_time_ms": 0.031,
+          "median_execution_time_ms": 0.031,
+          "max_execution_time_ms": 0.063,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 807.26,
+              "total_wins": 5,
+              "total_payments": 807.26,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1684.09,
+              "total_wins": 10,
+              "total_payments": 1684.09,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 368.59,
+              "total_wins": 3,
+              "total_payments": 368.59,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1174.54,
+              "total_wins": 8,
+              "total_payments": 1174.54,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 68.02,
+              "total_wins": 2,
+              "total_payments": 68.02,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 2089.04,
+              "total_wins": 12,
+              "total_payments": 2089.04,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 571.32,
+              "total_wins": 6,
+              "total_payments": 571.32,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 43.85,
+              "total_wins": 1,
+              "total_payments": 43.85,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Round-Robin": {
+          "total_social_welfare": 5030.31,
+          "mean_social_welfare": 201.21,
+          "std_social_welfare": 73.08,
+          "mean_resource_utilization_pct": 68.8,
+          "jains_fairness_welfare": 0.8347,
+          "jains_fairness_wins": 0.9107,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5030.31,
+          "mean_cost_per_round": 201.21,
+          "total_winners": 51,
+          "mean_winners_per_round": 2.04,
+          "avg_clearing_price": 98.63,
+          "mean_execution_time_ms": 0.062,
+          "median_execution_time_ms": 0.06,
+          "max_execution_time_ms": 0.127,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 809.13,
+              "total_wins": 8,
+              "total_payments": 809.13,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 914.74,
+              "total_wins": 8,
+              "total_payments": 914.74,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 809.83,
+              "total_wins": 9,
+              "total_payments": 809.83,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 534.92,
+              "total_wins": 5,
+              "total_payments": 534.92,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 193.27,
+              "total_wins": 3,
+              "total_payments": 193.27,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1002.64,
+              "total_wins": 8,
+              "total_payments": 1002.64,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 482.86,
+              "total_wins": 5,
+              "total_payments": 482.86,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 282.92,
+              "total_wins": 5,
+              "total_payments": 282.92,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "FCFS": {
+          "total_social_welfare": 5544.13,
+          "mean_social_welfare": 221.77,
+          "std_social_welfare": 77.19,
+          "mean_resource_utilization_pct": 69.6,
+          "jains_fairness_welfare": 0.3974,
+          "jains_fairness_wins": 0.5615,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5544.13,
+          "mean_cost_per_round": 221.77,
+          "total_winners": 51,
+          "mean_winners_per_round": 2.04,
+          "avg_clearing_price": 108.71,
+          "mean_execution_time_ms": 0.02,
+          "median_execution_time_ms": 0.016,
+          "max_execution_time_ms": 0.131,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 2698.56,
+              "total_wins": 20,
+              "total_payments": 2698.56,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1377.95,
+              "total_wins": 9,
+              "total_payments": 1377.95,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 364.77,
+              "total_wins": 6,
+              "total_payments": 364.77,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 349.39,
+              "total_wins": 4,
+              "total_payments": 349.39,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 71.65,
+              "total_wins": 2,
+              "total_payments": 71.65,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 213.03,
+              "total_wins": 4,
+              "total_payments": 213.03,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 424.42,
+              "total_wins": 5,
+              "total_payments": 424.42,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 44.36,
+              "total_wins": 1,
+              "total_payments": 44.36,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Random": {
+          "total_social_welfare": 5322.56,
+          "mean_social_welfare": 212.9,
+          "std_social_welfare": 65.3,
+          "mean_resource_utilization_pct": 73.6,
+          "jains_fairness_welfare": 0.7801,
+          "jains_fairness_wins": 0.937,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5322.56,
+          "mean_cost_per_round": 212.9,
+          "total_winners": 51,
+          "mean_winners_per_round": 2.04,
+          "avg_clearing_price": 104.36,
+          "mean_execution_time_ms": 0.037,
+          "median_execution_time_ms": 0.035,
+          "max_execution_time_ms": 0.075,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 374.61,
+              "total_wins": 4,
+              "total_payments": 374.61,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 972.96,
+              "total_wins": 7,
+              "total_payments": 972.96,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 441.76,
+              "total_wins": 6,
+              "total_payments": 441.76,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1292.35,
+              "total_wins": 10,
+              "total_payments": 1292.35,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 282.41,
+              "total_wins": 5,
+              "total_payments": 282.41,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 959.39,
+              "total_wins": 7,
+              "total_payments": 959.39,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 708.86,
+              "total_wins": 6,
+              "total_payments": 708.86,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 290.22,
+              "total_wins": 6,
+              "total_payments": 290.22,
+              "total_surplus": 0.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seed": 9,
+      "summary": {
+        "ILP + VCG": {
+          "total_social_welfare": 7380.87,
+          "mean_social_welfare": 295.23,
+          "std_social_welfare": 60.37,
+          "mean_resource_utilization_pct": 83.2,
+          "jains_fairness_welfare": 0.6564,
+          "jains_fairness_wins": 0.7455,
+          "jains_fairness_surplus": 0.6976,
+          "total_cost": 4787.3,
+          "mean_cost_per_round": 191.49,
+          "total_winners": 53,
+          "mean_winners_per_round": 2.12,
+          "avg_clearing_price": 90.33,
+          "mean_execution_time_ms": 261.68,
+          "median_execution_time_ms": 265.24,
+          "max_execution_time_ms": 355.131,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 1148.1,
+              "total_wins": 9,
+              "total_payments": 686.79,
+              "total_surplus": 461.31
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1325.02,
+              "total_wins": 8,
+              "total_payments": 758.01,
+              "total_surplus": 567.01
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 400.85,
+              "total_wins": 5,
+              "total_payments": 186.64,
+              "total_surplus": 214.21
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 2118.91,
+              "total_wins": 13,
+              "total_payments": 1496.92,
+              "total_surplus": 621.99
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 0.0,
+              "total_wins": 0,
+              "total_payments": 0.0,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1191.65,
+              "total_wins": 8,
+              "total_payments": 795.14,
+              "total_surplus": 396.51
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 1105.41,
+              "total_wins": 8,
+              "total_payments": 825.87,
+              "total_surplus": 279.54
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 90.93,
+              "total_wins": 2,
+              "total_payments": 37.93,
+              "total_surplus": 53.0
+            }
+          ]
+        },
+        "Greedy-Value": {
+          "total_social_welfare": 7021.93,
+          "mean_social_welfare": 280.88,
+          "std_social_welfare": 70.22,
+          "mean_resource_utilization_pct": 80.0,
+          "jains_fairness_welfare": 0.6614,
+          "jains_fairness_wins": 0.7236,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 7021.93,
+          "mean_cost_per_round": 280.88,
+          "total_winners": 48,
+          "mean_winners_per_round": 1.92,
+          "avg_clearing_price": 146.29,
+          "mean_execution_time_ms": 0.031,
+          "median_execution_time_ms": 0.031,
+          "max_execution_time_ms": 0.05,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 1952.28,
+              "total_wins": 13,
+              "total_payments": 1952.28,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1129.19,
+              "total_wins": 7,
+              "total_payments": 1129.19,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 612.39,
+              "total_wins": 7,
+              "total_payments": 612.39,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1441.05,
+              "total_wins": 8,
+              "total_payments": 1441.05,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 16.82,
+              "total_wins": 1,
+              "total_payments": 16.82,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1150.52,
+              "total_wins": 7,
+              "total_payments": 1150.52,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 674.36,
+              "total_wins": 4,
+              "total_payments": 674.36,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 45.32,
+              "total_wins": 1,
+              "total_payments": 45.32,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Round-Robin": {
+          "total_social_welfare": 5031.1,
+          "mean_social_welfare": 201.24,
+          "std_social_welfare": 94.87,
+          "mean_resource_utilization_pct": 72.0,
+          "jains_fairness_welfare": 0.9092,
+          "jains_fairness_wins": 0.947,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5031.1,
+          "mean_cost_per_round": 201.24,
+          "total_winners": 50,
+          "mean_winners_per_round": 2,
+          "avg_clearing_price": 100.62,
+          "mean_execution_time_ms": 0.054,
+          "median_execution_time_ms": 0.054,
+          "max_execution_time_ms": 0.086,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 663.83,
+              "total_wins": 6,
+              "total_payments": 663.83,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 839.47,
+              "total_wins": 7,
+              "total_payments": 839.47,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 667.28,
+              "total_wins": 9,
+              "total_payments": 667.28,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 618.85,
+              "total_wins": 5,
+              "total_payments": 618.85,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 331.14,
+              "total_wins": 5,
+              "total_payments": 331.14,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 660.98,
+              "total_wins": 5,
+              "total_payments": 660.98,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 923.98,
+              "total_wins": 8,
+              "total_payments": 923.98,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 325.57,
+              "total_wins": 5,
+              "total_payments": 325.57,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "FCFS": {
+          "total_social_welfare": 5981.95,
+          "mean_social_welfare": 239.28,
+          "std_social_welfare": 87.06,
+          "mean_resource_utilization_pct": 73.6,
+          "jains_fairness_welfare": 0.3787,
+          "jains_fairness_wins": 0.4943,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5981.95,
+          "mean_cost_per_round": 239.28,
+          "total_winners": 55,
+          "mean_winners_per_round": 2.2,
+          "avg_clearing_price": 108.76,
+          "mean_execution_time_ms": 0.013,
+          "median_execution_time_ms": 0.013,
+          "max_execution_time_ms": 0.024,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 3000.67,
+              "total_wins": 23,
+              "total_payments": 3000.67,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 1439.53,
+              "total_wins": 11,
+              "total_payments": 1439.53,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 516.34,
+              "total_wins": 8,
+              "total_payments": 516.34,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 657.48,
+              "total_wins": 6,
+              "total_payments": 657.48,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 64.3,
+              "total_wins": 1,
+              "total_payments": 64.3,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 125.75,
+              "total_wins": 1,
+              "total_payments": 125.75,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 97.93,
+              "total_wins": 2,
+              "total_payments": 97.93,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 79.95,
+              "total_wins": 3,
+              "total_payments": 79.95,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Random": {
+          "total_social_welfare": 5327.46,
+          "mean_social_welfare": 213.1,
+          "std_social_welfare": 84.5,
+          "mean_resource_utilization_pct": 78.4,
+          "jains_fairness_welfare": 0.7586,
+          "jains_fairness_wins": 0.8347,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5327.46,
+          "mean_cost_per_round": 213.1,
+          "total_winners": 55,
+          "mean_winners_per_round": 2.2,
+          "avg_clearing_price": 96.86,
+          "mean_execution_time_ms": 0.034,
+          "median_execution_time_ms": 0.031,
+          "max_execution_time_ms": 0.086,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 839.05,
+              "total_wins": 9,
+              "total_payments": 839.05,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 618.09,
+              "total_wins": 7,
+              "total_payments": 618.09,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 921.5,
+              "total_wins": 11,
+              "total_payments": 921.5,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1454.97,
+              "total_wins": 11,
+              "total_payments": 1454.97,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 305.33,
+              "total_wins": 4,
+              "total_payments": 305.33,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 256.06,
+              "total_wins": 2,
+              "total_payments": 256.06,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 590.75,
+              "total_wins": 5,
+              "total_payments": 590.75,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 341.71,
+              "total_wins": 6,
+              "total_payments": 341.71,
+              "total_surplus": 0.0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "seed": 10,
+      "summary": {
+        "ILP + VCG": {
+          "total_social_welfare": 7701.46,
+          "mean_social_welfare": 308.06,
+          "std_social_welfare": 46.17,
+          "mean_resource_utilization_pct": 89.6,
+          "jains_fairness_welfare": 0.6604,
+          "jains_fairness_wins": 0.7903,
+          "jains_fairness_surplus": 0.7655,
+          "total_cost": 4989.97,
+          "mean_cost_per_round": 199.6,
+          "total_winners": 56,
+          "mean_winners_per_round": 2.24,
+          "avg_clearing_price": 89.11,
+          "mean_execution_time_ms": 285.832,
+          "median_execution_time_ms": 291.471,
+          "max_execution_time_ms": 405.706,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 1287.22,
+              "total_wins": 10,
+              "total_payments": 805.44,
+              "total_surplus": 481.78
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 2232.64,
+              "total_wins": 11,
+              "total_payments": 1630.62,
+              "total_surplus": 602.02
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 916.81,
+              "total_wins": 9,
+              "total_payments": 637.75,
+              "total_surplus": 279.06
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1067.18,
+              "total_wins": 8,
+              "total_payments": 669.88,
+              "total_surplus": 397.3
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 87.02,
+              "total_wins": 1,
+              "total_payments": 69.91,
+              "total_surplus": 17.11
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1540.17,
+              "total_wins": 10,
+              "total_payments": 1036.54,
+              "total_surplus": 503.63
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 463.73,
+              "total_wins": 5,
+              "total_payments": 139.83,
+              "total_surplus": 323.9
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 106.69,
+              "total_wins": 2,
+              "total_payments": 0.0,
+              "total_surplus": 106.69
+            }
+          ]
+        },
+        "Greedy-Value": {
+          "total_social_welfare": 7381.95,
+          "mean_social_welfare": 295.28,
+          "std_social_welfare": 58.31,
+          "mean_resource_utilization_pct": 80.8,
+          "jains_fairness_welfare": 0.5989,
+          "jains_fairness_wins": 0.7795,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 7381.95,
+          "mean_cost_per_round": 295.28,
+          "total_winners": 49,
+          "mean_winners_per_round": 1.96,
+          "avg_clearing_price": 150.65,
+          "mean_execution_time_ms": 0.111,
+          "median_execution_time_ms": 0.035,
+          "max_execution_time_ms": 1.87,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 1109.7,
+              "total_wins": 7,
+              "total_payments": 1109.7,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 2285.1,
+              "total_wins": 11,
+              "total_payments": 2285.1,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 257.92,
+              "total_wins": 3,
+              "total_payments": 257.92,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 1489.73,
+              "total_wins": 9,
+              "total_payments": 1489.73,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 136.07,
+              "total_wins": 2,
+              "total_payments": 136.07,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1551.13,
+              "total_wins": 9,
+              "total_payments": 1551.13,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 445.61,
+              "total_wins": 6,
+              "total_payments": 445.61,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 106.69,
+              "total_wins": 2,
+              "total_payments": 106.69,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Round-Robin": {
+          "total_social_welfare": 5368.99,
+          "mean_social_welfare": 214.76,
+          "std_social_welfare": 52.3,
+          "mean_resource_utilization_pct": 73.6,
+          "jains_fairness_welfare": 0.884,
+          "jains_fairness_wins": 0.9471,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5368.99,
+          "mean_cost_per_round": 214.76,
+          "total_winners": 58,
+          "mean_winners_per_round": 2.32,
+          "avg_clearing_price": 92.57,
+          "mean_execution_time_ms": 0.061,
+          "median_execution_time_ms": 0.055,
+          "max_execution_time_ms": 0.141,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 899.88,
+              "total_wins": 8,
+              "total_payments": 899.88,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 467.19,
+              "total_wins": 5,
+              "total_payments": 467.19,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 948.57,
+              "total_wins": 10,
+              "total_payments": 948.57,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 633.08,
+              "total_wins": 6,
+              "total_payments": 633.08,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 527.44,
+              "total_wins": 7,
+              "total_payments": 527.44,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 898.98,
+              "total_wins": 9,
+              "total_payments": 898.98,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 786.07,
+              "total_wins": 8,
+              "total_payments": 786.07,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 207.78,
+              "total_wins": 5,
+              "total_payments": 207.78,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "FCFS": {
+          "total_social_welfare": 6134.27,
+          "mean_social_welfare": 245.37,
+          "std_social_welfare": 59.22,
+          "mean_resource_utilization_pct": 79.2,
+          "jains_fairness_welfare": 0.3515,
+          "jains_fairness_wins": 0.4949,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 6134.27,
+          "mean_cost_per_round": 245.37,
+          "total_winners": 56,
+          "mean_winners_per_round": 2.24,
+          "avg_clearing_price": 109.54,
+          "mean_execution_time_ms": 0.016,
+          "median_execution_time_ms": 0.015,
+          "max_execution_time_ms": 0.045,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 3456.25,
+              "total_wins": 25,
+              "total_payments": 3456.25,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 721.22,
+              "total_wins": 6,
+              "total_payments": 721.22,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 605.01,
+              "total_wins": 7,
+              "total_payments": 605.01,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 514.22,
+              "total_wins": 6,
+              "total_payments": 514.22,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 230.94,
+              "total_wins": 4,
+              "total_payments": 230.94,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 474.56,
+              "total_wins": 5,
+              "total_payments": 474.56,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 63.17,
+              "total_wins": 1,
+              "total_payments": 63.17,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 68.9,
+              "total_wins": 2,
+              "total_payments": 68.9,
+              "total_surplus": 0.0
+            }
+          ]
+        },
+        "Random": {
+          "total_social_welfare": 5794.66,
+          "mean_social_welfare": 231.79,
+          "std_social_welfare": 79.01,
+          "mean_resource_utilization_pct": 77.6,
+          "jains_fairness_welfare": 0.8652,
+          "jains_fairness_wins": 0.9161,
+          "jains_fairness_surplus": 1.0,
+          "total_cost": 5794.66,
+          "mean_cost_per_round": 231.79,
+          "total_winners": 59,
+          "mean_winners_per_round": 2.36,
+          "avg_clearing_price": 98.21,
+          "mean_execution_time_ms": 0.036,
+          "median_execution_time_ms": 0.033,
+          "max_execution_time_ms": 0.07,
+          "agent_performance": [
+            {
+              "agent": "Agent-Alpha",
+              "tier": "gold",
+              "total_welfare": 819.57,
+              "total_wins": 10,
+              "total_payments": 819.57,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Beta",
+              "tier": "gold",
+              "total_welfare": 801.25,
+              "total_wins": 5,
+              "total_payments": 801.25,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Gamma",
+              "tier": "silver",
+              "total_welfare": 872.38,
+              "total_wins": 8,
+              "total_payments": 872.38,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Delta",
+              "tier": "silver",
+              "total_welfare": 982.97,
+              "total_wins": 8,
+              "total_payments": 982.97,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Epsilon",
+              "tier": "bronze",
+              "total_welfare": 145.89,
+              "total_wins": 4,
+              "total_payments": 145.89,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Zeta",
+              "tier": "gold",
+              "total_welfare": 1096.44,
+              "total_wins": 10,
+              "total_payments": 1096.44,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Eta",
+              "tier": "silver",
+              "total_welfare": 476.56,
+              "total_wins": 5,
+              "total_payments": 476.56,
+              "total_surplus": 0.0
+            },
+            {
+              "agent": "Agent-Theta",
+              "tier": "bronze",
+              "total_welfare": 599.6,
+              "total_wins": 9,
+              "total_payments": 599.6,
+              "total_surplus": 0.0
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

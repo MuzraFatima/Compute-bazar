@@ -10,10 +10,13 @@
 import sys
 import os
 
-# Add the project root to Python path so we can import week1_demo
+# Add the project root to Python path so we can import examples.week1_demo
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
-from week1_demo import Resource, Bid, SimpleAuctionEngine
+try:
+    from examples.week1_demo import Resource, Bid, SimpleAuctionEngine
+except ImportError:
+    from week1_demo import Resource, Bid, SimpleAuctionEngine
 
 
 # ─────────────────────────────────────────────────────────────

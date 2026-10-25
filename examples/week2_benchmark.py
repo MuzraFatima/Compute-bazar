@@ -12,10 +12,14 @@
 """
 
 import sys
+import os
 import time
 import random
 import uuid
 from typing import List
+
+# Add repo root to sys.path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Ensure UTF-8 stdout on Windows terminals
 if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':

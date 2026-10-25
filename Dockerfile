@@ -21,7 +21,9 @@ ENV PATH=/root/.local/bin:$PATH
 
 # Copy source code
 COPY backend /app/backend
+COPY compute_bazaar /app/compute_bazaar
 COPY conftest.py /app/conftest.py
+RUN mkdir -p /app/data
 
 ENV PYTHONUNBUFFERED=1
 ENV PORT=8000

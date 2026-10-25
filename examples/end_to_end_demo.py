@@ -20,7 +20,7 @@ from typing import Dict, Any, List
 from dotenv import load_dotenv
 
 # Ensure compute-bazaar project root is in path
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Configure utf-8 encoding for Windows terminal if supported
 if hasattr(sys.stdout, "reconfigure"):

@@ -11,8 +11,10 @@ services:
     environment:
       - SECRET_KEY=default_computebazaar_key_for_docker
       - PORT=8000
+      - DATABASE_URL=sqlite:////app/data/compute_bazaar.db
     volumes:
-      - db_data:/app
+      # Mount only the data directory — do NOT mount /app so source code stays intact
+      - db_data:/app/data
     restart: always
 
 volumes:

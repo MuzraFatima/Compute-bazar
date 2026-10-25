@@ -22,11 +22,16 @@
 =============================================================
 """
 
+import sys
+import os
 import time
 import random
 import uuid
 import statistics
 from typing import List, Dict, Tuple
+
+# Add repo root to sys.path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from backend.app.auction.engine import (
     AuctionEngine, Resource, Bid, SolverMethod,

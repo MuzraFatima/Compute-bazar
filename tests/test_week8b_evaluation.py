@@ -20,11 +20,18 @@ import os
 import json
 import pytest
 
-from evaluation_suite import (
-    run_architecture_comparison,
-    run_scalability_experiment,
-    run_llm_prediction_eval,
-)
+try:
+    from examples.evaluation_suite import (
+        run_architecture_comparison,
+        run_scalability_experiment,
+        run_llm_prediction_eval,
+    )
+except ImportError:
+    from evaluation_suite import (
+        run_architecture_comparison,
+        run_scalability_experiment,
+        run_llm_prediction_eval,
+    )
 
 
 def test_eval_architecture_comparison():
