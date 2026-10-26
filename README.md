@@ -1,7 +1,7 @@
 # Compute Bazaar 2.0: Autonomous Multi-Agent Combinatorial Compute Market
 
 [![CI](https://github.com/MuzraFatima/Compute-bazar/actions/workflows/ci.yml/badge.svg)](https://github.com/MuzraFatima/Compute-bazar/actions/workflows/ci.yml)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg)](https://fastapi.tiangolo.com)
 [![PuLP CBC](https://img.shields.io/badge/Optimization-PuLP%20%2F%20CBC-orange.svg)](https://github.com/coin-or/pulp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -242,7 +242,7 @@ A comprehensive benchmark was conducted across **25 reproducible rounds** with f
 | Average Clearing Price ($) | $89.42 | $147.25 | $93.84 | $110.44 | $100.73 |
 | **Mean Solver Latency (ms)** | 272.16 ms | 0.033 ms | 0.054 ms | **0.017 ms** | 0.038 ms |
 
-> **Trade-offs**: ILP+VCG gives the highest welfare and utilization but lower fairness (Jain 0.6642) than Round-Robin and Random, and ~127 ms solve time vs <0.04 ms.
+> **Trade-offs**: ILP+VCG gives the highest welfare and utilization but lower fairness (Jain 0.6642) than Round-Robin and Random, and ~272 ms (machine-dependent) solve time vs <0.04 ms.
 
 ### Multi-Seed Robustness (Seeds 1–10, 25 rounds each)
 
@@ -257,7 +257,7 @@ A comprehensive benchmark was conducted across **25 reproducible rounds** with f
 Raw per-seed data: [`results/multiseed_benchmark.json`](results/multiseed_benchmark.json)
 
 ### Key Findings
-1. **Welfare Superiority**: ILP + VCG achieved **$7,647.39** in social welfare, outperforming Greedy-Value by **+3.87%**, Round-Robin by **+38.12%**, FCFS by **+19.39%**, and Random by **+43.24%**.
+1. **Welfare Superiority**: ILP + VCG achieved **$7,647.39** in social welfare, outperforming Greedy-by-Value by **+3.9%** on seed 42 (**+6.1%** mean over 10 seeds: $7,504.89 vs $7,071.72) alongside **+38%** vs Round-Robin (+38.12%), +19.39% vs FCFS, and +43.24% vs Random.
 2. **Economic Surplus**: Under VCG pricing, winning agents received **$2,639.79 (34.5%)** in Clarke pivot price discounts relative to their truthful valuations. All pay-as-bid baselines extracted 100% of bids with zero agent surplus.
 3. **FCFS Inequality**: FCFS suffered from severe head-of-line blocking ($J = 0.4179$), allowing early-arriving agents to monopolize capacity regardless of task value.
 4. **Real-Time Latency**: The ILP solver resolved combinatorial bundle constraints and all counterfactual VCG subproblems in **~272 ms** on average, well within real-time thresholds for periodic cluster scheduling epochs (10s).
@@ -266,17 +266,16 @@ Raw per-seed data: [`results/multiseed_benchmark.json`](results/multiseed_benchm
 
 ## Predictor Accuracy
 
-`ResourcePredictor` uses category-conditional historical averaging (not a neural network). Evaluated on 50 held-out synthetic workloads (10 per category), trained on 50 synthetic tasks:
+`ResourcePredictor` uses category-conditional historical averaging (not a neural network). Evaluated on 50 held-out synthetic workloads (10 per category), trained on 50 synthetic tasks.
+
+> **Note on Hardware Dimensions**: GPU, CPU, and RAM show 0.0 error because the predictor averages per category and the synthetic tasks have fixed needs per category (zero error by construction). Only execution time and dollar cost (~21% MAPE) represent real predictive accuracy, as they vary within categories.
 
 | Predicted Field | MAE | MAPE |
 |:---|:---:|:---:|
-| GPU slots | 0.0000 | 0.00% |
-| CPU cores | 0.0000 | 0.00% |
-| RAM (GB) | 0.0000 | 0.00% |
 | Execution time (s) | 127.50 | 20.98% |
 | Cost ($) | 9.79 | 21.04% |
 
-GPU/CPU/RAM are predicted from hard-coded category templates (zero error by construction). Execution time and cost (which vary within category) have ~21% MAPE — expected for category-level averaging. Full evaluation data: [`docs/predictor_eval.json`](docs/predictor_eval.json).
+Full evaluation data: [`docs/predictor_eval.json`](docs/predictor_eval.json).
 
 ---
 
@@ -392,7 +391,7 @@ compute-bazaar/
 ## Installation & Quickstart
 
 ### Prerequisites
-- Python 3.10, 3.11, 3.12, or 3.13
+- Python 3.11+
 - Git
 
 ### 1. Clone Repository & Setup Virtual Environment

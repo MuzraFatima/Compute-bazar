@@ -10,8 +10,17 @@ import sqlite3
 import os
 from datetime import datetime
 
-# Database file will be created here
-DB_PATH = os.path.join(os.path.dirname(__file__), "compute_bazaar.db")
+# Database location (consistent with models.py and DATABASE_URL)
+DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL and DATABASE_URL.startswith("sqlite:///"):
+    DB_PATH = DATABASE_URL.replace("sqlite:///", "", 1)
+else:
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    DB_PATH = os.path.join(BASE_DIR, "compute_bazaar.db")
+
+db_dir = os.path.dirname(DB_PATH)
+if db_dir:
+    os.makedirs(db_dir, exist_ok=True)
 
 
 def get_connection():

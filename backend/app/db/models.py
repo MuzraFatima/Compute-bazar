@@ -26,7 +26,15 @@ from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 # Define database location (SQLite file)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DB_PATH = os.path.join(BASE_DIR, "compute_bazaar.db")
-DATABASE_URL = f"sqlite:///{DB_PATH}"
+DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{DB_PATH}")
+
+# Ensure parent directory exists for SQLite database file
+if DATABASE_URL.startswith("sqlite:///"):
+    sqlite_path = DATABASE_URL.replace("sqlite:///", "", 1)
+    db_dir = os.path.dirname(sqlite_path)
+    if db_dir:
+        os.makedirs(db_dir, exist_ok=True)
+    DB_PATH = sqlite_path
 
 Base = declarative_base()
 

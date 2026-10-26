@@ -40,7 +40,7 @@ The table below summarizes the target metrics measured across all **25 reproduci
 | **FCFS** | $6405.35 | 80.0% | 0.4179 | $6405.35 | 58 | $110.44 | **0.017 ms** |
 | **Random** | $5338.80 | 76.8% | 0.7733 | $5338.80 | 53 | $100.73 | 0.038 ms |
 
-> **Trade-offs**: ILP+VCG gives the highest welfare and utilization but lower fairness (Jain 0.6642) than Round-Robin and Random, and ~127 ms solve time vs <0.04 ms.
+> **Trade-offs**: ILP+VCG gives the highest welfare and utilization but lower fairness (Jain 0.6642) than Round-Robin and Random, and ~272 ms (machine-dependent) solve time vs <0.04 ms.
 >
 > **Note**: Baselines (Greedy-Value, Round-Robin, FCFS, Random) use pay-as-bid pricing; cost columns are not like-for-like with ILP+VCG (VCG pricing). Screenshots show 9 simulated dashboard agents — the benchmark uses 8.
 > *Note on Jain Fairness*: Measured using Jain's Fairness Index J(x) = (sum(x_i))^2 / (n * sum(x_i^2)) over cumulative allocated agent welfare (n = 8 agents).
