@@ -8,16 +8,16 @@
 =============================================================
 """
 
-from typing import List
+
 from fastapi import WebSocket
 from loguru import logger
 
 
 class ConnectionManager:
     """Manages active WebSockets clients for live dashboard push updates."""
-    
+
     def __init__(self):
-        self.active_connections: List[WebSocket] = []
+        self.active_connections: list[WebSocket] = []
 
     async def connect(self, websocket: WebSocket):
         """Register a new connection."""

@@ -22,27 +22,29 @@
 =============================================================
 """
 
-import pytest
-from typing import List
 
-from compute_bazaar.agents import (
-    BaseAgent,
-    TaskDecision,
-    CodingAgent,
-    ResearchAgent,
-    DataAgent,
-    AnalysisAgent,
-    to_engine_bid,
-)
-from compute_bazaar.models.bundle import CombinatorialBid, PriorityLevel
-from compute_bazaar.llm import GroqLLMClient, LLMConfig
+import pytest
+
 from backend.app.auction.engine import (
     AuctionEngine,
-    Resource as EngineResource,
-    Bid as EngineBid,
     SolverMethod,
 )
-
+from backend.app.auction.engine import (
+    Bid as EngineBid,
+)
+from backend.app.auction.engine import (
+    Resource as EngineResource,
+)
+from compute_bazaar.agents import (
+    AnalysisAgent,
+    CodingAgent,
+    DataAgent,
+    ResearchAgent,
+    TaskDecision,
+    to_engine_bid,
+)
+from compute_bazaar.llm import GroqLLMClient, LLMConfig
+from compute_bazaar.models.bundle import CombinatorialBid
 
 # ─────────────────────────────────────────────────────────────
 # FIXTURES
@@ -264,7 +266,7 @@ def test_end_to_end_intelligent_auction(
     assert result.total_value > 0.0
 
     # Verify core correctness: No resource double-allocated
-    allocated: List[str] = []
+    allocated: list[str] = []
     for w in result.winning_bids:
         for r in w.resource_bundle:
             assert r not in allocated, f"Resource {r} was double-allocated!"

@@ -12,18 +12,18 @@
 =============================================================
 """
 
-import os
 import json
+
 import pytest
 from fastapi.testclient import TestClient
-from sqlalchemy import create_engine, StaticPool
+from sqlalchemy import StaticPool, create_engine
 from sqlalchemy.orm import sessionmaker
 
-# Setup test database path
-from backend.app.db.models import Base, Agent, Resource, Auction, Bid, Allocation
-from backend.app.main import app
 from backend.app.api.auth import get_db
 
+# Setup test database path
+from backend.app.db.models import Agent, Auction, Base, Bid, Resource
+from backend.app.main import app
 
 # ── Per-test in-memory DB fixture ─────────────────────────────
 
@@ -220,8 +220,8 @@ async def test_scheduler_loop_runs_correctly(test_client):
 
     win_bid = db.query(Bid).filter(Bid.id == b1.id).first()
     lost_bid = db.query(Bid).filter(Bid.id == b2.id).first()
-    assert win_bid.is_winner == True
-    assert lost_bid.is_winner == False
+    assert win_bid.is_winner
+    assert not lost_bid.is_winner
 
     # VCG Payment: value without A = 50; tier discount Gold 10% -> 50 * 0.90 = 45
     assert win_bid.payment_amount == pytest.approx(45.0)

@@ -14,23 +14,29 @@
 
 import json
 import secrets
-from datetime import datetime, timezone
-from typing import List, Optional
+from datetime import UTC, datetime
 
-from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from sqlalchemy import func
 
-from backend.app.db.models import Agent, Resource, Auction, Bid, Allocation
-from backend.app.models.schemas import (
-    AgentRegister, AgentResponse, BidSubmit, BidResponse,
-    ResourceResponse, AuctionRoundResponse, ComparisonAnalytics, AllocationResponse
-)
-from backend.app.api.auth import get_db, get_current_agent, create_access_token
-from backend.app.auction.simulation import start_simulation_loop, stop_simulation_loop, is_simulation_running
+from backend.app.api.auth import create_access_token, get_current_agent, get_db
 from backend.app.auction.agent_simulation import (
-    start_autonomous_simulation, stop_autonomous_simulation,
-    is_autonomous_simulation_running, get_llm_telemetry,
+    get_llm_telemetry,
+    is_autonomous_simulation_running,
+    start_autonomous_simulation,
+    stop_autonomous_simulation,
+)
+from backend.app.auction.simulation import is_simulation_running, start_simulation_loop, stop_simulation_loop
+from backend.app.db.models import Agent, Allocation, Auction, Bid, Resource
+from backend.app.models.schemas import (
+    AgentRegister,
+    AgentResponse,
+    AllocationResponse,
+    AuctionRoundResponse,
+    BidResponse,
+    BidSubmit,
+    ComparisonAnalytics,
+    ResourceResponse,
 )
 
 router = APIRouter()
@@ -46,10 +52,10 @@ def register_agent(payload: AgentRegister, db: Session = Depends(get_db)):
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=f"Agent with name '{payload.name}' already registered"
         )
-    
+
     # Generate unique API key
     api_key = f"cb_{secrets.token_hex(16)}"
-    
+
     agent = Agent(
         name=payload.name,
         description=payload.description,
@@ -67,13 +73,13 @@ def register_agent(payload: AgentRegister, db: Session = Depends(get_db)):
 @router.post("/auth/token")
 def login_for_access_token(api_key: str, db: Session = Depends(get_db)):
     """Exchange X-API-Key for a JWT access token."""
-    agent = db.query(Agent).filter(Agent.api_key == api_key, Agent.is_active == True).first()
+    agent = db.query(Agent).filter(Agent.api_key == api_key, Agent.is_active.is_(True)).first()
     if not agent:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid API key"
         )
-    
+
     token = create_access_token(data={"sub": agent.name})
     return {"access_token": token, "token_type": "bearer"}
 
@@ -111,9 +117,9 @@ def submit_bid(payload: BidSubmit, current_agent: Agent = Depends(get_current_ag
     requested_resources = payload.resource_bundle
     resources_in_db = db.query(Resource).filter(
         Resource.name.in_(requested_resources),
-        Resource.is_available == True
+        Resource.is_available.is_(True)
     ).all()
-    
+
     if len(resources_in_db) != len(requested_resources):
         found_names = {r.name for r in resources_in_db}
         missing = [r for r in requested_resources if r not in found_names]
@@ -132,9 +138,9 @@ def submit_bid(payload: BidSubmit, current_agent: Agent = Depends(get_current_ag
         priority=payload.priority.lower()
     )
     db.add(bid)
-    
+
     # Update agent activity timestamp
-    current_agent.last_active_at = datetime.now(timezone.utc).isoformat()
+    current_agent.last_active_at = datetime.now(UTC).isoformat()
     db.commit()
     db.refresh(bid)
 
@@ -155,7 +161,7 @@ def submit_bid(payload: BidSubmit, current_agent: Agent = Depends(get_current_ag
 
 # ── Resource Endpoints ───────────────────────────────────────
 
-@router.get("/resources", response_model=List[ResourceResponse])
+@router.get("/resources", response_model=list[ResourceResponse])
 def get_resources(db: Session = Depends(get_db)):
     """List all available compute resources and their specifications."""
     return db.query(Resource).all()
@@ -256,7 +262,7 @@ async def stop_simulation():
 @router.get("/simulation/status")
 def get_simulation_status(db: Session = Depends(get_db)):
     """Get status of current simulation, mode, and agent details."""
-    active_agents = db.query(Agent).filter(Agent.is_active == True).all()
+    active_agents = db.query(Agent).filter(Agent.is_active.is_(True)).all()
     autonomous_running = is_autonomous_simulation_running()
     classic_running = is_simulation_running()
     return {
@@ -285,10 +291,10 @@ def get_comparison_analytics(db: Session = Depends(get_db)):
       - Round-Robin value (simulated counterfactual for each round)
     """
     closed_auctions = db.query(Auction).filter(Auction.status == "closed").all()
-    
+
     total_rounds = len(closed_auctions)
     bazaar_val = sum(a.total_value_extracted for a in closed_auctions)
-    
+
     # Simulating standard Round-Robin counterfactual:
     # First bid in each round wins its resources until resources are exhausted
     rr_val = 0.0
@@ -318,9 +324,9 @@ def get_comparison_analytics(db: Session = Depends(get_db)):
 
 # ── Dashboard 2.0 Real Database Metrics Endpoint ────────────
 
-from compute_bazaar.fairness import jains_fairness_index
-from compute_bazaar.llm import GroqLLMClient
 from backend.app.db.models import Base
+from compute_bazaar.fairness import jains_fairness_index
+
 
 @router.get("/dashboard/metrics")
 def get_dashboard_metrics(db: Session = Depends(get_db)):
@@ -338,7 +344,7 @@ def get_dashboard_metrics(db: Session = Depends(get_db)):
     agents = db.query(Agent).all()
     agent_metrics = []
     agent_surpluses = []
-    
+
     for a in agents:
         bids = db.query(Bid).filter(Bid.agent_id == a.id).all()
         total_bids = len(bids)
@@ -347,11 +353,11 @@ def get_dashboard_metrics(db: Session = Depends(get_db)):
         wins = len(winning_bids)
         losses = len(losing_bids)
         win_rate = round((wins / total_bids * 100.0), 1) if total_bids > 0 else 0.0
-        
+
         spent = sum(b.payment_amount or 0.0 for b in winning_bids)
         surplus = sum((b.bid_amount - (b.payment_amount or 0.0)) for b in winning_bids)
         agent_surpluses.append(surplus)
-        
+
         agent_metrics.append({
             "id": a.id,
             "name": a.name,
@@ -366,14 +372,14 @@ def get_dashboard_metrics(db: Session = Depends(get_db)):
             "losses": losses,
             "win_rate": win_rate,
         })
-        
+
     jains_index = jains_fairness_index(agent_surpluses) if agent_surpluses else 1.0
 
     # 2. Resources & Utilization
     resources = db.query(Resource).all()
     resource_metrics = []
     category_utilization = {"gpu": 0.0, "cpu": 0.0, "ram": 0.0, "api_budget": 0.0}
-    
+
     recent_allocations = db.query(Allocation).order_by(Allocation.id.desc()).limit(20).all()
     assigned_counts: dict[str, float] = {}
     for alloc in recent_allocations:
@@ -403,10 +409,10 @@ def get_dashboard_metrics(db: Session = Depends(get_db)):
 
     # 3. Financials & Welfare
     total_bids_count = db.query(Bid).count()
-    winning_bids_count = db.query(Bid).filter(Bid.is_winner == True).count()
-    losing_bids_count = db.query(Bid).filter(Bid.is_winner == False).count()
-    
-    all_winning_bids = db.query(Bid).filter(Bid.is_winner == True).all()
+    winning_bids_count = db.query(Bid).filter(Bid.is_winner.is_(True)).count()
+    losing_bids_count = db.query(Bid).filter(Bid.is_winner.is_(False)).count()
+
+    all_winning_bids = db.query(Bid).filter(Bid.is_winner.is_(True)).all()
     social_welfare = sum(b.bid_amount for b in all_winning_bids)
     total_spending = sum(b.payment_amount or 0.0 for b in all_winning_bids)
     estimated_savings = max(0.0, social_welfare - total_spending)

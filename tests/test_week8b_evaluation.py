@@ -16,21 +16,18 @@
 =============================================================
 """
 
-import os
-import json
-import pytest
 
 try:
     from examples.evaluation_suite import (
         run_architecture_comparison,
-        run_scalability_experiment,
         run_llm_prediction_eval,
+        run_scalability_experiment,
     )
 except ImportError:
     from evaluation_suite import (
         run_architecture_comparison,
-        run_scalability_experiment,
         run_llm_prediction_eval,
+        run_scalability_experiment,
     )
 
 

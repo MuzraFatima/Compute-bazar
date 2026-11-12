@@ -12,15 +12,16 @@
 
 from __future__ import annotations
 
-import time
 import random
-from typing import Any, Dict, List, Optional, Callable
+from collections.abc import Callable
+from typing import Any
+
 from loguru import logger
 
-from compute_bazaar.prediction.predictor import ResourcePredictor, ResourcePrediction
+from compute_bazaar.prediction.predictor import ResourcePrediction, ResourcePredictor
 
 
-def check_resources(marketplace=None) -> Dict[str, Any]:
+def check_resources(marketplace=None) -> dict[str, Any]:
     """
     Safe Tool: Check current resource availability, capacity, and dynamic pricing.
 
@@ -44,7 +45,7 @@ def check_resources(marketplace=None) -> Dict[str, Any]:
     }
 
 
-def check_budget(agent) -> Dict[str, Any]:
+def check_budget(agent) -> dict[str, Any]:
     """
     Safe Tool: Inspect an agent's current financial status and memory history.
 
@@ -65,7 +66,7 @@ def check_budget(agent) -> Dict[str, Any]:
 
 def estimate_cost(
     task_description: str,
-    predictor: Optional[ResourcePredictor] = None,
+    predictor: ResourcePredictor | None = None,
 ) -> ResourcePrediction:
     """
     Safe Tool: Predict compute requirements, execution time, and cost for a task.
@@ -81,9 +82,9 @@ def estimate_cost(
 def execute_task(
     agent,
     task_description: str,
-    allocation_result: Optional[Dict[str, Any]] = None,
-    predictor: Optional[ResourcePredictor] = None,
-) -> Dict[str, Any]:
+    allocation_result: dict[str, Any] | None = None,
+    predictor: ResourcePredictor | None = None,
+) -> dict[str, Any]:
     """
     Safe Tool: Safely execute a task using awarded compute resources.
 
@@ -97,7 +98,7 @@ def execute_task(
         predictor: Optional ResourcePredictor instance to record performance
     """
     pred = (predictor or ResourcePredictor()).predict(task_description)
-    
+
     # Check if agent won resources in auction or has budget
     won = True
     payment = pred.predicted_cost
@@ -150,7 +151,7 @@ class ToolRegistry:
     """
 
     def __init__(self):
-        self._tools: Dict[str, Callable] = {
+        self._tools: dict[str, Callable] = {
             "check_resources": check_resources,
             "check_budget": check_budget,
             "estimate_cost": estimate_cost,
@@ -161,11 +162,11 @@ class ToolRegistry:
         """Register a custom tool."""
         self._tools[name] = func
 
-    def get_tool(self, name: str) -> Optional[Callable]:
+    def get_tool(self, name: str) -> Callable | None:
         """Fetch tool function by name."""
         return self._tools.get(name)
 
-    def list_tools(self) -> List[str]:
+    def list_tools(self) -> list[str]:
         """List names of all registered tools."""
         return list(self._tools.keys())
 

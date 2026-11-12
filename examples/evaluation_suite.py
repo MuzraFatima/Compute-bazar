@@ -25,31 +25,27 @@
 =============================================================
 """
 
-import sys
-import os
 import json
-import time
+import os
 import random
-import math
 import statistics
-from typing import List, Dict, Any, Tuple
+import sys
+import time
+from typing import Any
 
 # Add repo root to sys.path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from backend.app.auction.engine import (
-    AuctionEngine, Resource, Bid, SolverMethod,
-    solve_greedy, solve_wdp_lp, compute_vcg_prices,
+    AuctionEngine,
+    Resource,
+    SolverMethod,
 )
-from compute_bazaar.agents import (
-    CodingAgent, ResearchAgent, DataAgent, AnalysisAgent, BaseAgent
-)
+from compute_bazaar.agents import AnalysisAgent, CodingAgent, DataAgent, ResearchAgent
+from compute_bazaar.fairness import jains_fairness_index
 from compute_bazaar.llm import GroqLLMClient, LLMConfig
 from compute_bazaar.marketplace import DynamicMarketplace
-from compute_bazaar.fairness import jains_fairness_index, FairnessTracker
 from compute_bazaar.prediction import ResourcePredictor
-from compute_bazaar.tools import ToolRegistry, check_resources, check_budget, estimate_cost, execute_task
-
 
 SEED = 42
 NUM_ROUNDS = 20
@@ -62,7 +58,7 @@ def set_seed(seed=SEED):
     random.seed(seed)
 
 
-def create_standard_resources() -> List[Resource]:
+def create_standard_resources() -> list[Resource]:
     return [
         Resource("GPU-Slot-1",     "gpu",        1.0, "slot"),
         Resource("GPU-Slot-2",     "gpu",        1.0, "slot"),
@@ -76,7 +72,7 @@ def create_standard_resources() -> List[Resource]:
 # EXPERIMENT 1: ARCHITECTURE COMPARISON (Round-Robin vs 1.0 vs 2.0)
 # ─────────────────────────────────────────────────────────────
 
-def run_architecture_comparison(rounds: int = NUM_ROUNDS) -> Dict[str, Any]:
+def run_architecture_comparison(rounds: int = NUM_ROUNDS) -> dict[str, Any]:
     """
     Compares 3 architecture regimes over N auction rounds:
       - Regime A: Round-Robin (First-Come First-Served scheduling)
@@ -114,7 +110,7 @@ def run_architecture_comparison(rounds: int = NUM_ROUNDS) -> Dict[str, Any]:
 
     for round_id in range(1, rounds + 1):
         resources = create_standard_resources()
-        engine_rr = AuctionEngine(resources, method=SolverMethod.GREEDY)
+        AuctionEngine(resources, method=SolverMethod.GREEDY)
         engine_cb1 = AuctionEngine(resources, method=SolverMethod.GREEDY)
         engine_cb2 = AuctionEngine(resources, method=SolverMethod.LP)
 
@@ -238,11 +234,13 @@ def run_architecture_comparison(rounds: int = NUM_ROUNDS) -> Dict[str, Any]:
     }
 
 
-def run_scalability_experiment(agent_counts: List[int] = [4, 8, 16, 32]) -> List[Dict[str, Any]]:
+def run_scalability_experiment(agent_counts: list[int] = None) -> list[dict[str, Any]]:
     """
     Evaluates system scalability (solver time, total bids, social welfare)
     as agent population scales from 4 to 32 agents.
     """
+    if agent_counts is None:
+        agent_counts = [4, 8, 16, 32]
     set_seed()
     mock_llm = GroqLLMClient(config=LLMConfig(mock_mode=True))
     results = []
@@ -258,7 +256,7 @@ def run_scalability_experiment(agent_counts: List[int] = [4, 8, 16, 32]) -> List
         ]
 
         engine = AuctionEngine(resources, method=SolverMethod.LP)
-        
+
         # Create agents
         agents = []
         for i in range(count):
@@ -284,9 +282,9 @@ def run_scalability_experiment(agent_counts: List[int] = [4, 8, 16, 32]) -> List
             a.submit_to_engine(engine, bid)
         t_bids_end = time.perf_counter()
 
-        t_solver_start = time.perf_counter()
+        time.perf_counter()
         res = engine.run_auction(round_id=1)
-        t_solver_end = time.perf_counter()
+        time.perf_counter()
 
         results.append({
             "agent_count": count,
@@ -304,7 +302,7 @@ def run_scalability_experiment(agent_counts: List[int] = [4, 8, 16, 32]) -> List
 # EXPERIMENT 3: GROQ LLM & ML PREDICTOR TELEMETRY
 # ─────────────────────────────────────────────────────────────
 
-def run_llm_prediction_eval() -> Dict[str, Any]:
+def run_llm_prediction_eval() -> dict[str, Any]:
     """
     Evaluates ML Resource Predictor accuracy, latency, and LLM telemetry.
     """
@@ -339,7 +337,7 @@ def run_llm_prediction_eval() -> Dict[str, Any]:
 
     mock_llm = GroqLLMClient(config=LLMConfig(mock_mode=True))
     agent = CodingAgent("EvalDevBot", llm_client=mock_llm)
-    for i in range(10):
+    for _i in range(10):
         agent.analyze_task("Build Python REST API service")
 
     telemetry = mock_llm.get_usage()
@@ -401,7 +399,7 @@ def run_full_evaluation():
     return full_results
 
 
-def generate_markdown_report(data: Dict[str, Any], filepath: str):
+def generate_markdown_report(data: dict[str, Any], filepath: str):
     c = data["architecture_comparison"]
     rr = c["round_robin"]
     cb1 = c["compute_bazaar_1_0"]
@@ -411,7 +409,7 @@ def generate_markdown_report(data: Dict[str, Any], filepath: str):
 
     md_content = f"""# Compute Bazaar 2.0 — Final Research & Empirical Evaluation Report
 
-> **Evaluation Date**: {data['timestamp']}  
+> **Evaluation Date**: {data['timestamp']}
 > **Methodology**: Empirical evaluation comparing Baseline Round-Robin Scheduling, Compute Bazaar 1.0 (Greedy WDP), and Compute Bazaar 2.0 (ILP WDP + Groq Autonomous Agents + ML Resource Predictor + VCG Pricing + Dynamic Scarcity + Anti-Starvation Fairness). Zero fake data.
 
 ---
@@ -453,7 +451,7 @@ Performance breakdown per registered AI agent in Compute Bazaar 2.0:
     for a in c["agent_performance"]:
         md_content += f"| **{a['name']}** | Domain Agent | {a['wins']} / {c['rounds']} | {a['win_rate_pct']:.1f}% | **${a['total_surplus']:.2f}** |\n"
 
-    md_content += f"""
+    md_content += """
 ---
 
 ## 4. Multi-Agent Scalability & Solver Benchmarks

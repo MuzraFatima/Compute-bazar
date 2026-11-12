@@ -10,11 +10,10 @@
 """
 
 import os
-from datetime import datetime, timedelta, timezone
-from typing import Optional
+from datetime import UTC, datetime, timedelta
 
-from fastapi import Depends, HTTPException, Security, status
-from fastapi.security import APIKeyHeader, HTTPBearer, HTTPAuthorizationCredentials
+from fastapi import Depends, HTTPException, status
+from fastapi.security import APIKeyHeader, HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
 from sqlalchemy.orm import Session
 
@@ -50,10 +49,10 @@ def get_db():
 
 
 # ── Token utilities ──────────────────────────────────────────
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
+def create_access_token(data: dict, expires_delta: timedelta | None = None) -> str:
     """Generate a JWT token for the authenticated agent."""
     to_encode = data.copy()
-    now_utc = datetime.now(timezone.utc)
+    now_utc = datetime.now(UTC)
     if expires_delta:
         expire = now_utc + expires_delta
     else:
@@ -64,16 +63,16 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
 
 # ── Security Dependency: Authenticate Agent ──────────────────
 def get_current_agent(
-    credentials: Optional[HTTPAuthorizationCredentials] = Depends(bearer_scheme),
-    api_key: Optional[str] = Depends(api_key_header),
+    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
+    api_key: str | None = Depends(api_key_header),
     db: Session = Depends(get_db)
 ) -> Agent:
     """
     Authenticate agent via Bearer JWT token or X-API-Key header.
     Throws HTTP 401 if authentication fails.
     """
-    agent_name: Optional[str] = None
-    
+    agent_name: str | None = None
+
     # Method 1: JWT token check
     if credentials:
         try:
@@ -86,15 +85,15 @@ def get_current_agent(
                     detail="Invalid authentication token payload",
                     headers={"WWW-Authenticate": "Bearer"},
                 )
-        except JWTError:
+        except JWTError as exc:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
                 detail="Could not validate credentials",
                 headers={"WWW-Authenticate": "Bearer"},
-            )
-            
+            ) from exc
+
         # Retrieve agent by name
-        agent = db.query(Agent).filter(Agent.name == agent_name, Agent.is_active == True).first()
+        agent = db.query(Agent).filter(Agent.name == agent_name, Agent.is_active.is_(True)).first()
         if not agent:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,
@@ -104,7 +103,7 @@ def get_current_agent(
 
     # Method 2: API Key check
     if api_key:
-        agent = db.query(Agent).filter(Agent.api_key == api_key, Agent.is_active == True).first()
+        agent = db.query(Agent).filter(Agent.api_key == api_key, Agent.is_active.is_(True)).first()
         if not agent:
             raise HTTPException(
                 status_code=status.HTTP_401_UNAUTHORIZED,

@@ -17,22 +17,23 @@
 """
 
 import json
+
 import pytest
+
 from compute_bazaar.llm.client import (
-    GroqLLMClient,
-    LLMConfig,
-    LLMResponse,
-    LLMUsage,
-    LLMError,
-    LLMAuthenticationError,
-    LLMRateLimitError,
-    LLMAPIError,
-    UsageTracker,
     DEFAULT_MODEL,
     SUPPORTED_MODELS,
+    GroqLLMClient,
+    LLMAPIError,
+    LLMAuthenticationError,
+    LLMConfig,
+    LLMError,
+    LLMRateLimitError,
+    LLMResponse,
+    LLMUsage,
+    UsageTracker,
     _generate_mock_response,
 )
-
 
 # ─────────────────────────────────────────────────────────────
 # FIXTURES

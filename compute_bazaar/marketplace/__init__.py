@@ -8,12 +8,12 @@
 =============================================================
 """
 
+from compute_bazaar.marketplace.manager import DynamicMarketplace
 from compute_bazaar.marketplace.provider import (
-    ResourceProvider,
     MarketResource,
     MarketResourceType,
+    ResourceProvider,
 )
-from compute_bazaar.marketplace.manager import DynamicMarketplace
 
 __all__ = [
     "ResourceProvider",

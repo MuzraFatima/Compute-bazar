@@ -6,18 +6,16 @@ Usage:
     python scripts/run_multiseed_benchmark.py
 """
 
-import sys
-import os
 import json
+import os
 import statistics
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from benchmark import execute_week12_benchmark, AGENT_NAMES, AGENT_PROFILES, get_standard_resources
-from backend.app.auction.engine import AuctionEngine, Resource, Bid, SolverMethod
-from compute_bazaar.fairness.metrics import jains_fairness_index
-import time, random
+import time
 
+from benchmark import AGENT_NAMES, execute_week12_benchmark
 
 SEEDS = list(range(1, 11))
 NUM_ROUNDS = 25

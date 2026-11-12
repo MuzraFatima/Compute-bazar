@@ -7,16 +7,16 @@
 =============================================================
 """
 
-import sys
 import os
+import sys
 
 # Add the project root to Python path so we can import examples.week1_demo
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 try:
-    from examples.week1_demo import Resource, Bid, SimpleAuctionEngine
+    from examples.week1_demo import Bid, Resource, SimpleAuctionEngine
 except ImportError:
-    from week1_demo import Resource, Bid, SimpleAuctionEngine
+    from week1_demo import Bid, Resource, SimpleAuctionEngine
 
 
 # ─────────────────────────────────────────────────────────────
@@ -49,7 +49,7 @@ def test_invalid_bid_unknown_resource():
     engine = make_engine()
     bad_bid = Bid("Agent-X", "some task", ["NONEXISTENT-RESOURCE"], 50.0)
     result = engine.add_bid(bad_bid)
-    assert result == False, "Should reject bid for unknown resource"
+    assert not result, "Should reject bid for unknown resource"
 
 
 def test_invalid_bid_zero_amount():
@@ -57,7 +57,7 @@ def test_invalid_bid_zero_amount():
     engine = make_engine()
     bad_bid = Bid("Agent-X", "some task", ["GPU-1"], 0.0)
     result = engine.add_bid(bad_bid)
-    assert result == False, "Should reject zero-amount bid"
+    assert not result, "Should reject zero-amount bid"
 
 
 def test_invalid_bid_negative_amount():
@@ -65,7 +65,7 @@ def test_invalid_bid_negative_amount():
     engine = make_engine()
     bad_bid = Bid("Agent-X", "some task", ["GPU-1"], -10.0)
     result = engine.add_bid(bad_bid)
-    assert result == False, "Should reject negative bid"
+    assert not result, "Should reject negative bid"
 
 
 def test_valid_bid_accepted():
@@ -73,7 +73,7 @@ def test_valid_bid_accepted():
     engine = make_engine()
     bid = Bid("Agent-A", "valid task", ["GPU-1"], 30.0)
     result = engine.add_bid(bid)
-    assert result == True
+    assert result
     assert len(engine.bids) == 1
 
 

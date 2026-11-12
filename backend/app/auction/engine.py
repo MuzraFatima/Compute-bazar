@@ -50,13 +50,11 @@
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
-from typing import List, Dict, Optional, Tuple, Set
+from dataclasses import dataclass
 from enum import Enum
 
 import pulp
 from loguru import logger
-
 
 # ─────────────────────────────────────────────────────────────
 # DATA CLASSES
@@ -90,7 +88,7 @@ class Bid:
     """
     bid_id: str           # Unique identifier
     agent_id: str         # Who is bidding
-    resource_bundle: List[str]  # Resource names in this bundle
+    resource_bundle: list[str]  # Resource names in this bundle
     bid_amount: float     # Agent's declared value for this bundle
     task_description: str = ""
     priority: str = "normal"
@@ -110,12 +108,12 @@ class Bid:
 class AllocationResult:
     """The outcome of one auction round."""
     round_id: int
-    winning_bids: List[Bid]
-    payments: Dict[str, float]        # bid_id → payment amount
+    winning_bids: list[Bid]
+    payments: dict[str, float]        # bid_id → payment amount
     total_value: float
     solver_method: SolverMethod
     solve_time_ms: float
-    unallocated_resources: List[str]
+    unallocated_resources: list[str]
 
     # Comparison metrics
     greedy_value: float = 0.0
@@ -133,7 +131,7 @@ class AllocationResult:
 # GREEDY SOLVER (Week 1 reference — kept for benchmarking)
 # ─────────────────────────────────────────────────────────────
 
-def solve_greedy(bids: List[Bid], resources: Dict[str, Resource]) -> Tuple[List[Bid], float]:
+def solve_greedy(bids: list[Bid], resources: dict[str, Resource]) -> tuple[list[Bid], float]:
     """
     Greedy WDP: sort by value-per-resource, pick greedily.
     Returns (winning_bids, total_value).
@@ -145,8 +143,8 @@ def solve_greedy(bids: List[Bid], resources: Dict[str, Resource]) -> Tuple[List[
         reverse=True
     )
 
-    allocated: Set[str] = set()
-    winners: List[Bid] = []
+    allocated: set[str] = set()
+    winners: list[Bid] = []
     total = 0.0
 
     for bid in sorted_bids:
@@ -167,9 +165,9 @@ def solve_greedy(bids: List[Bid], resources: Dict[str, Resource]) -> Tuple[List[
 # ─────────────────────────────────────────────────────────────
 
 def solve_wdp_lp(
-    bids: List[Bid],
-    resources: Dict[str, Resource],
-) -> Tuple[List[Bid], float]:
+    bids: list[Bid],
+    resources: dict[str, Resource],
+) -> tuple[list[Bid], float]:
     """
     Solve the Winner Determination Problem using Integer Linear Programming.
 
@@ -252,10 +250,10 @@ def solve_wdp_lp(
 # ─────────────────────────────────────────────────────────────
 
 def compute_vcg_prices(
-    winning_bids: List[Bid],
-    all_bids: List[Bid],
-    resources: Dict[str, Resource],
-) -> Dict[str, float]:
+    winning_bids: list[Bid],
+    all_bids: list[Bid],
+    resources: dict[str, Resource],
+) -> dict[str, float]:
     """
     Compute VCG (Vickrey-Clarke-Groves) payments for all winners.
 
@@ -285,7 +283,7 @@ def compute_vcg_prices(
     # (We already know this, but recalculate cleanly)
     total_value_with_all, _ = _solve_optimal(all_bids, resources)
 
-    payments: Dict[str, float] = {}
+    payments: dict[str, float] = {}
 
     for winner in winning_bids:
         # ── Solve WITHOUT this winner's bid ──────────────────
@@ -318,9 +316,9 @@ def compute_vcg_prices(
 
 
 def _solve_optimal(
-    bids: List[Bid],
-    resources: Dict[str, Resource],
-) -> Tuple[float, List[Bid]]:
+    bids: list[Bid],
+    resources: dict[str, Resource],
+) -> tuple[float, list[Bid]]:
     """Helper: run LP solver and return (optimal_value, winning_bids)."""
     winners, value = solve_wdp_lp(bids, resources)
     return value, winners
@@ -342,12 +340,12 @@ class AuctionEngine:
 
     def __init__(
         self,
-        resources: List[Resource],
+        resources: list[Resource],
         method: SolverMethod = SolverMethod.LP,
     ):
-        self.resources: Dict[str, Resource] = {r.name: r for r in resources}
+        self.resources: dict[str, Resource] = {r.name: r for r in resources}
         self.method = method
-        self._bids: List[Bid] = []
+        self._bids: list[Bid] = []
         self._round_counter = 0
 
     # ── Bid Management ──────────────────────────────────────
@@ -371,7 +369,7 @@ class AuctionEngine:
         logger.info(f"Bid accepted: {bid}")
         return True
 
-    def get_bids(self) -> List[Bid]:
+    def get_bids(self) -> list[Bid]:
         return list(self._bids)
 
     def reset(self):
@@ -380,7 +378,7 @@ class AuctionEngine:
 
     # ── Auction Execution ───────────────────────────────────
 
-    def run_auction(self, round_id: Optional[int] = None) -> AllocationResult:
+    def run_auction(self, round_id: int | None = None) -> AllocationResult:
         """
         Run one complete auction round:
           1. Solve WDP (find optimal winners)

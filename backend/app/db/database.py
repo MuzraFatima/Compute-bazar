@@ -6,8 +6,8 @@
 =============================================================
 """
 
-import sqlite3
 import os
+import sqlite3
 from datetime import datetime
 
 # Database location (consistent with models.py and DATABASE_URL)
@@ -34,7 +34,7 @@ def get_connection():
 def create_tables():
     """
     Create all database tables if they don't already exist.
-    
+
     This is the 'schema' — the blueprint for our data.
     Run this once when setting up the project.
     """
@@ -85,7 +85,7 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS auctions (
             id              INTEGER PRIMARY KEY AUTOINCREMENT,
             round_number    INTEGER NOT NULL,       -- Auction #1, #2, #3...
-            status          TEXT NOT NULL DEFAULT 'open',  
+            status          TEXT NOT NULL DEFAULT 'open',
                             -- 'open' → accepting bids
                             -- 'running' → solving WDP
                             -- 'closed' → results finalized

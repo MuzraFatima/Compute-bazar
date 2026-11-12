@@ -12,16 +12,14 @@
 """
 
 import os
-from datetime import datetime, timezone
-from typing import List
+from datetime import UTC, datetime
+
 
 def utc_now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
-from sqlalchemy import (
-    create_engine, Column, Integer, String, Float, Boolean, ForeignKey, Index, Table
-)
-from sqlalchemy.orm import declarative_base, sessionmaker, relationship
+from sqlalchemy import Boolean, Column, Float, ForeignKey, Index, Integer, String, create_engine
+from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
 # Define database location (SQLite file)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

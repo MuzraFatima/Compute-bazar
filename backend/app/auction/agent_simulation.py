@@ -21,15 +21,16 @@
 =============================================================
 """
 
-import json
 import asyncio
+import json
 import random
-from datetime import datetime, timezone
+from datetime import UTC, datetime
+
 from loguru import logger
 from sqlalchemy.orm import Session
 
-from backend.app.db.models import SessionLocal, Agent, Resource, Bid, Auction, init_db
 from backend.app.api.websocket import manager
+from backend.app.db.models import Agent, Auction, Bid, Resource, SessionLocal, init_db
 
 # ── Agent task banks ─────────────────────────────────────────
 
@@ -111,11 +112,12 @@ def _init_agents():
         return  # Already initialised
 
     import os
+
     from dotenv import load_dotenv
     load_dotenv()
 
+    from compute_bazaar.agents import AnalysisAgent, CodingAgent, DataAgent, ResearchAgent
     from compute_bazaar.llm import GroqLLMClient, LLMConfig
-    from compute_bazaar.agents import CodingAgent, ResearchAgent, DataAgent, AnalysisAgent
 
     api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
@@ -194,7 +196,7 @@ async def _submit_agent_bid(agent_name: str, db: Session, auction_id: int):
         )
 
         # Validate resources exist in DB
-        db_resources = db.query(Resource).filter(Resource.is_available == True).all()
+        db_resources = db.query(Resource).filter(Resource.is_available.is_(True)).all()
         valid_res_names = {r.name for r in db_resources}
         bundle = [r for r in combo_bid.resource_bundle if r in valid_res_names]
         if not bundle:
@@ -225,7 +227,7 @@ async def _submit_agent_bid(agent_name: str, db: Session, auction_id: int):
             priority=decision.priority,
         )
         db.add(db_bid)
-        db_agent.last_active_at = datetime.now(timezone.utc).isoformat()
+        db_agent.last_active_at = datetime.now(UTC).isoformat()
         db.commit()
 
         logger.info(
@@ -268,7 +270,7 @@ async def run_autonomous_round(db: Session, auction_id: int):
     # Refill agent budgets if running low to keep simulation going
     active_agents = db.query(Agent).filter(
         Agent.name.in_(list(_agent_objects.keys())),
-        Agent.is_active == True
+        Agent.is_active.is_(True)
     ).all()
     for a in active_agents:
         if a.budget_remaining < 100.0:

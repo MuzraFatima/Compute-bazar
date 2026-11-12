@@ -11,12 +11,11 @@
 =============================================================
 """
 
-import sys
 import os
-import time
 import random
+import sys
+import time
 import uuid
-from typing import List
 
 # Add repo root to sys.path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -29,19 +28,24 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
         pass
 
 from backend.app.auction.engine import (
-    AuctionEngine, Resource, Bid, SolverMethod,
-    solve_greedy, solve_wdp_lp, compute_vcg_prices,
+    AuctionEngine,
+    Bid,
+    Resource,
+    SolverMethod,
+    compute_vcg_prices,
+    solve_greedy,
+    solve_wdp_lp,
 )
 from backend.app.auction.pricing import (
-    apply_tier_pricing, format_payment_report,
+    apply_tier_pricing,
+    format_payment_report,
 )
-
 
 # ─────────────────────────────────────────────────────────────
 # HELPERS
 # ─────────────────────────────────────────────────────────────
 
-def make_bid(agent: str, bundle: List[str], amount: float, task: str = "") -> Bid:
+def make_bid(agent: str, bundle: list[str], amount: float, task: str = "") -> Bid:
     return Bid(
         bid_id=str(uuid.uuid4())[:8],
         agent_id=agent,
@@ -74,7 +78,7 @@ def demo_lp_vs_greedy():
     individual bids, so greedy picks the wrong set. LP does it right.
 
     Resources: GPU-1, GPU-2
-    
+
     Bids:
       A: {GPU-1}       → $60   (value-per-res: $60)
       B: {GPU-2}       → $55   (value-per-res: $55)
@@ -197,22 +201,22 @@ def demo_lp_vs_greedy():
     greedy_winners, greedy_value = solve_greedy(bids, resources_2)
     lp_winners, lp_value = solve_wdp_lp(bids, resources_2)
 
-    print(f"\n  ┌─────────────────────────────────────────────────┐")
+    print("\n  ┌─────────────────────────────────────────────────┐")
     print(f"  │  GREEDY RESULT: ${greedy_value:6.2f}                         │")
     print(f"  │  Winners: {', '.join(w.agent_id for w in greedy_winners):38s}│")
-    print(f"  ├─────────────────────────────────────────────────┤")
+    print("  ├─────────────────────────────────────────────────┤")
     print(f"  │  LP RESULT:     ${lp_value:6.2f}                         │")
     print(f"  │  Winners: {', '.join(w.agent_id for w in lp_winners):38s}│")
-    print(f"  └─────────────────────────────────────────────────┘")
+    print("  └─────────────────────────────────────────────────┘")
 
     if lp_value > greedy_value:
         gain = lp_value - greedy_value
         print(f"\n  ✅ LP is ${gain:.2f} BETTER than greedy!")
-        print(f"     Greedy missed the bundle bid that dominates 3 individual bids.")
+        print("     Greedy missed the bundle bid that dominates 3 individual bids.")
     elif lp_value == greedy_value:
-        print(f"\n  ✅ Both solvers found the same optimum this time.")
+        print("\n  ✅ Both solvers found the same optimum this time.")
     else:
-        print(f"\n  ⚠️  Unexpected: greedy beat LP? Check input data.")
+        print("\n  ⚠️  Unexpected: greedy beat LP? Check input data.")
 
 
 # ─────────────────────────────────────────────────────────────
@@ -245,21 +249,21 @@ def demo_vcg_pricing():
 
   With Agent-Finance winning:
     → Others get $0
-    → Agent-Finance's VCG price = $105 - $0 = $105? 
-    
+    → Agent-Finance's VCG price = $105 - $0 = $105?
+
   Wait — $105 > $100 bid! Finance wouldn't bid if it costs more.
-  
+
   Key: If VCG price > bid, Finance wouldn't WIN in the first place
   (Finance only wins if their bid is ≥ the displaced value of others).
-  
+
   Let's verify with actual numbers:
     Finance bid $100 vs Gamer+Writer = $105
     → LP picks Gamer+Writer ($105 > $100)! Finance LOSES.
-  
+
   Now if Finance bids $110 (their TRUE value):
     $110 vs $105 → Finance WINS
     VCG price = $105 (displaces $60+$45 from others) ≤ $110 ✅
-    
+
   Finance's surplus = $110 (true value) - $105 (payment) = $5
   This is WHY agents bid truthfully: surplus is maximized at truth!
     """)
@@ -292,7 +296,7 @@ def demo_vcg_pricing():
         print()
 
     print(f"  Total value extracted: ${total:.2f}")
-    print(f"\n  TRUTHFULNESS CHECK:")
+    print("\n  TRUTHFULNESS CHECK:")
     all_pass = True
     for w in winners:
         p = payments.get(w.bid_id, 0.0)
@@ -345,11 +349,11 @@ def demo_stress_test(n_agents: int = 50):
 
     gain = ((lp_val - g_val) / g_val * 100) if g_val > 0 else 0
 
-    print(f"\n  ┌──────────────────────────────────────────────┐")
+    print("\n  ┌──────────────────────────────────────────────┐")
     print(f"  │  GREEDY  │ value=${g_val:7.2f}  │ time={greedy_ms:6.1f}ms │")
     print(f"  │  LP      │ value=${lp_val:7.2f}  │ time={lp_ms:6.1f}ms │")
     print(f"  │  LP gain │ +{gain:5.1f}% better                     │")
-    print(f"  └──────────────────────────────────────────────┘")
+    print("  └──────────────────────────────────────────────┘")
     print(f"\n  LP winners: {len(lp_winners)} of {n_agents} agents")
     print(f"  Greedy winners: {len(g_winners)} of {n_agents} agents")
 

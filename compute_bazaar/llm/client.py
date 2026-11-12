@@ -34,11 +34,9 @@ import json
 import os
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
-from dotenv import load_dotenv
 from loguru import logger
-
 
 # ─────────────────────────────────────────────────────────────
 # CONFIGURATION
@@ -87,7 +85,7 @@ class LLMUsage:
     completion_tokens: int = 0
     total_tokens: int = 0
 
-    def to_dict(self) -> Dict[str, int]:
+    def to_dict(self) -> dict[str, int]:
         return {
             "prompt_tokens": self.prompt_tokens,
             "completion_tokens": self.completion_tokens,
@@ -103,9 +101,9 @@ class LLMResponse:
     usage: LLMUsage
     latency_ms: float
     is_mock: bool = False
-    raw_response: Optional[Any] = field(default=None, repr=False)
+    raw_response: Any | None = field(default=None, repr=False)
 
-    def to_json(self) -> Optional[Dict[str, Any]]:
+    def to_json(self) -> dict[str, Any] | None:
         """
         Attempt to parse the response content as JSON.
         Returns None if parsing fails.
@@ -123,7 +121,7 @@ class LLMResponse:
         except (json.JSONDecodeError, ValueError):
             return None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "content": self.content,
             "model": self.model,
@@ -195,7 +193,7 @@ class UsageTracker:
         """Record a failed call."""
         self.errors += 1
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Serialize usage metrics to dictionary."""
         return {
             "calls": self.total_calls,
@@ -288,8 +286,8 @@ class GroqLLMClient:
 
     def __init__(
         self,
-        config: Optional[LLMConfig] = None,
-        api_key: Optional[str] = None,
+        config: LLMConfig | None = None,
+        api_key: str | None = None,
     ):
         self.config = config or LLMConfig()
         self.tracker = UsageTracker()
@@ -311,7 +309,7 @@ class GroqLLMClient:
                     max_retries=self.config.max_retries,
                 )
             except Exception as e:
-                raise LLMError(f"Failed to initialize Groq client: {e}")
+                raise LLMError(f"Failed to initialize Groq client: {e}") from e
 
             logger.info(
                 f"GroqLLMClient initialized | model={self.config.model} | "
@@ -323,11 +321,11 @@ class GroqLLMClient:
     def complete(
         self,
         prompt: str,
-        system_prompt: Optional[str] = None,
+        system_prompt: str | None = None,
         json_mode: bool = False,
-        temperature: Optional[float] = None,
-        max_tokens: Optional[int] = None,
-        model: Optional[str] = None,
+        temperature: float | None = None,
+        max_tokens: int | None = None,
+        model: str | None = None,
     ) -> LLMResponse:
         """
         Send a completion request to Groq.
@@ -369,9 +367,8 @@ class GroqLLMClient:
         # ── Call Groq API ────────────────────────────────────
         t_start = time.perf_counter()
         try:
-            import groq as groq_module
 
-            kwargs: Dict[str, Any] = {
+            kwargs: dict[str, Any] = {
                 "model": resolved_model,
                 "messages": messages,
                 "temperature": resolved_temp,
@@ -421,20 +418,20 @@ class GroqLLMClient:
             # Classify error type
             error_str = str(e).lower()
             if "authentication" in error_str or "api key" in error_str or "401" in error_str:
-                raise LLMAuthenticationError(f"Groq authentication failed: {e}")
+                raise LLMAuthenticationError(f"Groq authentication failed: {e}") from e
             elif "rate limit" in error_str or "429" in error_str:
-                raise LLMRateLimitError(f"Groq rate limit exceeded: {e}")
+                raise LLMRateLimitError(f"Groq rate limit exceeded: {e}") from e
             else:
-                raise LLMAPIError(f"Groq API error after {latency_ms:.0f}ms: {e}")
+                raise LLMAPIError(f"Groq API error after {latency_ms:.0f}ms: {e}") from e
 
     def complete_json(
         self,
         prompt: str,
-        system_prompt: Optional[str] = None,
-        temperature: Optional[float] = None,
-        max_tokens: Optional[int] = None,
-        model: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        system_prompt: str | None = None,
+        temperature: float | None = None,
+        max_tokens: int | None = None,
+        model: str | None = None,
+    ) -> dict[str, Any]:
         """
         Convenience method: send a completion and parse the response as JSON.
 
@@ -457,7 +454,7 @@ class GroqLLMClient:
             )
         return parsed
 
-    def get_usage(self) -> Dict[str, Any]:
+    def get_usage(self) -> dict[str, Any]:
         """Return cumulative usage statistics."""
         return self.tracker.to_dict()
 

@@ -10,29 +10,24 @@
 =============================================================
 """
 
-import pytest
-from compute_bazaar.models.bundle import (
-    ResourceItem,
-    ResourceType,
-    CombinatorialBid,
-    AllocationResult,
-    AuctionRoundOutcome,
-    PriorityLevel,
-    AgentTier,
+from compute_bazaar.autobid.strategies import (
+    AdaptiveQLearner,
+    BudgetAwareShadingStrategy,
+    ContextualBanditStrategy,
+    TruthfulStrategy,
+    UrgentPriorityStrategy,
 )
+from compute_bazaar.client.sdk import ComputeBazaarClient
 from compute_bazaar.generators.workload import (
     generate_synthetic_bid,
     generate_workload_batch,
-    TASK_TEMPLATES,
 )
-from compute_bazaar.autobid.strategies import (
-    TruthfulStrategy,
-    BudgetAwareShadingStrategy,
-    UrgentPriorityStrategy,
-    AdaptiveQLearner,
-    ContextualBanditStrategy,
+from compute_bazaar.models.bundle import (
+    AllocationResult,
+    CombinatorialBid,
+    ResourceItem,
+    ResourceType,
 )
-from compute_bazaar.client.sdk import ComputeBazaarClient, ComputeBazaarError
 
 
 def test_resource_item_model():
@@ -113,7 +108,7 @@ def test_adaptive_q_learner_feedback():
     # Provide positive reward feedback
     dummy_bid = CombinatorialBid(agent_name="Agent-QLearn", resource_bundle=["GPU-1"], bid_amount=bid1)
     strat.feedback(bid=dummy_bid, won=True, payment=50.0, surplus=50.0)
-    
+
     # Check that learning updated internal table
     assert len(strat.history) == 1
     assert strat.history[0] is True
@@ -124,7 +119,7 @@ def test_contextual_bandit_strategy():
     # Small bundle
     bid_small = bandit.compute_bid_amount(valuation=100.0, bundle=["GPU-1"], current_budget=500.0)
     assert 40.0 <= bid_small <= 100.0
-    
+
     # Feed reward
     dummy_bid = CombinatorialBid(agent_name="Agent-Bandit", resource_bundle=["GPU-1"], bid_amount=bid_small)
     bandit.feedback(bid=dummy_bid, won=True, payment=40.0, surplus=60.0)

@@ -7,16 +7,14 @@ Usage:
     python scripts/evaluate_predictor.py
 """
 
-import sys
-import os
 import json
-import math
+import os
 import random
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from compute_bazaar.prediction.predictor import ResourcePredictor, ExecutionRecord
-
+from compute_bazaar.prediction.predictor import ResourcePredictor
 
 # Synthetic ground-truth task definitions per category
 CATEGORY_GROUND_TRUTH = {
@@ -82,7 +80,7 @@ def mae(preds, actuals):
     n = len(preds)
     if n == 0:
         return 0.0
-    return sum(abs(p - a) for p, a in zip(preds, actuals)) / n
+    return sum(abs(p - a) for p, a in zip(preds, actuals, strict=False)) / n
 
 
 def mape(preds, actuals):
@@ -91,7 +89,7 @@ def mape(preds, actuals):
         return 0.0
     return 100.0 * sum(
         abs(p - a) / max(abs(a), 1e-9)
-        for p, a in zip(preds, actuals)
+        for p, a in zip(preds, actuals, strict=False)
     ) / n
 
 

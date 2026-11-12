@@ -15,11 +15,10 @@
 
 from __future__ import annotations
 
-import re
-import math
 import statistics
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any
+
 from loguru import logger
 
 
@@ -48,10 +47,10 @@ class ResourcePrediction:
     predicted_api_tokens: float
     predicted_execution_time_sec: float
     predicted_cost: float
-    recommended_bundle: List[str] = field(default_factory=list)
+    recommended_bundle: list[str] = field(default_factory=list)
     confidence_score: float = 0.80
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "task_description": self.task_description,
             "task_category": self.task_category,
@@ -71,7 +70,7 @@ class ExecutionRecord:
     """Historical execution record used to train the ML predictor."""
     task_description: str
     task_category: str
-    allocated_resources: List[str]
+    allocated_resources: list[str]
     execution_time_sec: float
     actual_cost: float
     tokens_used: float = 0.0
@@ -86,8 +85,8 @@ class ResourcePredictor:
     """
 
     def __init__(self):
-        self.execution_history: List[ExecutionRecord] = []
-        
+        self.execution_history: list[ExecutionRecord] = []
+
         # Base unit pricing defaults for cost prediction ($ per unit per min)
         self.unit_costs = {
             "gpu": 0.50,       # $0.50 / slot / min
@@ -100,11 +99,11 @@ class ResourcePredictor:
     def record_execution(
         self,
         task_description: str,
-        allocated_resources: List[str],
+        allocated_resources: list[str],
         execution_time_sec: float,
         actual_cost: float,
         tokens_used: float = 0.0,
-        task_category: Optional[str] = None,
+        task_category: str | None = None,
     ):
         """
         Record actual task execution metrics into the historical dataset.
@@ -139,7 +138,7 @@ class ResourcePredictor:
     def predict(
         self,
         task_description: str,
-        task_category: Optional[str] = None,
+        task_category: str | None = None,
     ) -> ResourcePrediction:
         """
         Predict compute requirements, execution time, and cost for a task.
@@ -192,10 +191,10 @@ class ResourcePredictor:
             confidence_score=round(confidence, 2),
         )
 
-    def _heuristic_feature_prediction(self, text: str, cat: str) -> Tuple[float, float, float]:
+    def _heuristic_feature_prediction(self, text: str, cat: str) -> tuple[float, float, float]:
         """Cold-start feature heuristic for runtime, cost, and tokens."""
         t = text.lower()
-        
+
         # Baseline per category
         if cat == "llm_training":
             duration = 1800.0 if "70b" in t else 600.0
@@ -220,10 +219,10 @@ class ResourcePredictor:
 
         return duration, cost, tokens
 
-    def _infer_resource_bundle(self, text: str, cat: str) -> Tuple[List[str], int, int, int, int]:
+    def _infer_resource_bundle(self, text: str, cat: str) -> tuple[list[str], int, int, int, int]:
         """Infer bundle items and capacity values based on category and prompt text."""
-        t = text.lower()
-        
+        text.lower()
+
         if cat == "llm_training":
             bundle = ["GPU-Slot-1", "GPU-Slot-2", "RAM-Block-32GB"]
             return bundle, 2, 8, 32, 50000
@@ -240,7 +239,7 @@ class ResourcePredictor:
             bundle = ["CPU-Cores-8", "GPU-Slot-1"]
             return bundle, 1, 8, 16, 5000
 
-    def get_model_summary(self) -> Dict[str, Any]:
+    def get_model_summary(self) -> dict[str, Any]:
         """Return diagnostic metrics for the predictor model."""
         categories = {}
         for r in self.execution_history:

@@ -26,14 +26,12 @@
 
 from __future__ import annotations
 
+import concurrent.futures
 import os
 import time
-import concurrent.futures
-import threading
-from typing import Dict, List, Tuple, Optional
-from dotenv import load_dotenv
 
 import pytest
+from dotenv import load_dotenv
 
 # ─────────────────────────────────────────────────────────────
 # Load .env so GROQ_API_KEY is available even in pytest context
@@ -53,20 +51,22 @@ def _has_live_key() -> bool:
 # ─────────────────────────────────────────────────────────────
 # IMPORTS (deferred under the skip guard where needed)
 # ─────────────────────────────────────────────────────────────
-from compute_bazaar.agents import (
-    CodingAgent, ResearchAgent, DataAgent, AnalysisAgent, TaskDecision,
-)
-from compute_bazaar.llm import GroqLLMClient, LLMConfig, LLMError
-from compute_bazaar.fairness import jains_fairness_index, FairnessTracker
-from compute_bazaar.fairness.metrics import calculate_starvation_score
 from backend.app.auction.engine import (
-    AuctionEngine,
-    Resource as EngineResource,
-    Bid as EngineBid,
     AllocationResult,
-    SolverMethod,
+    AuctionEngine,
 )
-
+from backend.app.auction.engine import (
+    Resource as EngineResource,
+)
+from compute_bazaar.agents import (
+    AnalysisAgent,
+    CodingAgent,
+    DataAgent,
+    ResearchAgent,
+    TaskDecision,
+)
+from compute_bazaar.fairness import FairnessTracker, jains_fairness_index
+from compute_bazaar.llm import GroqLLMClient, LLMConfig, LLMError
 
 # ─────────────────────────────────────────────────────────────
 # SHARED FIXTURES
@@ -84,7 +84,7 @@ def live_llm_client():
 
 
 @pytest.fixture(scope="module")
-def engine_resources() -> List[EngineResource]:
+def engine_resources() -> list[EngineResource]:
     """Standard 5-resource pool mirroring the production DB seed."""
     return [
         EngineResource("GPU-Slot-1",    "gpu",        capacity=1.0,   unit="slot"),
@@ -96,7 +96,7 @@ def engine_resources() -> List[EngineResource]:
 
 
 @pytest.fixture(scope="module")
-def four_agents(live_llm_client) -> Dict[str, object]:
+def four_agents(live_llm_client) -> dict[str, object]:
     """4 domain agents sharing one Groq client."""
     return {
         "DevBot":      CodingAgent("DevBot",      budget=800.0,  llm_client=live_llm_client),
@@ -318,8 +318,9 @@ def _agent_analyze_and_bid(
     """Worker function for thread pool: analyze task and create bid.
     Retries up to 3 times on Groq rate-limit (429) with backoff.
     """
-    from compute_bazaar.llm import LLMRateLimitError
     import re
+
+    from compute_bazaar.llm import LLMRateLimitError
 
     max_retries = 3
     for attempt in range(1, max_retries + 1):
@@ -368,8 +369,8 @@ def test_four_agent_concurrent_stress(four_agents, engine_resources):
     agents = four_agents
     agent_names = list(agents.keys())
 
-    results: Dict[str, dict] = {}
-    errors:  Dict[str, str]  = {}
+    results: dict[str, dict] = {}
+    errors:  dict[str, str]  = {}
 
     # ── Phase 1: Concurrent LLM reasoning — STAGGERED to respect TPM rate limit ──
     print("\n  [STRESS] Phase 1: Staggered Groq LLM reasoning for 4 agents...")
@@ -423,7 +424,7 @@ def test_four_agent_concurrent_stress(four_agents, engine_resources):
     engine = AuctionEngine(engine_resources)
 
     from compute_bazaar.agents.base import to_engine_bid
-    bid_map: Dict[str, Tuple[str, float]] = {}  # bid_id → (agent_name, bid_amount)
+    bid_map: dict[str, tuple[str, float]] = {}  # bid_id → (agent_name, bid_amount)
 
     for name in agent_names:
         combo_bid = results[name]["bid"]
@@ -449,10 +450,10 @@ def test_four_agent_concurrent_stress(four_agents, engine_resources):
     print("\n  [STRESS] Phase 5: Validating VCG payments...")
     winner_names = []
     loser_names = list(agent_names)
-    agent_surpluses: List[float] = []
+    agent_surpluses: list[float] = []
     budgets_before = {name: agents[name].budget for name in agent_names}
 
-    winning_bid_ids = {wb.bid_id for wb in result.winning_bids}
+    {wb.bid_id for wb in result.winning_bids}
 
     for wb in result.winning_bids:
         agent_name, bid_amount = bid_map.get(wb.bid_id, (None, 0.0))
@@ -553,15 +554,15 @@ def test_four_agent_concurrent_stress(four_agents, engine_resources):
         print(f"    {name:12} | before=${budget_before:.2f} | after=${budget_after:.2f}")
 
     # -- Summary ------------------------------------------------
-    print(f"\n  ===============================================")
-    print(f"  STRESS TEST PASSED")
-    print(f"  Total agents    : 4")
+    print("\n  ===============================================")
+    print("  STRESS TEST PASSED")
+    print("  Total agents    : 4")
     print(f"  Winners         : {winner_names}")
     print(f"  Losers          : {loser_names}")
     print(f"  Social welfare  : ${result.total_value:.2f}")
     print(f"  Jain's fairness : {fairness_index:.4f}")
     print(f"  Staggered LLM   : {total_elapsed:.0f}ms for all 4 agents")
-    print(f"  ===============================================")
+    print("  ===============================================")
 
 
 # ─────────────────────────────────────────────────────────────
@@ -586,11 +587,11 @@ def test_multi_round_adaptive_bidding(live_llm_client, engine_resources):
     }
 
     print("\n  [ADAPTIVE] Round 1...")
-    round1_bids: Dict[str, float] = {}
+    round1_bids: dict[str, float] = {}
 
     engine1 = AuctionEngine(engine_resources)
     from compute_bazaar.agents.base import to_engine_bid
-    bid_map1: Dict[str, Tuple[str, float]] = {}
+    bid_map1: dict[str, tuple[str, float]] = {}
 
     for name, agent in agents_local.items():
         decision = agent.analyze_task(tasks[name])
@@ -625,8 +626,8 @@ def test_multi_round_adaptive_bidding(live_llm_client, engine_resources):
 
     print("  [ADAPTIVE] Round 2 - agents adapt based on Round 1 memory...")
     engine2 = AuctionEngine(engine_resources)
-    bid_map2: Dict[str, Tuple[str, float]] = {}
-    round2_bids: Dict[str, float] = {}
+    bid_map2: dict[str, tuple[str, float]] = {}
+    round2_bids: dict[str, float] = {}
 
     for name, agent in agents_local.items():
         decision = agent.analyze_task(tasks[name])

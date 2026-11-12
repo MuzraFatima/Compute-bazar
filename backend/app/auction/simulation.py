@@ -12,14 +12,15 @@
 =============================================================
 """
 
+import asyncio
 import json
 import random
-import asyncio
+
 from loguru import logger
 from sqlalchemy.orm import Session
 
-from backend.app.db.models import SessionLocal, Agent, Resource, Bid, Auction, init_db
 from backend.app.api.websocket import manager
+from backend.app.db.models import Agent, Auction, Bid, Resource, SessionLocal, init_db
 
 # Simulated Agent configurations
 AGENT_BEHAVIORS = {
@@ -78,19 +79,19 @@ def calculate_bid_amount(agent_name: str, valuation: float, strategy: str) -> fl
     if strategy == "truthful":
         # Always bids true valuation
         return valuation
-        
+
     elif strategy == "shading":
         # Bids 30% lower to attempt high profit margin
         return valuation * 0.70
-        
+
     elif strategy == "critical":
         # Urgent high value task, bids aggressively (95%)
         return valuation * 0.95
-        
+
     elif strategy == "bargain":
         # Wants cheap slots, bids only 40% of value
         return valuation * 0.40
-        
+
     elif strategy == "ml_adaptive":
         # ML bidding strategy: adjusts bid multiplier dynamically
         win_rate = win_trackers[agent_name].get_win_rate()
@@ -104,7 +105,7 @@ def calculate_bid_amount(agent_name: str, valuation: float, strategy: str) -> fl
             # Stable rate, bid standard 75%
             multiplier = 0.75
         return valuation * multiplier
-        
+
     return valuation * 0.80
 
 
@@ -113,12 +114,12 @@ async def generate_simulated_bids(db: Session, auction_id: int):
     Simulate bids from active simulated agents for the current round.
     Saves bids directly to database.
     """
-    db_resources = db.query(Resource).filter(Resource.is_available == True).all()
+    db_resources = db.query(Resource).filter(Resource.is_available.is_(True)).all()
     if not db_resources:
         return
-        
+
     res_names = [r.name for r in db_resources]
-    
+
     # Let each agent submit a bid with some probability
     for agent_name, config in AGENT_BEHAVIORS.items():
         if random.random() > 0.85:
@@ -127,15 +128,15 @@ async def generate_simulated_bids(db: Session, auction_id: int):
         agent = db.query(Agent).filter(Agent.name == agent_name).first()
         if not agent or agent.budget_remaining < 50.0:
             continue  # Out of budget
-            
+
         # Select a random resource bundle (1 to 3 items)
         bundle_size = random.randint(1, min(3, len(res_names)))
         bundle = random.sample(res_names, bundle_size)
-        
+
         # Calculate valuation base ($40 per resource item on average)
         valuation = sum(random.uniform(30.0, 100.0) for _ in bundle)
         bid_val = calculate_bid_amount(agent_name, valuation, config["strategy"])
-        
+
         # Clamp bid to remaining budget
         bid_val = min(bid_val, agent.budget_remaining)
         if bid_val <= 1.0:
@@ -175,7 +176,7 @@ async def generate_simulated_bids(db: Session, auction_id: int):
 
         # Update win tracker (this will get updated once the round closes)
         # We query and update win rates on round completion
-        
+
         # Broadcast the newly submitted bid to WebSockets for live feed
         await manager.broadcast_json({
             "type": "bid_submitted",
@@ -194,7 +195,7 @@ async def _simulation_loop():
     db = SessionLocal()
     try:
         ensure_simulated_agents_exist(db)
-        
+
         while not _sim_stop_event.is_set():
             try:
                 # Find current open auction round
@@ -202,7 +203,7 @@ async def _simulation_loop():
                 if active_auction:
                     # Submit some simulated bids
                     await generate_simulated_bids(db, active_auction.id)
-                    
+
                 # Submit bids every 2.5 seconds to keep the live feed scrolling
                 await asyncio.sleep(2.5)
             except asyncio.CancelledError:

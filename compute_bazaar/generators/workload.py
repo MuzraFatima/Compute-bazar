@@ -9,8 +9,8 @@
 
 import random
 import uuid
-from typing import List, Dict, Optional
-from compute_bazaar.models.bundle import CombinatorialBid, ResourceItem, PriorityLevel, AgentTier
+
+from compute_bazaar.models.bundle import CombinatorialBid, PriorityLevel
 
 # Common AI task templates with realistic resource bundles & valuations
 TASK_TEMPLATES = [
@@ -69,8 +69,8 @@ TASK_TEMPLATES = [
 
 def generate_synthetic_bid(
     agent_name: str,
-    available_resource_names: Optional[List[str]] = None,
-    task_category: Optional[str] = None,
+    available_resource_names: list[str] | None = None,
+    task_category: str | None = None,
     noise_factor: float = 0.15,
 ) -> CombinatorialBid:
     """Generate a single realistic synthetic bid."""
@@ -106,8 +106,8 @@ def generate_synthetic_bid(
 
 def generate_workload_batch(
     num_agents: int = 10,
-    available_resources: Optional[List[str]] = None,
-) -> List[CombinatorialBid]:
+    available_resources: list[str] | None = None,
+) -> list[CombinatorialBid]:
     """Generate a batch of competitive bids from diverse simulated agents."""
     if available_resources is None:
         available_resources = [

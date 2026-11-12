@@ -7,11 +7,11 @@
 """
 
 from compute_bazaar.tools.agent_tools import (
-    check_resources,
+    ToolRegistry,
     check_budget,
+    check_resources,
     estimate_cost,
     execute_task,
-    ToolRegistry,
 )
 
 __all__ = [

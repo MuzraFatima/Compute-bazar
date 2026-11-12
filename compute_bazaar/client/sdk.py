@@ -8,11 +8,10 @@
 """
 
 import json
-import urllib.request
-import urllib.parse
 import urllib.error
-from typing import Dict, List, Optional, Any, Union
-from compute_bazaar.models.bundle import CombinatorialBid, ResourceItem, AgentTier, PriorityLevel
+import urllib.parse
+import urllib.request
+from typing import Any
 
 
 class ComputeBazaarError(Exception):
@@ -23,7 +22,7 @@ class ComputeBazaarError(Exception):
 class ComputeBazaarClient:
     """
     Python SDK Client for Compute Bazaar.
-    
+
     Example:
     --------
     >>> client = ComputeBazaarClient(base_url="http://127.0.0.1:8000")
@@ -36,19 +35,19 @@ class ComputeBazaarClient:
     ... )
     """
 
-    def __init__(self, base_url: str = "http://127.0.0.1:8000", api_key: Optional[str] = None):
+    def __init__(self, base_url: str = "http://127.0.0.1:8000", api_key: str | None = None):
         self.base_url = base_url.rstrip("/")
         self.api_key = api_key
-        self.token: Optional[str] = None
-        self.agent_profile: Optional[Dict[str, Any]] = None
+        self.token: str | None = None
+        self.agent_profile: dict[str, Any] | None = None
 
     def _make_request(
         self,
         method: str,
         endpoint: str,
-        data: Optional[Dict[str, Any]] = None,
-        headers: Optional[Dict[str, str]] = None,
-    ) -> Dict[str, Any]:
+        data: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None,
+    ) -> dict[str, Any]:
         """Internal HTTP request dispatcher using standard library for zero external dependency runtime."""
         url = f"{self.base_url}{endpoint}"
         req_headers = {
@@ -82,16 +81,16 @@ class ComputeBazaarClient:
                 msg = err_json.get("detail", err_body)
             except Exception:
                 msg = err_body
-            raise ComputeBazaarError(f"HTTP {e.code} Error on {endpoint}: {msg}")
+            raise ComputeBazaarError(f"HTTP {e.code} Error on {endpoint}: {msg}") from e
         except urllib.error.URLError as e:
-            raise ComputeBazaarError(f"Connection failed to {url}: {e.reason}")
+            raise ComputeBazaarError(f"Connection failed to {url}: {e.reason}") from e
 
     def register(
         self,
         name: str,
         tier: str = "bronze",
-        description: Optional[str] = None,
-    ) -> Dict[str, Any]:
+        description: str | None = None,
+    ) -> dict[str, Any]:
         """Register a new agent account and obtain an API key."""
         payload = {
             "name": name,
@@ -103,7 +102,7 @@ class ComputeBazaarClient:
         self.agent_profile = resp
         return resp
 
-    def get_token(self, api_key: Optional[str] = None) -> str:
+    def get_token(self, api_key: str | None = None) -> str:
         """Obtain a Bearer JWT token using an API key."""
         key = api_key or self.api_key
         if not key:
@@ -112,27 +111,27 @@ class ComputeBazaarClient:
         self.token = resp.get("access_token")
         return self.token
 
-    def get_profile(self) -> Dict[str, Any]:
+    def get_profile(self) -> dict[str, Any]:
         """Fetch current agent profile and remaining budget."""
         resp = self._make_request("GET", "/api/v1/agents/me")
         self.agent_profile = resp
         return resp
 
-    def get_resources(self) -> List[Dict[str, Any]]:
+    def get_resources(self) -> list[dict[str, Any]]:
         """List all available compute resources and their reserve costs."""
         return self._make_request("GET", "/api/v1/resources")
 
-    def get_current_round(self) -> Dict[str, Any]:
+    def get_current_round(self) -> dict[str, Any]:
         """Retrieve the currently open auction round and recent allocations."""
         return self._make_request("GET", "/api/v1/auctions/current")
 
     def submit_bid(
         self,
-        bundle: List[str],
+        bundle: list[str],
         amount: float,
         task: str = "",
         priority: str = "normal",
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """
         Submit a combinatorial bid for a bundle of resources in the open auction round.
         """
@@ -144,14 +143,14 @@ class ComputeBazaarClient:
         }
         return self._make_request("POST", "/api/v1/bids", data=payload)
 
-    def get_analytics(self) -> Dict[str, Any]:
+    def get_analytics(self) -> dict[str, Any]:
         """Retrieve aggregate efficiency analytics comparing Compute Bazaar vs Round-Robin."""
         return self._make_request("GET", "/api/v1/analytics/comparison")
 
-    def start_simulation(self) -> Dict[str, Any]:
+    def start_simulation(self) -> dict[str, Any]:
         """Start automated simulated background agent bidding."""
         return self._make_request("POST", "/api/v1/simulation/start")
 
-    def stop_simulation(self) -> Dict[str, Any]:
+    def stop_simulation(self) -> dict[str, Any]:
         """Stop automated simulated background agent bidding."""
         return self._make_request("POST", "/api/v1/simulation/stop")

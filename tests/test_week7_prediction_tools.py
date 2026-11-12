@@ -15,26 +15,27 @@
 =============================================================
 """
 
-import pytest
-from typing import List, Dict
 
-from compute_bazaar.prediction import ResourcePredictor, ResourcePrediction
-from compute_bazaar.tools import (
-    check_resources,
-    check_budget,
-    estimate_cost,
-    execute_task,
-    ToolRegistry,
-)
-from compute_bazaar.agents import CodingAgent, ResearchAgent, DataAgent
-from compute_bazaar.llm import GroqLLMClient, LLMConfig
-from compute_bazaar.marketplace import DynamicMarketplace
+import pytest
+
 from backend.app.auction.engine import (
     AuctionEngine,
-    Resource as EngineResource,
     SolverMethod,
 )
-
+from backend.app.auction.engine import (
+    Resource as EngineResource,
+)
+from compute_bazaar.agents import CodingAgent
+from compute_bazaar.llm import GroqLLMClient, LLMConfig
+from compute_bazaar.marketplace import DynamicMarketplace
+from compute_bazaar.prediction import ResourcePrediction, ResourcePredictor
+from compute_bazaar.tools import (
+    ToolRegistry,
+    check_budget,
+    check_resources,
+    estimate_cost,
+    execute_task,
+)
 
 # ─────────────────────────────────────────────────────────────
 # FIXTURES
@@ -84,9 +85,9 @@ def test_resource_predictor_cold_start(predictor):
 def test_resource_predictor_learning_from_history(predictor):
     """Predictor should update forecasts and confidence as historical records are logged."""
     task = "Document corpus embedding batch job"
-    
+
     # Record 4 historical executions
-    for i in range(4):
+    for _i in range(4):
         predictor.record_execution(
             task_description=task,
             allocated_resources=["RAM-Block-32GB", "CPU-Cores-8"],

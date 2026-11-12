@@ -12,11 +12,10 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional
-from loguru import logger
+from typing import Any
 
 
-def jains_fairness_index(values: List[float]) -> float:
+def jains_fairness_index(values: list[float]) -> float:
     """
     Compute Jain's Fairness Index for a list of values (e.g. agent surpluses or wins).
 
@@ -75,8 +74,8 @@ class FairnessTracker:
 
     def __init__(self):
         # agent_name -> statistics dict
-        self.agent_stats: Dict[str, Dict[str, Any]] = {}
-        self.round_history: List[Dict[str, Any]] = []
+        self.agent_stats: dict[str, dict[str, Any]] = {}
+        self.round_history: list[dict[str, Any]] = []
 
     def register_agent(self, agent_name: str):
         """Register an agent for fairness tracking."""
@@ -94,7 +93,7 @@ class FairnessTracker:
     def record_round_outcome(
         self,
         round_id: int,
-        outcomes: Dict[str, Dict[str, Any]],
+        outcomes: dict[str, dict[str, Any]],
     ):
         """
         Record auction round outcomes for all participating agents.
@@ -140,7 +139,7 @@ class FairnessTracker:
         wins = [float(s["total_wins"]) for s in self.agent_stats.values()]
         return jains_fairness_index(wins)
 
-    def detect_starved_agents(self, threshold: int = 3) -> List[str]:
+    def detect_starved_agents(self, threshold: int = 3) -> list[str]:
         """
         Return names of agents currently experiencing starvation
         (consecutive_losses >= threshold).
@@ -150,7 +149,7 @@ class FairnessTracker:
             if stats["consecutive_losses"] >= threshold
         ]
 
-    def detect_dominating_agents(self, domination_threshold: float = 0.65) -> List[str]:
+    def detect_dominating_agents(self, domination_threshold: float = 0.65) -> list[str]:
         """
         Return names of agents that are dominating resource allocations
         (win_rate >= domination_threshold over at least 5 rounds).
@@ -184,7 +183,7 @@ class FairnessTracker:
             return "high"
         return "normal"
 
-    def get_fairness_report(self) -> Dict[str, Any]:
+    def get_fairness_report(self) -> dict[str, Any]:
         """Return comprehensive market fairness diagnostics."""
         starved = self.detect_starved_agents()
         dominating = self.detect_dominating_agents()

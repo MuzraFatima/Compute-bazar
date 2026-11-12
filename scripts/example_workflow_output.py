@@ -2,13 +2,15 @@
 Three-bidder VCG example to capture real output for the README.
 Usage: python scripts/example_workflow_output.py
 """
-import sys, os
+import os
+import sys
+
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from backend.app.auction.engine import AuctionEngine, Bid, Resource, SolverMethod
 from compute_bazaar.agents import CodingAgent
 from compute_bazaar.llm import GroqLLMClient, LLMConfig
 from compute_bazaar.tools import estimate_cost, execute_task
-from backend.app.auction.engine import AuctionEngine, Resource, Bid, SolverMethod
 
 # 1. Initialize Infrastructure & Engine
 resources = [

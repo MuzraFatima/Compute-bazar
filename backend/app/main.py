@@ -16,42 +16,42 @@ from contextlib import asynccontextmanager
 
 import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
-from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
+from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.staticfiles import StaticFiles
 from loguru import logger
 
-from backend.app.db.models import init_db, SessionLocal, Resource, Agent, Auction
 from backend.app.api.endpoints import router as api_router
 from backend.app.api.websocket import manager
 from backend.app.auction.scheduler import start_scheduler, stop_scheduler
+from backend.app.db.models import Agent, Auction, Resource, SessionLocal, init_db
 
 
 # ── Download Swagger and Chart.js assets locally for offline use ──────
 def download_static_assets_if_missing():
     """Download Swagger UI and Chart.js assets to serve locally in a background thread to prevent blocking server boot."""
     import threading
-    
+
     def _download():
         import urllib.request
-        
+
         static_dir = os.path.join(os.path.dirname(__file__), "static")
         os.makedirs(static_dir, exist_ok=True)
-        
+
         assets = {
             "swagger-ui-bundle.js": "https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js",
             "swagger-ui.css": "https://unpkg.com/swagger-ui-dist@5/swagger-ui.css",
             "chart.umd.js": "https://unpkg.com/chart.js@4/dist/chart.umd.js"
         }
-        
+
         for filename, url in assets.items():
             filepath = os.path.join(static_dir, filename)
             if not os.path.exists(filepath):
                 logger.info(f"Downloading {filename} from {url} to serve locally...")
                 try:
                     req = urllib.request.Request(
-                        url, 
+                        url,
                         headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
                     )
                     with urllib.request.urlopen(req, timeout=15) as response:
@@ -60,7 +60,7 @@ def download_static_assets_if_missing():
                     logger.info(f"Successfully downloaded {filename}")
                 except Exception as e:
                     logger.warning(f"Could not download {filename} from CDN ({e}). Will fall back to remote CDN urls.")
-                    
+
     threading.Thread(target=_download, daemon=True).start()
 
 
@@ -117,24 +117,24 @@ def seed_resources_if_empty():
 async def lifespan(app: FastAPI):
     # ── Startup Actions ──
     logger.info("Starting up Compute Bazaar server...")
-    
+
     # 0. Download static assets for offline/local usage
     download_static_assets_if_missing()
-    
+
     # 1. Initialize SQLite Database Schema
     init_db()
-    
+
     # 2. Seed resource items & baseline agents
     seed_resources_if_empty()
-    
+
     # 3. Start Periodic Auction Loop background task
     start_scheduler()
-    
+
     yield
-    
+
     # ── Shutdown Actions ──
     logger.info("Shutting down Compute Bazaar server...")
-    
+
     # 1. Stop Periodic Auction Loop background task
     stop_scheduler()
 
@@ -172,7 +172,7 @@ async def websocket_ws(websocket: WebSocket):
             await websocket.receive_text()
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-    except Exception as e:
+    except Exception:
         manager.disconnect(websocket)
 
 
@@ -185,7 +185,7 @@ async def websocket_feed(websocket: WebSocket):
             await websocket.receive_text()
     except WebSocketDisconnect:
         manager.disconnect(websocket)
-    except Exception as e:
+    except Exception:
         manager.disconnect(websocket)
 
 
@@ -210,7 +210,7 @@ def get_dashboard():
 async def custom_swagger_ui_html():
     swagger_js = "/static/swagger-ui-bundle.js" if os.path.exists(os.path.join(STATIC_DIR, "swagger-ui-bundle.js")) else "https://unpkg.com/swagger-ui-dist@5/swagger-ui-bundle.js"
     swagger_css = "/static/swagger-ui.css" if os.path.exists(os.path.join(STATIC_DIR, "swagger-ui.css")) else "https://unpkg.com/swagger-ui-dist@5/swagger-ui.css"
-    
+
     return get_swagger_ui_html(
         openapi_url=app.openapi_url,
         title=app.title + " - Swagger UI",

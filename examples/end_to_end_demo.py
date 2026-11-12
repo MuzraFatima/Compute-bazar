@@ -13,10 +13,11 @@
 =============================================================
 """
 
-import sys
 import os
+import sys
 import time
-from typing import Dict, Any, List
+from typing import Any
+
 from dotenv import load_dotenv
 
 # Ensure compute-bazaar project root is in path
@@ -32,11 +33,12 @@ if hasattr(sys.stdout, "reconfigure"):
 # Load environment variables (GROQ_API_KEY)
 load_dotenv()
 
-from compute_bazaar.llm import GroqLLMClient, LLMConfig, LLMError, LLMAuthenticationError
-from compute_bazaar.agents import ResearchAgent, DataAgent, AnalysisAgent, TaskDecision
-from compute_bazaar.marketplace import DynamicMarketplace
+from backend.app.auction.engine import AuctionEngine, SolverMethod
+from backend.app.auction.engine import Resource as EngineResource
+from compute_bazaar.agents import AnalysisAgent, DataAgent, ResearchAgent, TaskDecision
 from compute_bazaar.fairness import FairnessTracker
-from backend.app.auction.engine import AuctionEngine, Resource as EngineResource, SolverMethod
+from compute_bazaar.llm import GroqLLMClient, LLMAuthenticationError, LLMConfig, LLMError
+from compute_bazaar.marketplace import DynamicMarketplace
 
 
 def print_banner(text: str, width: int = 75, char: str = "="):
@@ -145,7 +147,7 @@ def run_end_to_end_demo():
         ),
     }
 
-    decisions: Dict[Any, TaskDecision] = {}
+    decisions: dict[Any, TaskDecision] = {}
 
     for agent, task in tasks.items():
         print(f"\n  [Agent: {agent.name}] Analyzing Task via Groq LLM...")

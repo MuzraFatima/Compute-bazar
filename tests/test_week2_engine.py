@@ -9,23 +9,28 @@
 """
 
 import uuid
+
 import pytest
-from typing import List, Dict
 
 from backend.app.auction.engine import (
-    AuctionEngine, Resource, Bid, SolverMethod,
-    solve_greedy, solve_wdp_lp, compute_vcg_prices,
+    AuctionEngine,
+    Bid,
+    Resource,
+    SolverMethod,
+    compute_vcg_prices,
+    solve_greedy,
+    solve_wdp_lp,
 )
 from backend.app.auction.pricing import (
-    apply_tier_pricing, check_budget_feasibility, PricedPayment,
+    apply_tier_pricing,
+    check_budget_feasibility,
 )
-
 
 # ─────────────────────────────────────────────────────────────
 # FIXTURES
 # ─────────────────────────────────────────────────────────────
 
-def bid(agent: str, bundle: List[str], amount: float) -> Bid:
+def bid(agent: str, bundle: list[str], amount: float) -> Bid:
     return Bid(
         bid_id=str(uuid.uuid4())[:8],
         agent_id=agent,
@@ -34,7 +39,7 @@ def bid(agent: str, bundle: List[str], amount: float) -> Bid:
     )
 
 
-def resources_3() -> Dict[str, Resource]:
+def resources_3() -> dict[str, Resource]:
     return {
         "GPU-1":   Resource("GPU-1",   "gpu",        1.0),
         "GPU-2":   Resource("GPU-2",   "gpu",        1.0),
@@ -246,7 +251,7 @@ def test_engine_submit_and_run():
 def test_engine_rejects_unknown_resource():
     eng = engine_lp()
     ok = eng.submit_bid(bid("X", ["UNKNOWN-RESOURCE"], 50.0))
-    assert ok == False
+    assert not ok
 
 
 def test_engine_rejects_duplicate_bid_id():
@@ -254,7 +259,7 @@ def test_engine_rejects_duplicate_bid_id():
     b = bid("A", ["GPU-1"], 50.0)
     eng.submit_bid(b)
     ok = eng.submit_bid(b)  # same bid_id
-    assert ok == False
+    assert not ok
 
 
 def test_engine_reset_clears_bids():

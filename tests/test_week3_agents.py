@@ -20,18 +20,18 @@
 """
 
 import json
+
 import pytest
+
 from compute_bazaar.agents import (
-    BaseAgent,
-    TaskDecision,
     AgentCapability,
-    CodingAgent,
-    ResearchAgent,
-    DataAgent,
     AnalysisAgent,
+    CodingAgent,
+    DataAgent,
+    ResearchAgent,
+    TaskDecision,
 )
 from compute_bazaar.llm import GroqLLMClient, LLMConfig, LLMResponse, LLMUsage
-
 
 # ─────────────────────────────────────────────────────────────
 # FIXTURES

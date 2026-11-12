@@ -6,17 +6,17 @@
 =============================================================
 """
 
+from compute_bazaar.agents.analysis import AnalysisAgent
 from compute_bazaar.agents.base import (
+    AgentCapability,
     BaseAgent,
     TaskDecision,
-    AgentCapability,
     to_engine_bid,
 )
-from compute_bazaar.agents.memory import AgentMemory, BidOutcome
 from compute_bazaar.agents.coding import CodingAgent
-from compute_bazaar.agents.research import ResearchAgent
 from compute_bazaar.agents.data import DataAgent
-from compute_bazaar.agents.analysis import AnalysisAgent
+from compute_bazaar.agents.memory import AgentMemory, BidOutcome
+from compute_bazaar.agents.research import ResearchAgent
 
 __all__ = [
     "BaseAgent",

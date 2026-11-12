@@ -12,11 +12,10 @@
 """
 
 from __future__ import annotations
-from typing import Dict, List, Optional
+
 from dataclasses import dataclass
 
-from .engine import Bid, AllocationResult
-
+from .engine import AllocationResult, Bid
 
 # ─────────────────────────────────────────────────────────────
 # TIER DISCOUNTS
@@ -52,9 +51,9 @@ class PricedPayment:
 
 def apply_tier_pricing(
     result: AllocationResult,
-    agent_tiers: Dict[str, str],     # agent_id → "gold"/"silver"/"bronze"
-    reserve_prices: Optional[Dict[str, float]] = None,  # resource_name → min price
-) -> List[PricedPayment]:
+    agent_tiers: dict[str, str],     # agent_id → "gold"/"silver"/"bronze"
+    reserve_prices: dict[str, float] | None = None,  # resource_name → min price
+) -> list[PricedPayment]:
     """
     Apply tier discounts to VCG payments and enforce reserve prices.
 
@@ -105,7 +104,7 @@ def apply_tier_pricing(
 
 def format_payment_report(
     result: AllocationResult,
-    priced_payments: List[PricedPayment],
+    priced_payments: list[PricedPayment],
 ) -> str:
     """
     Return a formatted string report of auction payments.
@@ -153,9 +152,9 @@ def format_payment_report(
 
 
 def check_budget_feasibility(
-    bids: List[Bid],
-    agent_budgets: Dict[str, float],  # agent_id → remaining budget
-) -> List[Bid]:
+    bids: list[Bid],
+    agent_budgets: dict[str, float],  # agent_id → remaining budget
+) -> list[Bid]:
     """
     Filter out bids from agents who can't afford their bid amount.
     Prevents agents from bidding more than they have.

@@ -19,31 +19,29 @@
 =============================================================
 """
 
-import pytest
-from typing import List, Dict
 
-from compute_bazaar.agents import (
-    BaseAgent,
-    CodingAgent,
-    ResearchAgent,
-    DataAgent,
-    AnalysisAgent,
-    AgentMemory,
-    BidOutcome,
-)
-from compute_bazaar.fairness import (
-    jains_fairness_index,
-    calculate_starvation_score,
-    FairnessTracker,
-)
-from compute_bazaar.llm import GroqLLMClient, LLMConfig
-from compute_bazaar.models.bundle import CombinatorialBid
+import pytest
+
 from backend.app.auction.engine import (
     AuctionEngine,
-    Resource as EngineResource,
     SolverMethod,
 )
-
+from backend.app.auction.engine import (
+    Resource as EngineResource,
+)
+from compute_bazaar.agents import (
+    AgentMemory,
+    AnalysisAgent,
+    CodingAgent,
+    DataAgent,
+    ResearchAgent,
+)
+from compute_bazaar.fairness import (
+    FairnessTracker,
+    calculate_starvation_score,
+    jains_fairness_index,
+)
+from compute_bazaar.llm import GroqLLMClient, LLMConfig
 
 # ─────────────────────────────────────────────────────────────
 # FIXTURES

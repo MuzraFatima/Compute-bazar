@@ -1,0 +1,8 @@
+# Development and CI tooling on top of the runtime requirements
+-r backend/requirements.txt
+
+pytest==8.4.1
+pytest-asyncio==1.0.0
+httpx==0.28.1        # used by FastAPI's TestClient
+hypothesis==6.170.15 # property-based checks for the auction mechanism
+ruff==0.17.4

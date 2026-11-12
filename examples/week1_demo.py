@@ -23,12 +23,9 @@
 =============================================================
 """
 
-import sys
 import os
-import json
-from dataclasses import dataclass, field
-from typing import List, Dict, Optional
-from itertools import combinations
+import sys
+from dataclasses import dataclass
 
 # Add repo root to sys.path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -76,7 +73,7 @@ class Resource:
 class Bid:
     agent_name: str          # Who is bidding
     task_description: str    # What they'll do with resources
-    resource_bundle: List[str]  # Which resources they want (by name)
+    resource_bundle: list[str]  # Which resources they want (by name)
     bid_amount: float        # How much they value this bundle ($)
     priority: str = "normal" # "critical", "high", "normal", "low"
 
@@ -101,7 +98,7 @@ class Bid:
 class SimpleAuctionEngine:
     """
     A simple combinatorial auction engine.
-    
+
     In a combinatorial auction:
     - Multiple resources are auctioned simultaneously
     - Agents bid on BUNDLES of resources (not just one at a time)
@@ -109,9 +106,9 @@ class SimpleAuctionEngine:
     - Each resource can only go to ONE winner
     """
 
-    def __init__(self, resources: List[Resource]):
+    def __init__(self, resources: list[Resource]):
         self.resources = {r.name: r for r in resources}
-        self.bids: List[Bid] = []
+        self.bids: list[Bid] = []
         self.round_number = 0
 
     def add_bid(self, bid: Bid) -> bool:
@@ -121,26 +118,26 @@ class SimpleAuctionEngine:
             if res_name not in self.resources:
                 print(f"  ❌ Invalid bid: Resource '{res_name}' doesn't exist!")
                 return False
-        
+
         # Check bid amount is positive
         if bid.bid_amount <= 0:
             print(f"  ❌ Invalid bid: Amount must be > 0, got {bid.bid_amount}")
             return False
-        
+
         self.bids.append(bid)
         return True
 
-    def run_auction(self) -> Dict:
+    def run_auction(self) -> dict:
         """
         Run the auction and determine winners.
-        
+
         Algorithm (Greedy Approach):
         1. Sort all bids by "value per resource" (highest first)
         2. Go through bids in order
         3. Accept a bid if ALL its resources are still available
         4. Mark those resources as "taken"
         5. Repeat until no more compatible bids remain
-        
+
         NOTE: This greedy approach is NOT optimal (we'll fix that in Week 2).
               It's a fast, easy-to-understand approximation.
         """
@@ -150,8 +147,8 @@ class SimpleAuctionEngine:
         print(f"{'='*60}")
 
         # Show available resources
-        print(f"\n📦 Available Resources:")
-        for name, res in self.resources.items():
+        print("\n📦 Available Resources:")
+        for _name, res in self.resources.items():
             print(f"   • {res.name} ({res.resource_type})")
 
         # Show all bids received
@@ -175,7 +172,7 @@ class SimpleAuctionEngine:
         # Greedy winner determination
         for bid in sorted_bids:
             bundle_set = set(bid.resource_bundle)
-            
+
             # Check if ALL resources in this bundle are still free
             if bundle_set.isdisjoint(allocated_resources):
                 # WINNER! Allocate these resources
@@ -188,9 +185,9 @@ class SimpleAuctionEngine:
                 losers.append((bid, conflict))
 
         # Display results
-        print(f"\n🏆 AUCTION RESULTS:")
+        print("\n🏆 AUCTION RESULTS:")
         print(f"{'─'*60}")
-        
+
         print(f"\n✅ WINNERS ({len(winners)} agents):")
         for bid in winners:
             resources_won = " + ".join(bid.resource_bundle)
@@ -214,14 +211,14 @@ class SimpleAuctionEngine:
         # Compare with round-robin (just for illustration)
         rr_value = self._simulate_round_robin()
         improvement = ((total_value - rr_value) / rr_value * 100) if rr_value > 0 else 0
-        
-        print(f"\n📊 vs. Round-Robin Scheduling:")
+
+        print("\n📊 vs. Round-Robin Scheduling:")
         print(f"   Compute Bazaar: ${total_value:.2f}")
         print(f"   Round Robin:    ${rr_value:.2f}")
         if improvement > 0:
             print(f"   ✨ Auction is {improvement:.1f}% MORE efficient!")
         else:
-            print(f"   (Tied or similar in this small example)")
+            print("   (Tied or similar in this small example)")
 
         print(f"\n{'='*60}\n")
 
@@ -233,14 +230,14 @@ class SimpleAuctionEngine:
             "efficiency_gain_pct": improvement,
         }
 
-    def _calculate_payment(self, winning_bid: Bid, all_winners: List[Bid]) -> float:
+    def _calculate_payment(self, winning_bid: Bid, all_winners: list[Bid]) -> float:
         """
         Calculate how much the winner actually PAYS.
-        
+
         In Week 2, we'll implement proper VCG pricing (game-theory optimal).
         For now, we use a simplified "discount" rule:
           - Pay 90% of your bid (you save 10% as incentive to participate)
-        
+
         VCG Rule (preview): You pay the VALUE you DISPLACED from others,
         not your own bid amount. This makes truthful bidding the best strategy.
         """
@@ -249,22 +246,22 @@ class SimpleAuctionEngine:
     def _simulate_round_robin(self) -> float:
         """
         Simulate what WOULD happen with round-robin scheduling.
-        
+
         Round-robin: just give resources to agents in the ORDER they arrived,
         ignoring bid values entirely.
-        
+
         Returns the total value that would have been extracted.
         """
         allocated = set()
         total = 0.0
-        
+
         # Round-robin = first-come, first-served (original order)
         for bid in self.bids:
             bundle_set = set(bid.resource_bundle)
             if bundle_set.isdisjoint(allocated):
                 allocated.update(bundle_set)
                 total += bid.bid_amount
-        
+
         return total
 
     def reset(self):
@@ -279,11 +276,11 @@ class SimpleAuctionEngine:
 def run_demo():
     """
     Demo Scenario:
-    
+
     A company runs 5 AI agents simultaneously.
     They have 3 compute resources available.
     Each agent wants a bundle of resources for their task.
-    
+
     The auction engine decides who gets what — fairly and efficiently.
     """
 
@@ -347,7 +344,7 @@ def run_demo():
         priority="high"
     ))
 
-    result1 = engine.run_auction()
+    engine.run_auction()
     engine.reset()
 
     # ── Scenario 2: Tight Competition ──────────────────────
@@ -386,7 +383,7 @@ def run_demo():
         priority="normal"
     ))
 
-    result2 = engine.run_auction()
+    engine.run_auction()
     engine.reset()
 
     # ── Final Summary ───────────────────────────────────────

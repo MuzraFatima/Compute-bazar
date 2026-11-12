@@ -14,23 +14,24 @@
 =============================================================
 """
 
-import pytest
-from typing import List
 
-from compute_bazaar.marketplace import (
-    ResourceProvider,
-    MarketResource,
-    MarketResourceType,
-    DynamicMarketplace,
-)
-from compute_bazaar.agents import CodingAgent, ResearchAgent
-from compute_bazaar.llm import GroqLLMClient, LLMConfig
+import pytest
+
 from backend.app.auction.engine import (
     AuctionEngine,
-    Resource as EngineResource,
     SolverMethod,
 )
-
+from backend.app.auction.engine import (
+    Resource as EngineResource,
+)
+from compute_bazaar.agents import CodingAgent
+from compute_bazaar.llm import GroqLLMClient, LLMConfig
+from compute_bazaar.marketplace import (
+    DynamicMarketplace,
+    MarketResource,
+    MarketResourceType,
+    ResourceProvider,
+)
 
 # ─────────────────────────────────────────────────────────────
 # FIXTURES

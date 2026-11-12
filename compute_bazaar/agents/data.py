@@ -9,9 +9,8 @@
 =============================================================
 """
 
-from typing import List
 
-from compute_bazaar.agents.base import BaseAgent, AgentCapability
+from compute_bazaar.agents.base import AgentCapability, BaseAgent
 
 
 class DataAgent(BaseAgent):
@@ -51,5 +50,5 @@ class DataAgent(BaseAgent):
         )
 
     @property
-    def preferred_resources(self) -> List[str]:
+    def preferred_resources(self) -> list[str]:
         return ["RAM-Block-32GB", "CPU-Cores-8", "GPU-Slot-1"]

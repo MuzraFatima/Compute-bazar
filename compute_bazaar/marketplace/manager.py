@@ -13,13 +13,14 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
+
 from loguru import logger
 
 from compute_bazaar.marketplace.provider import (
-    ResourceProvider,
     MarketResource,
     MarketResourceType,
+    ResourceProvider,
 )
 
 
@@ -37,12 +38,12 @@ class DynamicMarketplace:
 
     def __init__(self, name: str = "Compute Bazaar Dynamic Marketplace"):
         self.name = name
-        self.providers: Dict[str, ResourceProvider] = {}
-        self.resources: Dict[str, MarketResource] = {}
-        
+        self.providers: dict[str, ResourceProvider] = {}
+        self.resources: dict[str, MarketResource] = {}
+
         # Demand tracking: resource_name -> total_requested_capacity
-        self.demand_history: Dict[str, float] = {}
-        self.round_demand_log: List[Dict[str, float]] = []
+        self.demand_history: dict[str, float] = {}
+        self.round_demand_log: list[dict[str, float]] = []
         self.alpha_pricing_factor: float = 0.5
 
         # Pre-seed default provider for default resources if needed
@@ -56,7 +57,7 @@ class DynamicMarketplace:
             provider_type="on_prem",
             reliability_score=1.0,
         )
-        
+
         default_resources = [
             MarketResource(name="GPU-Slot-1", resource_type=MarketResourceType.GPU.value, total_capacity=1.0, min_price=30.0, current_price=30.0, unit="slot"),
             MarketResource(name="GPU-Slot-2", resource_type=MarketResourceType.GPU.value, total_capacity=1.0, min_price=30.0, current_price=30.0, unit="slot"),
@@ -81,11 +82,11 @@ class DynamicMarketplace:
             self.resources[res_name] = res
         logger.info(f"Registered provider '{provider.name}' ({provider.provider_id}) with {len(provider.resources)} resources.")
 
-    def get_provider(self, provider_id: str) -> Optional[ResourceProvider]:
+    def get_provider(self, provider_id: str) -> ResourceProvider | None:
         """Fetch provider by ID."""
         return self.providers.get(provider_id)
 
-    def list_providers(self) -> List[ResourceProvider]:
+    def list_providers(self) -> list[ResourceProvider]:
         """List all registered providers."""
         return list(self.providers.values())
 
@@ -97,19 +98,19 @@ class DynamicMarketplace:
         if not provider:
             provider = ResourceProvider(provider_id=provider_id, name=f"Provider {provider_id}")
             self.register_provider(provider)
-        
+
         provider.add_resource(resource)
         self.resources[resource.name] = resource
 
-    def get_resource(self, name: str) -> Optional[MarketResource]:
+    def get_resource(self, name: str) -> MarketResource | None:
         """Fetch resource by name."""
         return self.resources.get(name)
 
-    def list_all_resources(self) -> List[MarketResource]:
+    def list_all_resources(self) -> list[MarketResource]:
         """List all market resources across all providers."""
         return list(self.resources.values())
 
-    def list_available_resources(self) -> List[MarketResource]:
+    def list_available_resources(self) -> list[MarketResource]:
         """List currently operational and unallocated resources."""
         return [
             r for r in self.resources.values()
@@ -127,7 +128,7 @@ class DynamicMarketplace:
 
     # ── Demand & Supply Tracking ─────────────────────────────
 
-    def record_demand(self, bid_bundles: List[List[str]]):
+    def record_demand(self, bid_bundles: list[list[str]]):
         """
         Record demand requested for resources in an auction round.
 
@@ -135,7 +136,7 @@ class DynamicMarketplace:
             bid_bundles: List of resource bundles requested by submitted bids
                          (e.g., [["GPU-Slot-1", "RAM-Block-32GB"], ["GPU-Slot-1"]])
         """
-        current_round_demand: Dict[str, float] = {}
+        current_round_demand: dict[str, float] = {}
         for bundle in bid_bundles:
             for res_name in bundle:
                 current_round_demand[res_name] = current_round_demand.get(res_name, 0.0) + 1.0
@@ -143,9 +144,9 @@ class DynamicMarketplace:
 
         self.round_demand_log.append(current_round_demand)
 
-    def get_supply_summary(self) -> Dict[str, Any]:
+    def get_supply_summary(self) -> dict[str, Any]:
         """Return total and available supply capacity grouped by resource category."""
-        summary: Dict[str, Dict[str, float]] = {}
+        summary: dict[str, dict[str, float]] = {}
 
         for res in self.resources.values():
             cat = res.resource_type
@@ -177,7 +178,7 @@ class DynamicMarketplace:
 
     # ── Dynamic Pricing ───────────────────────────────────────
 
-    def update_dynamic_pricing(self, alpha: Optional[float] = None):
+    def update_dynamic_pricing(self, alpha: float | None = None):
         """
         Recalculate dynamic reserve prices across all resources based on scarcity:
           current_price = min_price * (1 + alpha * scarcity_ratio)
@@ -195,7 +196,7 @@ class DynamicMarketplace:
 
     # ── Market Summary ────────────────────────────────────────
 
-    def get_market_summary(self) -> Dict[str, Any]:
+    def get_market_summary(self) -> dict[str, Any]:
         """Return comprehensive marketplace diagnostic state."""
         return {
             "marketplace_name": self.name,

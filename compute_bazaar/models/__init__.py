@@ -1,11 +1,11 @@
 from compute_bazaar.models.bundle import (
-    ResourceItem,
-    ResourceType,
-    CombinatorialBid,
+    AgentTier,
     AllocationResult,
     AuctionRoundOutcome,
+    CombinatorialBid,
     PriorityLevel,
-    AgentTier,
+    ResourceItem,
+    ResourceType,
 )
 
 __all__ = [

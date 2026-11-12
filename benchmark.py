@@ -28,19 +28,16 @@
 =============================================================
 """
 
-import os
 import json
-import time
+import os
 import random
-import uuid
 import statistics
-from typing import List, Dict, Any, Tuple
+import time
+import uuid
+from typing import Any
 
-from backend.app.auction.engine import (
-    AuctionEngine, Resource, Bid, SolverMethod
-)
+from backend.app.auction.engine import AuctionEngine, Bid, Resource, SolverMethod
 from compute_bazaar.fairness.metrics import jains_fairness_index
-
 
 # -------------------------------------------------------------
 # BENCHMARK CONFIGURATION
@@ -63,7 +60,7 @@ AGENT_PROFILES = [
 AGENT_NAMES = [a["name"] for a in AGENT_PROFILES]
 
 
-def get_standard_resources() -> List[Resource]:
+def get_standard_resources() -> list[Resource]:
     """Returns the standard 5 heterogeneous compute resources."""
     return [
         Resource("GPU-Slot-1",     "gpu",        1.0, "slot"),
@@ -74,7 +71,7 @@ def get_standard_resources() -> List[Resource]:
     ]
 
 
-def generate_round_workload(rng: random.Random, round_id: int) -> List[Bid]:
+def generate_round_workload(rng: random.Random, round_id: int) -> list[Bid]:
     """
     Generate a deterministic, realistic workload of bids for one auction round.
     All 4 allocation methods receive this identical list of bids.
@@ -132,7 +129,7 @@ def generate_round_workload(rng: random.Random, round_id: int) -> List[Bid]:
 # ALLOCATION MECHANISM RUNNERS
 # -------------------------------------------------------------
 
-def run_ilp_vcg(bids: List[Bid], resources: List[Resource], round_id: int) -> Dict[str, Any]:
+def run_ilp_vcg(bids: list[Bid], resources: list[Resource], round_id: int) -> dict[str, Any]:
     """
     Method 1: Integer Linear Programming (PuLP / CBC) WDP solver
     with Vickrey-Clarke-Groves (VCG) externality pricing.
@@ -190,8 +187,8 @@ def run_ilp_vcg(bids: List[Bid], resources: List[Resource], round_id: int) -> Di
 
 
 def run_round_robin(
-    bids: List[Bid], resources: List[Resource], round_id: int, start_agent_idx: int
-) -> Dict[str, Any]:
+    bids: list[Bid], resources: list[Resource], round_id: int, start_agent_idx: int
+) -> dict[str, Any]:
     """
     Method 2: Round-Robin allocation across participating agents.
     Agents take cyclic turns. In each turn, the agent's first feasible pending
@@ -205,12 +202,12 @@ def run_round_robin(
     ordered_agents = [AGENT_NAMES[(start_agent_idx + i) % n_agents] for i in range(n_agents)]
 
     # Group pending bids by agent in arrival order
-    agent_pending: Dict[str, List[Bid]] = {a: [] for a in AGENT_NAMES}
+    agent_pending: dict[str, list[Bid]] = {a: [] for a in AGENT_NAMES}
     for b in bids:
         if b.agent_id in agent_pending:
             agent_pending[b.agent_id].append(b)
 
-    winners: List[Bid] = []
+    winners: list[Bid] = []
 
     # Cycle through agents while feasible allocations can be made
     allocated_in_pass = True
@@ -266,7 +263,7 @@ def run_round_robin(
     }
 
 
-def run_fcfs(bids: List[Bid], resources: List[Resource], round_id: int) -> Dict[str, Any]:
+def run_fcfs(bids: list[Bid], resources: list[Resource], round_id: int) -> dict[str, Any]:
     """
     Method 3: First-Come, First-Served (FCFS) allocation.
     Evaluates bids in strict arrival order. If requested bundle is available,
@@ -274,7 +271,7 @@ def run_fcfs(bids: List[Bid], resources: List[Resource], round_id: int) -> Dict[
     """
     t0 = time.perf_counter()
     available_resources = set(r.name for r in resources)
-    winners: List[Bid] = []
+    winners: list[Bid] = []
 
     for bid in bids:
         bundle = set(bid.resource_bundle)
@@ -323,8 +320,8 @@ def run_fcfs(bids: List[Bid], resources: List[Resource], round_id: int) -> Dict[
 
 
 def run_random(
-    bids: List[Bid], resources: List[Resource], round_id: int, rng_random: random.Random
-) -> Dict[str, Any]:
+    bids: list[Bid], resources: list[Resource], round_id: int, rng_random: random.Random
+) -> dict[str, Any]:
     """
     Method 4: Random serial allocation.
     Bids are considered in uniform random order. If requested bundle is available,
@@ -335,7 +332,7 @@ def run_random(
     shuffled_bids = list(bids)
     rng_random.shuffle(shuffled_bids)
 
-    winners: List[Bid] = []
+    winners: list[Bid] = []
     for bid in shuffled_bids:
         bundle = set(bid.resource_bundle)
         if bundle.issubset(available_resources):
@@ -382,7 +379,7 @@ def run_random(
     }
 
 
-def run_greedy_value(bids: List[Bid], resources: List[Resource], round_id: int) -> Dict[str, Any]:
+def run_greedy_value(bids: list[Bid], resources: list[Resource], round_id: int) -> dict[str, Any]:
     """
     Method: Greedy-by-Value baseline allocation.
     Sorts bids by declared bid amount descending, awarding each feasible bundle.
@@ -391,7 +388,7 @@ def run_greedy_value(bids: List[Bid], resources: List[Resource], round_id: int) 
     t0 = time.perf_counter()
     available_resources = set(r.name for r in resources)
     sorted_bids = sorted(bids, key=lambda b: b.bid_amount, reverse=True)
-    winners: List[Bid] = []
+    winners: list[Bid] = []
     for candidate in sorted_bids:
         candidate_bundle = set(candidate.resource_bundle)
         if candidate_bundle.issubset(available_resources):
@@ -439,7 +436,7 @@ def run_greedy_value(bids: List[Bid], resources: List[Resource], round_id: int) 
 # MASTER BENCHMARK CONTROLLER
 # -------------------------------------------------------------
 
-def execute_week12_benchmark(rounds: int = NUM_ROUNDS, seed: int = SEED, write_artifacts: bool = True) -> Dict[str, Any]:
+def execute_week12_benchmark(rounds: int = NUM_ROUNDS, seed: int = SEED, write_artifacts: bool = True) -> dict[str, Any]:
     print("=============================================================")
     print(" COMPUTE BAZAAR 2.0 -- Week 12 Allocation Benchmarking")
     print("=============================================================")
@@ -455,21 +452,21 @@ def execute_week12_benchmark(rounds: int = NUM_ROUNDS, seed: int = SEED, write_a
     methods = ["ILP + VCG", "Greedy-Value", "Round-Robin", "FCFS", "Random"]
 
     # Metrics storage
-    round_records: List[Dict[str, Any]] = []
+    round_records: list[dict[str, Any]] = []
 
     # Aggregators across all rounds per method
-    cum_welfare: Dict[str, List[float]] = {m: [] for m in methods}
-    cum_utilization: Dict[str, List[float]] = {m: [] for m in methods}
-    cum_cost: Dict[str, List[float]] = {m: [] for m in methods}
-    cum_winners: Dict[str, List[int]] = {m: [] for m in methods}
-    cum_avg_price: Dict[str, List[float]] = {m: [] for m in methods}
-    cum_exec_time: Dict[str, List[float]] = {m: [] for m in methods}
+    cum_welfare: dict[str, list[float]] = {m: [] for m in methods}
+    cum_utilization: dict[str, list[float]] = {m: [] for m in methods}
+    cum_cost: dict[str, list[float]] = {m: [] for m in methods}
+    cum_winners: dict[str, list[int]] = {m: [] for m in methods}
+    cum_avg_price: dict[str, list[float]] = {m: [] for m in methods}
+    cum_exec_time: dict[str, list[float]] = {m: [] for m in methods}
 
     # Cumulative agent metrics per method
-    cum_agent_welfare: Dict[str, Dict[str, float]] = {m: {a: 0.0 for a in AGENT_NAMES} for m in methods}
-    cum_agent_wins: Dict[str, Dict[str, int]] = {m: {a: 0 for a in AGENT_NAMES} for m in methods}
-    cum_agent_payments: Dict[str, Dict[str, float]] = {m: {a: 0.0 for a in AGENT_NAMES} for m in methods}
-    cum_agent_surplus: Dict[str, Dict[str, float]] = {m: {a: 0.0 for a in AGENT_NAMES} for m in methods}
+    cum_agent_welfare: dict[str, dict[str, float]] = {m: {a: 0.0 for a in AGENT_NAMES} for m in methods}
+    cum_agent_wins: dict[str, dict[str, int]] = {m: {a: 0 for a in AGENT_NAMES} for m in methods}
+    cum_agent_payments: dict[str, dict[str, float]] = {m: {a: 0.0 for a in AGENT_NAMES} for m in methods}
+    cum_agent_surplus: dict[str, dict[str, float]] = {m: {a: 0.0 for a in AGENT_NAMES} for m in methods}
 
     for round_id in range(1, rounds + 1):
         resources = get_standard_resources()
@@ -527,7 +524,7 @@ def execute_week12_benchmark(rounds: int = NUM_ROUNDS, seed: int = SEED, write_a
                   f"Random: ${res_rand['social_welfare']:.2f}")
 
     # Compute Jain's Fairness Index for each method
-    summary_metrics: Dict[str, Dict[str, Any]] = {}
+    summary_metrics: dict[str, dict[str, Any]] = {}
 
     for m in methods:
         welfare_vals = list(cum_agent_welfare[m].values())
@@ -607,7 +604,7 @@ def execute_week12_benchmark(rounds: int = NUM_ROUNDS, seed: int = SEED, write_a
     return full_payload
 
 
-def print_terminal_summary(summary: Dict[str, Dict[str, Any]], rounds: int):
+def print_terminal_summary(summary: dict[str, dict[str, Any]], rounds: int):
     print("\n" + "=" * 90)
     print(f"  WEEK 12 BENCHMARK RESULTS SUMMARY ({rounds} ROUNDS)")
     print("=" * 90)
@@ -629,7 +626,7 @@ def print_terminal_summary(summary: Dict[str, Dict[str, Any]], rounds: int):
     print("=" * 90)
 
 
-def generate_markdown_benchmark_doc(data: Dict[str, Any], filepath: str):
+def generate_markdown_benchmark_doc(data: dict[str, Any], filepath: str):
     s = data["summary"]
     meta = data["metadata"]
     rounds = meta["rounds"]
@@ -650,13 +647,13 @@ def generate_markdown_benchmark_doc(data: Dict[str, Any], filepath: str):
     vcg_savings = ilp["total_social_welfare"] - ilp["total_cost"]
     vcg_discount_pct = (vcg_savings / ilp["total_social_welfare"]) * 100 if ilp["total_social_welfare"] > 0 else 0.0
 
-    md = f"""# Compute Bazaar 2.0 — Week 12 Empirical Benchmark Report
+    md = rf"""# Compute Bazaar 2.0 — Week 12 Empirical Benchmark Report
 
-> **Benchmark Date**: {meta['timestamp']}  
-> **Evaluation Setup**: {rounds} reproducible auction rounds comparing 5 allocation & pricing methods under an identical shared multi-agent workload.  
-> **Fixed Random Seed**: `{meta['seed']}`  
-> **Compute Infrastructure**: 5 heterogeneous resources (`GPU-Slot-1`, `GPU-Slot-2`, `API-Budget-100`, `RAM-Block-32GB`, `CPU-Cores-8`).  
-> **Participating Agents**: {meta['agents_count']} agents with diverse bidding strategies (truthful, shading, critical, bargain, ml_adaptive).  
+> **Benchmark Date**: {meta['timestamp']}
+> **Evaluation Setup**: {rounds} reproducible auction rounds comparing 5 allocation & pricing methods under an identical shared multi-agent workload.
+> **Fixed Random Seed**: `{meta['seed']}`
+> **Compute Infrastructure**: 5 heterogeneous resources (`GPU-Slot-1`, `GPU-Slot-2`, `API-Budget-100`, `RAM-Block-32GB`, `CPU-Cores-8`).
+> **Participating Agents**: {meta['agents_count']} agents with diverse bidding strategies (truthful, shading, critical, bargain, ml_adaptive).
 > **Integrity Guarantee**: Zero simulated or fabricated figures. All numbers derived from real code execution.
 
 ---
@@ -766,7 +763,9 @@ Raw per-round outputs are archived in `results/benchmark_results.json`.
         f.write(md)
 
 
-def run_multiseed_benchmark(seeds: List[int] = list(range(1, 11)), rounds: int = NUM_ROUNDS) -> Dict[str, Any]:
+def run_multiseed_benchmark(seeds: list[int] = None, rounds: int = NUM_ROUNDS) -> dict[str, Any]:
+    if seeds is None:
+        seeds = list(range(1, 11))
     print("\n" + "=" * 90)
     print(f"  RUNNING MULTI-SEED BENCHMARK (Seeds {seeds[0]}–{seeds[-1]}, {rounds} Rounds Each)")
     print("=" * 90)
@@ -780,7 +779,7 @@ def run_multiseed_benchmark(seeds: List[int] = list(range(1, 11)), rounds: int =
         all_seed_results.append(res["summary"])
 
     keys = ["total_social_welfare", "mean_resource_utilization_pct", "jains_fairness_welfare", "total_cost"]
-    aggregated: Dict[str, Dict[str, Dict[str, float]]] = {}
+    aggregated: dict[str, dict[str, dict[str, float]]] = {}
 
     for method in methods:
         aggregated[method] = {}
