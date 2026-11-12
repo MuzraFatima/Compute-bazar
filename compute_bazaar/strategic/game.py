@@ -208,8 +208,10 @@ def run_llm(
     seed: int = 0,
     client=None,
     temperature: float = 0.7,
+    max_tokens: int = 1200,
 ) -> dict:
     rng = random.Random(seed)
+    failed: dict[tuple[int, str], bool] = {}
     history = {a: [] for a in ROLES}
     messages: dict[str, str] = {}
     log = []
@@ -221,13 +223,21 @@ def run_llm(
                 bids[a] = mock_llm_bid(a, values[a], mechanism, informed, rng)
                 continue
             prompt = build_prompt(a, values[a], mechanism, informed, history[a], messages, chat)
-            try:
-                out = client.complete_json(prompt, temperature=temperature, max_tokens=400)
-                bid = float(out.get("bid", values[a]))
-                new_msgs[a] = str(out.get("message", ""))[:200] if chat else ""
-            except Exception as exc:  # malformed JSON or API error: count it, bid truthfully
+            bid, last_err = None, ""
+            for _attempt in range(3):  # reasoning models occasionally return truncated JSON
+                try:
+                    out = client.complete_json(prompt, temperature=temperature, max_tokens=max_tokens)
+                    bid = float(out["bid"])
+                    new_msgs[a] = str(out.get("message", ""))[:200] if chat else ""
+                    break
+                except Exception as exc:
+                    last_err = str(exc)[:120]
+            if bid is None:
+                # Still counted in the auction (as a truthful bid, so the round can run)
+                # but excluded from the behavioural statistics below.
                 bid, new_msgs[a] = values[a], ""
-                log.append({"round": t, "agent": a, "error": str(exc)[:120]})
+                failed[(t, a)] = True
+                log.append({"round": t, "agent": a, "error": last_err})
             bids[a] = min(max(0.0, bid), 3 * VALUE_RANGE[a])
         winners, pay = settle(mechanism, bids)
         for a in ROLES:
@@ -255,9 +265,12 @@ def run_llm(
         )
         messages = new_msgs
     rounds_only = [r for r in log if "values" in r]
-    ratios = {
-        a: statistics.mean(r["bids"][a] / r["values"][a] for r in rounds_only if r["values"][a] > 1.0) for a in ROLES
-    }
+    ratios = {}
+    for a in ROLES:
+        xs = [
+            r["bids"][a] / r["values"][a] for r in rounds_only if r["values"][a] > 1.0 and (r["round"], a) not in failed
+        ]
+        ratios[a] = statistics.mean(xs) if xs else float("nan")
     return {
         "mechanism": mechanism,
         "informed": informed,
