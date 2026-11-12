@@ -17,7 +17,8 @@ import secrets
 from datetime import UTC, datetime
 
 from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy import case, func
+from sqlalchemy.orm import Session, selectinload
 
 from backend.app.api.auth import create_access_token, get_current_agent, get_db
 from backend.app.auction.agent_simulation import (
@@ -170,7 +171,15 @@ def get_resources(db: Session = Depends(get_db)):
 def get_current_auction(db: Session = Depends(get_db)):
     """Retrieve detailed state of the current active or most recent auction round."""
     # Find latest round
-    auction = db.query(Auction).order_by(Auction.round_number.desc()).first()
+    auction = (
+        db.query(Auction)
+        .options(
+            selectinload(Auction.bids).joinedload(Bid.agent),
+            selectinload(Auction.allocations).joinedload(Allocation.agent),
+        )
+        .order_by(Auction.round_number.desc())
+        .first()
+    )
     if not auction:
         # Create initial round if DB is empty
         auction = Auction(round_number=1, status="open")
@@ -293,7 +302,7 @@ def get_comparison_analytics(db: Session = Depends(get_db)):
       - Compute Bazaar value (sum of all closed auctions total value extracted)
       - Round-Robin value (simulated counterfactual for each round)
     """
-    closed_auctions = db.query(Auction).filter(Auction.status == "closed").all()
+    closed_auctions = db.query(Auction).options(selectinload(Auction.bids)).filter(Auction.status == "closed").all()
 
     total_rounds = len(closed_auctions)
     bazaar_val = sum(a.total_value_extracted for a in closed_auctions)
@@ -327,6 +336,20 @@ def get_comparison_analytics(db: Session = Depends(get_db)):
 from backend.app.db.models import Base
 from compute_bazaar.fairness import jains_fairness_index
 
+_schema_checked: set[int] = set()
+
+
+def _ensure_schema(db: Session) -> None:
+    """Create tables once per engine instead of on every dashboard poll."""
+    bind = db.get_bind()
+    if id(bind) in _schema_checked:
+        return
+    try:
+        Base.metadata.create_all(bind=bind)
+        _schema_checked.add(id(bind))
+    except Exception:
+        pass
+
 
 @router.get("/dashboard/metrics")
 def get_dashboard_metrics(db: Session = Depends(get_db)):
@@ -334,28 +357,36 @@ def get_dashboard_metrics(db: Session = Depends(get_db)):
     Returns real, live system metrics computed directly from database tables
     and active backend components for the Compute Bazaar 2.0 Dashboard.
     """
-    # Ensure database tables exist on active connection dialect
-    try:
-        Base.metadata.create_all(bind=db.get_bind())
-    except Exception:
-        pass
+    _ensure_schema(db)
 
-    # 1. Agents Data & Performance
+    # 1. Agents Data & Performance — one grouped query instead of one per agent
+    winner_payment = case((Bid.is_winner.is_(True), func.coalesce(Bid.payment_amount, 0.0)), else_=0.0)
+    winner_amount = case((Bid.is_winner.is_(True), Bid.bid_amount), else_=0.0)
+    bid_stats = {
+        row.agent_id: row
+        for row in db.query(
+            Bid.agent_id,
+            func.count(Bid.id).label("total"),
+            func.sum(case((Bid.is_winner.is_(True), 1), else_=0)).label("wins"),
+            func.sum(winner_payment).label("spent"),
+            func.sum(winner_amount).label("won_value"),
+        )
+        .group_by(Bid.agent_id)
+        .all()
+    }
+
     agents = db.query(Agent).all()
     agent_metrics = []
     agent_surpluses = []
 
     for a in agents:
-        bids = db.query(Bid).filter(Bid.agent_id == a.id).all()
-        total_bids = len(bids)
-        winning_bids = [b for b in bids if b.is_winner]
-        losing_bids = [b for b in bids if not b.is_winner]
-        wins = len(winning_bids)
-        losses = len(losing_bids)
+        stats = bid_stats.get(a.id)
+        total_bids = int(stats.total) if stats else 0
+        wins = int(stats.wins or 0) if stats else 0
+        losses = total_bids - wins
+        spent = float(stats.spent or 0.0) if stats else 0.0
+        surplus = (float(stats.won_value or 0.0) - spent) if stats else 0.0
         win_rate = round((wins / total_bids * 100.0), 1) if total_bids > 0 else 0.0
-
-        spent = sum(b.payment_amount or 0.0 for b in winning_bids)
-        surplus = sum((b.bid_amount - (b.payment_amount or 0.0)) for b in winning_bids)
         agent_surpluses.append(surplus)
 
         agent_metrics.append(
@@ -412,21 +443,38 @@ def get_dashboard_metrics(db: Session = Depends(get_db)):
             category_utilization[r.resource_type] = max(category_utilization[r.resource_type], util)
 
     # 3. Financials & Welfare
-    total_bids_count = db.query(Bid).count()
-    winning_bids_count = db.query(Bid).filter(Bid.is_winner.is_(True)).count()
-    losing_bids_count = db.query(Bid).filter(Bid.is_winner.is_(False)).count()
-
-    all_winning_bids = db.query(Bid).filter(Bid.is_winner.is_(True)).all()
-    social_welfare = sum(b.bid_amount for b in all_winning_bids)
-    total_spending = sum(b.payment_amount or 0.0 for b in all_winning_bids)
+    totals = db.query(
+        func.count(Bid.id),
+        func.sum(case((Bid.is_winner.is_(True), 1), else_=0)),
+        func.sum(winner_amount),
+        func.sum(winner_payment),
+    ).one()
+    total_bids_count = int(totals[0] or 0)
+    winning_bids_count = int(totals[1] or 0)
+    losing_bids_count = total_bids_count - winning_bids_count
+    social_welfare = float(totals[2] or 0.0)
+    total_spending = float(totals[3] or 0.0)
     estimated_savings = max(0.0, social_welfare - total_spending)
 
     # 4. Auction History
     all_auctions = db.query(Auction).order_by(Auction.round_number.desc()).limit(15).all()
+    per_round = {
+        row.auction_id: row
+        for row in db.query(
+            Bid.auction_id,
+            func.count(Bid.id).label("bids"),
+            func.sum(case((Bid.is_winner.is_(True), 1), else_=0)).label("winners"),
+        )
+        .filter(Bid.auction_id.in_([a.id for a in all_auctions]))
+        .group_by(Bid.auction_id)
+        .all()
+    }
+    total_rounds = db.query(func.count(Auction.id)).scalar() or 0
     auction_history = []
     for a in all_auctions:
-        bid_count = len(a.bids)
-        winners_count = sum(1 for b in a.bids if b.is_winner)
+        round_stats = per_round.get(a.id)
+        bid_count = int(round_stats.bids) if round_stats else 0
+        winners_count = int(round_stats.winners or 0) if round_stats else 0
         auction_history.append(
             {
                 "id": a.id,
@@ -464,7 +512,7 @@ def get_dashboard_metrics(db: Session = Depends(get_db)):
             "total_spending": round(total_spending, 2),
             "estimated_savings": round(estimated_savings, 2),
             "jains_fairness_index": round(jains_index, 4),
-            "total_auction_rounds": len(all_auctions),
+            "total_auction_rounds": int(total_rounds),
         },
         "agents": agent_metrics,
         "resources": resource_metrics,

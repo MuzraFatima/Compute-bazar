@@ -18,7 +18,7 @@ import json
 from datetime import UTC, datetime
 
 from loguru import logger
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from backend.app.api.websocket import manager
 from backend.app.auction.engine import AuctionEngine
@@ -75,7 +75,8 @@ async def run_auction_round(db: Session):
     {r.name: r for r in engine_resources}
 
     # 3. Get all bids for this round
-    db_bids = db.query(Bid).filter(Bid.auction_id == current_round.id).all()
+    db_bids = db.query(Bid).options(joinedload(Bid.agent)).filter(Bid.auction_id == current_round.id).all()
+    bids_by_id = {b.id: b for b in db_bids}
 
     if not db_bids:
         logger.info(f"No bids submitted for Round #{current_round.round_number}. Closing cleanly.")
@@ -141,7 +142,7 @@ async def run_auction_round(db: Session):
     total_val = 0.0
     for eb in result.winning_bids:
         # Match back to DB bid
-        db_bid = db.query(Bid).filter(Bid.id == int(eb.bid_id)).first()
+        db_bid = bids_by_id.get(int(eb.bid_id))
         if not db_bid:
             continue
 
