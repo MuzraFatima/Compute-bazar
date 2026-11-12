@@ -518,7 +518,7 @@
         "bid_value_ratio": {
           "L1": 0.591672403161263,
           "L2": 0.9999022100528066,
-          "G": NaN
+          "G": null
         },
         "errors": 23,
         "transcript": [
@@ -865,9 +865,9 @@
         "efficiency": 1.0,
         "revenue": 76.018,
         "bid_value_ratio": {
-          "L1": NaN,
-          "L2": NaN,
-          "G": NaN
+          "L1": null,
+          "L2": null,
+          "G": null
         },
         "errors": 30,
         "transcript": [
@@ -1291,9 +1291,9 @@
         "efficiency": 1.0,
         "revenue": 98.567,
         "bid_value_ratio": {
-          "L1": NaN,
-          "L2": NaN,
-          "G": NaN
+          "L1": null,
+          "L2": null,
+          "G": null
         },
         "errors": 30,
         "transcript": [

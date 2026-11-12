@@ -885,9 +885,9 @@
         "efficiency": 1.0,
         "revenue": 138.534,
         "bid_value_ratio": {
-          "L1": NaN,
-          "L2": NaN,
-          "G": NaN
+          "L1": null,
+          "L2": null,
+          "G": null
         },
         "errors": 45,
         "transcript": [
@@ -1457,9 +1457,9 @@
         "efficiency": 1.0,
         "revenue": 65.60066666666667,
         "bid_value_ratio": {
-          "L1": NaN,
-          "L2": NaN,
-          "G": NaN
+          "L1": null,
+          "L2": null,
+          "G": null
         },
         "errors": 45,
         "transcript": [
@@ -2089,9 +2089,9 @@
         "efficiency": 1.0,
         "revenue": 85.62666666666667,
         "bid_value_ratio": {
-          "L1": NaN,
-          "L2": NaN,
-          "G": NaN
+          "L1": null,
+          "L2": null,
+          "G": null
         },
         "errors": 45,
         "transcript": [

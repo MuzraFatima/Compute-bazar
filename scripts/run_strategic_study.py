@@ -29,6 +29,7 @@ from dotenv import load_dotenv  # noqa: E402
 from loguru import logger  # noqa: E402
 
 from compute_bazaar.strategic.game import run_learning, run_llm  # noqa: E402
+from scripts.merge_strategic_runs import _no_nan  # noqa: E402
 
 CONDITIONS = {
     "vcg_informed": ("vcg", True, False),
@@ -57,7 +58,7 @@ def main() -> None:
 
     def save() -> None:  # after every condition, so a long live run is never lost
         Path(args.out).parent.mkdir(parents=True, exist_ok=True)
-        Path(args.out).write_text(json.dumps(out, indent=2, default=float))
+        Path(args.out).write_text(json.dumps(_no_nan(out), indent=2, default=float, allow_nan=False))
 
     for mech in () if args.skip_learning else ("vcg", "first_price", "core"):
         rs = [run_learning(mech, rounds=args.learning_rounds, seed=s) for s in range(args.learning_seeds)]
