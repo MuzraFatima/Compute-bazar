@@ -54,3 +54,8 @@ htmlcov/
 results/quick/
 # Downloaded traces
 data/
+
+# Logs and SQLite sidecar files
+*.log
+*.db-shm
+*.db-wal

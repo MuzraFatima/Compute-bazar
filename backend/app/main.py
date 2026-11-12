@@ -243,6 +243,12 @@ def get_dashboard():
     return HTMLResponse("<h3>Compute Bazaar Dashboard UI files not found.</h3>", status_code=404)
 
 
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon():
+    """Browsers and Swagger UI ask for /favicon.ico; serve the dashboard icon."""
+    return FileResponse(os.path.join(STATIC_DIR, "favicon.svg"), media_type="image/svg+xml")
+
+
 # Custom Swagger UI route utilizing local static assets or fallback CDNs
 @app.get("/docs", include_in_schema=False)
 async def custom_swagger_ui_html():

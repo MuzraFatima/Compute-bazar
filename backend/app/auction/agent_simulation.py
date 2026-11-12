@@ -23,14 +23,21 @@
 
 import asyncio
 import json
+import os
 import random
 from datetime import UTC, datetime
 
+from dotenv import load_dotenv
 from loguru import logger
 from sqlalchemy.orm import Session
 
 from backend.app.api.websocket import manager
 from backend.app.db.models import Agent, Auction, Bid, Resource, SessionLocal, init_db
+
+# Groq model for the autonomous agents; override with GROQ_MODEL in .env
+# (e.g. when a model hits its daily token cap or is retired).
+load_dotenv()
+GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
 
 # ── Agent task banks ─────────────────────────────────────────
 
@@ -84,7 +91,7 @@ _llm_stats = {
     "total_calls": 0,
     "total_tokens": 0,
     "total_latency_ms": 0.0,
-    "last_model": "openai/gpt-oss-120b",
+    "last_model": GROQ_MODEL,
 }
 
 # Simulation state
@@ -127,7 +134,7 @@ def _init_agents():
 
     try:
         _llm_client = GroqLLMClient(
-            config=LLMConfig(model="openai/gpt-oss-120b", temperature=0.4, mock_mode=False),
+            config=LLMConfig(model=GROQ_MODEL, temperature=0.4, mock_mode=False),
             api_key=api_key,
         )
         _agent_objects = {
