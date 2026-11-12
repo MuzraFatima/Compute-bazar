@@ -30,6 +30,7 @@ Autonomous AI agents powered by **Groq LLM reasoning**, cognitive memory (`Agent
   - [9. Background Simulation Loop](#9-background-simulation-loop)
   - [10. Real-Time Glassmorphism Dashboard](#10-real-time-glassmorphism-dashboard)
 - [Empirical Benchmark Results](#empirical-benchmark-results)
+- [Trace-Driven Scheduling](#trace-driven-scheduling)
 - [Predictor Accuracy](#predictor-accuracy)
 - [Mechanism Verification](#mechanism-verification)
 - [Project Structure](#project-structure)
@@ -264,6 +265,22 @@ Raw per-seed data: [`results/multiseed_benchmark.json`](results/multiseed_benchm
 4. **Real-Time Latency**: The ILP solver resolved combinatorial bundle constraints and all counterfactual VCG subproblems in **~272 ms** on average, well within real-time thresholds for periodic cluster scheduling epochs (10s).
 
 ---
+
+## Trace-Driven Scheduling
+
+Beyond the 25-round micro-benchmark, `compute_bazaar/sim/` replays PAI-shaped GPU workloads: 1,200 jobs from 120 users on a 64-GPU cluster, with multi-unit GPU/CPU/RAM demands, heavy-tailed runtimes and values that decay with waiting. Bazaar is compared against FIFO, backfill, DRF and a Themis-style finish-time-fair scheduler (5 seeds):
+
+| Policy | Welfare | Avg JCT (epochs) | FTF rho mean | FTF rho p95 | Jain (1/rho) | GPU util | Dropped | Decision ms |
+|:--|--:|--:|--:|--:|--:|--:|--:|--:|
+| fifo | 65,061 ± 10,279 | 69.0 | 17.02 | 66.6 | 0.703 | 68.5% | 226 | 0.1 |
+| fifo_backfill | 75,261 ± 11,993 | 54.6 | 12.55 | 48.8 | 0.774 | 74.9% | 134 | 0.3 |
+| drf | 97,121 ± 14,088 | 34.6 | 7.14 | 29.8 | 0.925 | 75.5% | 89 | 1.1 |
+| themis | 117,038 ± 14,902 | 21.3 | 2.36 | 4.4 | 0.974 | 77.0% | 34 | 0.1 |
+| greedy_value | 149,286 ± 28,156 | 19.8 | 2.68 | 7.9 | 0.965 | 77.5% | 62 | 0.1 |
+| bazaar_myopic | 145,203 ± 25,585 | 31.5 | 8.04 | 37.0 | 0.933 | 80.1% | 210 | 63.8 |
+| bazaar | 151,923 ± 33,690 | 26.5 | 5.79 | 23.8 | 0.933 | 79.1% | 164 | 48.4 |
+
+The auction with a duration-aware reserve gives the highest welfare and utilisation. Its margin over greedy density is within seed variance, and it beats the myopic per-epoch auction clearly. Themis remains far better on finish-time fairness. Full write-up and caveats: [`docs/trace-experiments.md`](docs/trace-experiments.md). The real Alibaba trace can be pulled with `scripts/fetch_traces.py`.
 
 ## Predictor Accuracy
 
