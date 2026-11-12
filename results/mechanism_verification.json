@@ -1,0 +1,22 @@
+{
+  "instances": 10000,
+  "seed": 7,
+  "agents_per_instance": 4,
+  "resources_per_instance": 3,
+  "misreport_family": "independent scaling of each bid by {0 (drop), .5, .8, .95, 1.05, 1.25, 2}",
+  "results": {
+    "agent_vcg": {
+      "checks": 40000,
+      "violations": 0,
+      "max_gain": 0.0,
+      "violation_rate": 0.0
+    },
+    "per_bid_vcg": {
+      "checks": 40000,
+      "violations": 2937,
+      "max_gain": 110.61,
+      "violation_rate": 0.073425
+    }
+  },
+  "runtime_sec": 654.3
+}
