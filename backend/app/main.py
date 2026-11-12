@@ -17,14 +17,15 @@ from contextlib import asynccontextmanager
 import uvicorn
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.openapi.docs import get_swagger_ui_html
 from fastapi.responses import FileResponse, HTMLResponse
-from fastapi.staticfiles import StaticFiles
 from loguru import logger
 
 from backend.app.api.endpoints import router as api_router
 from backend.app.api.websocket import manager
 from backend.app.auction.scheduler import start_scheduler, stop_scheduler
+from backend.app.core.http import CachedStaticFiles
 from backend.app.db.models import Agent, Auction, Resource, SessionLocal, init_db
 
 
@@ -183,6 +184,9 @@ app = FastAPI(
 )
 
 # CORS middleware config
+# Compress JSON payloads and static bundles (dashboard metrics are ~10-40 KB).
+app.add_middleware(GZipMiddleware, minimum_size=1024)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -227,7 +231,7 @@ async def websocket_feed(websocket: WebSocket):
 # Mount static files (/static/app.js)
 STATIC_DIR = os.path.join(os.path.dirname(__file__), "static")
 if os.path.exists(STATIC_DIR):
-    app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
+    app.mount("/static", CachedStaticFiles(directory=STATIC_DIR), name="static")
 
 
 # Mount index HTML at root path

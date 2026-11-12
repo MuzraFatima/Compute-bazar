@@ -14,10 +14,11 @@
 
 import json
 import secrets
+import weakref
 from datetime import UTC, datetime
 
-from fastapi import APIRouter, Depends, HTTPException, status
-from sqlalchemy import case, func
+from fastapi import APIRouter, Depends, HTTPException, Query, Response, status
+from sqlalchemy import case, func, select
 from sqlalchemy.orm import Session, selectinload
 
 from backend.app.api.auth import create_access_token, get_current_agent, get_db
@@ -159,9 +160,17 @@ def submit_bid(payload: BidSubmit, current_agent: Agent = Depends(get_current_ag
 
 
 @router.get("/resources", response_model=list[ResourceResponse])
-def get_resources(db: Session = Depends(get_db)):
-    """List all available compute resources and their specifications."""
-    return db.query(Resource).all()
+def get_resources(
+    response: Response,
+    limit: int = Query(100, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+    db: Session = Depends(get_db),
+):
+    """List compute resources, paginated. The total is returned in ``X-Total-Count``."""
+    total = db.query(func.count(Resource.id)).scalar() or 0
+    response.headers["X-Total-Count"] = str(total)
+    response.headers["Cache-Control"] = "private, max-age=5"
+    return db.query(Resource).order_by(Resource.id).offset(offset).limit(limit).all()
 
 
 # ── Auction Endpoints ────────────────────────────────────────
@@ -333,20 +342,21 @@ def get_comparison_analytics(db: Session = Depends(get_db)):
 
 # ── Dashboard 2.0 Real Database Metrics Endpoint ────────────
 
+from backend.app.core.cache import dashboard_cache
 from backend.app.db.models import Base
 from compute_bazaar.fairness import jains_fairness_index
 
-_schema_checked: set[int] = set()
+_schema_checked: weakref.WeakSet = weakref.WeakSet()
 
 
 def _ensure_schema(db: Session) -> None:
     """Create tables once per engine instead of on every dashboard poll."""
     bind = db.get_bind()
-    if id(bind) in _schema_checked:
+    if bind in _schema_checked:
         return
     try:
         Base.metadata.create_all(bind=bind)
-        _schema_checked.add(id(bind))
+        _schema_checked.add(bind)
     except Exception:
         pass
 
@@ -356,8 +366,27 @@ def get_dashboard_metrics(db: Session = Depends(get_db)):
     """
     Returns real, live system metrics computed directly from database tables
     and active backend components for the Compute Bazaar 2.0 Dashboard.
+
+    The result is cached until the data version changes (new bid, round,
+    allocation or agent) or 5 seconds pass, whichever comes first.
     """
     _ensure_schema(db)
+    return dashboard_cache.get_or_compute(db.get_bind(), _data_version(db), lambda: _compute_dashboard_metrics(db))
+
+
+def _data_version(db: Session) -> tuple:
+    """Cheap fingerprint of everything the dashboard reads. Uses PK indexes only."""
+    probes = (
+        select(func.max(Bid.id)).scalar_subquery(),
+        select(func.max(Auction.id)).scalar_subquery(),
+        select(func.max(Allocation.id)).scalar_subquery(),
+        select(func.max(Agent.id)).scalar_subquery(),
+        select(func.count(Auction.id)).where(Auction.status == "closed").scalar_subquery(),
+    )
+    return tuple(db.execute(select(*probes)).one())
+
+
+def _compute_dashboard_metrics(db: Session) -> dict:
 
     # 1. Agents Data & Performance — one grouped query instead of one per agent
     winner_payment = case((Bid.is_winner.is_(True), func.coalesce(Bid.payment_amount, 0.0)), else_=0.0)
