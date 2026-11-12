@@ -24,6 +24,7 @@ import json
 import math
 import random
 import statistics
+import time
 from dataclasses import dataclass, field
 
 from backend.app.auction.engine import Bid, Resource, compute_vcg_agent_payments, solve_exhaustive
@@ -209,6 +210,7 @@ def run_llm(
     client=None,
     temperature: float = 0.7,
     max_tokens: int = 1200,
+    rate_limit_wait: float = 20.0,
 ) -> dict:
     rng = random.Random(seed)
     failed: dict[tuple[int, str], bool] = {}
@@ -224,7 +226,7 @@ def run_llm(
                 continue
             prompt = build_prompt(a, values[a], mechanism, informed, history[a], messages, chat)
             bid, last_err = None, ""
-            for _attempt in range(3):  # reasoning models occasionally return truncated JSON
+            for _attempt in range(8):  # truncated JSON or a per-minute token limit
                 try:
                     out = client.complete_json(prompt, temperature=temperature, max_tokens=max_tokens)
                     bid = float(out["bid"])
@@ -232,6 +234,8 @@ def run_llm(
                     break
                 except Exception as exc:
                     last_err = str(exc)[:120]
+                    if "429" in str(exc) or "rate limit" in str(exc).lower():
+                        time.sleep(rate_limit_wait)  # wait for the token window to refill
             if bid is None:
                 # Still counted in the auction (as a truthful bid, so the round can run)
                 # but excluded from the behavioural statistics below.
