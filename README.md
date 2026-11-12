@@ -1,678 +1,271 @@
-# Compute Bazaar 2.0: Autonomous Multi-Agent Combinatorial Compute Market
+# Compute Bazaar
+
+**A combinatorial compute market for LLM agents that don't know their own value.**
 
 [![CI](https://github.com/MuzraFatima/Compute-bazar/actions/workflows/ci.yml/badge.svg)](https://github.com/MuzraFatima/Compute-bazar/actions/workflows/ci.yml)
-[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg)](https://fastapi.tiangolo.com)
-[![PuLP CBC](https://img.shields.io/badge/Optimization-PuLP%20%2F%20CBC-orange.svg)](https://github.com/coin-or/pulp)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
+[![Ruff](https://img.shields.io/badge/lint-ruff-261230.svg)](https://github.com/astral-sh/ruff)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-An autonomous, market-driven compute allocation platform engineered for multi-agent artificial intelligence workloads. Compute Bazaar 2.0 formulates heterogeneous resource allocation as a **Combinatorial Winner Determination Problem (WDP)** solved via **Binary Integer Linear Programming (ILP)** with **Vickrey-Clarke-Groves (VCG) externality pricing**.
+AI agents increasingly compete for the same scarce compute: GPUs, memory, CPU and LLM API budget. Compute Bazaar allocates it with an exact **multi-unit combinatorial auction** (integer programming) and **agent-level VCG pricing**, and asks the question that matters once the bidders are LLMs: *what happens to a "truthful" mechanism when the bidders only **estimate** what their tasks are worth?*
 
-Autonomous AI agents powered by **Groq LLM reasoning**, cognitive memory (`AgentMemory`), machine learning resource forecasting (`ResourcePredictor`), and market anti-starvation guards (`FairnessTracker`) bid truthfully on atomic resource bundles (GPUs, TPUs, API budgets, RAM, CPU cores) without suffering from the exposure problem or queue-based blocking.
-
----
-
-## Table of Contents
-
-- [Dashboard (local)](#dashboard-local)
-- [Overview](#overview)
-- [Problem Statement](#problem-statement)
-- [System Architecture](#system-architecture)
-- [Core Features](#core-features)
-  - [1. 4 Autonomous AI Agent Classes](#1-4-autonomous-ai-agent-classes)
-  - [2. Groq LLM Cognitive Reasoning Layer](#2-groq-llm-cognitive-reasoning-layer)
-  - [3. Combinatorial Auction & ILP Solver](#3-combinatorial-auction--ilp-solver)
-  - [4. VCG Clarke Pivot Pricing & Tier Discounts](#4-vcg-clarke-pivot-pricing--tier-discounts)
-  - [5. Intelligent & Adaptive Bidding](#5-intelligent--adaptive-bidding)
-  - [6. Dynamic Marketplace & Scarcity Pricing](#6-dynamic-marketplace--scarcity-pricing)
-  - [7. Cognitive Agent Memory & Jain Fairness](#7-cognitive-agent-memory--jain-fairness)
-  - [8. ML Resource Prediction & Safe Toolset](#8-ml-resource-prediction--safe-toolset)
-  - [9. Background Simulation Loop](#9-background-simulation-loop)
-  - [10. Real-Time Glassmorphism Dashboard](#10-real-time-glassmorphism-dashboard)
-- [Empirical Benchmark Results](#empirical-benchmark-results)
-- [Bidders Who Don't Know Their Own Value](#bidders-who-dont-know-their-own-value)
-- [Trace-Driven Scheduling](#trace-driven-scheduling)
-- [Predictor Accuracy](#predictor-accuracy)
-- [Mechanism Verification](#mechanism-verification)
-- [Project Structure](#project-structure)
-- [Installation & Quickstart](#installation--quickstart)
-- [Docker](#docker)
-- [Security Notes](#security-notes)
-- [Authentication](#authentication)
-- [Example Workflow](#example-workflow)
-- [Examples & Scripts](#examples--scripts)
-- [Running Tests](#running-tests)
-- [Documentation](#documentation)
-- [Limitations](#limitations)
-- [Future Scope](#future-scope)
-- [License](#license)
+It ships as a working system (FastAPI backend, live dashboard, autonomous Groq-powered agents) and as a research artifact: formal results, trace-driven experiments and a one-command reproduction kit.
 
 ---
 
-## Dashboard (local)
+## Demo
 
-> The dashboard runs locally at `http://localhost:8000` after starting the FastAPI server. It live-streams auction rounds via WebSocket, renders real-time Chart.js analytics, and supports both **Groq AI Mode** (live LLM reasoning) and **Classic Simulation Mode** (offline agents).
+The dashboard streams auction rounds over WebSocket and runs either rule-based agents or live LLM agents (Groq).
 
-### 🖥️ Dashboard Hero — Live Market Metrics
+![Dashboard overview: live KPIs and market analytics](docs/screenshots/live-dashboard-overview.jpg)
 
-![Compute Bazaar 2.0 — Hero Metrics Dashboard](docs/screenshots/dashboard-hero-metrics.jpg)
+| Market charts | Agent leaderboard & simulator console |
+|:--:|:--:|
+| ![Market charts](docs/screenshots/live-market-charts.jpg) | ![Agents and console](docs/screenshots/live-agents-console.jpg) |
 
-*Real-time header showing Auction Round #987, 9 Active AI Agents, $10,423.08 Social Welfare (maximized by ILP solver), $4,483.14 VCG Surplus Savings, 0.5488 Jain Fairness Index, and 37 Groq LLM calls with 41,803 tokens. Below: Resource Utilization by Category (GPU/CPU/RAM/API Budget) and Costs & Surplus Savings Over Time trend lines.*
+![Live bidding ticker and closed-round history](docs/screenshots/live-ticker-history.jpg)
 
----
-
-### 📊 Market Analytics — Agent Performance Charts
-
-![Compute Bazaar 2.0 — Agent Performance & Auction Activity](docs/screenshots/dashboard-agent-performance.jpg)
-
-*Left: **Agent Performance: Wins vs Losses** — grouped bar chart showing allocation equity across all 9 agents (DevBot-Gold through Agent-Epsilon), with win/loss outcomes tracked per auction round. Right: **Auction Activity & Social Welfare** — combined bar+line chart showing LP ILP solver welfare extraction per round vs. bid arrival count.*
+*Screenshots are captured automatically from a running instance in Google Chrome by [`scripts/e2e_check.py`](scripts/e2e_check.py), which also runs 27 end-to-end checks across the frontend and API.*
 
 ---
 
-### 🤖 Registered AI Agents — Live Leaderboard & Simulator Console
+## What's new here
 
-![Compute Bazaar 2.0 — Agents Table & Simulator Console](docs/screenshots/dashboard-agents-table.jpg)
-
-*Full agent leaderboard with real-time budget tracking, VCG surplus savings, tier rankings (Gold/Silver/Bronze), and win rates. Alongside: **Bidding Simulator Console** showing the active solver configuration (CBC / PuLP ILP), pricing policy (VCG Mechanism), and fairness controls (Jain Index + Anti-Starvation). Supports one-click switching between **Groq AI Mode** and **Classic Simulation Mode**.*
-
----
-
-### ⚡ Live Bidding Ticker & Closed Auction Rounds History
-
-![Compute Bazaar 2.0 — Live Bidding Ticker & Auction History](docs/screenshots/dashboard-bidding-ticker.jpg)
-
-*Left: **Live Bidding Ticker** — real-time WebSocket feed of incoming combinatorial bundle bids (ResearchBot-Gold, QuantBot-Bronze, ETLBot-Silver submitting `API-Budget-100 + CPU-Cores-8 + RAM-Block-32GB` bundles at HIGH priority, PENDING settlement). Right: **Closed Auction Rounds History** — historical ILP solver outcomes per round showing status, social welfare extracted, bid/winner counts, and solver type (LP ILP).*
+1. **Mechanisms for bidders with estimated values** ([theory](docs/theory.md)). LLM agents misjudge value and resource needs in persistent, agent-specific ways. We prove that only the *heterogeneous* part of that bias costs welfare. We show that execution-contingent VCG keeps incentives but breaks individual rationality on biased reports, and we introduce **risk-adjusted XOR menus**: each task bids several reservation sizes priced at calibrated value × empirical success probability, which provably maximises expected realised welfare.
+2. **A correct combinatorial VCG.** The Clarke pivot removes *all* of an agent's bids. The common per-bid shortcut is manipulable: it was exploitable in **7.3%** of 40,000 randomized checks, against **0** for the agent-level rule.
+3. **Evidence at cluster scale.** A trace-shaped simulator (Alibaba-PAI-like GPU workloads) compares the auction against FIFO, DRF and a Themis-style finish-time-fair scheduler, and adds a fairness knob that stays truthful (affine maximiser).
+4. **Real LLM bidders.** Live Groq models bid under VCG, first-price and core-selecting payments, with and without a chat channel.
 
 ---
 
-## Overview
+## Key results
 
-Modern machine learning workloads are inherently heterogeneous and co-dependent: training foundation models, executing distributed ETL pipelines, and running Monte Carlo simulations require synchronized bundles of GPU acceleration, high-capacity RAM, CPU cores, and external LLM API tokens.
+### Bidders who don't know their value (3 seeds × 200 rounds, 12 agents)
 
-Traditional schedulers treat resources as isolated silos or dispatch jobs via value-agnostic queues (First-Come First-Served or Round-Robin). Compute Bazaar 2.0 models compute allocation as an expressively combinatorial market:
+| Mechanism | Welfare (% of oracle) | Overrun rate | Ex-post IR violations | Mean winner utility |
+|:--|--:|--:|--:|--:|
+| VCG on point estimates | 72.1% | 25.5% | 28.0% | 27.6 |
+| VCG on agents' own 90% bounds | 73.7% | 1.1% | 15.0% | 42.4 |
+| Execution-contingent VCG, raw reports | 72.1% | 25.5% | 93.3% | -214.6 |
+| Calibrated, fixed 1.5x reservation | 72.2% | 1.1% | 31.9% | 29.8 |
+| **Calibrated + risk-adjusted XOR menus** | 78.0% | 15.5% | 30.4% | 46.7 |
+| Oracle (true values and needs) | 100.0% | 0.0% | 0.0% | 50.4 |
 
-1. **Agents express bundle requirements atomically**: Bids succeed or fail as complete packages ($S_i \subseteq R$), preventing stranded partial allocations (the exposure problem).
-2. **Global welfare is maximized**: A binary integer program maximizes system value subject to physical capacity limits.
-3. **Truthfulness is economically enforced**: VCG Clarke pivot pricing charges winners only the opportunity cost (externality) imposed on competitors, making truthful bidding a dominant strategy.
-4. **Autonomous operation**: AI agents independently assess natural language task prompts, forecast hardware needs using regression models, construct bids, and adapt bidding strategies based on memory and market fairness telemetry.
+Calibration with menus recovers the most welfare among realistic mechanisms while keeping winners' utility close to the oracle's. Execution-contingent settlement on raw, biased reports breaks IR, which is exactly what Proposition 2(b) predicts. [Details](docs/uncertainty-experiments.md)
 
----
+### Trace-driven cluster scheduling (1,200 jobs, 120 users, 64 GPUs, 5 seeds)
 
-## Problem Statement
-
-Traditional cloud scheduling and spot resource mechanisms exhibit four major flaws:
-
-1. **The Exposure Problem**: Standard spot markets auction compute units independently. An agent needing 2 GPUs and 32GB RAM might win only the RAM, paying for resources it cannot utilize.
-2. **Head-of-Line Blocking**: In First-Come, First-Served (FCFS) schedulers (e.g., Slurm, default Kubernetes), an early low-priority batch script blocks high-value, latency-sensitive inference workloads.
-3. **Value Destruction in Round-Robin**: Turn-taking queues allocate resources equally across agents regardless of true utility, forfeiting up to 38% of potential social welfare.
-4. **Tactical Bidding Overhead**: Pay-as-bid auctions force agents to shade bids speculatively, resulting in market deadweight loss and complex counter-agent modeling.
-
----
-
-## System Architecture
-
-```
-                      ┌─────────────────────────────────────────┐
-                      │      Autonomous Multi-Agent Layer       │
-                      │  Coding, Research, Data, Analysis Bots  │
-                      │  - Groq LLM Inference (Reasoning)       │
-                      │  - Cognitive AgentMemory (Loss streaks) │
-                      │  - ML ResourcePredictor (Forecasting)   │
-                      │  - Safe ToolRegistry (Execution loops)  │
-                      └────────────────────┬────────────────────┘
-                                           │ Combinatorial Bids
-                                           ▼
-                      ┌─────────────────────────────────────────┐
-                      │       FastAPI Gateway & Security        │
-                      │  - Dual JWT / API Key Authentication    │
-                      │  - Pydantic v2 Request Validation       │
-                      │  - WebSockets Broadcast Feed            │
-                      └──────────────┬───────────────────┬──────┘
-                                     │                   │
-                        ┌────────────┴─────┐       ┌─────┴────────────┐
-                        ▼                  ▼       ▼                  ▼
-              ┌──────────────────┐  ┌──────────────────────────────────┐
-              │ SQLite / Postgre │  │       Auction Engine Core        │
-              │ (SQLAlchemy ORM) │  │  - PuLP / CBC Binary ILP Solver  │
-              │ Tables:          │  │  - VCG Clarke Pivot Pricing      │
-              │ - agents         │  │  - Loyalty Tier Discounts        │
-              │ - resources      │  │  - 10-Second Epoch Scheduler     │
-              │ - auctions       │  │  - Background Simulation Worker  │
-              │ - bids / allocs  │  │  - DynamicMarketplace Engine     │
-              └──────────────────┘  └──────────────────┬───────────────┘
-                                                       │ Live Events
-                                                       ▼
-                                    ┌──────────────────────────────────┐
-                                    │    Glassmorphism Dashboard UI   │
-                                    │  - Real-time Bid Ticker          │
-                                    │  - Resource Heatmap & Gauges     │
-                                    │  - Chart.js Allocation Analytics │
-                                    └──────────────────────────────────┘
-```
-
----
-
-## Core Features
-
-### 1. 4 Autonomous AI Agent Classes
-Located in `compute_bazaar/agents/`, four domain-specialized agents subclass `BaseAgent`:
-- **CodingAgent**: Specializes in code generation, model fine-tuning, and software compilation (`GPU-Slot-1`, `CPU-Cores-8`).
-- **ResearchAgent**: Specializes in literature synthesis, arXiv search, and dense embedding retrieval (`API-Budget-100`, `RAM-Block-32GB`).
-- **DataAgent**: Specializes in distributed ETL pipelines, Apache Spark batch jobs, and dataset cleaning (`RAM-Block-32GB`, `CPU-Cores-8`).
-- **AnalysisAgent**: Specializes in quantitative option pricing, risk modeling, and Monte Carlo simulations (`GPU-Slot-2`, `CPU-Cores-8`).
-
-### 2. Groq LLM Cognitive Reasoning Layer
-Located in `compute_bazaar/llm/`:
-- Integrates Groq's high-speed LPU inference engine (supporting `llama-3.3-70b-versatile`, `openai/gpt-oss-120b`).
-- Agents pass natural language task descriptions to the LLM to dynamically generate task complexity valuations, priority tags, and resource requirement breakdowns.
-- Built-in **Mock Mode** (`LLMConfig(mock_mode=True)`) enables 100% offline, deterministic testing with full token and latency telemetry tracking.
-
-### 3. Combinatorial Auction & ILP Solver
-Located in `backend/app/auction/engine.py`:
-- Resources have integer **units** $u_r$ (default 1) and bids request **quantities** $q_{ir}$ (default 1). The Winner Determination Problem is a binary ILP:
-  $$\max \sum_{i \in B} v_i x_i \quad \text{s.t.} \quad \sum_{i} q_{ir}\, x_i \le u_r \;\; \forall r, \qquad \sum_{i \in G} x_i \le 1 \;\; \forall \text{XOR group } G, \qquad x_i \in \{0,1\}$$
-- **Bidding language**: OR by default (an agent may win several bids and their values add up). Bids sharing `xor_group`, or all of an agent's bids with `xor_per_agent=True`, are mutually exclusive.
-- Solved exactly with CBC via `PuLP`. A pruned **exhaustive solver** (`SolverMethod.EXHAUSTIVE`) acts as an independent oracle for tests and small sweeps. Greedy is kept as a baseline.
-
-### 4. VCG Clarke Pivot Pricing (agent-level) & Policy Layers
-Located in `backend/app/auction/engine.py` and `pricing.py`:
-- The payer in VCG is the **agent**, so the counterfactual removes *all* of agent $a$'s bids $B_a$:
-  $$p_a = V^*(B \setminus B_a) - \Big[V^*(B) - \textstyle\sum_{i \in W_a} v_i\Big]$$
-  $p_a$ is then split over $a$'s winning bids in proportion to their value. Before Phase 1 the engine removed one *bid* at a time, which let an agent's second bid cover for the first and lower the payment. On random instances that older rule could be gamed in **7.3%** of agent checks (see [Mechanism Verification](#mechanism-verification)).
-- **Pure VCG is DSIC and IR** under quasi-linear utility with exact WDP. This is checked empirically on 10,000 random multi-unit OR/XOR instances, with zero profitable deviations found.
-- **Policy layers are not DSIC.** Loyalty tier discounts (**Gold 10% / Silver 5% / Bronze 0%**) and reserve floors are applied *after* VCG. A discount gives agents whose value lies just below the VCG price a reason to overbid, so experiments that need truthfulness use raw VCG.
-
-### 5. Intelligent & Adaptive Bidding
-Located in `compute_bazaar/agents/base.py`:
-- **Truthful Bidding**: Default strategy aligned with VCG market efficiency.
-- **Priority-Based Shading**: Supports strategic operational constraints: Critical ($0.95 \times v$), High ($0.85 \times v$), Normal ($0.70 \times v$), Low ($0.50 \times v$).
-- **Adaptive Memory Feedback**: When agents suffer consecutive losses, bidding algorithms dynamically escalate aggressiveness toward historical resource clearing prices.
-
-### 6. Dynamic Marketplace & Scarcity Pricing
-Located in `compute_bazaar/marketplace/`:
-- `DynamicMarketplace` aggregates multiple `ResourceProvider` instances.
-- Tracks real-time resource demand ratios ($\text{Demand} / \text{Capacity}$).
-- Dynamically scales reserve price floors during peak congestion while resetting to baseline rates when demand subsides.
-
-### 7. Cognitive Agent Memory & Jain Fairness
-Located in `compute_bazaar/agents/memory.py` and `compute_bazaar/fairness/`:
-- **`AgentMemory`**: Tracks historical win rates over sliding windows, loss streaks, won resource bundles, and rolling clearing price records.
-- **`jains_fairness_index`**: Evaluates system equity across participating agents:
-  $$J(x) = \frac{\left(\sum_{i=1}^n x_i\right)^2}{n \sum_{i=1}^n x_i^2} \in \left[\frac{1}{n}, 1.0\right]$$
-- **`FairnessTracker`**: Calculates normalized starvation risk scores ($S_r \in [0, 1]$), detects resource domination (>65% win rates), and recommends priority boosts for starved participants.
-
-### 8. ML Resource Prediction & Safe Toolset
-Located in `compute_bazaar/prediction/` and `compute_bazaar/tools/`:
-- **`ResourcePredictor`**: three tiers chosen by history size. A keyword heuristic handles cold start, per-category means apply at 3+ records, and a **log-space ridge regression** on hashed words plus parsed scale cues (model size, GB, rows, epochs, papers) takes over at 8+ records, returning a **90% predictive interval** for runtime and cost. GPU/CPU/RAM needs still come from category templates (see [Predictor Accuracy](#predictor-accuracy)).
-- **`ToolRegistry`**: Provides safe execution primitives:
-  - `check_resources`: Queries live capacity and dynamic reserve prices.
-  - `check_budget`: Queries agent remaining budget, spend, and starvation state.
-  - `estimate_cost`: Invokes `ResourcePredictor` for capacity forecasting.
-  - `execute_task`: Safely executes tasks on awarded resources and feeds actual runtime metrics back into predictor and memory.
-
-### 9. Background Simulation Loop
-Located in `backend/app/auction/simulation.py`:
-- Automated simulation worker generating realistic multi-agent bidding traffic across 5 diverse personas (ML-Adaptive, Truthful, Shading, Critical, Bargain).
-- Supports runtime controls via REST API (`/api/v1/simulation/start`, `/stop`, `/status`).
-
-### 10. Real-Time Glassmorphism Dashboard
-Located in `backend/app/static/`:
-- Modern dark-mode UI with glassmorphism styling.
-- Live WebSocket event ticker streaming bid submissions, auction round transitions, and winner announcements.
-- Interactive Chart.js analytics tracking social welfare comparisons, clearing price history, and resource utilization gauges.
-
----
-
-## Empirical Benchmark Results
-
-A comprehensive benchmark was conducted across **25 reproducible rounds** with fixed seed `SEED = 42`, evaluating **ILP + VCG** against four baseline schedulers (**Greedy-by-Value**, **Round-Robin**, **FCFS**, and **Random**) under the exact same multi-agent workload and resource environment.
-
-> **Setup**: 8 agents (Agent-Alpha through Agent-Theta), 5 resources (GPU-Slot-1, GPU-Slot-2, API-Budget-100, RAM-Block-32GB, CPU-Cores-8).  
-> Raw metrics are archived in [`results/benchmark_results.json`](results/benchmark_results.json); detailed analysis is documented in [`docs/benchmark.md`](docs/benchmark.md).  
-> **Note**: Baselines (Greedy-Value, Round-Robin, FCFS, Random) use pay-as-bid pricing; their cost columns are not like-for-like with ILP+VCG (VCG pricing). Screenshots show 9 simulated dashboard agents — the benchmark uses 8.
-
-### 25-Round Performance Comparison (Seed = 42)
-
-| Performance Metric | ILP + VCG (Compute Bazaar 2.0) | Greedy-Value (Highest Bid First) | Round-Robin (Cyclic Priority) | FCFS (Queue-Based Arrival) | Random (Serial Dispatch) |
-|:---|:---:|:---:|:---:|:---:|:---:|
-| **Total Social Welfare ($)** | **$7,647.39** | $7,362.69 | $5,536.69 | $6,405.35 | $5,338.80 |
-| **Mean Welfare / Round ($)** | **$305.90** | $294.51 | $221.47 | $256.21 | $213.55 |
-| **Resource Utilization (%)** | **87.2%** | 80.8% | 80.8% | 80.0% | 76.8% |
-| Jain's Fairness Index ($J$) | 0.6642 | 0.5326 | **0.9204** | 0.4179 | 0.7733 |
-| Total Agent Cost / Payments ($) | $5,007.60 | $7,362.69 | $5,536.69 | $6,405.35 | $5,338.80 |
-| **Agent VCG Surplus Savings ($)** | **$2,639.79 (34.5%)** | $0.00 (0.0%) | $0.00 (0.0%) | $0.00 (0.0%) | $0.00 (0.0%) |
-| Total Winners Count | 56 | 50 | 59 | 58 | 53 |
-| Average Clearing Price ($) | $89.42 | $147.25 | $93.84 | $110.44 | $100.73 |
-| **Mean Solver Latency (ms)** | 272.16 ms | 0.033 ms | 0.054 ms | **0.017 ms** | 0.038 ms |
-
-> **Trade-offs**: ILP+VCG gives the highest welfare and utilization but lower fairness (Jain 0.6642) than Round-Robin and Random, and ~272 ms (machine-dependent) solve time vs <0.04 ms.
-
-### Multi-Seed Robustness (Seeds 1–10, 25 rounds each)
-
-| Method | Welfare mean ± std ($) | Util mean ± std (%) | Jain mean ± std | Cost mean ± std ($) |
-|:---|:---:|:---:|:---:|:---:|
-| **ILP + VCG** | **$7,504.89 ± $295.92** | **85.60% ± 3.20%** | 0.6553 ± 0.0549 | $4,685.80 ± $258.45 |
-| Greedy-Value | $7,071.72 ± $237.24 | 78.00% ± 3.07% | 0.5781 ± 0.0704 | $7,071.72 ± $237.24 |
-| Round-Robin | $5,218.18 ± $341.11 | 71.60% ± 3.64% | **0.8386 ± 0.0708** | $5,218.18 ± $341.11 |
-| FCFS | $5,966.69 ± $356.78 | 74.56% ± 3.95% | 0.3977 ± 0.0440 | $5,966.69 ± $356.78 |
-| Random | $5,506.12 ± $309.92 | 75.52% ± 2.67% | 0.8021 ± 0.0525 | $5,506.12 ± $309.92 |
-
-Raw per-seed data: [`results/multiseed_benchmark.json`](results/multiseed_benchmark.json)
-
-### Key Findings
-1. **Welfare Superiority**: ILP + VCG achieved **$7,647.39** in social welfare, outperforming Greedy-by-Value by **+3.9%** on seed 42 (**+6.1%** mean over 10 seeds: $7,504.89 vs $7,071.72) alongside **+38%** vs Round-Robin (+38.12%), +19.39% vs FCFS, and +43.24% vs Random.
-2. **Economic Surplus**: Under VCG pricing, winning agents received **$2,639.79 (34.5%)** in Clarke pivot price discounts relative to their truthful valuations. All pay-as-bid baselines extracted 100% of bids with zero agent surplus.
-3. **FCFS Inequality**: FCFS suffered from severe head-of-line blocking ($J = 0.4179$), allowing early-arriving agents to monopolize capacity regardless of task value.
-4. **Real-Time Latency**: The ILP solver resolved combinatorial bundle constraints and all counterfactual VCG subproblems in **~272 ms** on average, well within real-time thresholds for periodic cluster scheduling epochs (10s).
-
----
-
-## Bidders Who Don't Know Their Own Value
-
-LLM agents *estimate* a task's value and resource needs, and those estimates are noisy and biased per agent. `compute_bazaar/uncertainty/` studies mechanisms for that setting (theory in [`docs/theory.md`](docs/theory.md)):
-
-- **Execution-contingent VCG** settles on realized values, so each winner's utility follows realized welfare.
-- **Per-agent calibration** learns each agent's value bias and need overrun from its own history. Only *relative* bias matters for efficiency (Corollary 1a).
-- **Risk-adjusted XOR menus**: each task bids several reservation sizes, each priced at value × empirical success probability, and the exact WDP picks the expected-welfare-optimal trade-off (Proposition 3).
-
-| Mechanism | Welfare (% of oracle) | Overrun rate | Ex-post IR violations | Mean winner utility | Revenue |
+| Policy | Welfare | Avg JCT (epochs) | Finish-time fairness p95 | GPU util | Dropped jobs |
 |:--|--:|--:|--:|--:|--:|
-| vcg_point | 72.1% ± 2.4% | 25.5% | 28.0% | 27.6 | 45,478 |
-| vcg_point_upper90 | 73.7% ± 2.1% | 1.1% | 15.0% | 42.4 | 44,636 |
-| vcg_contingent | 72.1% ± 2.4% | 25.5% | 93.3% | -214.6 | 435,733 |
-| vcg_contingent_upper90 | 73.7% ± 2.1% | 1.1% | 67.2% | -54.4 | 155,305 |
-| vcg_calibrated_fixed | 72.2% ± 1.9% | 1.1% | 31.9% | 29.8 | 58,388 |
-| vcg_calibrated | 78.0% ± 1.9% | 15.5% | 30.4% | 46.7 | 30,356 |
+| fifo | 65,061 | 69.0 | 66.6 | 68.5% | 226 |
+| fifo_backfill | 75,261 | 54.6 | 48.8 | 74.9% | 134 |
+| drf | 97,121 | 34.6 | 29.8 | 75.5% | 89 |
+| themis | 117,038 | 21.3 | 4.4 | 77.0% | 34 |
+| greedy_value | 149,286 | 19.8 | 7.9 | 77.5% | 62 |
+| bazaar_myopic | 145,203 | 31.5 | 37.0 | 80.1% | 210 |
+| **bazaar** | 151,923 | 26.5 | 23.8 | 79.1% | 164 |
 
-Calibration + menus gives the most welfare among realistic mechanisms (+4.3 points of oracle welfare over the best baseline), and winners keep almost the oracle's utility. Details: [`docs/uncertainty-experiments.md`](docs/uncertainty-experiments.md).
+A duration-aware reserve turns the myopic per-epoch auction into the highest-welfare policy (the margin over greedy is within seed variance). Themis is fairest. The fairness knob trades between the two while staying truthful:
 
-## Trace-Driven Scheduling
+| Policy | Welfare | Finish-time fairness p95 |
+|:--|--:|--:|
+| greedy_value | 154,207 | 8.1 |
+| themis | 116,268 | 4.3 |
+| bazaar | 159,515 | 23.7 |
+| bazaar_fair_0.5 | 157,867 | 20.2 |
+| bazaar_fair_1 | 157,834 | 14.8 |
+| bazaar_fair_2 | 155,975 | 10.3 |
 
-Beyond the 25-round micro-benchmark, `compute_bazaar/sim/` replays PAI-shaped GPU workloads: 1,200 jobs from 120 users on a 64-GPU cluster, with multi-unit GPU/CPU/RAM demands, heavy-tailed runtimes and values that decay with waiting. Bazaar is compared against FIFO, backfill, DRF and a Themis-style finish-time-fair scheduler (5 seeds):
+[Details and caveats](docs/trace-experiments.md)
 
-| Policy | Welfare | Avg JCT (epochs) | FTF rho mean | FTF rho p95 | Jain (1/rho) | GPU util | Dropped | Decision ms |
-|:--|--:|--:|--:|--:|--:|--:|--:|--:|
-| fifo | 65,061 ± 10,279 | 69.0 | 17.02 | 66.6 | 0.703 | 68.5% | 226 | 0.1 |
-| fifo_backfill | 75,261 ± 11,993 | 54.6 | 12.55 | 48.8 | 0.774 | 74.9% | 134 | 0.3 |
-| drf | 97,121 ± 14,088 | 34.6 | 7.14 | 29.8 | 0.925 | 75.5% | 89 | 1.1 |
-| themis | 117,038 ± 14,902 | 21.3 | 2.36 | 4.4 | 0.974 | 77.0% | 34 | 0.1 |
-| greedy_value | 149,286 ± 28,156 | 19.8 | 2.68 | 7.9 | 0.965 | 77.5% | 62 | 0.1 |
-| bazaar_myopic | 145,203 ± 25,585 | 31.5 | 8.04 | 37.0 | 0.933 | 80.1% | 210 | 63.8 |
-| bazaar | 151,923 ± 33,690 | 26.5 | 5.79 | 23.8 | 0.933 | 79.1% | 164 | 48.4 |
+### Strategic behaviour (repeated Local-Local-Global auctions)
 
-The auction with a duration-aware reserve gives the highest welfare and utilisation. Its margin over greedy density is within seed variance, and it beats the myopic per-epoch auction clearly. Themis remains far better on finish-time fairness. Full write-up and caveats: [`docs/trace-experiments.md`](docs/trace-experiments.md). The real Alibaba trace can be pulled with `scripts/fetch_traces.py`.
+Hedge learners (5 seeds × 3,000 rounds):
 
-## Predictor Accuracy
+| Payment rule | Efficiency | L1 bid/value | L2 bid/value | G bid/value |
+|:--|--:|--:|--:|--:|
+| vcg | 99.2% | 1.01 | 1.01 | 1.04 |
+| first_price | 99.1% | 0.36 | 0.35 | 0.40 |
+| core | 97.1% | 0.73 | 0.71 | 1.06 |
 
-Held-out evaluation (`scripts/evaluate_predictor.py`, 5 seeds × 200 train / 100 test tasks). The synthetic tasks' runtime and cost scale with cues in their text (e.g. "Fine-tune a 13B model for 3 epochs", "ETL over 400GB") times log-normal noise. That is exactly what a per-category average cannot capture.
+Live LLM bidders (bid/value ratios; 1.00 = truthful):
 
-| Model | Runtime MAPE | Cost MAPE | Runtime MAE (s) | 90% interval coverage (runtime / cost) |
-|:---|:---:|:---:|:---:|:---:|
-| Category mean (previous predictor) | 231.8% | 227.2% | 620 | n/a |
-| **Log-ridge (current)** | **21.7% ± 1.9** | **21.3% ± 2.7** | **173** | 89% / 90% |
+| Model | Condition | Efficiency | L1 | L2 | G |
+|:--|:--|--:|--:|--:|--:|
+| openai/gpt-oss-120b | vcg_informed | 100.0% | 1.00 | 1.00 | 1.00 |
+| openai/gpt-oss-120b | vcg_uninformed * | 99.7% | 1.00 | 1.00 | 0.80 |
+| openai/gpt-oss-20b | vcg_informed | 100.0% | 1.00 | 1.00 | 1.00 |
+| openai/gpt-oss-20b | vcg_uninformed * | 96.1% | 1.00 | 0.95 | 0.70 |
+| openai/gpt-oss-20b | first_price * | 98.8% | 0.59 | 1.00 | – |
+| qwen/qwen3.8-27b | vcg_informed | 100.0% | 1.00 | 1.00 | 1.00 |
+| qwen/qwen3.8-27b | vcg_uninformed * | 100.0% | 1.00 | 1.00 | 1.00 |
+| qwen/qwen3.8-27b | first_price | 100.0% | 1.00 | 0.86 | 1.04 |
+| qwen/qwen3.8-27b | vcg_chat | 100.0% | 1.00 | 1.00 | 1.00 |
+| qwen/qwen3.8-27b | core_chat | 100.0% | 1.00 | 1.00 | 1.00 |
 
-GPU/CPU/RAM needs are category templates and are not scored, because they would be zero-error by construction. Full data: [`docs/predictor_eval.json`](docs/predictor_eval.json).
+\* partial run: Groq's daily token cap for that model was reached mid-study, and failed calls are excluded from the ratios. VCG makes learners truthful, first-price makes everyone shade, and core payments make locals free-ride. [Details](docs/strategic-study.md)
 
-## Mechanism Verification
+### Mechanism verification and prediction
 
-`scripts/verify_mechanism.py` draws 10,000 random instances (4 agents, 3 multi-unit resources, up to 2 bids per agent, alternating OR/XOR bidding). For every agent it searches misreports that scale each bid by {0 (drop), 0.5, 0.8, 0.95, 1.05, 1.25, 2} and records the best utility gain over truthful bidding.
+- **Incentives:** 40,000 agent-level misreport searches on random multi-unit OR/XOR instances found **0** profitable deviations under agent-level VCG. Hypothesis property tests (feasibility, brute-force optimality, IR, truthfulness) run on every CI build.
+- **Predictor:** on held-out tasks whose cost depends on parsed text cues, runtime error drops from 232% to **21.7% MAPE**, with 90% intervals covering 89% of outcomes.
 
-| Pricing rule | Agent checks | Profitable deviations | Max gain ($) |
-|:---|:---:|:---:|:---:|
-| **Agent-level VCG (current)** | 40,000 | **0** | 0.00 |
-| Per-bid VCG (pre-Phase 1) | 40,000 | 2,937 (7.3%) | 110.61 |
+### Scale
 
-The same properties (feasibility, optimality vs brute force, ILP = exhaustive oracle, IR, truthfulness) also run on every CI build through Hypothesis in `tests/test_mechanism_properties.py`. Raw data: [`results/mechanism_verification.json`](results/mechanism_verification.json).
+| Bids | WDP | Full VCG, sequential | Full VCG, 8 threads |
+|--:|--:|--:|--:|
+| 50 | 0.33 s | 4.8 s | 2.6 s |
+| 100 | 0.57 s | 18.4 s | 8.1 s |
+| 200 | 0.68 s | 21.0 s | 11.9 s |
+| 400 | 1.08 s | 24.9 s | 12.4 s |
 
----
-
-## Project Structure
-
-```
-compute-bazaar/
-├── .github/
-│   └── workflows/
-│       └── ci.yml               # GitHub Actions CI (Python 3.11 & 3.12)
-├── backend/
-│   ├── app/
-│   │   ├── api/                 # FastAPI REST endpoints & WebSocket handlers
-│   │   │   ├── auth.py          # JWT + API Key auth; startup check for SECRET_KEY
-│   │   │   ├── endpoints.py     # /api/v1/ routes (bids, resources, agents, dashboard)
-│   │   │   └── websocket.py     # Real-time WebSocket pub/sub connection manager
-│   │   ├── auction/             # Optimization, pricing & simulation logic
-│   │   │   ├── agent_simulation.py # Groq-powered autonomous simulation loop
-│   │   │   ├── engine.py        # AuctionEngine, ILP solver (PuLP), VCG computation
-│   │   │   ├── pricing.py       # Loyalty tier discounts & budget checking
-│   │   │   ├── scheduler.py     # 10-second epoch background worker
-│   │   │   └── simulation.py    # Multi-agent automated simulation loop
-│   │   ├── db/                  # SQLAlchemy models & raw DB utilities
-│   │   │   ├── database.py      # Low-level SQLite schema (Week 1 reference)
-│   │   │   └── models.py        # Agent, Resource, Auction, Bid, Allocation tables
-│   │   ├── models/
-│   │   │   └── schemas.py       # Pydantic request/response schemas
-│   │   ├── static/              # Glassmorphism HTML/JS Dashboard & vendored assets
-│   │   │   ├── index.html       # Main dashboard layout
-│   │   │   └── app.js           # WebSocket feed, chart rendering, UI controls
-│   │   └── main.py              # FastAPI application entrypoint & lifespan
-│   └── requirements.txt         # Backend Python package dependencies
-├── compute_bazaar/              # Client SDK & Agent Intelligence Package
-│   ├── agents/                  # Autonomous AI agent implementations
-│   │   ├── base.py              # BaseAgent with adaptive bidding & tool loops
-│   │   ├── coding.py            # CodingAgent (Software/Training)
-│   │   ├── research.py          # ResearchAgent (Literature/Embeddings)
-│   │   ├── data.py              # DataAgent (ETL/Spark)
-│   │   ├── analysis.py          # AnalysisAgent (Quantitative/Monte Carlo)
-│   │   └── memory.py            # Cognitive AgentMemory & BidOutcome tracking
-│   ├── autobid/
-│   │   └── strategies.py        # Auto-bidding strategy implementations
-│   ├── client/
-│   │   └── sdk.py               # Python client SDK
-│   ├── fairness/                # Fairness metrics & anti-starvation
-│   │   └── metrics.py           # Jain's index, starvation risk, FairnessTracker
-│   ├── generators/
-│   │   └── workload.py          # Synthetic workload generators
-│   ├── llm/                     # Groq LLM integration layer
-│   │   └── client.py            # GroqLLMClient, LLMConfig, telemetry tracking
-│   ├── marketplace/             # Dynamic marketplace & provider registry
-│   │   ├── manager.py           # DynamicMarketplace orchestrator
-│   │   └── provider.py          # ResourceProvider & scarcity pricing
-│   ├── models/
-│   │   └── bundle.py            # Bundle data models
-│   ├── prediction/              # Machine learning resource forecasting
-│   │   └── predictor.py         # ResourcePredictor with feedback training loop
-│   └── tools/                   # Safe toolset for agent operations
-│       └── agent_tools.py       # check_resources, check_budget, estimate_cost, execute_task
-├── docs/                        # Architecture guides, benchmarks & final report
-│   ├── agents.md                # Autonomous agent design guide
-│   ├── api-reference.md         # REST API reference
-│   ├── architecture.md          # System architecture deep dive
-│   ├── auction-theory.md        # Combinatorial auction theory notes
-│   ├── baseline.md              # Baseline mechanism comparison
-│   ├── benchmark.md             # Comprehensive empirical benchmark report
-│   ├── current-architecture.md  # Living architecture document
-│   ├── evaluation.md            # Evaluation methodology
-│   ├── fairness-and-memory.md   # Fairness & memory system docs
-│   ├── groq-integration.md      # Groq LLM integration guide
-│   ├── marketplace.md           # Marketplace & pricing docs
-│   ├── prediction-and-tools.md  # ML predictor & toolset docs
-│   ├── predictor_eval.json      # Predictor accuracy evaluation (MAE/MAPE)
-│   ├── report.md                # Week 13 18-section final project report
-│   └── sdk-guide.md             # Client SDK usage guide
-├── examples/                    # Demo scripts & usage examples
-│   ├── week1_demo.py            # Week 1 demo (greedy auction basics)
-│   ├── week2_benchmark.py       # Week 2 benchmark (LP vs greedy)
-│   ├── baseline_benchmark.py    # Baseline mechanism comparison
-│   ├── evaluation_suite.py      # Full evaluation suite
-│   └── end_to_end_demo.py       # End-to-end agent simulation demo
-├── results/                     # Raw benchmark datasets
-│   ├── benchmark_results.json   # Seed=42, 25-round benchmark results
-│   └── multiseed_benchmark.json # Seeds 1-10, mean ± std results
-├── scripts/                     # Utility scripts
-│   ├── evaluate_predictor.py    # Evaluate ResourcePredictor (MAE/MAPE)
-│   ├── example_workflow_output.py # 3-bidder VCG example script
-│   └── run_multiseed_benchmark.py # Multi-seed benchmark runner
-├── tests/                       # Comprehensive automated test suite (148 tests)
-│   ├── test_sdk_and_autobid.py  # SDK & autobid strategy tests
-│   ├── test_week1_engine.py     # Week 1 greedy solver tests
-│   ├── test_week2_engine.py     # Solver & VCG unit tests
-│   ├── test_week2_llm.py        # LLM client tests
-│   ├── test_week3_8.py          # Integration: REST API, JWT, bidding (8 tests)
-│   ├── test_week3_agents.py     # Autonomous agent behavioral tests
-│   ├── test_week4_bidding.py    # Combinatorial bidding tests
-│   ├── test_week5_marketplace.py # Scarcity pricing tests
-│   ├── test_week6_fairness_memory.py # Fairness tracker & memory tests
-│   ├── test_week7_prediction_tools.py # ML predictor & tool tests
-│   ├── test_week8a_dashboard.py # FastAPI dashboard & UI tests
-│   ├── test_week8b_evaluation.py # Empirical evaluation tests
-│   └── test_week11_live_integration.py # Live integration (excluded from CI)
-├── benchmark.py                 # Reproducible 25-round benchmark script (SEED=42)
-├── conftest.py                  # Pytest configuration & fixtures
-├── docker-compose.yml           # Docker Compose service definition
-├── Dockerfile                   # Container image definition
-├── .env.example                 # Environment variable template
-└── README.md                    # Project documentation
-```
+Winner determination stays around a second at 400 bids. VCG's per-winner counterfactual solves dominate, and running them in parallel halves the time. [Details](docs/scaling.md)
 
 ---
 
-## Installation & Quickstart
+## How it works
 
-### Prerequisites
-- Python 3.11+
-- Git
+```
+ Natural-language task
+        │
+        ▼
+ LLM agent (Groq) ──► value estimate + resource-need forecast (learned predictor, 90% interval)
+        │
+        ▼
+ Bids: bundle × quantities, optional XOR menu of reservation sizes
+        │
+        ▼
+ Exact multi-unit WDP (PuLP / CBC ILP)        max Σ v·x   s.t.  Σ q·x ≤ units,  XOR groups
+        │
+        ▼
+ Pricing: agent-level VCG │ execution-contingent VCG │ core-selecting │ policy layers (tiers, reserves)
+        │
+        ▼
+ Execution → realised value / actual usage → per-agent calibration, memory, fairness tracking
+        │
+        ▼
+ FastAPI + SQLAlchemy + WebSocket ──► live dashboard
+```
 
-### 1. Clone Repository & Setup Virtual Environment
+| Layer | Where |
+|:--|:--|
+| Auction engine (WDP, VCG, XOR, multi-unit, parallel counterfactuals) | `backend/app/auction/engine.py` |
+| API, auth (JWT / API key), scheduler, WebSocket feed | `backend/app/api/`, `backend/app/auction/scheduler.py` |
+| Dashboard | `backend/app/static/` |
+| LLM agents, memory, bidding strategies | `compute_bazaar/agents/`, `compute_bazaar/autobid/`, `compute_bazaar/llm/` |
+| Learned resource predictor | `compute_bazaar/prediction/` |
+| Uncertainty-aware mechanisms | `compute_bazaar/uncertainty/` |
+| Cluster simulator and baselines | `compute_bazaar/sim/` |
+| Core payments and strategic games | `compute_bazaar/strategic/` |
+| Incentive verification | `compute_bazaar/mechanism/` |
+
+---
+
+## Quickstart
+
 ```bash
 git clone https://github.com/MuzraFatima/Compute-bazar.git
 cd Compute-bazar
+python -m venv venv && source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install -r requirements-dev.txt
 
-# Create and activate virtual environment
-python -m venv venv
-# On Linux/macOS:
-source venv/bin/activate
-# On Windows:
-.\venv\Scripts\activate
+cp .env.example .env            # optional: add GROQ_API_KEY for live LLM agents
+python -m uvicorn backend.app.main:app --port 8000
 ```
 
-### 2. Install Dependencies
-```bash
-pip install -r backend/requirements.txt   # runtime only
-pip install -r requirements-dev.txt       # + pytest, hypothesis, ruff
-```
+Then open:
+- **Dashboard:** http://localhost:8000, then press *Start Simulation* (rule-based agents) or *Groq AI Mode* (live LLM agents).
+- **API docs:** http://localhost:8000/docs
 
-### 3. Environment Variables (Optional)
-Copy the example configuration file:
-```bash
-cp .env.example .env
-```
-To enable live Groq LLM reasoning (offline mock mode is enabled by default for tests and benchmarks):
-```env
-GROQ_API_KEY=gsk_your_actual_groq_api_key_here
-```
+If a Groq model hits its daily token cap or is retired, set `GROQ_MODEL` in `.env` (for example `qwen/qwen3.8-27b`). With Docker: `docker compose up --build`.
 
-### 4. Run the FastAPI Application Server
-```bash
-uvicorn backend.app.main:app --reload
-```
-The server will initialize the SQLite database (`backend/compute_bazaar.db`), start the background auction scheduler loop (10-second epochs), and serve the dashboard:
-- **Web Dashboard**: `http://localhost:8000`
-- **Interactive Swagger API Docs**: `http://localhost:8000/docs`
-- **WebSocket Feed**: `ws://localhost:8000/ws/auction-feed`
-
----
-
-## Docker
+### Use the API
 
 ```bash
-docker compose up --build
+# register an agent, get a JWT, submit a combinatorial bid
+curl -s -X POST localhost:8000/api/v1/agents/register -H "Content-Type: application/json" -d '{"name":"MyAgent","tier":"gold"}'
+curl -s -X POST "localhost:8000/api/v1/auth/token?api_key=cb_YOUR_KEY"
+curl -s -X POST localhost:8000/api/v1/bids/submit -H "Authorization: Bearer YOUR_JWT" -H "Content-Type: application/json" \
+     -d '{"resource_bundle":["GPU-Slot-1","CPU-Cores-8"],"bid_amount":95,"priority":"high"}'
 ```
 
-The `docker-compose.yml` mounts only a `/app/data` volume for the SQLite database, so the container source code is not shadowed by the volume mount. The service is available at `http://localhost:8000`.
+Rounds close every 10 seconds. Winners and VCG payments appear on the dashboard and in `GET /api/v1/auctions/current`.
 
----
-
-## Security Notes
-
-- `backend/app/api/auth.py` raises a `ValueError` at startup if `SECRET_KEY` is unset and `DEBUG=false`, preventing silent deployment of the hardcoded development key in production.
-- The server supports dual authentication: **Bearer JWT tokens** and **X-API-Key** header.
-- In production, set strong values for `SECRET_KEY` and `JWT_SECRET_KEY` in your environment or `.env` file.
-
----
-
-## Authentication
-
-All protected endpoints require a JWT Bearer token or `X-API-Key` header. Use the following flow:
-
-```bash
-# 1. Register a new agent
-curl -s -X POST http://localhost:8000/api/v1/agents/register \
-  -H "Content-Type: application/json" \
-  -d '{"name": "MyAgent", "tier": "gold"}' | python -m json.tool
-
-# 2. Exchange API key for JWT token (copy api_key from step 1)
-curl -s -X POST "http://localhost:8000/api/v1/auth/token?api_key=cb_YOUR_API_KEY" \
-  | python -m json.tool
-
-# 3. Submit a combinatorial bid using JWT Bearer token
-curl -s -X POST http://localhost:8000/api/v1/bids/submit \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"resource_bundle": ["GPU-Slot-1", "CPU-Cores-8"], "bid_amount": 95.0, "task_description": "Model training", "priority": "high"}' \
-  | python -m json.tool
-
-# Alternative: submit bid using API Key header directly
-curl -s -X POST http://localhost:8000/api/v1/bids/submit \
-  -H "X-API-Key: cb_YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"resource_bundle": ["GPU-Slot-1"], "bid_amount": 60.0}' \
-  | python -m json.tool
-```
-
----
-
-## Example Workflow
-
-The following Python snippet demonstrates how an autonomous agent inspects market conditions, uses machine learning to forecast resource needs, constructs a truthful combinatorial bid with 3 competing bidders (ensuring a non-zero VCG payment), submits it to the engine, and executes the awarded task.
+### Use the engine directly
 
 ```python
-from compute_bazaar.agents import CodingAgent
-from compute_bazaar.llm import GroqLLMClient, LLMConfig
-from compute_bazaar.tools import estimate_cost, execute_task
-from backend.app.auction.engine import AuctionEngine, Resource, Bid, SolverMethod
+from backend.app.auction.engine import AuctionEngine, Bid, Resource
 
-# 1. Initialize Infrastructure & Engine
-resources = [
-    Resource("GPU-Slot-1", "gpu", 1.0, "slot"),
-    Resource("RAM-Block-32GB", "ram", 32.0, "gb"),
-    Resource("CPU-Cores-8", "cpu", 8.0, "cores"),
-]
-engine = AuctionEngine(resources, method=SolverMethod.LP)
-
-# 2. Initialize Autonomous Agent with Groq LLM Reasoning (mock mode)
-llm = GroqLLMClient(config=LLMConfig(mock_mode=True))
-agent = CodingAgent("AutoDevBot", budget=500.0, llm_client=llm)
-
-# 3. Agent checks market availability & forecasts task needs
-task_prompt = "Fine-tune 7B parameter code completion model"
-prediction = estimate_cost(task_prompt)
-print(f"ML Forecast: {prediction.predicted_execution_time_sec}s runtime | ${prediction.predicted_cost:.2f} cost")
-
-# 4. Three competing bids on overlapping resources — ensures VCG payment > $0
-# AutoDevBot bids $145 for GPU+CPU; ResearchBot bids $60 (GPU-only);
-# AnalysisBot bids $70 (CPU+RAM). ILP picks AutoDevBot ($145 > $130 combined).
-# VCG payment = value without AutoDevBot ($60+$70=$130) - 0 = $130.
-bid_a = Bid(bid_id="bid-A", agent_id="AutoDevBot", resource_bundle=["GPU-Slot-1", "CPU-Cores-8"], bid_amount=145.0)
-bid_b = Bid(bid_id="bid-B", agent_id="ResearchBot", resource_bundle=["GPU-Slot-1"], bid_amount=60.0)
-bid_c = Bid(bid_id="bid-C", agent_id="AnalysisBot", resource_bundle=["CPU-Cores-8", "RAM-Block-32GB"], bid_amount=70.0)
-
-engine.submit_bid(bid_a)
-engine.submit_bid(bid_b)
-engine.submit_bid(bid_c)
-
-# 5. Engine runs auction round (ILP solve + VCG externality pricing)
-result = engine.run_auction(round_id=1)
-
-# 6. Winner execution feedback loop
-print(f"\nAuction Round #1 — Winners: {len(result.winning_bids)}")
-for winner in result.winning_bids:
-    vcg_payment = result.payments[winner.bid_id]
-    surplus = winner.bid_amount - vcg_payment
-    print(f"  Winner: {winner.agent_id} | Bundle: {winner.resource_bundle}")
-    print(f"  Bid: ${winner.bid_amount:.2f} | VCG Payment: ${vcg_payment:.2f} | Surplus: ${surplus:.2f}")
-    if winner.agent_id == "AutoDevBot":
-        execute_task(agent, task_prompt, {"won": True, "payment": vcg_payment, "resources": winner.resource_bundle})
-```
-
-**Real output** (run `python scripts/example_workflow_output.py` to reproduce):
-```
-ML Forecast: 600.0s runtime | $45.00 cost
-
-Auction Round #1 — Winners: 1
-  Winner: AutoDevBot | Bundle: ['GPU-Slot-1', 'CPU-Cores-8']
-  Bid: $145.00 | VCG Payment: $130.00 | Surplus: $15.00
+engine = AuctionEngine([Resource("GPU", "gpu", units=4), Resource("RAM", "ram", units=2)], xor_per_agent=True)
+engine.submit_bid(Bid("a1", "alice", ["GPU", "RAM"], 120.0, quantities={"GPU": 2, "RAM": 1}))
+engine.submit_bid(Bid("b1", "bob", ["GPU"], 70.0, quantities={"GPU": 3}))
+result = engine.run_auction()
+print(result.winning_bids, result.agent_payments)
 ```
 
 ---
 
-## Examples & Scripts
+## Reproduce everything
 
-| Script | Description |
-|:---|:---|
-| `examples/week1_demo.py` | Week 1: greedy auction basics, SQLite schema demo |
-| `examples/week2_benchmark.py` | Week 2: LP vs greedy comparison |
-| `examples/baseline_benchmark.py` | Baseline mechanism comparison |
-| `examples/evaluation_suite.py` | Full evaluation suite across all mechanisms |
-| `examples/end_to_end_demo.py` | End-to-end autonomous agent simulation |
-| `benchmark.py` | Reproducible 25-round benchmark (root, `SEED=42`) |
-| `scripts/run_multiseed_benchmark.py` | Multi-seed (1–10) benchmark with mean ± std |
-| `scripts/evaluate_predictor.py` | ResourcePredictor MAE/MAPE evaluation |
+```bash
+python scripts/reproduce.py --quick      # ~5 minutes, writes results/quick/
+python scripts/reproduce.py              # full runs, overwrites results/ (1–2 h)
+python scripts/reproduce.py --live-llm   # include live LLM bidders (needs GROQ_API_KEY)
+```
+
+| Result | Script | Output |
+|:--|:--|:--|
+| Incentive verification | `scripts/verify_mechanism.py` | `results/mechanism_verification.json` |
+| Predictor accuracy | `scripts/evaluate_predictor.py` | `docs/predictor_eval.json` |
+| Trace scheduling, fairness frontier | `scripts/run_trace_experiments.py` | `results/trace_experiments.json`, `results/fairness_frontier.json` |
+| Uncertainty mechanisms | `scripts/run_uncertainty_experiments.py` | `results/uncertainty_experiments.json` |
+| Strategic / LLM study | `scripts/run_strategic_study.py` | `results/strategic_study.json` |
+| Solver scaling | `scripts/benchmark_scaling.py` | `results/scaling_benchmark.json` |
+| Original 25-round micro-benchmark | `benchmark.py` | `results/benchmark_results.json`, `results/multiseed_benchmark.json` |
+| Browser end-to-end check + screenshots | `scripts/e2e_check.py` | `docs/screenshots/` |
+
+The real Alibaba PAI trace can be downloaded with `scripts/fetch_traces.py`; pass `--pai data/pai_task_table.csv` to the trace runner.
 
 ---
 
-## Running Tests
-
-The suite covers auction mathematics, mechanism properties (Hypothesis), VCG payments, agents, pricing, the API and the performance layer:
+## Testing and CI
 
 ```bash
 ruff check . && ruff format --check .
 python -m pytest tests/ --ignore=tests/test_week11_live_integration.py -q
+python scripts/e2e_check.py      # with the server running; needs `pip install playwright` and Google Chrome
 ```
 
-CI runs the lint/format gate first, then the tests on Python 3.11 and 3.12.
-
-### Re-running the 25-Round Empirical Benchmark
-To regenerate [`results/benchmark_results.json`](results/benchmark_results.json) and [`docs/benchmark.md`](docs/benchmark.md):
-```bash
-python benchmark.py
-```
+GitHub Actions runs the lint/format gate first, then the test suite on Python 3.11 and 3.12. Live LLM tests are opt-in.
 
 ---
 
 ## Documentation
 
-All documentation lives in the [`docs/`](docs/) directory:
-
-| Document | Description |
-|:---|:---|
-| [`docs/agents.md`](docs/agents.md) | Autonomous agent design & behavioral specs |
-| [`docs/api-reference.md`](docs/api-reference.md) | Complete REST API reference |
-| [`docs/architecture.md`](docs/architecture.md) | System architecture deep dive |
-| [`docs/auction-theory.md`](docs/auction-theory.md) | Combinatorial auction & VCG theory |
-| [`docs/baseline.md`](docs/baseline.md) | Baseline mechanism comparison analysis |
-| [`docs/benchmark.md`](docs/benchmark.md) | Empirical benchmark report (generated) |
-| [`docs/current-architecture.md`](docs/current-architecture.md) | Living architecture document |
-| [`docs/evaluation.md`](docs/evaluation.md) | Evaluation methodology |
-| [`docs/evaluation_results.json`](docs/evaluation_results.json) | Full evaluation suite raw metrics (JSON) |
-| [`docs/fairness-and-memory.md`](docs/fairness-and-memory.md) | Fairness metrics & cognitive memory |
-| [`docs/groq-integration.md`](docs/groq-integration.md) | Groq LLM integration guide |
-| [`docs/marketplace.md`](docs/marketplace.md) | Dynamic marketplace & scarcity pricing |
-| [`docs/prediction-and-tools.md`](docs/prediction-and-tools.md) | ML predictor & tool registry docs |
-| [`docs/predictor_eval.json`](docs/predictor_eval.json) | Predictor accuracy evaluation (MAE/MAPE) |
-| [`docs/report.md`](docs/report.md) | Week 13 final project report |
-| [`docs/sdk-guide.md`](docs/sdk-guide.md) | Client SDK usage guide |
+| Document | What it covers |
+|:--|:--|
+| [docs/paper.md](docs/paper.md) | Paper draft: motivation, model, results, related work |
+| [docs/theory.md](docs/theory.md) | Propositions and proofs |
+| [docs/uncertainty-experiments.md](docs/uncertainty-experiments.md) | Estimated-value mechanisms, results |
+| [docs/trace-experiments.md](docs/trace-experiments.md) | Cluster simulator, baselines, caveats |
+| [docs/strategic-study.md](docs/strategic-study.md) | Learning / LLM bidders, core payments, fairness knob |
+| [docs/scaling.md](docs/scaling.md) | Solver performance |
+| [docs/performance.md](docs/performance.md) | Web performance checklist (caching, gzip, indexes, …) |
+| [docs/api-reference.md](docs/api-reference.md), [docs/sdk-guide.md](docs/sdk-guide.md) | API and Python SDK |
+| [docs/architecture.md](docs/architecture.md), [docs/agents.md](docs/agents.md) | System design and agents |
 
 ---
 
 ## Limitations
 
-- **Simulated agents and valuations**: All agents and their valuations are synthetically generated. No real AI workloads or GPU hardware is involved.
-- **Small scale**: The benchmark uses 8 agents and 5 resource types. Performance at production scale (thousands of agents, hundreds of resource types) is untested.
-- **Single node**: The system runs on a single server with SQLite. It does not support distributed or federated deployments.
-- **No real GPU execution**: `execute_task` simulates task execution with randomized duration; no actual compute jobs are dispatched.
-- **DSIC holds only for raw VCG**: tier discounts, reserve floors and budget caps are policy layers that break strict truthfulness, and priority shading is an agent strategy, not part of the mechanism.
-
----
-
-## Future Scope
-
-1. **Scale tests**: Evaluate ILP solver performance under 1,000+ simultaneous bids and 50+ resource types.
-2. **Ascending-clock auctions**: Implement iterative ascending-clock (iBundle / proxy) auctions to reduce valuation elicitation overhead for repeated bidders.
-3. **Real cluster-trace workloads**: Replace synthetic agent valuations with traces from public datasets (e.g., Google cluster traces, Alibaba production traces).
-4. **HiGHS solver integration**: Replace PuLP/CBC with HiGHS for faster branch-and-cut performance on large ILP instances.
-5. **Multi-node federation**: Extend to multi-datacenter resource federation via distributed auction protocols.
+- The estimated-value agents are a parametric model of LLM miscalibration, and the cluster workload is calibrated to the PAI trace rather than replayed (a loader for the real trace is included).
+- The simulator is non-preemptive and has a homogeneous GPU type, so Gavel and Tiresias aren't compared.
+- DSIC holds for raw VCG only. Tier discounts, reserve floors and budget caps are policy layers, and core payments trade truthfulness for collusion resistance.
+- The live LLM study is small (Groq free-tier limits); treat it as indicative.
+- Single-node deployment (SQLite by default; Postgres supported via `DATABASE_URL`).
 
 ---
 
 ## License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+[MIT](LICENSE) © 2026 Muzra Fatima
