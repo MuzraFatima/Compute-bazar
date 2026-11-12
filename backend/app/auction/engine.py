@@ -46,9 +46,11 @@
 from __future__ import annotations
 
 import itertools
+import os
 import time
 from collections import defaultdict
 from collections.abc import Callable, Sequence
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from enum import Enum
 
@@ -225,6 +227,44 @@ def units_used(winners: Sequence[Bid]) -> dict[str, int]:
 
 Solver = Callable[..., tuple[list[Bid], float]]
 
+_SOLVER_CACHE: dict[str, object] = {}
+
+
+def milp_solver(name: str | None = None):
+    """
+    The MILP backend for PuLP: CBC by default, HiGHS (in-process, needs
+    ``highspy``) with ``COMPUTE_BAZAAR_SOLVER=highs``. On our benchmarks
+    neither dominates (docs/scaling.md), so the default stays CBC.
+
+    ``COMPUTE_BAZAAR_MIP_GAP`` (default 0) accepts a relative optimality gap g.
+    Every solve is then within g of optimal, so *for a fixed allocation* each
+    payment moves by at most 2g·V*. A gap can also change which bids win, and
+    then individual payments can differ by much more (docs/scaling.md
+    measures it). Truthfulness only holds with g = 0; the gap is a speed
+    knob for large instances, not a guarantee.
+    """
+    choice = (name or os.getenv("COMPUTE_BAZAAR_SOLVER", "cbc")).lower()
+    gap = float(os.getenv("COMPUTE_BAZAAR_MIP_GAP", "0") or 0)
+    key = f"{choice}:{gap}"
+    if key in _SOLVER_CACHE:
+        return _SOLVER_CACHE[key]
+    solver = None
+    if choice == "highs":
+        try:
+            candidate = pulp.HiGHS(msg=False, timeLimit=30, gapRel=gap or None)
+            if candidate.available():
+                solver = candidate
+        except Exception:  # older PuLP without the HiGHS API, or highspy missing
+            solver = None
+    if solver is None:
+        solver = pulp.PULP_CBC_CMD(msg=0, timeLimit=30, gapRel=gap or None)
+    _SOLVER_CACHE[key] = solver
+    return solver
+
+
+def solver_name() -> str:
+    return type(milp_solver()).__name__
+
 
 def solve_greedy(
     bids: Sequence[Bid], resources: dict[str, Resource], xor_per_agent: bool = False
@@ -284,7 +324,7 @@ def solve_wdp_lp(
     for k, idxs in enumerate(_xor_groups(valid, xor_per_agent).values()):
         prob += pulp.lpSum(x[i] for i in idxs) <= 1, f"xor_{k}"
 
-    prob.solve(pulp.PULP_CBC_CMD(msg=0, timeLimit=30))
+    prob.solve(milp_solver())
     status = pulp.LpStatus[prob.status]
     if status not in ("Optimal", "Feasible"):
         logger.error(f"LP solver returned status: {status}")
@@ -364,10 +404,15 @@ def compute_vcg_agent_payments(
     xor_per_agent: bool = False,
     solver: Solver = solve_wdp_lp,
     optimal_value: float | None = None,
+    workers: int | None = None,
 ) -> dict[str, float]:
     """
     Clarke-pivot payment per winning agent:
         p_a = V*(B without any of a's bids) − (V*(B) − value a won)
+
+    Counterfactual solves are independent. With ``workers`` > 1 (or the
+    ``COMPUTE_BAZAAR_VCG_WORKERS`` env var) they run in a thread pool; CBC
+    solves in a subprocess, so threads give real parallelism.
     """
     if not winning_bids:
         return {}
@@ -378,10 +423,39 @@ def compute_vcg_agent_payments(
     for b in winning_bids:
         won_value[b.agent_id] += b.bid_amount
 
+    winner_ids = {b.bid_id for b in winning_bids}
+    contested: set[str] = set()  # resources some losing bid asks for
+    for b in all_bids:
+        if b.bid_id not in winner_ids:
+            contested.update(b.resource_bundle)
+    agent_resources: dict[str, set[str]] = defaultdict(set)
+    for b in winning_bids:
+        agent_resources[b.agent_id].update(b.resource_bundle)
+
     payments: dict[str, float] = {}
-    for agent, value in won_value.items():
+    todo = []
+    for agent in won_value:
+        if not (agent_resources[agent] & contested):
+            # Exact shortcut: no losing bid wants any unit this agent holds, so its
+            # units can't be reused and V*(B without a) = V* - value: payment 0.
+            payments[agent] = 0.0
+        else:
+            todo.append(agent)
+
+    def counterfactual(agent: str) -> float:
         others = [b for b in all_bids if b.agent_id != agent]
-        _, v_without = solver(others, resources, xor_per_agent)
+        return solver(others, resources, xor_per_agent)[1]
+
+    n_workers = workers or int(os.getenv("COMPUTE_BAZAAR_VCG_WORKERS", "1") or 1)
+    if n_workers > 1 and len(todo) > 1:
+        with ThreadPoolExecutor(max_workers=n_workers) as pool:
+            v_without_all = dict(zip(todo, pool.map(counterfactual, todo), strict=True))
+    else:
+        v_without_all = {a: counterfactual(a) for a in todo}
+
+    for agent in todo:
+        value = won_value[agent]
+        v_without = v_without_all[agent]
         p = v_without - (optimal_value - value)
         # Exact solvers give 0 ≤ p ≤ value; the clamp only absorbs float noise.
         payments[agent] = round(max(0.0, min(p, value)), 6)

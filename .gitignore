@@ -49,3 +49,8 @@ logs/
 .coverage
 htmlcov/
 .pytest_cache/
+
+# Quick reproduction outputs (python scripts/reproduce.py --quick)
+results/quick/
+# Downloaded traces
+data/
