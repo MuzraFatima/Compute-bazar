@@ -30,6 +30,7 @@ Autonomous AI agents powered by **Groq LLM reasoning**, cognitive memory (`Agent
   - [9. Background Simulation Loop](#9-background-simulation-loop)
   - [10. Real-Time Glassmorphism Dashboard](#10-real-time-glassmorphism-dashboard)
 - [Empirical Benchmark Results](#empirical-benchmark-results)
+- [Bidders Who Don't Know Their Own Value](#bidders-who-dont-know-their-own-value)
 - [Trace-Driven Scheduling](#trace-driven-scheduling)
 - [Predictor Accuracy](#predictor-accuracy)
 - [Mechanism Verification](#mechanism-verification)
@@ -265,6 +266,25 @@ Raw per-seed data: [`results/multiseed_benchmark.json`](results/multiseed_benchm
 4. **Real-Time Latency**: The ILP solver resolved combinatorial bundle constraints and all counterfactual VCG subproblems in **~272 ms** on average, well within real-time thresholds for periodic cluster scheduling epochs (10s).
 
 ---
+
+## Bidders Who Don't Know Their Own Value
+
+LLM agents *estimate* a task's value and resource needs, and those estimates are noisy and biased per agent. `compute_bazaar/uncertainty/` studies mechanisms for that setting (theory in [`docs/theory.md`](docs/theory.md)):
+
+- **Execution-contingent VCG** settles on realized values, so each winner's utility follows realized welfare.
+- **Per-agent calibration** learns each agent's value bias and need overrun from its own history. Only *relative* bias matters for efficiency (Corollary 1a).
+- **Risk-adjusted XOR menus**: each task bids several reservation sizes, each priced at value × empirical success probability, and the exact WDP picks the expected-welfare-optimal trade-off (Proposition 3).
+
+| Mechanism | Welfare (% of oracle) | Overrun rate | Ex-post IR violations | Mean winner utility | Revenue |
+|:--|--:|--:|--:|--:|--:|
+| vcg_point | 72.1% ± 2.4% | 25.5% | 28.0% | 27.6 | 45,478 |
+| vcg_point_upper90 | 73.7% ± 2.1% | 1.1% | 15.0% | 42.4 | 44,636 |
+| vcg_contingent | 72.1% ± 2.4% | 25.5% | 93.3% | -214.6 | 435,733 |
+| vcg_contingent_upper90 | 73.7% ± 2.1% | 1.1% | 67.2% | -54.4 | 155,305 |
+| vcg_calibrated_fixed | 72.2% ± 1.9% | 1.1% | 31.9% | 29.8 | 58,388 |
+| vcg_calibrated | 78.0% ± 1.9% | 15.5% | 30.4% | 46.7 | 30,356 |
+
+Calibration + menus gives the most welfare among realistic mechanisms (+4.3 points of oracle welfare over the best baseline), and winners keep almost the oracle's utility. Details: [`docs/uncertainty-experiments.md`](docs/uncertainty-experiments.md).
 
 ## Trace-Driven Scheduling
 
