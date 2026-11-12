@@ -31,6 +31,7 @@ Autonomous AI agents powered by **Groq LLM reasoning**, cognitive memory (`Agent
   - [10. Real-Time Glassmorphism Dashboard](#10-real-time-glassmorphism-dashboard)
 - [Empirical Benchmark Results](#empirical-benchmark-results)
 - [Predictor Accuracy](#predictor-accuracy)
+- [Mechanism Verification](#mechanism-verification)
 - [Project Structure](#project-structure)
 - [Installation & Quickstart](#installation--quickstart)
 - [Docker](#docker)
@@ -166,18 +167,18 @@ Located in `compute_bazaar/llm/`:
 
 ### 3. Combinatorial Auction & ILP Solver
 Located in `backend/app/auction/engine.py`:
-- Formulates the Winner Determination Problem (WDP) as a **Binary Integer Linear Program**:
-  $$\max \sum_{i \in B} v_i \cdot x_i \quad \text{subject to} \quad \sum_{i: r \in S_i} x_i \leq 1 \quad \forall r \in R, \quad x_i \in \{0, 1\}$$
-- Solved to mathematical optimality using the Coin-or Branch and Cut (`CBC`) solver via `PuLP`.
-- Guarantees zero resource double-allocation while resolving multi-resource bundle clashes.
+- Resources have integer **units** $u_r$ (default 1) and bids request **quantities** $q_{ir}$ (default 1). The Winner Determination Problem is a binary ILP:
+  $$\max \sum_{i \in B} v_i x_i \quad \text{s.t.} \quad \sum_{i} q_{ir}\, x_i \le u_r \;\; \forall r, \qquad \sum_{i \in G} x_i \le 1 \;\; \forall \text{XOR group } G, \qquad x_i \in \{0,1\}$$
+- **Bidding language**: OR by default (an agent may win several bids and their values add up). Bids sharing `xor_group`, or all of an agent's bids with `xor_per_agent=True`, are mutually exclusive.
+- Solved exactly with CBC via `PuLP`. A pruned **exhaustive solver** (`SolverMethod.EXHAUSTIVE`) acts as an independent oracle for tests and small sweeps. Greedy is kept as a baseline.
 
-### 4. VCG Clarke Pivot Pricing & Tier Discounts
+### 4. VCG Clarke Pivot Pricing (agent-level) & Policy Layers
 Located in `backend/app/auction/engine.py` and `pricing.py`:
-- Computes the exact externality each winner imposes on the rest of the market:
-  $$p_i = V^*(B \setminus \{b_i\}) - \left[V^*(B) - v_i\right]$$
-- Guarantees **Dominant-Strategy Incentive Compatibility (DSIC)**: truthful valuation reporting is mathematically dominant under quasi-linear utility with no budget limits ($v_i = \text{true value}$).
-- **Note**: Priority shading (0.5×–0.95×) and budget constraints are modelled for experiments and break strict DSIC truthfulness in practice.
-- Incorporates configurable customer loyalty tier discounts on top of raw VCG prices: **Gold (10% off)**, **Silver (5% off)**, **Bronze (0% off)**.
+- The payer in VCG is the **agent**, so the counterfactual removes *all* of agent $a$'s bids $B_a$:
+  $$p_a = V^*(B \setminus B_a) - \Big[V^*(B) - \textstyle\sum_{i \in W_a} v_i\Big]$$
+  $p_a$ is then split over $a$'s winning bids in proportion to their value. Before Phase 1 the engine removed one *bid* at a time, which let an agent's second bid cover for the first and lower the payment. On random instances that older rule could be gamed in **7.3%** of agent checks (see [Mechanism Verification](#mechanism-verification)).
+- **Pure VCG is DSIC and IR** under quasi-linear utility with exact WDP. This is checked empirically on 10,000 random multi-unit OR/XOR instances, with zero profitable deviations found.
+- **Policy layers are not DSIC.** Loyalty tier discounts (**Gold 10% / Silver 5% / Bronze 0%**) and reserve floors are applied *after* VCG. A discount gives agents whose value lies just below the VCG price a reason to overbid, so experiments that need truthfulness use raw VCG.
 
 ### 5. Intelligent & Adaptive Bidding
 Located in `compute_bazaar/agents/base.py`:
@@ -200,7 +201,7 @@ Located in `compute_bazaar/agents/memory.py` and `compute_bazaar/fairness/`:
 
 ### 8. ML Resource Prediction & Safe Toolset
 Located in `compute_bazaar/prediction/` and `compute_bazaar/tools/`:
-- **`ResourcePredictor`**: Category-conditional regression model forecasting required GPU slots, CPU cores, RAM gigabytes, execution time, and dollar cost from task descriptions. Confidence improves from 0.75 (cold start, <3 records) toward 0.95 as execution records accumulate (see [Predictor Accuracy](#predictor-accuracy)).
+- **`ResourcePredictor`**: three tiers chosen by history size. A keyword heuristic handles cold start, per-category means apply at 3+ records, and a **log-space ridge regression** on hashed words plus parsed scale cues (model size, GB, rows, epochs, papers) takes over at 8+ records, returning a **90% predictive interval** for runtime and cost. GPU/CPU/RAM needs still come from category templates (see [Predictor Accuracy](#predictor-accuracy)).
 - **`ToolRegistry`**: Provides safe execution primitives:
   - `check_resources`: Queries live capacity and dynamic reserve prices.
   - `check_budget`: Queries agent remaining budget, spend, and starvation state.
@@ -266,16 +267,25 @@ Raw per-seed data: [`results/multiseed_benchmark.json`](results/multiseed_benchm
 
 ## Predictor Accuracy
 
-`ResourcePredictor` uses category-conditional historical averaging (not a neural network). Evaluated on 50 held-out synthetic workloads (10 per category), trained on 50 synthetic tasks.
+Held-out evaluation (`scripts/evaluate_predictor.py`, 5 seeds × 200 train / 100 test tasks). The synthetic tasks' runtime and cost scale with cues in their text (e.g. "Fine-tune a 13B model for 3 epochs", "ETL over 400GB") times log-normal noise. That is exactly what a per-category average cannot capture.
 
-> **Note on Hardware Dimensions**: GPU, CPU, and RAM show 0.0 error because the predictor averages per category and the synthetic tasks have fixed needs per category (zero error by construction). Only execution time and dollar cost (~21% MAPE) represent real predictive accuracy, as they vary within categories.
+| Model | Runtime MAPE | Cost MAPE | Runtime MAE (s) | 90% interval coverage (runtime / cost) |
+|:---|:---:|:---:|:---:|:---:|
+| Category mean (previous predictor) | 231.8% | 227.2% | 620 | n/a |
+| **Log-ridge (current)** | **21.7% ± 1.9** | **21.3% ± 2.7** | **173** | 89% / 90% |
 
-| Predicted Field | MAE | MAPE |
-|:---|:---:|:---:|
-| Execution time (s) | 127.50 | 20.98% |
-| Cost ($) | 9.79 | 21.04% |
+GPU/CPU/RAM needs are category templates and are not scored, because they would be zero-error by construction. Full data: [`docs/predictor_eval.json`](docs/predictor_eval.json).
 
-Full evaluation data: [`docs/predictor_eval.json`](docs/predictor_eval.json).
+## Mechanism Verification
+
+`scripts/verify_mechanism.py` draws 10,000 random instances (4 agents, 3 multi-unit resources, up to 2 bids per agent, alternating OR/XOR bidding). For every agent it searches misreports that scale each bid by {0 (drop), 0.5, 0.8, 0.95, 1.05, 1.25, 2} and records the best utility gain over truthful bidding.
+
+| Pricing rule | Agent checks | Profitable deviations | Max gain ($) |
+|:---|:---:|:---:|:---:|
+| **Agent-level VCG (current)** | 40,000 | **0** | 0.00 |
+| Per-bid VCG (pre-Phase 1) | 40,000 | 2,937 (7.3%) | 110.61 |
+
+The same properties (feasibility, optimality vs brute force, ILP = exhaustive oracle, IR, truthfulness) also run on every CI build through Hypothesis in `tests/test_mechanism_properties.py`. Raw data: [`results/mechanism_verification.json`](results/mechanism_verification.json).
 
 ---
 
@@ -409,7 +419,8 @@ source venv/bin/activate
 
 ### 2. Install Dependencies
 ```bash
-pip install -r backend/requirements.txt
+pip install -r backend/requirements.txt   # runtime only
+pip install -r requirements-dev.txt       # + pytest, hypothesis, ruff
 ```
 
 ### 3. Environment Variables (Optional)
@@ -563,20 +574,14 @@ Auction Round #1 — Winners: 1
 
 ## Running Tests
 
-The test suite provides comprehensive verification across auction mathematics, VCG payments, multi-agent cognition, dynamic pricing, and API endpoints:
+The suite covers auction mathematics, mechanism properties (Hypothesis), VCG payments, agents, pricing, the API and the performance layer:
 
 ```bash
-# Run all 148 automated tests (excluding live integration test)
+ruff check . && ruff format --check .
 python -m pytest tests/ --ignore=tests/test_week11_live_integration.py -q
 ```
 
-**Last verified result** (`python -m pytest tests/ --ignore=tests/test_week11_live_integration.py -q`):
-```
-............................................................... [ 48%]
-............................................................... [ 97%]
-....                                                           [100%]
-148 passed, 683 warnings in 11.97s
-```
+CI runs the lint/format gate first, then the tests on Python 3.11 and 3.12.
 
 ### Re-running the 25-Round Empirical Benchmark
 To regenerate [`results/benchmark_results.json`](results/benchmark_results.json) and [`docs/benchmark.md`](docs/benchmark.md):
@@ -617,7 +622,7 @@ All documentation lives in the [`docs/`](docs/) directory:
 - **Small scale**: The benchmark uses 8 agents and 5 resource types. Performance at production scale (thousands of agents, hundreds of resource types) is untested.
 - **Single node**: The system runs on a single server with SQLite. It does not support distributed or federated deployments.
 - **No real GPU execution**: `execute_task` simulates task execution with randomized duration; no actual compute jobs are dispatched.
-- **DSIC is approximated**: Priority bid shading (0.5×–0.95×) and budget constraints in experiments break strict truthfulness.
+- **DSIC holds only for raw VCG**: tier discounts, reserve floors and budget caps are policy layers that break strict truthfulness, and priority shading is an agent strategy, not part of the mechanism.
 
 ---
 

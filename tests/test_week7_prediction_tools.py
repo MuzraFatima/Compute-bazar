@@ -246,3 +246,23 @@ def test_end_to_end_prediction_auction_execution(mock_llm_client):
 
     assert exec_result["status"] == "completed"
     assert len(agent.predictor.execution_history) >= 1
+
+
+def test_learned_model_uses_scale_cues_and_reports_intervals():
+    """With enough history the ridge model kicks in and tracks text scale cues."""
+    from compute_bazaar.prediction.predictor import MIN_RECORDS_FOR_MODEL, ResourcePredictor
+
+    p = ResourcePredictor()
+    sizes = [5, 10, 20, 50, 100, 200, 400, 800]
+    for g in sizes * 2:
+        p.record_execution(
+            f"Clean a {g}GB dataset", [], execution_time_sec=6.0 * g, actual_cost=0.5 * g, task_category="data_etl"
+        )
+    assert len(p.execution_history) >= MIN_RECORDS_FOR_MODEL
+
+    small = p.predict("Clean a 10GB dataset", task_category="data_etl")
+    large = p.predict("Clean a 400GB dataset", task_category="data_etl")
+    assert small.model == large.model == "log_ridge"
+    assert large.predicted_execution_time_sec > 5 * small.predicted_execution_time_sec
+    lo, hi = large.time_interval_90
+    assert lo < large.predicted_execution_time_sec < hi

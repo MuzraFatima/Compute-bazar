@@ -1,10 +1,10 @@
 # Compute Bazaar 2.0 — Week 12 Empirical Benchmark Report
 
-> **Benchmark Date**: 2026-10-25 20:55:49  
-> **Evaluation Setup**: 25 reproducible auction rounds comparing 5 allocation & pricing methods under an identical shared multi-agent workload.  
-> **Fixed Random Seed**: `42`  
-> **Compute Infrastructure**: 5 heterogeneous resources (`GPU-Slot-1`, `GPU-Slot-2`, `API-Budget-100`, `RAM-Block-32GB`, `CPU-Cores-8`).  
-> **Participating Agents**: 8 agents with diverse bidding strategies (truthful, shading, critical, bargain, ml_adaptive).  
+> **Benchmark Date**: 2026-11-12 12:16:28
+> **Evaluation Setup**: 25 reproducible auction rounds comparing 5 allocation & pricing methods under an identical shared multi-agent workload.
+> **Fixed Random Seed**: `42`
+> **Compute Infrastructure**: 5 heterogeneous resources (`GPU-Slot-1`, `GPU-Slot-2`, `API-Budget-100`, `RAM-Block-32GB`, `CPU-Cores-8`).
+> **Participating Agents**: 8 agents with diverse bidding strategies (truthful, shading, critical, bargain, ml_adaptive).
 > **Integrity Guarantee**: Zero simulated or fabricated figures. All numbers derived from real code execution.
 
 ---
@@ -24,7 +24,7 @@ This benchmark compares five foundational resource allocation and pricing mechan
 - **Social Welfare Maximization**: **ILP + VCG** achieves the highest social welfare (**$7647.39** total, **$305.90** per round), outperforming Greedy-Value by **+3.87%**, Round-Robin by **+38.12%**, FCFS by **+19.39%**, and Random by **+43.24%**.
 - **Incentive Compatibility & Agent Savings**: Under VCG pricing, winning agents paid **$5007.60** against a declared valuation of **$7647.39**, returning **$2639.79 (34.5%)** in economic surplus to agents. In contrast, all pay-as-bid baselines extracted 100% of declared bids as payment.
 - **Resource Utilization**: ILP + VCG attained **87.2%** average resource utilization across rounds, superior to FCFS (80.0%) and Random (76.8%), due to optimal combinatorial packing of multi-resource bundles.
-- **Allocation Latency**: The ILP solver resolved combinatorial bundle constraints and calculated VCG externalities across all counterfactuals in **272.161 ms** on average (median **267.902 ms**).
+- **Allocation Latency**: The ILP solver resolved combinatorial bundle constraints and calculated VCG externalities across all counterfactuals in **149.764 ms** on average (median **135.115 ms**).
 
 ---
 
@@ -34,13 +34,13 @@ The table below summarizes the target metrics measured across all **25 reproduci
 
 | Allocation Method | Social Welfare ($) | Resource Utilization (%) | Jain Fairness ($J$) | Total Cost ($) | Winners | Average Clearing Price ($) | Execution Time (ms) |
 |:------------------|:------------------:|:------------------------:|:-------------------:|:--------------:|:-------:|:--------------------------:|:-------------------:|
-| **ILP + VCG** | **$7647.39** | **87.2%** | 0.6642 | $5007.60 | 56 | $89.42 | 272.161 ms |
-| **Greedy-Value** | $7362.69 | 80.8% | 0.5326 | $7362.69 | 50 | $147.25 | 0.033 ms |
-| **Round-Robin** | $5536.69 | 80.8% | **0.9204** | $5536.69 | 59 | $93.84 | 0.054 ms |
-| **FCFS** | $6405.35 | 80.0% | 0.4179 | $6405.35 | 58 | $110.44 | **0.017 ms** |
-| **Random** | $5338.80 | 76.8% | 0.7733 | $5338.80 | 53 | $100.73 | 0.038 ms |
+| **ILP + VCG** | **$7647.39** | **87.2%** | 0.6642 | $5007.60 | 56 | $89.42 | 149.764 ms |
+| **Greedy-Value** | $7362.69 | 80.8% | 0.5326 | $7362.69 | 50 | $147.25 | 0.017 ms |
+| **Round-Robin** | $5536.69 | 80.8% | **0.9204** | $5536.69 | 59 | $93.84 | 0.028 ms |
+| **FCFS** | $6405.35 | 80.0% | 0.4179 | $6405.35 | 58 | $110.44 | **0.008 ms** |
+| **Random** | $5338.80 | 76.8% | 0.7733 | $5338.80 | 53 | $100.73 | 0.018 ms |
 
-> **Trade-offs**: ILP+VCG gives the highest welfare and utilization but lower fairness (Jain 0.6642) than Round-Robin and Random, and ~272 ms (machine-dependent) solve time vs <0.04 ms.
+> **Trade-offs**: ILP+VCG gives the highest welfare and utilization but lower fairness (Jain 0.6642) than Round-Robin and Random, and ~127 ms solve time vs <0.04 ms.
 >
 > **Note**: Baselines (Greedy-Value, Round-Robin, FCFS, Random) use pay-as-bid pricing; cost columns are not like-for-like with ILP+VCG (VCG pricing). Screenshots show 9 simulated dashboard agents — the benchmark uses 8.
 > *Note on Jain Fairness*: Measured using Jain's Fairness Index J(x) = (sum(x_i))^2 / (n * sum(x_i^2)) over cumulative allocated agent welfare (n = 8 agents).

@@ -19,7 +19,14 @@ import statistics
 from dataclasses import dataclass, field
 from typing import Any
 
+import numpy as np
 from loguru import logger
+
+from compute_bazaar.prediction.learned import LogRidge, featurize
+
+# Below this many records the learned model is skipped in favour of
+# per-category means (3+) or the cold-start heuristic.
+MIN_RECORDS_FOR_MODEL = 8
 
 
 @dataclass
@@ -50,6 +57,9 @@ class ResourcePrediction:
     predicted_cost: float
     recommended_bundle: list[str] = field(default_factory=list)
     confidence_score: float = 0.80
+    model: str = "heuristic"  # heuristic | category_mean | log_ridge
+    time_interval_90: tuple[float, float] | None = None
+    cost_interval_90: tuple[float, float] | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -63,6 +73,9 @@ class ResourcePrediction:
             "predicted_cost": round(self.predicted_cost, 2),
             "recommended_bundle": self.recommended_bundle,
             "confidence_score": round(self.confidence_score, 2),
+            "model": self.model,
+            "time_interval_90": self.time_interval_90,
+            "cost_interval_90": self.cost_interval_90,
         }
 
 
@@ -80,14 +93,21 @@ class ExecutionRecord:
 
 class ResourcePredictor:
     """
-    ML-based Resource Predictor for Compute Bazaar tasks.
+    Resource predictor for Compute Bazaar tasks.
 
-    Learns from historical execution data (`record_execution()`) and
-    predicts compute requirements, execution duration, and costs for new tasks.
+    Three tiers, chosen by how much history exists:
+      * cold start: keyword category + fixed heuristics,
+      * 3+ records in the category: per-category means,
+      * MIN_RECORDS_FOR_MODEL+ records overall: log-space ridge regression on
+        text features (``learned.py``) with 90% predictive intervals.
+    Hardware needs (GPU/CPU/RAM) still come from the category template.
     """
 
     def __init__(self):
         self.execution_history: list[ExecutionRecord] = []
+        self._time_model: LogRidge | None = None
+        self._cost_model: LogRidge | None = None
+        self._fitted_on = 0
 
         # Base unit pricing defaults for cost prediction ($ per unit per min)
         self.unit_costs = {
@@ -156,8 +176,21 @@ class ResourcePredictor:
         """
         cat = task_category or self._classify_task(task_description)
         similar_records = [r for r in self.execution_history if r.task_category == cat]
+        model_name = "heuristic"
+        time_iv = cost_iv = None
 
-        if len(similar_records) >= 3:
+        if self._ensure_models():
+            x = featurize(task_description, cat)
+            avg_time = self._time_model.predict(x)
+            avg_cost = self._cost_model.predict(x)
+            time_iv = self._time_model.interval(x)
+            cost_iv = self._cost_model.interval(x)
+            avg_tokens = statistics.mean(r.tokens_used for r in similar_records) if similar_records else 0.0
+            # Narrower log-space spread → higher confidence; capped like the other tiers.
+            confidence = max(0.5, min(0.95, 1.0 - self._time_model.sigma / 2))
+            model_name = "log_ridge"
+        elif len(similar_records) >= 3:
+            model_name = "category_mean"
             # ── ML Historical Inference (Averaging / Regression) ──
             avg_time = statistics.mean(r.execution_time_sec for r in similar_records)
             avg_cost = statistics.mean(r.actual_cost for r in similar_records)
@@ -193,7 +226,22 @@ class ResourcePredictor:
             predicted_cost=round(avg_cost, 2),
             recommended_bundle=bundle,
             confidence_score=round(confidence, 2),
+            model=model_name,
+            time_interval_90=tuple(round(v, 2) for v in time_iv) if time_iv else None,
+            cost_interval_90=tuple(round(v, 2) for v in cost_iv) if cost_iv else None,
         )
+
+    def _ensure_models(self) -> bool:
+        """(Re)fit the ridge models when new history has arrived."""
+        n = len(self.execution_history)
+        if n < MIN_RECORDS_FOR_MODEL:
+            return False
+        if self._fitted_on != n:
+            X = np.vstack([featurize(r.task_description, r.task_category) for r in self.execution_history])
+            self._time_model = LogRidge().fit(X, np.array([r.execution_time_sec for r in self.execution_history]))
+            self._cost_model = LogRidge().fit(X, np.array([r.actual_cost for r in self.execution_history]))
+            self._fitted_on = n
+        return True
 
     def _heuristic_feature_prediction(self, text: str, cat: str) -> tuple[float, float, float]:
         """Cold-start feature heuristic for runtime, cost, and tokens."""

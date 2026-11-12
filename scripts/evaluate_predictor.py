@@ -1,201 +1,173 @@
 """
-Evaluate ResourcePredictor on held-out synthetic workloads.
-Generates ground-truth synthetic tasks, trains predictor on training set,
-then evaluates on held-out test set using MAE and MAPE.
+Held-out evaluation of the resource predictor.
 
-Usage:
+Synthetic tasks carry scale cues in their text ("Fine-tune a 13B model for 3
+epochs", "ETL over 400GB") and their true runtime/cost scale with those cues
+times log-normal noise (sigma = 0.15). That's the situation a category
+average can't capture, so we compare:
+
+  * category_mean: the previous predictor (per-category averages),
+  * log_ridge:     the learned model in ``compute_bazaar/prediction/learned.py``.
+
+Reports MAE/MAPE for runtime and cost plus the empirical coverage of the
+90% predictive interval. GPU/CPU/RAM are template-driven per category and
+are not scored here (they'd be zero-error by construction).
+
     python scripts/evaluate_predictor.py
 """
 
+from __future__ import annotations
+
 import json
+import math
 import os
 import random
+import statistics
 import sys
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from compute_bazaar.prediction.predictor import ResourcePredictor
+from loguru import logger  # noqa: E402
 
-# Synthetic ground-truth task definitions per category
-CATEGORY_GROUND_TRUTH = {
-    "llm_training": {
-        "desc_template": "Fine-tune a language model for task {i}",
-        "gpus": 2,
-        "cpus": 8,
-        "ram_gb": 32,
-        "time_sec_range": (600, 2400),
-        "cost_range": (40, 150),
-        "tokens": 50000,
-    },
-    "data_etl": {
-        "desc_template": "Run ETL pipeline and clean dataset {i}",
-        "gpus": 0,
-        "cpus": 8,
-        "ram_gb": 32,
-        "time_sec_range": (200, 500),
-        "cost_range": (15, 35),
-        "tokens": 10000,
-    },
-    "research": {
-        "desc_template": "Literature synthesis and research for topic {i}",
-        "gpus": 0,
-        "cpus": 4,
-        "ram_gb": 32,
-        "time_sec_range": (80, 180),
-        "cost_range": (10, 25),
-        "tokens": 25000,
-    },
-    "quantitative_analysis": {
-        "desc_template": "Run Monte Carlo simulation and risk model {i}",
-        "gpus": 0,
-        "cpus": 8,
-        "ram_gb": 32,
-        "time_sec_range": (150, 350),
-        "cost_range": (20, 45),
-        "tokens": 5000,
-    },
-    "general_compute": {
-        "desc_template": "General compute backend task {i}",
-        "gpus": 1,
-        "cpus": 8,
-        "ram_gb": 16,
-        "time_sec_range": (100, 200),
-        "cost_range": (15, 30),
-        "tokens": 5000,
-    },
+from compute_bazaar.prediction.predictor import ResourcePredictor  # noqa: E402
+
+NOISE_SIGMA = 0.15
+
+# (template, base_time_sec, base_cost, cue sampler -> (text kwargs, multiplier))
+CATEGORIES = {
+    "llm_training": (
+        "Fine-tune a {p}B model for {e} epochs on task {i}",
+        600.0,
+        45.0,
+        lambda r: (lambda p, e: ({"p": p, "e": e}, (p / 7) ** 0.8 * e / 2))(
+            r.choice([1, 3, 7, 13, 34, 70]), r.randint(1, 6)
+        ),
+    ),
+    "data_etl": (
+        "Run ETL pipeline and clean a {g}GB dataset {i}",
+        300.0,
+        25.0,
+        lambda r: (lambda g: ({"g": g}, (g / 50) ** 0.7))(r.choice([5, 20, 50, 120, 400, 900])),
+    ),
+    "research": (
+        "Literature synthesis over {d} papers for topic {i}",
+        120.0,
+        15.0,
+        lambda r: (lambda d: ({"d": d}, (d / 20) ** 0.6))(r.choice([5, 10, 20, 50, 120])),
+    ),
+    "quantitative_analysis": (
+        "Run Monte Carlo risk model with {s} simulations {i}",
+        240.0,
+        30.0,
+        lambda r: (lambda s: ({"s": s}, (s / 1000) ** 0.5))(r.choice([100, 500, 1000, 5000, 20000])),
+    ),
+    "general_compute": (
+        "General compute backend task {i} over {g}GB",
+        150.0,
+        20.0,
+        lambda r: (lambda g: ({"g": g}, (g / 10) ** 0.4))(r.choice([1, 5, 10, 40, 100])),
+    ),
 }
 
 
-def generate_synthetic_tasks(category, n, rng, start_idx=0):
-    """Generate n synthetic tasks with ground truth values."""
-    cfg = CATEGORY_GROUND_TRUTH[category]
+def make_tasks(rng: random.Random, per_cat: int, start: int) -> list[dict]:
     tasks = []
-    for i in range(n):
-        time_sec = rng.uniform(*cfg["time_sec_range"])
-        cost = rng.uniform(*cfg["cost_range"])
-        tasks.append(
-            {
-                "desc": cfg["desc_template"].format(i=start_idx + i),
-                "category": category,
-                "gpus": cfg["gpus"],
-                "cpus": cfg["cpus"],
-                "ram_gb": cfg["ram_gb"],
-                "time_sec": round(time_sec, 2),
-                "cost": round(cost, 2),
-                "tokens": cfg["tokens"],
-            }
-        )
+    for cat, (tmpl, t0, c0, cue) in CATEGORIES.items():
+        for i in range(per_cat):
+            kw, mult = cue(rng)
+            noise_t = math.exp(rng.gauss(0, NOISE_SIGMA))
+            noise_c = math.exp(rng.gauss(0, NOISE_SIGMA))
+            tasks.append(
+                {
+                    "desc": tmpl.format(i=start + i, **kw),
+                    "category": cat,
+                    "time_sec": round(t0 * mult * noise_t, 2),
+                    "cost": round(c0 * mult * noise_c, 2),
+                }
+            )
     return tasks
 
 
-def mae(preds, actuals):
-    n = len(preds)
-    if n == 0:
-        return 0.0
-    return sum(abs(p - a) for p, a in zip(preds, actuals, strict=False)) / n
+def mae(p, a):
+    return statistics.mean(abs(x - y) for x, y in zip(p, a, strict=True))
 
 
-def mape(preds, actuals):
-    n = len(preds)
-    if n == 0:
-        return 0.0
-    return 100.0 * sum(abs(p - a) / max(abs(a), 1e-9) for p, a in zip(preds, actuals, strict=False)) / n
+def mape(p, a):
+    return 100.0 * statistics.mean(abs(x - y) / abs(y) for x, y in zip(p, a, strict=True))
 
 
-def main():
-    rng = random.Random(2025)
-    predictor = ResourcePredictor()
+def evaluate(train: list[dict], test: list[dict]) -> dict:
+    learned = ResourcePredictor()
+    for t in train:
+        learned.record_execution(t["desc"], [], t["time_sec"], t["cost"], task_category=t["category"])
 
-    categories = list(CATEGORY_GROUND_TRUTH.keys())
-
-    # Generate train and test sets (10 train, 10 test per category)
-    train_tasks = []
-    test_tasks = []
-    for cat in categories:
-        train_tasks.extend(generate_synthetic_tasks(cat, 10, rng, start_idx=0))
-        test_tasks.extend(generate_synthetic_tasks(cat, 10, rng, start_idx=10))
-
-    # Train predictor on training set
-    for t in train_tasks:
-        predictor.record_execution(
-            task_description=t["desc"],
-            allocated_resources=[],
-            execution_time_sec=t["time_sec"],
-            actual_cost=t["cost"],
-            tokens_used=t["tokens"],
-            task_category=t["category"],
+    cat_means = {
+        cat: (
+            statistics.mean(t["time_sec"] for t in train if t["category"] == cat),
+            statistics.mean(t["cost"] for t in train if t["category"] == cat),
         )
-
-    # Evaluate on held-out test set
-    results = []
-    for t in test_tasks:
-        pred = predictor.predict(t["desc"], task_category=t["category"])
-        results.append(
-            {
-                "category": t["category"],
-                "actual_gpus": t["gpus"],
-                "pred_gpus": pred.predicted_gpus,
-                "actual_cpus": t["cpus"],
-                "pred_cpus": pred.predicted_cpu_cores,
-                "actual_ram_gb": t["ram_gb"],
-                "pred_ram_gb": pred.predicted_ram_gb,
-                "actual_time_sec": t["time_sec"],
-                "pred_time_sec": pred.predicted_execution_time_sec,
-                "actual_cost": t["cost"],
-                "pred_cost": pred.predicted_cost,
-            }
-        )
-
-    # Compute MAE and MAPE per field
-    fields = [
-        ("gpu_slots", "pred_gpus", "actual_gpus"),
-        ("cpu_cores", "pred_cpus", "actual_cpus"),
-        ("ram_gb", "pred_ram_gb", "actual_ram_gb"),
-        ("time_sec", "pred_time_sec", "actual_time_sec"),
-        ("cost_usd", "pred_cost", "actual_cost"),
-    ]
-
-    print("\n" + "=" * 70)
-    print("  RESOURCE PREDICTOR EVALUATION (50 held-out synthetic tasks)")
-    print("  Training set: 50 tasks (10 per category) | Test set: 50 tasks")
-    print("=" * 70)
-    print(f"\n{'Metric':<15} {'MAE':>10} {'MAPE':>10}")
-    print("-" * 40)
-
-    eval_results = {}
-    for label, pred_key, actual_key in fields:
-        preds = [r[pred_key] for r in results]
-        actuals = [r[actual_key] for r in results]
-        m = mae(preds, actuals)
-        mp = mape(preds, actuals)
-        eval_results[label] = {"mae": round(m, 4), "mape_pct": round(mp, 2)}
-        print(f"{label:<15} {m:>10.4f} {mp:>9.2f}%")
-
-    print("\nNote: Predictor uses category-conditional averaging (not neural net).")
-    print("MAPE > 50% is expected for categorical/heuristic models on small datasets.")
-
-    # Save results
-    out = {
-        "description": (
-            "Evaluation of ResourcePredictor on 50 held-out synthetic tasks "
-            "(10 per category). Predictor is trained on 50 synthetic training tasks. "
-            "The predictor uses category-conditional historical averaging (no deep learning). "
-            "MAPE measures relative error; MAE is in native units."
-        ),
-        "train_n": len(train_tasks),
-        "test_n": len(test_tasks),
-        "categories": categories,
-        "metrics": eval_results,
+        for cat in CATEGORIES
     }
 
-    docs_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "docs")
-    os.makedirs(docs_dir, exist_ok=True)
-    out_path = os.path.join(docs_dir, "predictor_eval.json")
-    with open(out_path, "w") as f:
-        json.dump(out, f, indent=2)
-    print(f"\n[OK] Predictor evaluation saved to: {out_path}")
+    rows = {"category_mean": {"time": [], "cost": []}, "log_ridge": {"time": [], "cost": []}}
+    covered_t = covered_c = 0
+    for t in test:
+        pred = learned.predict(t["desc"], task_category=t["category"])
+        assert pred.model == "log_ridge"
+        rows["log_ridge"]["time"].append(pred.predicted_execution_time_sec)
+        rows["log_ridge"]["cost"].append(pred.predicted_cost)
+        rows["category_mean"]["time"].append(cat_means[t["category"]][0])
+        rows["category_mean"]["cost"].append(cat_means[t["category"]][1])
+        lo, hi = pred.time_interval_90
+        covered_t += lo <= t["time_sec"] <= hi
+        lo, hi = pred.cost_interval_90
+        covered_c += lo <= t["cost"] <= hi
 
-    return eval_results
+    actual_t = [t["time_sec"] for t in test]
+    actual_c = [t["cost"] for t in test]
+    out = {}
+    for name, r in rows.items():
+        out[name] = {
+            "time_mae_sec": round(mae(r["time"], actual_t), 2),
+            "time_mape_pct": round(mape(r["time"], actual_t), 2),
+            "cost_mae": round(mae(r["cost"], actual_c), 2),
+            "cost_mape_pct": round(mape(r["cost"], actual_c), 2),
+        }
+    out["log_ridge"]["time_interval90_coverage"] = round(covered_t / len(test), 3)
+    out["log_ridge"]["cost_interval90_coverage"] = round(covered_c / len(test), 3)
+    return out
+
+
+def main() -> None:
+    logger.remove()
+    seeds = range(5)
+    per_seed = []
+    for seed in seeds:
+        rng = random.Random(seed)
+        train = make_tasks(rng, per_cat=40, start=0)
+        test = make_tasks(rng, per_cat=20, start=1000)
+        per_seed.append(evaluate(train, test))
+
+    def agg(model: str, key: str) -> dict:
+        vals = [r[model][key] for r in per_seed]
+        return {"mean": round(statistics.mean(vals), 3), "std": round(statistics.stdev(vals), 3)}
+
+    summary = {model: {key: agg(model, key) for key in per_seed[0][model]} for model in ("category_mean", "log_ridge")}
+    report = {
+        "setup": {
+            "seeds": list(seeds),
+            "train_tasks_per_seed": 200,
+            "test_tasks_per_seed": 100,
+            "noise_sigma_log": NOISE_SIGMA,
+            "note": "Runtime/cost scale with parsed text cues; hardware needs are category templates and not scored.",
+        },
+        "summary": summary,
+        "per_seed": per_seed,
+    }
+    out_path = os.path.join(os.path.dirname(__file__), "..", "docs", "predictor_eval.json")
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(report, f, indent=2)
+    print(json.dumps(summary, indent=2))
 
 
 if __name__ == "__main__":

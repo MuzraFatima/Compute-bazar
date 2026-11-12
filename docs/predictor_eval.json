@@ -1,34 +1,143 @@
 {
-  "description": "Evaluation of ResourcePredictor on 50 held-out synthetic tasks (10 per category). Predictor is trained on 50 synthetic training tasks. The predictor uses category-conditional historical averaging (no deep learning). MAPE measures relative error; MAE is in native units.",
-  "train_n": 50,
-  "test_n": 50,
-  "categories": [
-    "llm_training",
-    "data_etl",
-    "research",
-    "quantitative_analysis",
-    "general_compute"
-  ],
-  "metrics": {
-    "gpu_slots": {
-      "mae": 0.0,
-      "mape_pct": 0.0
+  "setup": {
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "train_tasks_per_seed": 200,
+    "test_tasks_per_seed": 100,
+    "noise_sigma_log": 0.15,
+    "note": "Runtime/cost scale with parsed text cues; hardware needs are category templates and not scored."
+  },
+  "summary": {
+    "category_mean": {
+      "time_mae_sec": {
+        "mean": 619.968,
+        "std": 24.915
+      },
+      "time_mape_pct": {
+        "mean": 231.756,
+        "std": 57.695
+      },
+      "cost_mae": {
+        "mean": 53.714,
+        "std": 2.603
+      },
+      "cost_mape_pct": {
+        "mean": 227.164,
+        "std": 54.758
+      }
     },
-    "cpu_cores": {
-      "mae": 0.0,
-      "mape_pct": 0.0
-    },
-    "ram_gb": {
-      "mae": 0.0,
-      "mape_pct": 0.0
-    },
-    "time_sec": {
-      "mae": 127.4988,
-      "mape_pct": 20.98
-    },
-    "cost_usd": {
-      "mae": 9.7946,
-      "mape_pct": 21.04
+    "log_ridge": {
+      "time_mae_sec": {
+        "mean": 173.474,
+        "std": 47.386
+      },
+      "time_mape_pct": {
+        "mean": 21.732,
+        "std": 1.905
+      },
+      "cost_mae": {
+        "mean": 14.368,
+        "std": 3.711
+      },
+      "cost_mape_pct": {
+        "mean": 21.278,
+        "std": 2.719
+      },
+      "time_interval90_coverage": {
+        "mean": 0.894,
+        "std": 0.023
+      },
+      "cost_interval90_coverage": {
+        "mean": 0.9,
+        "std": 0.035
+      }
     }
-  }
+  },
+  "per_seed": [
+    {
+      "category_mean": {
+        "time_mae_sec": 648.03,
+        "time_mape_pct": 227.35,
+        "cost_mae": 52.08,
+        "cost_mape_pct": 204.19
+      },
+      "log_ridge": {
+        "time_mae_sec": 141.19,
+        "time_mape_pct": 21.16,
+        "cost_mae": 10.87,
+        "cost_mape_pct": 19.19,
+        "time_interval90_coverage": 0.89,
+        "cost_interval90_coverage": 0.9
+      }
+    },
+    {
+      "category_mean": {
+        "time_mae_sec": 600.87,
+        "time_mape_pct": 282.61,
+        "cost_mae": 57.42,
+        "cost_mape_pct": 284.65
+      },
+      "log_ridge": {
+        "time_mae_sec": 176.32,
+        "time_mape_pct": 23.72,
+        "cost_mae": 16.77,
+        "cost_mape_pct": 26.0,
+        "time_interval90_coverage": 0.89,
+        "cost_interval90_coverage": 0.87
+      }
+    },
+    {
+      "category_mean": {
+        "time_mae_sec": 617.75,
+        "time_mape_pct": 194.01,
+        "cost_mae": 52.23,
+        "cost_mape_pct": 203.84
+      },
+      "log_ridge": {
+        "time_mae_sec": 240.61,
+        "time_mape_pct": 21.69,
+        "cost_mae": 17.09,
+        "cost_mape_pct": 21.03,
+        "time_interval90_coverage": 0.92,
+        "cost_interval90_coverage": 0.96
+      }
+    },
+    {
+      "category_mean": {
+        "time_mae_sec": 642.12,
+        "time_mape_pct": 295.4,
+        "cost_mae": 55.46,
+        "cost_mape_pct": 283.03
+      },
+      "log_ridge": {
+        "time_mae_sec": 117.79,
+        "time_mape_pct": 23.2,
+        "cost_mae": 9.79,
+        "cost_mape_pct": 20.0,
+        "time_interval90_coverage": 0.86,
+        "cost_interval90_coverage": 0.88
+      }
+    },
+    {
+      "category_mean": {
+        "time_mae_sec": 591.07,
+        "time_mape_pct": 159.41,
+        "cost_mae": 51.38,
+        "cost_mape_pct": 160.11
+      },
+      "log_ridge": {
+        "time_mae_sec": 191.46,
+        "time_mape_pct": 18.89,
+        "cost_mae": 17.32,
+        "cost_mape_pct": 20.17,
+        "time_interval90_coverage": 0.91,
+        "cost_interval90_coverage": 0.89
+      }
+    }
+  ]
 }
