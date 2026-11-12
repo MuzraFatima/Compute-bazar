@@ -31,9 +31,9 @@ from dataclasses import dataclass
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Ensure UTF-8 stdout on Windows terminals
-if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     try:
-        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     except Exception:
         pass
 
@@ -46,9 +46,10 @@ if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
 #   - An API budget ($100 to spend on GPT-4 calls)
 #   - A RAM chunk (memory for running models)
 
+
 @dataclass
 class Resource:
-    name: str        # e.g., "GPU-Slot-1"
+    name: str  # e.g., "GPU-Slot-1"
     resource_type: str  # e.g., "gpu", "api_budget", "ram"
     capacity: float  # e.g., 1.0 = full slot, 100.0 = $100 budget
 
@@ -69,18 +70,18 @@ class Resource:
 #          together they're worth $80 to me."
 #          But GPU-1 alone is only worth $20.
 
+
 @dataclass
 class Bid:
-    agent_name: str          # Who is bidding
-    task_description: str    # What they'll do with resources
+    agent_name: str  # Who is bidding
+    task_description: str  # What they'll do with resources
     resource_bundle: list[str]  # Which resources they want (by name)
-    bid_amount: float        # How much they value this bundle ($)
-    priority: str = "normal" # "critical", "high", "normal", "low"
+    bid_amount: float  # How much they value this bundle ($)
+    priority: str = "normal"  # "critical", "high", "normal", "low"
 
     def __repr__(self):
         bundle = " + ".join(self.resource_bundle)
-        return (f"  🏷️  {self.agent_name}: wants [{bundle}] "
-                f"→ bids ${self.bid_amount:.2f} ({self.priority})")
+        return f"  🏷️  {self.agent_name}: wants [{bundle}] → bids ${self.bid_amount:.2f} ({self.priority})"
 
 
 # ============================================================
@@ -94,6 +95,7 @@ class Bid:
 # In Week 2, we'll use proper linear programming to solve this.
 # For now, we use a "greedy" approach: sort by value-per-resource,
 # pick the best non-conflicting bids one at a time.
+
 
 class SimpleAuctionEngine:
     """
@@ -142,9 +144,9 @@ class SimpleAuctionEngine:
               It's a fast, easy-to-understand approximation.
         """
         self.round_number += 1
-        print(f"\n{'='*60}")
+        print(f"\n{'=' * 60}")
         print(f"  🏪 COMPUTE BAZAAR — Auction Round #{self.round_number}")
-        print(f"{'='*60}")
+        print(f"{'=' * 60}")
 
         # Show available resources
         print("\n📦 Available Resources:")
@@ -157,11 +159,7 @@ class SimpleAuctionEngine:
             print(bid)
 
         # Sort bids by value-per-resource (a fairness heuristic)
-        sorted_bids = sorted(
-            self.bids,
-            key=lambda b: b.bid_amount / len(b.resource_bundle),
-            reverse=True
-        )
+        sorted_bids = sorted(self.bids, key=lambda b: b.bid_amount / len(b.resource_bundle), reverse=True)
 
         # Track which resources have been allocated
         allocated_resources = set()
@@ -186,7 +184,7 @@ class SimpleAuctionEngine:
 
         # Display results
         print("\n🏆 AUCTION RESULTS:")
-        print(f"{'─'*60}")
+        print(f"{'─' * 60}")
 
         print(f"\n✅ WINNERS ({len(winners)} agents):")
         for bid in winners:
@@ -220,7 +218,7 @@ class SimpleAuctionEngine:
         else:
             print("   (Tied or similar in this small example)")
 
-        print(f"\n{'='*60}\n")
+        print(f"\n{'=' * 60}\n")
 
         return {
             "round": self.round_number,
@@ -273,6 +271,7 @@ class SimpleAuctionEngine:
 # STEP 4: Run the Demo!
 # ============================================================
 
+
 def run_demo():
     """
     Demo Scenario:
@@ -291,9 +290,9 @@ def run_demo():
 
     # Define available compute resources
     resources = [
-        Resource("GPU-Slot-1",    "gpu",        capacity=1.0),
-        Resource("GPU-Slot-2",    "gpu",        capacity=1.0),
-        Resource("API-Budget-100","api_budget",  capacity=100.0),  # $100 of API calls
+        Resource("GPU-Slot-1", "gpu", capacity=1.0),
+        Resource("GPU-Slot-2", "gpu", capacity=1.0),
+        Resource("API-Budget-100", "api_budget", capacity=100.0),  # $100 of API calls
     ]
 
     # Create the auction engine
@@ -304,45 +303,55 @@ def run_demo():
     print("   5 agents, 3 resources, who wins?")
     print("   (Note: Agent B has the most critical task!)")
 
-    engine.add_bid(Bid(
-        agent_name="Agent-Alpha",
-        task_description="Generate marketing copy for newsletter",
-        resource_bundle=["GPU-Slot-1"],
-        bid_amount=15.0,
-        priority="low"
-    ))
+    engine.add_bid(
+        Bid(
+            agent_name="Agent-Alpha",
+            task_description="Generate marketing copy for newsletter",
+            resource_bundle=["GPU-Slot-1"],
+            bid_amount=15.0,
+            priority="low",
+        )
+    )
 
-    engine.add_bid(Bid(
-        agent_name="Agent-Beta",
-        task_description="🚨 Process URGENT financial transaction",
-        resource_bundle=["GPU-Slot-1", "API-Budget-100"],  # Needs both!
-        bid_amount=85.0,
-        priority="critical"
-    ))
+    engine.add_bid(
+        Bid(
+            agent_name="Agent-Beta",
+            task_description="🚨 Process URGENT financial transaction",
+            resource_bundle=["GPU-Slot-1", "API-Budget-100"],  # Needs both!
+            bid_amount=85.0,
+            priority="critical",
+        )
+    )
 
-    engine.add_bid(Bid(
-        agent_name="Agent-Gamma",
-        task_description="Resize product images for website",
-        resource_bundle=["GPU-Slot-2"],
-        bid_amount=8.0,
-        priority="low"
-    ))
+    engine.add_bid(
+        Bid(
+            agent_name="Agent-Gamma",
+            task_description="Resize product images for website",
+            resource_bundle=["GPU-Slot-2"],
+            bid_amount=8.0,
+            priority="low",
+        )
+    )
 
-    engine.add_bid(Bid(
-        agent_name="Agent-Delta",
-        task_description="Customer support chat response",
-        resource_bundle=["API-Budget-100"],
-        bid_amount=35.0,
-        priority="normal"
-    ))
+    engine.add_bid(
+        Bid(
+            agent_name="Agent-Delta",
+            task_description="Customer support chat response",
+            resource_bundle=["API-Budget-100"],
+            bid_amount=35.0,
+            priority="normal",
+        )
+    )
 
-    engine.add_bid(Bid(
-        agent_name="Agent-Epsilon",
-        task_description="Real-time fraud detection alert",
-        resource_bundle=["GPU-Slot-2", "API-Budget-100"],
-        bid_amount=70.0,
-        priority="high"
-    ))
+    engine.add_bid(
+        Bid(
+            agent_name="Agent-Epsilon",
+            task_description="Real-time fraud detection alert",
+            resource_bundle=["GPU-Slot-2", "API-Budget-100"],
+            bid_amount=70.0,
+            priority="high",
+        )
+    )
 
     engine.run_auction()
     engine.reset()
@@ -351,37 +360,45 @@ def run_demo():
     print("\n📚 SCENARIO 2: Tight Competition")
     print("   What if many agents want the same resource?")
 
-    engine.add_bid(Bid(
-        agent_name="Agent-Writer",
-        task_description="Write a blog post using GPT-4",
-        resource_bundle=["API-Budget-100"],
-        bid_amount=20.0,
-        priority="normal"
-    ))
+    engine.add_bid(
+        Bid(
+            agent_name="Agent-Writer",
+            task_description="Write a blog post using GPT-4",
+            resource_bundle=["API-Budget-100"],
+            bid_amount=20.0,
+            priority="normal",
+        )
+    )
 
-    engine.add_bid(Bid(
-        agent_name="Agent-Coder",
-        task_description="Debug production code (urgent!)",
-        resource_bundle=["API-Budget-100"],
-        bid_amount=55.0,
-        priority="high"
-    ))
+    engine.add_bid(
+        Bid(
+            agent_name="Agent-Coder",
+            task_description="Debug production code (urgent!)",
+            resource_bundle=["API-Budget-100"],
+            bid_amount=55.0,
+            priority="high",
+        )
+    )
 
-    engine.add_bid(Bid(
-        agent_name="Agent-Analyst",
-        task_description="Monthly report generation",
-        resource_bundle=["API-Budget-100"],
-        bid_amount=12.0,
-        priority="low"
-    ))
+    engine.add_bid(
+        Bid(
+            agent_name="Agent-Analyst",
+            task_description="Monthly report generation",
+            resource_bundle=["API-Budget-100"],
+            bid_amount=12.0,
+            priority="low",
+        )
+    )
 
-    engine.add_bid(Bid(
-        agent_name="Agent-Trainer",
-        task_description="Fine-tune small model",
-        resource_bundle=["GPU-Slot-1", "GPU-Slot-2"],
-        bid_amount=45.0,
-        priority="normal"
-    ))
+    engine.add_bid(
+        Bid(
+            agent_name="Agent-Trainer",
+            task_description="Fine-tune small model",
+            resource_bundle=["GPU-Slot-1", "GPU-Slot-2"],
+            bid_amount=45.0,
+            priority="normal",
+        )
+    )
 
     engine.run_auction()
     engine.reset()

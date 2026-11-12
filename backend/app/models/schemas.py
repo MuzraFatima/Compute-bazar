@@ -6,7 +6,6 @@
 =============================================================
 """
 
-
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -15,6 +14,7 @@ class AgentRegister(BaseModel):
     name: str = Field(..., min_length=2, max_length=50, description="Unique identifier name of the agent")
     description: str | None = Field(None, description="What this agent does")
     tier: str = Field("bronze", description="Subscription tier: gold, silver, or bronze")
+
 
 class AgentResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
@@ -29,12 +29,14 @@ class AgentResponse(BaseModel):
     created_at: str
     last_active_at: str | None
 
+
 # ── Bid Schemas ──────────────────────────────────────────────
 class BidSubmit(BaseModel):
     resource_bundle: list[str] = Field(..., min_length=1, description="List of resource names required")
     bid_amount: float = Field(..., gt=0.0, description="Valuation amount for the resource bundle")
     task_description: str = Field("", description="Short description of the task")
     priority: str = Field("normal", description="Priority level: critical, high, normal, low")
+
 
 class BidResponse(BaseModel):
     id: int
@@ -48,6 +50,7 @@ class BidResponse(BaseModel):
     is_winner: bool
     payment_amount: float | None
 
+
 # ── Allocation Schemas ───────────────────────────────────────
 class AllocationResponse(BaseModel):
     id: int
@@ -57,6 +60,7 @@ class AllocationResponse(BaseModel):
     payment_amount: float
     value_to_system: float
     allocated_at: str
+
 
 # ── Resource Schemas ─────────────────────────────────────────
 class ResourceResponse(BaseModel):
@@ -69,6 +73,7 @@ class ResourceResponse(BaseModel):
     unit: str
     cost_per_unit: float
     is_available: bool
+
 
 # ── Auction Schemas ──────────────────────────────────────────
 class AuctionRoundResponse(BaseModel):
@@ -84,6 +89,7 @@ class AuctionRoundResponse(BaseModel):
     solver_method: str
     bids: list[BidResponse] = []
     allocations: list[AllocationResponse] = []
+
 
 # ── Analytics & Comparison ──────────────────────────────────
 class ComparisonAnalytics(BaseModel):

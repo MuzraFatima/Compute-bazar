@@ -43,12 +43,12 @@ def jains_fairness_index(values: list[float]) -> float:
         return 1.0
 
     sum_x = sum(non_neg)
-    sum_x_sq = sum(v ** 2 for v in non_neg)
+    sum_x_sq = sum(v**2 for v in non_neg)
 
     if sum_x_sq == 0.0 or sum_x == 0.0:
         return 1.0  # Equal distribution of zero surplus is considered fair
 
-    index = (sum_x ** 2) / (n * sum_x_sq)
+    index = (sum_x**2) / (n * sum_x_sq)
     return round(max(0.0, min(1.0, index)), 4)
 
 
@@ -144,10 +144,7 @@ class FairnessTracker:
         Return names of agents currently experiencing starvation
         (consecutive_losses >= threshold).
         """
-        return [
-            name for name, stats in self.agent_stats.items()
-            if stats["consecutive_losses"] >= threshold
-        ]
+        return [name for name, stats in self.agent_stats.items() if stats["consecutive_losses"] >= threshold]
 
     def detect_dominating_agents(self, domination_threshold: float = 0.65) -> list[str]:
         """

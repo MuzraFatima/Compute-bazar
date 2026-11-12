@@ -37,6 +37,7 @@ from compute_bazaar.llm import GroqLLMClient, LLMConfig, LLMResponse, LLMUsage
 # FIXTURES
 # ─────────────────────────────────────────────────────────────
 
+
 @pytest.fixture
 def mock_llm_client():
     """Mock Groq client for agent testing."""
@@ -66,6 +67,7 @@ def analysis_agent(mock_llm_client):
 # ─────────────────────────────────────────────────────────────
 # GROUP 1: Agent Initialization & Properties
 # ─────────────────────────────────────────────────────────────
+
 
 def test_coding_agent_properties(coding_agent):
     """CodingAgent should declare correct type, capability, and resources."""
@@ -120,6 +122,7 @@ def test_agent_repr(coding_agent):
 # ─────────────────────────────────────────────────────────────
 # GROUP 2: Task Analysis (Mock Mode)
 # ─────────────────────────────────────────────────────────────
+
 
 def test_coding_agent_analyze_task(coding_agent):
     """CodingAgent.analyze_task() should return a valid TaskDecision."""
@@ -176,6 +179,7 @@ def test_analysis_agent_analyze_task(analysis_agent):
 # GROUP 3: Budget Constraints & Overrides
 # ─────────────────────────────────────────────────────────────
 
+
 def test_budget_override(coding_agent):
     """Passing budget_override to analyze_task() should cap WTP to override budget."""
     task = "Build REST API"
@@ -200,6 +204,7 @@ def test_decision_history_recording(coding_agent):
 # ─────────────────────────────────────────────────────────────
 # GROUP 4: TaskDecision Serialization & Schema
 # ─────────────────────────────────────────────────────────────
+
 
 def test_task_decision_to_dict(coding_agent):
     """TaskDecision.to_dict() should produce a clean JSON-serializable dict."""
@@ -227,8 +232,10 @@ def test_task_decision_to_dict(coding_agent):
 # GROUP 5: Parsing Simulated LLM Responses
 # ─────────────────────────────────────────────────────────────
 
+
 class StubLLMClient:
     """Stub LLM client that returns predefined JSON for testing live parsing."""
+
     def __init__(self, response_json: dict):
         self.config = LLMConfig(mock_mode=False)  # Pretend live mode to bypass mock generator
         self.response_json = response_json

@@ -43,14 +43,14 @@ router = APIRouter()
 
 # ── Agent Endpoints ──────────────────────────────────────────
 
+
 @router.post("/agents/register", response_model=AgentResponse, status_code=status.HTTP_201_CREATED)
 def register_agent(payload: AgentRegister, db: Session = Depends(get_db)):
     """Register a new AI agent and allocate initial budget."""
     existing = db.query(Agent).filter(Agent.name == payload.name).first()
     if existing:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Agent with name '{payload.name}' already registered"
+            status_code=status.HTTP_400_BAD_REQUEST, detail=f"Agent with name '{payload.name}' already registered"
         )
 
     # Generate unique API key
@@ -62,7 +62,7 @@ def register_agent(payload: AgentRegister, db: Session = Depends(get_db)):
         api_key=api_key,
         budget_total=1000.0,
         budget_remaining=1000.0,
-        tier=payload.tier.lower() if payload.tier.lower() in ("gold", "silver", "bronze") else "bronze"
+        tier=payload.tier.lower() if payload.tier.lower() in ("gold", "silver", "bronze") else "bronze",
     )
     db.add(agent)
     db.commit()
@@ -75,10 +75,7 @@ def login_for_access_token(api_key: str, db: Session = Depends(get_db)):
     """Exchange X-API-Key for a JWT access token."""
     agent = db.query(Agent).filter(Agent.api_key == api_key, Agent.is_active.is_(True)).first()
     if not agent:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid API key"
-        )
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid API key")
 
     token = create_access_token(data={"sub": agent.name})
     return {"access_token": token, "token_type": "bearer"}
@@ -92,6 +89,7 @@ def get_agent_profile(current_agent: Agent = Depends(get_current_agent)):
 
 # ── Bid Endpoints ────────────────────────────────────────────
 
+
 @router.post("/bids/submit", response_model=BidResponse, status_code=status.HTTP_201_CREATED)
 def submit_bid(payload: BidSubmit, current_agent: Agent = Depends(get_current_agent), db: Session = Depends(get_db)):
     """
@@ -102,30 +100,27 @@ def submit_bid(payload: BidSubmit, current_agent: Agent = Depends(get_current_ag
     active_auction = db.query(Auction).filter(Auction.status == "open").order_by(Auction.round_number.desc()).first()
     if not active_auction:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="No active auction round is open for bidding at this time."
+            status_code=status.HTTP_400_BAD_REQUEST, detail="No active auction round is open for bidding at this time."
         )
 
     # 2. Check if agent can afford the bid
     if payload.bid_amount > current_agent.budget_remaining:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Insufficient remaining budget. Bid: ${payload.bid_amount:.2f}, Remaining: ${current_agent.budget_remaining:.2f}"
+            detail=f"Insufficient remaining budget. Bid: ${payload.bid_amount:.2f}, Remaining: ${current_agent.budget_remaining:.2f}",
         )
 
     # 3. Verify that all resources in the bundle exist and are available
     requested_resources = payload.resource_bundle
-    resources_in_db = db.query(Resource).filter(
-        Resource.name.in_(requested_resources),
-        Resource.is_available.is_(True)
-    ).all()
+    resources_in_db = (
+        db.query(Resource).filter(Resource.name.in_(requested_resources), Resource.is_available.is_(True)).all()
+    )
 
     if len(resources_in_db) != len(requested_resources):
         found_names = {r.name for r in resources_in_db}
         missing = [r for r in requested_resources if r not in found_names]
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"Some resources are offline or do not exist: {missing}"
+            status_code=status.HTTP_400_BAD_REQUEST, detail=f"Some resources are offline or do not exist: {missing}"
         )
 
     # 4. Save the bid to the database
@@ -135,7 +130,7 @@ def submit_bid(payload: BidSubmit, current_agent: Agent = Depends(get_current_ag
         resource_bundle=json.dumps(payload.resource_bundle),
         bid_amount=payload.bid_amount,
         task_description=payload.task_description,
-        priority=payload.priority.lower()
+        priority=payload.priority.lower(),
     )
     db.add(bid)
 
@@ -155,11 +150,12 @@ def submit_bid(payload: BidSubmit, current_agent: Agent = Depends(get_current_ag
         priority=bid.priority,
         submitted_at=bid.submitted_at,
         is_winner=bid.is_winner,
-        payment_amount=bid.payment_amount
+        payment_amount=bid.payment_amount,
     )
 
 
 # ── Resource Endpoints ───────────────────────────────────────
+
 
 @router.get("/resources", response_model=list[ResourceResponse])
 def get_resources(db: Session = Depends(get_db)):
@@ -168,6 +164,7 @@ def get_resources(db: Session = Depends(get_db)):
 
 
 # ── Auction Endpoints ────────────────────────────────────────
+
 
 @router.get("/auctions/current", response_model=AuctionRoundResponse)
 def get_current_auction(db: Session = Depends(get_db)):
@@ -184,31 +181,35 @@ def get_current_auction(db: Session = Depends(get_db)):
     # Map bids
     bids = []
     for b in auction.bids:
-        bids.append(BidResponse(
-            id=b.id,
-            auction_id=b.auction_id,
-            agent_name=b.agent.name,
-            resource_bundle=json.loads(b.resource_bundle),
-            bid_amount=b.bid_amount,
-            task_description=b.task_description or "",
-            priority=b.priority,
-            submitted_at=b.submitted_at,
-            is_winner=b.is_winner,
-            payment_amount=b.payment_amount
-        ))
+        bids.append(
+            BidResponse(
+                id=b.id,
+                auction_id=b.auction_id,
+                agent_name=b.agent.name,
+                resource_bundle=json.loads(b.resource_bundle),
+                bid_amount=b.bid_amount,
+                task_description=b.task_description or "",
+                priority=b.priority,
+                submitted_at=b.submitted_at,
+                is_winner=b.is_winner,
+                payment_amount=b.payment_amount,
+            )
+        )
 
     # Map allocations
     allocations = []
     for a in auction.allocations:
-        allocations.append(AllocationResponse(
-            id=a.id,
-            agent_name=a.agent.name,
-            resources_allocated=json.loads(a.resources_allocated),
-            bid_amount=a.bid_amount,
-            payment_amount=a.payment_amount,
-            value_to_system=a.value_to_system,
-            allocated_at=a.allocated_at
-        ))
+        allocations.append(
+            AllocationResponse(
+                id=a.id,
+                agent_name=a.agent.name,
+                resources_allocated=json.loads(a.resources_allocated),
+                bid_amount=a.bid_amount,
+                payment_amount=a.payment_amount,
+                value_to_system=a.value_to_system,
+                allocated_at=a.allocated_at,
+            )
+        )
 
     return AuctionRoundResponse(
         id=auction.id,
@@ -220,11 +221,12 @@ def get_current_auction(db: Session = Depends(get_db)):
         total_agents_participated=auction.total_agents_participated,
         solver_method=auction.solver_method,
         bids=bids,
-        allocations=allocations
+        allocations=allocations,
     )
 
 
 # ── Simulation Controls ──────────────────────────────────────
+
 
 @router.post("/simulation/start")
 async def start_simulation(mode: str = "classic", db: Session = Depends(get_db)):
@@ -274,14 +276,15 @@ def get_simulation_status(db: Session = Depends(get_db)):
                 "tier": a.tier,
                 "budget_total": a.budget_total,
                 "budget_remaining": a.budget_remaining,
-                "last_active": a.last_active_at
+                "last_active": a.last_active_at,
             }
             for a in active_agents
-        ]
+        ],
     }
 
 
 # ── Analytics & Comparison ──────────────────────────────────
+
 
 @router.get("/analytics/comparison", response_model=ComparisonAnalytics)
 def get_comparison_analytics(db: Session = Depends(get_db)):
@@ -306,10 +309,7 @@ def get_comparison_analytics(db: Session = Depends(get_db)):
                 allocated.update(bundle)
                 rr_val += bid.bid_amount
 
-    savings = sum(
-        sum(b.bid_amount - (b.payment_amount or 0.0) for b in a.bids if b.is_winner)
-        for a in closed_auctions
-    )
+    savings = sum(sum(b.bid_amount - (b.payment_amount or 0.0) for b in a.bids if b.is_winner) for a in closed_auctions)
 
     gain = ((bazaar_val - rr_val) / rr_val * 100) if rr_val > 0 else 0.0
 
@@ -318,7 +318,7 @@ def get_comparison_analytics(db: Session = Depends(get_db)):
         bazaar_total_value=bazaar_val,
         round_robin_total_value=rr_val,
         cumulative_gain_pct=gain,
-        savings_total=savings
+        savings_total=savings,
     )
 
 
@@ -358,20 +358,22 @@ def get_dashboard_metrics(db: Session = Depends(get_db)):
         surplus = sum((b.bid_amount - (b.payment_amount or 0.0)) for b in winning_bids)
         agent_surpluses.append(surplus)
 
-        agent_metrics.append({
-            "id": a.id,
-            "name": a.name,
-            "tier": a.tier,
-            "is_active": a.is_active,
-            "budget_total": a.budget_total,
-            "budget_remaining": a.budget_remaining,
-            "total_spent": round(spent, 2),
-            "total_surplus": round(surplus, 2),
-            "total_bids": total_bids,
-            "wins": wins,
-            "losses": losses,
-            "win_rate": win_rate,
-        })
+        agent_metrics.append(
+            {
+                "id": a.id,
+                "name": a.name,
+                "tier": a.tier,
+                "is_active": a.is_active,
+                "budget_total": a.budget_total,
+                "budget_remaining": a.budget_remaining,
+                "total_spent": round(spent, 2),
+                "total_surplus": round(surplus, 2),
+                "total_bids": total_bids,
+                "wins": wins,
+                "losses": losses,
+                "win_rate": win_rate,
+            }
+        )
 
     jains_index = jains_fairness_index(agent_surpluses) if agent_surpluses else 1.0
 
@@ -393,17 +395,19 @@ def get_dashboard_metrics(db: Session = Depends(get_db)):
     for r in resources:
         used = min(r.capacity, assigned_counts.get(r.name, 0.0))
         util = round((used / r.capacity * 100.0), 1) if r.capacity > 0 else 0.0
-        resource_metrics.append({
-            "id": r.id,
-            "name": r.name,
-            "resource_type": r.resource_type,
-            "capacity": r.capacity,
-            "used": used,
-            "unit": r.unit,
-            "cost_per_unit": r.cost_per_unit,
-            "is_available": r.is_available,
-            "utilization_pct": util,
-        })
+        resource_metrics.append(
+            {
+                "id": r.id,
+                "name": r.name,
+                "resource_type": r.resource_type,
+                "capacity": r.capacity,
+                "used": used,
+                "unit": r.unit,
+                "cost_per_unit": r.cost_per_unit,
+                "is_available": r.is_available,
+                "utilization_pct": util,
+            }
+        )
         if r.resource_type in category_utilization:
             category_utilization[r.resource_type] = max(category_utilization[r.resource_type], util)
 
@@ -423,23 +427,31 @@ def get_dashboard_metrics(db: Session = Depends(get_db)):
     for a in all_auctions:
         bid_count = len(a.bids)
         winners_count = sum(1 for b in a.bids if b.is_winner)
-        auction_history.append({
-            "id": a.id,
-            "round_number": a.round_number,
-            "status": a.status,
-            "started_at": a.started_at,
-            "closed_at": a.closed_at,
-            "total_value_extracted": round(a.total_value_extracted, 2),
-            "solver_method": a.solver_method,
-            "bids_count": bid_count,
-            "winners_count": winners_count,
-        })
+        auction_history.append(
+            {
+                "id": a.id,
+                "round_number": a.round_number,
+                "status": a.status,
+                "started_at": a.started_at,
+                "closed_at": a.closed_at,
+                "total_value_extracted": round(a.total_value_extracted, 2),
+                "solver_method": a.solver_method,
+                "bids_count": bid_count,
+                "winners_count": winners_count,
+            }
+        )
 
     # 5. LLM / Groq Telemetry — use real accumulated stats from autonomous simulation
     try:
         llm_telemetry = get_llm_telemetry()
     except Exception:
-        llm_telemetry = {"calls": 0, "tokens": 0, "avg_latency_ms": 0.0, "is_mock": True, "model": "openai/gpt-oss-120b"}
+        llm_telemetry = {
+            "calls": 0,
+            "tokens": 0,
+            "avg_latency_ms": 0.0,
+            "is_mock": True,
+            "model": "openai/gpt-oss-120b",
+        }
 
     return {
         "summary": {
@@ -460,4 +472,3 @@ def get_dashboard_metrics(db: Session = Depends(get_db)):
         "auction_history": auction_history,
         "llm_telemetry": llm_telemetry,
     }
-

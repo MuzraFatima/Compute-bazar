@@ -54,23 +54,25 @@ NUM_ROUNDS = 20
 # 1. SETUP EXPERIMENT ENVIRONMENT
 # ─────────────────────────────────────────────────────────────
 
+
 def set_seed(seed=SEED):
     random.seed(seed)
 
 
 def create_standard_resources() -> list[Resource]:
     return [
-        Resource("GPU-Slot-1",     "gpu",        1.0, "slot"),
-        Resource("GPU-Slot-2",     "gpu",        1.0, "slot"),
+        Resource("GPU-Slot-1", "gpu", 1.0, "slot"),
+        Resource("GPU-Slot-2", "gpu", 1.0, "slot"),
         Resource("API-Budget-100", "api_budget", 100.0, "dollars"),
-        Resource("RAM-Block-32GB", "ram",        32.0, "gb"),
-        Resource("CPU-Cores-8",    "cpu",        8.0, "cores"),
+        Resource("RAM-Block-32GB", "ram", 32.0, "gb"),
+        Resource("CPU-Cores-8", "cpu", 8.0, "cores"),
     ]
 
 
 # ─────────────────────────────────────────────────────────────
 # EXPERIMENT 1: ARCHITECTURE COMPARISON (Round-Robin vs 1.0 vs 2.0)
 # ─────────────────────────────────────────────────────────────
+
 
 def run_architecture_comparison(rounds: int = NUM_ROUNDS) -> dict[str, Any]:
     """
@@ -189,7 +191,7 @@ def run_architecture_comparison(rounds: int = NUM_ROUNDS) -> dict[str, Any]:
             # Safe execution & ML predictor feedback loop
             agent_ref.execute_awarded_task(
                 winner.task_description,
-                allocation_result={"won": True, "payment": pay, "resources": winner.resource_bundle}
+                allocation_result={"won": True, "payment": pay, "resources": winner.resource_bundle},
             )
 
         marketplace.record_demand({"gpu": 2.0, "cpu": 8.0, "ram": 32.0, "api_budget": 50.0})
@@ -217,10 +219,16 @@ def run_architecture_comparison(rounds: int = NUM_ROUNDS) -> dict[str, Any]:
             "avg_latency_ms": round(statistics.mean(cb2_latency), 3),
             "total_agent_spending": round(sum(cb2_spending), 2),
             "total_vcg_savings": round(sum(cb2_savings), 2),
-            "avg_cost_efficiency_pct": round(((sum(cb2_welfare) - sum(cb2_spending)) / sum(cb2_welfare) * 100.0) if sum(cb2_welfare) > 0 else 0.0, 1),
+            "avg_cost_efficiency_pct": round(
+                ((sum(cb2_welfare) - sum(cb2_spending)) / sum(cb2_welfare) * 100.0) if sum(cb2_welfare) > 0 else 0.0, 1
+            ),
             "jains_fairness_index": round(jain_cb2, 4),
-            "welfare_gain_vs_round_robin_pct": round(((sum(cb2_welfare) - sum(rr_welfare)) / sum(rr_welfare) * 100.0) if sum(rr_welfare) > 0 else 0.0, 1),
-            "welfare_gain_vs_bazaar_1_pct": round(((sum(cb2_welfare) - sum(cb1_welfare)) / sum(cb1_welfare) * 100.0) if sum(cb1_welfare) > 0 else 0.0, 1),
+            "welfare_gain_vs_round_robin_pct": round(
+                ((sum(cb2_welfare) - sum(rr_welfare)) / sum(rr_welfare) * 100.0) if sum(rr_welfare) > 0 else 0.0, 1
+            ),
+            "welfare_gain_vs_bazaar_1_pct": round(
+                ((sum(cb2_welfare) - sum(cb1_welfare)) / sum(cb1_welfare) * 100.0) if sum(cb1_welfare) > 0 else 0.0, 1
+            ),
         },
         "agent_performance": [
             {
@@ -230,7 +238,7 @@ def run_architecture_comparison(rounds: int = NUM_ROUNDS) -> dict[str, Any]:
                 "total_surplus": round(cb2_agent_surpluses[name], 2),
             }
             for name in cb2_agent_wins
-        ]
+        ],
     }
 
 
@@ -261,7 +269,7 @@ def run_scalability_experiment(agent_counts: list[int] = None) -> list[dict[str,
         agents = []
         for i in range(count):
             cls = [CodingAgent, ResearchAgent, DataAgent, AnalysisAgent][i % 4]
-            agents.append(cls(f"Agent-Scale-{i+1}", budget=500.0, llm_client=mock_llm))
+            agents.append(cls(f"Agent-Scale-{i + 1}", budget=500.0, llm_client=mock_llm))
 
         bids = []
         t_bids_start = time.perf_counter()
@@ -286,14 +294,16 @@ def run_scalability_experiment(agent_counts: list[int] = None) -> list[dict[str,
         res = engine.run_auction(round_id=1)
         time.perf_counter()
 
-        results.append({
-            "agent_count": count,
-            "total_bids_processed": len(bids),
-            "bids_generation_time_ms": round((t_bids_end - t_bids_start) * 1000.0, 2),
-            "ilp_solve_time_ms": round(res.solve_time_ms, 3),
-            "winners_count": len(res.winning_bids),
-            "total_value_extracted": round(res.total_value, 2),
-        })
+        results.append(
+            {
+                "agent_count": count,
+                "total_bids_processed": len(bids),
+                "bids_generation_time_ms": round((t_bids_end - t_bids_start) * 1000.0, 2),
+                "ilp_solve_time_ms": round(res.solve_time_ms, 3),
+                "winners_count": len(res.winning_bids),
+                "total_value_extracted": round(res.total_value, 2),
+            }
+        )
 
     return results
 
@@ -301,6 +311,7 @@ def run_scalability_experiment(agent_counts: list[int] = None) -> list[dict[str,
 # ─────────────────────────────────────────────────────────────
 # EXPERIMENT 3: GROQ LLM & ML PREDICTOR TELEMETRY
 # ─────────────────────────────────────────────────────────────
+
 
 def run_llm_prediction_eval() -> dict[str, Any]:
     """
@@ -358,6 +369,7 @@ def run_llm_prediction_eval() -> dict[str, Any]:
 # MAIN EVALUATION EXECUTION & REPORT GENERATOR
 # ─────────────────────────────────────────────────────────────
 
+
 def run_full_evaluation():
     print("=============================================================")
     print(" COMPUTE BAZAAR 2.0 -- Running Real Evaluation Suite...")
@@ -409,35 +421,35 @@ def generate_markdown_report(data: dict[str, Any], filepath: str):
 
     md_content = f"""# Compute Bazaar 2.0 — Final Research & Empirical Evaluation Report
 
-> **Evaluation Date**: {data['timestamp']}
+> **Evaluation Date**: {data["timestamp"]}
 > **Methodology**: Empirical evaluation comparing Baseline Round-Robin Scheduling, Compute Bazaar 1.0 (Greedy WDP), and Compute Bazaar 2.0 (ILP WDP + Groq Autonomous Agents + ML Resource Predictor + VCG Pricing + Dynamic Scarcity + Anti-Starvation Fairness). Zero fake data.
 
 ---
 
 ## 1. Executive Summary & Key Empirical Findings
 
-Compute Bazaar 2.0 establishes a multi-agent combinatorial resource market engineered for autonomous AI workloads. Key empirical findings across **{c['rounds']} benchmark auction rounds**:
+Compute Bazaar 2.0 establishes a multi-agent combinatorial resource market engineered for autonomous AI workloads. Key empirical findings across **{c["rounds"]} benchmark auction rounds**:
 
-- **Social Welfare Maximization**: Compute Bazaar 2.0 achieved **${cb2['total_welfare']:.2f}** in total social welfare, outperforming Round-Robin (**${rr['total_welfare']:.2f}**) by **+{cb2['welfare_gain_vs_round_robin_pct']:.1f}%** and Compute Bazaar 1.0 (**${cb1['total_welfare']:.2f}**) by **+{cb2['welfare_gain_vs_bazaar_1_pct']:.1f}%**.
-- **VCG Surplus Savings**: Agents received **${cb2['total_vcg_savings']:.2f}** in VCG price discounts relative to their maximum willingness-to-pay (truthful bidding incentive), achieving a **{cb2['avg_cost_efficiency_pct']:.1f}% cost efficiency gain**.
-- **Jain's Fairness Index**: Maintained a high surplus distribution equity of **$J(x) = {cb2['jains_fairness_index']:.4f}$** across gold, silver, and bronze agent tiers.
-- **Sub-Millisecond Solver Latency**: The PuLP ILP solver solved winner determination in an average of **{cb2['avg_latency_ms']:.3f} ms** per round.
+- **Social Welfare Maximization**: Compute Bazaar 2.0 achieved **${cb2["total_welfare"]:.2f}** in total social welfare, outperforming Round-Robin (**${rr["total_welfare"]:.2f}**) by **+{cb2["welfare_gain_vs_round_robin_pct"]:.1f}%** and Compute Bazaar 1.0 (**${cb1["total_welfare"]:.2f}**) by **+{cb2["welfare_gain_vs_bazaar_1_pct"]:.1f}%**.
+- **VCG Surplus Savings**: Agents received **${cb2["total_vcg_savings"]:.2f}** in VCG price discounts relative to their maximum willingness-to-pay (truthful bidding incentive), achieving a **{cb2["avg_cost_efficiency_pct"]:.1f}% cost efficiency gain**.
+- **Jain's Fairness Index**: Maintained a high surplus distribution equity of **$J(x) = {cb2["jains_fairness_index"]:.4f}$** across gold, silver, and bronze agent tiers.
+- **Sub-Millisecond Solver Latency**: The PuLP ILP solver solved winner determination in an average of **{cb2["avg_latency_ms"]:.3f} ms** per round.
 
 ---
 
 ## 2. Architectural Regime Comparison
 
-Quantitative comparison across {c['rounds']} auction rounds:
+Quantitative comparison across {c["rounds"]} auction rounds:
 
 | Performance Metric | Round-Robin (Baseline) | Compute Bazaar 1.0 (Greedy) | Compute Bazaar 2.0 (ILP + AI Agents) | Gains / Delta (2.0 vs RR) |
 |:--|:--|:--|:--|:--|
-| **Total Social Welfare ($)** | ${rr['total_welfare']:.2f} | ${cb1['total_welfare']:.2f} | **${cb2['total_welfare']:.2f}** | **+{cb2['welfare_gain_vs_round_robin_pct']:.1f}%** |
-| **Mean Welfare / Round ($)** | ${rr['avg_welfare']:.2f} | ${cb1['avg_welfare']:.2f} | **${cb2['avg_welfare']:.2f}** | **+{cb2['welfare_gain_vs_round_robin_pct']:.1f}%** |
-| **Resource Utilization (%)** | {rr['avg_utilization_pct']:.1f}% | {cb1['avg_utilization_pct']:.1f}% | **{cb2['avg_utilization_pct']:.1f}%** | **+{cb2['avg_utilization_pct'] - rr['avg_utilization_pct']:.1f}%** |
-| **Total Agent Spending ($)** | N/A (Fixed) | ${cb1['total_welfare']:.2f} | **${cb2['total_agent_spending']:.2f}** | VCG Discounted |
-| **VCG Agent Surplus Savings ($)** | $0.00 | $0.00 | **${cb2['total_vcg_savings']:.2f}** | **{cb2['avg_cost_efficiency_pct']:.1f}% Savings** |
-| **Jain's Fairness Index $J(x)$** | 0.6500 | 0.7200 | **{cb2['jains_fairness_index']:.4f}** | **High Equity** |
-| **WDP Solver Latency (ms)** | {rr['avg_latency_ms']:.3f} ms | {cb1['avg_latency_ms']:.3f} ms | **{cb2['avg_latency_ms']:.3f} ms** | Real-Time Ready |
+| **Total Social Welfare ($)** | ${rr["total_welfare"]:.2f} | ${cb1["total_welfare"]:.2f} | **${cb2["total_welfare"]:.2f}** | **+{cb2["welfare_gain_vs_round_robin_pct"]:.1f}%** |
+| **Mean Welfare / Round ($)** | ${rr["avg_welfare"]:.2f} | ${cb1["avg_welfare"]:.2f} | **${cb2["avg_welfare"]:.2f}** | **+{cb2["welfare_gain_vs_round_robin_pct"]:.1f}%** |
+| **Resource Utilization (%)** | {rr["avg_utilization_pct"]:.1f}% | {cb1["avg_utilization_pct"]:.1f}% | **{cb2["avg_utilization_pct"]:.1f}%** | **+{cb2["avg_utilization_pct"] - rr["avg_utilization_pct"]:.1f}%** |
+| **Total Agent Spending ($)** | N/A (Fixed) | ${cb1["total_welfare"]:.2f} | **${cb2["total_agent_spending"]:.2f}** | VCG Discounted |
+| **VCG Agent Surplus Savings ($)** | $0.00 | $0.00 | **${cb2["total_vcg_savings"]:.2f}** | **{cb2["avg_cost_efficiency_pct"]:.1f}% Savings** |
+| **Jain's Fairness Index $J(x)$** | 0.6500 | 0.7200 | **{cb2["jains_fairness_index"]:.4f}** | **High Equity** |
+| **WDP Solver Latency (ms)** | {rr["avg_latency_ms"]:.3f} ms | {cb1["avg_latency_ms"]:.3f} ms | **{cb2["avg_latency_ms"]:.3f} ms** | Real-Time Ready |
 
 ---
 
@@ -473,11 +485,11 @@ Telemetry from Groq LLM reasoning layer and ML Resource Predictor:
 
 | Telemetry Metric | Measured Value | Description |
 |:--|:--|:--|
-| **LLM Inference Telemetry** | {llm['llm_total_calls']} calls / {llm['llm_total_tokens']:,} tokens | Total LLM reasoning requests & tokens |
-| **LLM Mean Latency** | **{llm['llm_avg_latency_ms']:.2f} ms** | Average response time per LLM task analysis |
-| **ML Predictor Cold-Start Confidence** | **{llm['cold_start_confidence'] * 100:.0f}%** | Baseline confidence with 0 historical records |
-| **ML Predictor Trained Confidence** | **{llm['trained_confidence'] * 100:.0f}%** | Confidence after logging {llm['total_historical_records_logged']} execution records |
-| **Predicted Runtime / Cost** | **{llm['predicted_runtime_sec']:.1f}s / ${llm['predicted_cost_dollars']:.2f}** | ML forecasted runtime and cost for training tasks |
+| **LLM Inference Telemetry** | {llm["llm_total_calls"]} calls / {llm["llm_total_tokens"]:,} tokens | Total LLM reasoning requests & tokens |
+| **LLM Mean Latency** | **{llm["llm_avg_latency_ms"]:.2f} ms** | Average response time per LLM task analysis |
+| **ML Predictor Cold-Start Confidence** | **{llm["cold_start_confidence"] * 100:.0f}%** | Baseline confidence with 0 historical records |
+| **ML Predictor Trained Confidence** | **{llm["trained_confidence"] * 100:.0f}%** | Confidence after logging {llm["total_historical_records_logged"]} execution records |
+| **Predicted Runtime / Cost** | **{llm["predicted_runtime_sec"]:.1f}s / ${llm["predicted_cost_dollars"]:.2f}** | ML forecasted runtime and cost for training tasks |
 
 ---
 

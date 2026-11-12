@@ -115,7 +115,7 @@ class AdaptiveQLearner(BiddingStrategy):
             return 1  # Moderate
         elif win_rate < 0.75:
             return 2  # Good
-        return 3      # High win rate
+        return 3  # High win rate
 
     def compute_bid_amount(self, valuation: float, bundle: list[str], current_budget: float) -> float:
         state = self._get_state()

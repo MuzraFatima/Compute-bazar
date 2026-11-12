@@ -18,6 +18,7 @@ from datetime import UTC, datetime
 def utc_now_iso() -> str:
     return datetime.now(UTC).isoformat()
 
+
 from sqlalchemy import Boolean, Column, Float, ForeignKey, Index, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
@@ -35,6 +36,7 @@ if DATABASE_URL.startswith("sqlite:///"):
     DB_PATH = sqlite_path
 
 Base = declarative_base()
+
 
 # ── Agent Model ──────────────────────────────────────────────
 class Agent(Base):
@@ -55,6 +57,7 @@ class Agent(Base):
     bids = relationship("Bid", back_populates="agent")
     allocations = relationship("Allocation", back_populates="agent")
 
+
 # ── Resource Model ───────────────────────────────────────────
 class Resource(Base):
     __tablename__ = "resources"
@@ -67,6 +70,7 @@ class Resource(Base):
     cost_per_unit = Column(Float, default=0.0, nullable=False)
     is_available = Column(Boolean, default=True, nullable=False)
     created_at = Column(String, default=utc_now_iso, nullable=False)
+
 
 # ── Auction Model ────────────────────────────────────────────
 class Auction(Base):
@@ -84,6 +88,7 @@ class Auction(Base):
     # Relationships
     bids = relationship("Bid", back_populates="auction")
     allocations = relationship("Allocation", back_populates="auction")
+
 
 # ── Bid Model ────────────────────────────────────────────────
 class Bid(Base):
@@ -104,6 +109,7 @@ class Bid(Base):
     auction = relationship("Auction", back_populates="bids")
     agent = relationship("Agent", back_populates="bids")
     allocation = relationship("Allocation", uselist=False, back_populates="bid")
+
 
 # ── Allocation Model ─────────────────────────────────────────
 class Allocation(Base):
@@ -134,7 +140,7 @@ Index("idx_allocations_auction", Allocation.auction_id)
 # ── Engine & Session setup ────────────────────────────────────
 engine = create_engine(
     DATABASE_URL,
-    connect_args={"check_same_thread": False}  # Safe for SQLite with multiple threads in FastAPI
+    connect_args={"check_same_thread": False},  # Safe for SQLite with multiple threads in FastAPI
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -143,6 +149,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 def init_db():
     """Create all tables in the database."""
     Base.metadata.create_all(bind=engine)
+
 
 # Auto-initialize tables on module import
 init_db()

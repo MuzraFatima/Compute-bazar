@@ -16,6 +16,7 @@ from typing import Any
 
 class ComputeBazaarError(Exception):
     """Base exception for Compute Bazaar SDK errors."""
+
     pass
 
 

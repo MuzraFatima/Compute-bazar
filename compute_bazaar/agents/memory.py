@@ -22,6 +22,7 @@ from compute_bazaar.models.bundle import CombinatorialBid
 @dataclass
 class BidOutcome:
     """Record of a completed auction round outcome for an agent's bid."""
+
     bid_id: str
     round_id: int
     won: bool

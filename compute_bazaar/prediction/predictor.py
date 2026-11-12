@@ -39,6 +39,7 @@ class ResourcePrediction:
         recommended_bundle: Recommended list of resource names
         confidence_score: Prediction confidence from 0.0 to 1.0
     """
+
     task_description: str
     task_category: str
     predicted_gpus: float
@@ -68,6 +69,7 @@ class ResourcePrediction:
 @dataclass
 class ExecutionRecord:
     """Historical execution record used to train the ML predictor."""
+
     task_description: str
     task_category: str
     allocated_resources: list[str]
@@ -89,11 +91,11 @@ class ResourcePredictor:
 
         # Base unit pricing defaults for cost prediction ($ per unit per min)
         self.unit_costs = {
-            "gpu": 0.50,       # $0.50 / slot / min
-            "cpu": 0.05,       # $0.05 / core / min
-            "ram": 0.02,       # $0.02 / GB / min
-            "api_budget": 0.10, # $0.10 / unit
-            "llm_api": 0.0001, # $0.0001 / token
+            "gpu": 0.50,  # $0.50 / slot / min
+            "cpu": 0.05,  # $0.05 / core / min
+            "ram": 0.02,  # $0.02 / GB / min
+            "api_budget": 0.10,  # $0.10 / unit
+            "llm_api": 0.0001,  # $0.0001 / token
         }
 
     def record_execution(
@@ -118,7 +120,9 @@ class ResourcePredictor:
             tokens_used=tokens_used,
         )
         self.execution_history.append(record)
-        logger.info(f"Predictor recorded execution | cat={cat} | duration={execution_time_sec:.1f}s | cost=${actual_cost:.2f}")
+        logger.info(
+            f"Predictor recorded execution | cat={cat} | duration={execution_time_sec:.1f}s | cost=${actual_cost:.2f}"
+        )
 
     def _classify_task(self, text: str) -> str:
         """Classify task into category using keyword heuristics."""
@@ -171,10 +175,10 @@ class ResourcePredictor:
         if avg_cost <= 0.0:
             duration_min = max(0.5, avg_time / 60.0)
             avg_cost = (
-                gpus * self.unit_costs["gpu"] * duration_min +
-                cpus * self.unit_costs["cpu"] * duration_min +
-                ram * self.unit_costs["ram"] * duration_min +
-                tokens * self.unit_costs["llm_api"]
+                gpus * self.unit_costs["gpu"] * duration_min
+                + cpus * self.unit_costs["cpu"] * duration_min
+                + ram * self.unit_costs["ram"] * duration_min
+                + tokens * self.unit_costs["llm_api"]
             )
             avg_cost = round(max(5.0, avg_cost), 2)
 

@@ -9,7 +9,6 @@
 =============================================================
 """
 
-
 from compute_bazaar.agents.base import AgentCapability, BaseAgent
 
 

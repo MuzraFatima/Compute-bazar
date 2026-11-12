@@ -19,6 +19,7 @@ from typing import Any
 
 class MarketResourceType(str, Enum):
     """Supported resource categories in Compute Bazaar 2.0."""
+
     GPU = "gpu"
     CPU = "cpu"
     RAM = "ram"
@@ -44,6 +45,7 @@ class MarketResource:
         unit: Unit of measurement ('slot', 'cores', 'gb', 'tokens', 'dollars')
         is_available: Operational availability flag (False if offline/maintenance)
     """
+
     name: str
     resource_type: str = MarketResourceType.GPU.value
     provider_id: str = "default_provider"
@@ -105,6 +107,7 @@ class ResourceProvider:
       - AWS US-East (EC2 CPU & RAM blocks)
       - Local Enterprise Server Farm
     """
+
     provider_id: str
     name: str
     provider_type: str = "cloud"  # "cloud", "api_vendor", "on_prem", "decentralized"

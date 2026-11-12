@@ -39,6 +39,7 @@ class AgentTier(str, Enum):
 @dataclass
 class ResourceItem:
     """Represents a compute resource unit."""
+
     name: str
     resource_type: str = ResourceType.GPU.value
     capacity: float = 1.0
@@ -68,6 +69,7 @@ class ResourceItem:
 @dataclass
 class CombinatorialBid:
     """Represents a combinatorial bid submitted by an agent for a bundle."""
+
     agent_name: str
     resource_bundle: list[str]
     bid_amount: float
@@ -110,6 +112,7 @@ class CombinatorialBid:
 @dataclass
 class AllocationResult:
     """Represents an allocation awarded to a winning agent."""
+
     round_id: int
     agent_name: str
     bid_id: str
@@ -138,6 +141,7 @@ class AllocationResult:
 @dataclass
 class AuctionRoundOutcome:
     """Outcome and diagnostics for an entire combinatorial auction round."""
+
     round_number: int
     solver_method: str
     total_value_extracted: float

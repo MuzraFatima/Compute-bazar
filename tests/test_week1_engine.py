@@ -23,11 +23,12 @@ except ImportError:
 # HELPER: Build a standard engine with 3 resources
 # ─────────────────────────────────────────────────────────────
 
+
 def make_engine():
     resources = [
-        Resource("GPU-1",    "gpu",        1.0),
-        Resource("GPU-2",    "gpu",        1.0),
-        Resource("API-100",  "api_budget", 100.0),
+        Resource("GPU-1", "gpu", 1.0),
+        Resource("GPU-2", "gpu", 1.0),
+        Resource("API-100", "api_budget", 100.0),
     ]
     return SimpleAuctionEngine(resources)
 
@@ -35,6 +36,7 @@ def make_engine():
 # ─────────────────────────────────────────────────────────────
 # TEST GROUP 1: Resource Validation
 # ─────────────────────────────────────────────────────────────
+
 
 def test_resource_creation():
     """Resources should store name, type, and capacity correctly."""
@@ -81,6 +83,7 @@ def test_valid_bid_accepted():
 # TEST GROUP 2: Winner Determination
 # ─────────────────────────────────────────────────────────────
 
+
 def test_single_bid_wins():
     """With only one bid, it should always win."""
     engine = make_engine()
@@ -96,7 +99,7 @@ def test_highest_value_per_resource_wins():
     The one with higher value-per-resource should win.
     """
     engine = make_engine()
-    engine.add_bid(Bid("Low-Bidder",  "task", ["GPU-1"], 10.0))
+    engine.add_bid(Bid("Low-Bidder", "task", ["GPU-1"], 10.0))
     engine.add_bid(Bid("High-Bidder", "task", ["GPU-1"], 80.0))
     result = engine.run_auction()
     assert "High-Bidder" in result["winners"]
@@ -125,9 +128,9 @@ def test_bundle_bid_wins_over_individual():
     B+C combined = $60 < A's $80, so A should win.
     """
     engine = make_engine()
-    engine.add_bid(Bid("Bundle-Agent", "needs both",    ["GPU-1", "API-100"], 80.0))
-    engine.add_bid(Bid("Agent-B",      "needs gpu",     ["GPU-1"],            30.0))
-    engine.add_bid(Bid("Agent-C",      "needs api",     ["API-100"],          30.0))
+    engine.add_bid(Bid("Bundle-Agent", "needs both", ["GPU-1", "API-100"], 80.0))
+    engine.add_bid(Bid("Agent-B", "needs gpu", ["GPU-1"], 30.0))
+    engine.add_bid(Bid("Agent-C", "needs api", ["API-100"], 30.0))
     result = engine.run_auction()
     # Greedy selects by value-per-resource:
     # Bundle-Agent: 80/2 = 40 per resource (highest) → wins first
@@ -156,18 +159,17 @@ def test_critical_task_beats_low_priority():
     """
     engine = make_engine()
     # Low-priority arrives "first" (added first)
-    engine.add_bid(Bid("Low-Priority",  "resize image",          ["GPU-1"], bid_amount=5.0,  priority="low"))
-    engine.add_bid(Bid("Critical-Task", "process payment NOW!",  ["GPU-1"], bid_amount=95.0, priority="critical"))
+    engine.add_bid(Bid("Low-Priority", "resize image", ["GPU-1"], bid_amount=5.0, priority="low"))
+    engine.add_bid(Bid("Critical-Task", "process payment NOW!", ["GPU-1"], bid_amount=95.0, priority="critical"))
     result = engine.run_auction()
-    assert "Critical-Task" in result["winners"], (
-        "FAILURE: Round-robin bug! Critical task should beat low-priority!"
-    )
+    assert "Critical-Task" in result["winners"], "FAILURE: Round-robin bug! Critical task should beat low-priority!"
     assert "Low-Priority" not in result["winners"]
 
 
 # ─────────────────────────────────────────────────────────────
 # TEST GROUP 3: Auction Efficiency vs. Round-Robin
 # ─────────────────────────────────────────────────────────────
+
 
 def test_auction_beats_round_robin():
     """
@@ -176,20 +178,18 @@ def test_auction_beats_round_robin():
     """
     engine = make_engine()
     # Deliberately put low-value bid first (round-robin would pick it)
-    engine.add_bid(Bid("Early-Low-Value",  "low value task", ["GPU-1"], 10.0))
+    engine.add_bid(Bid("Early-Low-Value", "low value task", ["GPU-1"], 10.0))
     engine.add_bid(Bid("Later-High-Value", "high value task", ["GPU-1"], 90.0))
     result = engine.run_auction()
 
-    assert result["total_value"] >= result["round_robin_value"], (
-        "Auction total value should be >= round-robin value"
-    )
+    assert result["total_value"] >= result["round_robin_value"], "Auction total value should be >= round-robin value"
 
 
 def test_total_value_is_sum_of_winners():
     """total_value in result should equal sum of all winning bid amounts."""
     engine = make_engine()
-    engine.add_bid(Bid("Agent-A", "task a", ["GPU-1"],   40.0))
-    engine.add_bid(Bid("Agent-B", "task b", ["GPU-2"],   35.0))
+    engine.add_bid(Bid("Agent-A", "task a", ["GPU-1"], 40.0))
+    engine.add_bid(Bid("Agent-B", "task b", ["GPU-2"], 35.0))
     engine.add_bid(Bid("Agent-C", "task c", ["API-100"], 50.0))
     result = engine.run_auction()
     # All 3 are non-conflicting → all should win
@@ -199,6 +199,7 @@ def test_total_value_is_sum_of_winners():
 # ─────────────────────────────────────────────────────────────
 # TEST GROUP 4: Payment Calculation
 # ─────────────────────────────────────────────────────────────
+
 
 def test_payment_less_than_or_equal_to_bid():
     """Winners should pay ≤ their bid amount (they never overpay)."""
@@ -212,6 +213,7 @@ def test_payment_less_than_or_equal_to_bid():
 # ─────────────────────────────────────────────────────────────
 # TEST GROUP 5: State Management
 # ─────────────────────────────────────────────────────────────
+
 
 def test_reset_clears_bids():
     """After reset(), the bids list should be empty for the next round."""

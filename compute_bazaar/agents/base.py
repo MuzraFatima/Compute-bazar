@@ -34,8 +34,10 @@ from compute_bazaar.llm.client import GroqLLMClient, LLMConfig, LLMError
 # DATA STRUCTURES
 # ─────────────────────────────────────────────────────────────
 
+
 class AgentCapability(str, Enum):
     """Domain capabilities that agents can declare."""
+
     CODING = "coding"
     RESEARCH = "research"
     DATA_PROCESSING = "data_processing"
@@ -50,19 +52,20 @@ class TaskDecision:
     This is the result of the LLM reasoning about a task.
     It does NOT submit a bid -- that is a separate step (Week 4).
     """
+
     agent_name: str
     agent_type: str
     task_description: str
 
     # LLM-determined fields
-    understood_task: str          # Agent's rephrasing of what the task requires
-    required_resources: list[str] # Resource names needed (e.g. ["GPU-Slot-1", "RAM-Block-32GB"])
-    complexity: int               # 1 (trivial) to 10 (extremely complex)
-    estimated_utility: float      # Dollar value the agent assigns to completing this task
-    max_willingness_to_pay: float # Maximum the agent would bid
-    priority: str                 # "critical" | "high" | "normal" | "low"
-    reasoning: list[str]          # Step-by-step reasoning from the LLM
-    confidence: float             # 0.0 to 1.0 -- how confident the agent is
+    understood_task: str  # Agent's rephrasing of what the task requires
+    required_resources: list[str]  # Resource names needed (e.g. ["GPU-Slot-1", "RAM-Block-32GB"])
+    complexity: int  # 1 (trivial) to 10 (extremely complex)
+    estimated_utility: float  # Dollar value the agent assigns to completing this task
+    max_willingness_to_pay: float  # Maximum the agent would bid
+    priority: str  # "critical" | "high" | "normal" | "low"
+    reasoning: list[str]  # Step-by-step reasoning from the LLM
+    confidence: float  # 0.0 to 1.0 -- how confident the agent is
 
     # Metadata
     llm_latency_ms: float = 0.0
@@ -144,6 +147,7 @@ Return ONLY the JSON object, no other text."""
 # MOCK DECISION GENERATOR
 # ─────────────────────────────────────────────────────────────
 
+
 def _generate_mock_decision(
     agent_name: str,
     agent_type: str,
@@ -156,7 +160,7 @@ def _generate_mock_decision(
     No LLM call is made.
     """
     # Pick resources based on agent type preferences
-    resources = preferred_resources[:min(3, len(preferred_resources))]
+    resources = preferred_resources[: min(3, len(preferred_resources))]
     complexity = 5
     utility = min(budget * 0.8, 120.0)
     wtp = min(utility * 0.9, budget)
@@ -210,6 +214,7 @@ def to_engine_bid(bid: CombinatorialBid) -> EngineBid:
 # BASE AGENT
 # ─────────────────────────────────────────────────────────────
 
+
 class BaseAgent(abc.ABC):
     """
     Abstract base class for autonomous AI agents in Compute Bazaar.
@@ -233,6 +238,7 @@ class BaseAgent(abc.ABC):
       - invoke_tool(): Executes a safe tool from the agent's tool registry
       - execute_awarded_task(): Safely executes a task and logs ML performance metrics
     """
+
     def __init__(
         self,
         name: str,
@@ -242,9 +248,7 @@ class BaseAgent(abc.ABC):
     ):
         self.name = name
         self.budget = budget
-        self.available_resources = (
-            available_resources or DEFAULT_AVAILABLE_RESOURCES
-        )
+        self.available_resources = available_resources or DEFAULT_AVAILABLE_RESOURCES
 
         self.decision_history: list[TaskDecision] = []
         self.submitted_bids: list[CombinatorialBid] = []
@@ -287,6 +291,7 @@ class BaseAgent(abc.ABC):
     def preferred_resources(self) -> list[str]:
         """Return ordered list of preferred resource names for this agent type."""
         ...
+
     def analyze_task(
         self,
         task_description: str,
@@ -418,11 +423,15 @@ class BaseAgent(abc.ABC):
         elif self.memory.is_starved(threshold=3):
             # Starvation Adaptation: increase multiplier aggressively to win allocation
             multiplier = 0.96
-            logger.info(f"[{self.name}] Adaptive Bidding: Starvation detected ({self.memory.consecutive_losses} losses). Boosting bid multiplier to {multiplier}.")
+            logger.info(
+                f"[{self.name}] Adaptive Bidding: Starvation detected ({self.memory.consecutive_losses} losses). Boosting bid multiplier to {multiplier}."
+            )
         elif self.memory.get_win_rate(window=10) > 0.70:
             # High win rate: shade bid to maximize surplus margin
             multiplier = 0.72
-            logger.info(f"[{self.name}] Adaptive Bidding: High win rate detected ({self.memory.get_win_rate(10)*100:.0f}%). Shading bid multiplier to {multiplier} for margin maximization.")
+            logger.info(
+                f"[{self.name}] Adaptive Bidding: High win rate detected ({self.memory.get_win_rate(10) * 100:.0f}%). Shading bid multiplier to {multiplier} for margin maximization."
+            )
         else:
             priority_multipliers = {
                 "critical": 0.98,
@@ -437,8 +446,7 @@ class BaseAgent(abc.ABC):
         # Clearing price alignment: ensure bid is at least average clearing price if known
         if decision.required_resources:
             clearing_prices = [
-                self.memory.get_average_clearing_price(r, default=0.0)
-                for r in decision.required_resources
+                self.memory.get_average_clearing_price(r, default=0.0) for r in decision.required_resources
             ]
             avg_clearing = sum(clearing_prices)
             if avg_clearing > 0:
@@ -486,10 +494,12 @@ class BaseAgent(abc.ABC):
             num_res = len(resources)
             per_resource_amount = round(total_bid_amount / num_res, 2) if num_res > 0 else total_bid_amount
             per_resource_amount = max(0.01, per_resource_amount)
-            per_resource_valuation = round(decision.estimated_utility / num_res, 2) if num_res > 0 else decision.estimated_utility
+            per_resource_valuation = (
+                round(decision.estimated_utility / num_res, 2) if num_res > 0 else decision.estimated_utility
+            )
 
             for i, res in enumerate(resources):
-                bid_id = f"{self.name[:4].lower()}-s{i+1}-{uuid.uuid4().hex[:6]}"
+                bid_id = f"{self.name[:4].lower()}-s{i + 1}-{uuid.uuid4().hex[:6]}"
                 bid = CombinatorialBid(
                     bid_id=bid_id,
                     agent_name=self.name,
@@ -626,5 +636,3 @@ class BaseAgent(abc.ABC):
             f"type={self.agent_type!r}, budget=${self.budget:.2f}, "
             f"mode={mode})"
         )
-
-

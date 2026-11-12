@@ -30,6 +30,7 @@ from backend.app.auction.pricing import (
 # FIXTURES
 # ─────────────────────────────────────────────────────────────
 
+
 def bid(agent: str, bundle: list[str], amount: float) -> Bid:
     return Bid(
         bid_id=str(uuid.uuid4())[:8],
@@ -41,18 +42,18 @@ def bid(agent: str, bundle: list[str], amount: float) -> Bid:
 
 def resources_3() -> dict[str, Resource]:
     return {
-        "GPU-1":   Resource("GPU-1",   "gpu",        1.0),
-        "GPU-2":   Resource("GPU-2",   "gpu",        1.0),
+        "GPU-1": Resource("GPU-1", "gpu", 1.0),
+        "GPU-2": Resource("GPU-2", "gpu", 1.0),
         "API-100": Resource("API-100", "api_budget", 100.0),
     }
 
 
 def engine_lp(extra_resources=None) -> AuctionEngine:
     base = [
-        Resource("GPU-1",   "gpu",        1.0),
-        Resource("GPU-2",   "gpu",        1.0),
+        Resource("GPU-1", "gpu", 1.0),
+        Resource("GPU-2", "gpu", 1.0),
         Resource("API-100", "api_budget", 100.0),
-        Resource("RAM-32",  "ram",        32.0),
+        Resource("RAM-32", "ram", 32.0),
     ]
     return AuctionEngine(base + (extra_resources or []), method=SolverMethod.LP)
 
@@ -60,6 +61,7 @@ def engine_lp(extra_resources=None) -> AuctionEngine:
 # ─────────────────────────────────────────────────────────────
 # GROUP 1: LP Solver Correctness
 # ─────────────────────────────────────────────────────────────
+
 
 def test_lp_single_bid_wins():
     bids = [bid("A", ["GPU-1"], 50.0)]
@@ -71,9 +73,9 @@ def test_lp_single_bid_wins():
 
 def test_lp_highest_value_wins():
     bids = [
-        bid("Low",  ["GPU-1"], 20.0),
+        bid("Low", ["GPU-1"], 20.0),
         bid("High", ["GPU-1"], 80.0),
-        bid("Mid",  ["GPU-1"], 45.0),
+        bid("Mid", ["GPU-1"], 45.0),
     ]
     winners, value = solve_wdp_lp(bids, resources_3())
     assert len(winners) == 1
@@ -83,8 +85,8 @@ def test_lp_highest_value_wins():
 
 def test_lp_non_conflicting_both_win():
     bids = [
-        bid("A", ["GPU-1"],   40.0),
-        bid("B", ["GPU-2"],   35.0),
+        bid("A", ["GPU-1"], 40.0),
+        bid("B", ["GPU-2"], 35.0),
         bid("C", ["API-100"], 30.0),
     ]
     winners, value = solve_wdp_lp(bids, resources_3())
@@ -109,15 +111,15 @@ def test_lp_beats_greedy_on_bundle_scenario():
     Bundle bid per-resource < individual bids, but bundle total > sum of individuals.
     """
     res = {
-        "GPU-1":   Resource("GPU-1",   "gpu", 1.0),
-        "GPU-2":   Resource("GPU-2",   "gpu", 1.0),
+        "GPU-1": Resource("GPU-1", "gpu", 1.0),
+        "GPU-2": Resource("GPU-2", "gpu", 1.0),
         "API-100": Resource("API-100", "api_budget", 100.0),
     }
     bids = [
         bid("Bundle", ["GPU-1", "GPU-2", "API-100"], 260.0),  # per-res=$86.7
-        bid("B",      ["GPU-1"],                      90.0),   # per-res=$90 ← greedy picks 1st
-        bid("C",      ["GPU-2"],                      85.0),
-        bid("D",      ["API-100"],                    70.0),
+        bid("B", ["GPU-1"], 90.0),  # per-res=$90 ← greedy picks 1st
+        bid("C", ["GPU-2"], 85.0),
+        bid("D", ["API-100"], 70.0),
     ]
     # Greedy picks B($90)+C($85)+D($70)=$245
     _, g_val = solve_greedy(bids, res)
@@ -137,7 +139,7 @@ def test_lp_empty_bids():
 
 def test_lp_invalid_resource_skipped():
     bids = [
-        bid("Valid",   ["GPU-1"],    50.0),
+        bid("Valid", ["GPU-1"], 50.0),
         bid("Invalid", ["FAKE-RES"], 999.0),  # non-existent resource
     ]
     winners, value = solve_wdp_lp(bids, resources_3())
@@ -150,30 +152,29 @@ def test_lp_invalid_resource_skipped():
 # GROUP 2: VCG Pricing
 # ─────────────────────────────────────────────────────────────
 
+
 def test_vcg_payment_leq_bid():
     """VCG payment must never exceed the winner's own bid."""
     res = resources_3()
     bids = [
         bid("Finance", ["GPU-1", "API-100"], 110.0),
-        bid("Gamer",   ["GPU-1"],             60.0),
-        bid("Writer",  ["API-100"],            45.0),
+        bid("Gamer", ["GPU-1"], 60.0),
+        bid("Writer", ["API-100"], 45.0),
     ]
     winners, _ = solve_wdp_lp(bids, res)
     payments = compute_vcg_prices(winners, bids, res)
 
     for w in winners:
         p = payments[w.bid_id]
-        assert p <= w.bid_amount, (
-            f"{w.agent_id}: VCG payment ${p:.2f} > bid ${w.bid_amount:.2f}"
-        )
+        assert p <= w.bid_amount, f"{w.agent_id}: VCG payment ${p:.2f} > bid ${w.bid_amount:.2f}"
 
 
 def test_vcg_payment_non_negative():
     """VCG payments must always be ≥ 0."""
     res = resources_3()
     bids = [
-        bid("A", ["GPU-1"],   70.0),
-        bid("B", ["GPU-2"],   55.0),
+        bid("A", ["GPU-1"], 70.0),
+        bid("B", ["GPU-2"], 55.0),
         bid("C", ["API-100"], 40.0),
     ]
     winners, _ = solve_wdp_lp(bids, res)
@@ -187,7 +188,7 @@ def test_vcg_only_winners_get_payments():
     res = resources_3()
     bids = [
         bid("Winner", ["GPU-1"], 80.0),
-        bid("Loser",  ["GPU-1"], 30.0),
+        bid("Loser", ["GPU-1"], 30.0),
     ]
     winners, _ = solve_wdp_lp(bids, res)
     payments = compute_vcg_prices(winners, bids, res)
@@ -235,11 +236,12 @@ def test_vcg_competitive_externality():
 # GROUP 3: Auction Engine Integration
 # ─────────────────────────────────────────────────────────────
 
+
 def test_engine_submit_and_run():
     """End-to-end: submit bids, run auction, get results."""
     eng = engine_lp()
-    eng.submit_bid(bid("A", ["GPU-1"],   60.0))
-    eng.submit_bid(bid("B", ["GPU-2"],   55.0))
+    eng.submit_bid(bid("A", ["GPU-1"], 60.0))
+    eng.submit_bid(bid("B", ["GPU-2"], 55.0))
     eng.submit_bid(bid("C", ["API-100"], 40.0))
 
     result = eng.run_auction(round_id=1)
@@ -289,18 +291,16 @@ def test_engine_lp_vs_greedy_methods():
 
     eng_lp = engine_lp()
     eng_gr = AuctionEngine(
-        [Resource("GPU-1","gpu",1.0), Resource("GPU-2","gpu",1.0),
-         Resource("API-100","api_budget",100.0)],
-        method=SolverMethod.GREEDY
+        [Resource("GPU-1", "gpu", 1.0), Resource("GPU-2", "gpu", 1.0), Resource("API-100", "api_budget", 100.0)],
+        method=SolverMethod.GREEDY,
     )
 
     for b in bids_data:
         eng_lp.submit_bid(b)
         # Greedy engine needs fresh bids (different bid objects with same data)
-        eng_gr.submit_bid(Bid(
-            bid_id=b.bid_id+"g", agent_id=b.agent_id,
-            resource_bundle=b.resource_bundle, bid_amount=b.bid_amount
-        ))
+        eng_gr.submit_bid(
+            Bid(bid_id=b.bid_id + "g", agent_id=b.agent_id, resource_bundle=b.resource_bundle, bid_amount=b.bid_amount)
+        )
 
     lp_result = eng_lp.run_auction()
     gr_result = eng_gr.run_auction()
@@ -311,6 +311,7 @@ def test_engine_lp_vs_greedy_methods():
 # ─────────────────────────────────────────────────────────────
 # GROUP 4: Pricing Utilities
 # ─────────────────────────────────────────────────────────────
+
 
 def test_tier_gold_discount():
     """Gold tier agents get 10% off VCG payment."""
@@ -342,7 +343,7 @@ def test_tier_bronze_no_discount():
 def test_budget_feasibility_filters():
     """Agents bidding over their budget should be filtered out."""
     bids_data = [
-        bid("Rich",  ["GPU-1"], 80.0),
+        bid("Rich", ["GPU-1"], 80.0),
         bid("Broke", ["GPU-2"], 500.0),
     ]
     budgets = {"Rich": 1000.0, "Broke": 100.0}

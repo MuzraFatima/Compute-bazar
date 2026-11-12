@@ -68,10 +68,10 @@ _ANALYSIS_TASKS = [
 
 # Map agent DB name → task bank
 AGENT_TASK_MAP = {
-    "DevBot-Gold":       _CODING_TASKS,
-    "ResearchBot-Gold":  _RESEARCH_TASKS,
-    "ETLBot-Silver":     _DATA_TASKS,
-    "QuantBot-Bronze":   _ANALYSIS_TASKS,
+    "DevBot-Gold": _CODING_TASKS,
+    "ResearchBot-Gold": _RESEARCH_TASKS,
+    "ETLBot-Silver": _DATA_TASKS,
+    "QuantBot-Bronze": _ANALYSIS_TASKS,
 }
 
 # ── In-memory per-agent objects ──────────────────────────────
@@ -114,6 +114,7 @@ def _init_agents():
     import os
 
     from dotenv import load_dotenv
+
     load_dotenv()
 
     from compute_bazaar.agents import AnalysisAgent, CodingAgent, DataAgent, ResearchAgent
@@ -130,10 +131,10 @@ def _init_agents():
             api_key=api_key,
         )
         _agent_objects = {
-            "DevBot-Gold":      CodingAgent("DevBot-Gold",      budget=1000.0, llm_client=_llm_client),
+            "DevBot-Gold": CodingAgent("DevBot-Gold", budget=1000.0, llm_client=_llm_client),
             "ResearchBot-Gold": ResearchAgent("ResearchBot-Gold", budget=1000.0, llm_client=_llm_client),
-            "ETLBot-Silver":    DataAgent("ETLBot-Silver",     budget=600.0,  llm_client=_llm_client),
-            "QuantBot-Bronze":  AnalysisAgent("QuantBot-Bronze",  budget=400.0,  llm_client=_llm_client),
+            "ETLBot-Silver": DataAgent("ETLBot-Silver", budget=600.0, llm_client=_llm_client),
+            "QuantBot-Bronze": AnalysisAgent("QuantBot-Bronze", budget=400.0, llm_client=_llm_client),
         }
         logger.info("[AutonomousSim] Groq LLM client and 4 autonomous agents initialised.")
     except Exception as e:
@@ -144,22 +145,24 @@ def ensure_autonomous_agents_in_db(db: Session):
     """Make sure the 4 autonomous agent rows exist in the DB."""
     init_db()
     agent_configs = [
-        ("DevBot-Gold",      "Autonomous Groq Coding Agent",     "auto_devbot_gold",      1000.0, "gold"),
-        ("ResearchBot-Gold", "Autonomous Groq Research Agent",   "auto_researchbot_gold", 1000.0, "gold"),
-        ("ETLBot-Silver",    "Autonomous Groq Data ETL Agent",   "auto_etlbot_silver",    600.0,  "silver"),
-        ("QuantBot-Bronze",  "Autonomous Groq Analysis Agent",   "auto_quantbot_bronze",  400.0,  "bronze"),
+        ("DevBot-Gold", "Autonomous Groq Coding Agent", "auto_devbot_gold", 1000.0, "gold"),
+        ("ResearchBot-Gold", "Autonomous Groq Research Agent", "auto_researchbot_gold", 1000.0, "gold"),
+        ("ETLBot-Silver", "Autonomous Groq Data ETL Agent", "auto_etlbot_silver", 600.0, "silver"),
+        ("QuantBot-Bronze", "Autonomous Groq Analysis Agent", "auto_quantbot_bronze", 400.0, "bronze"),
     ]
     for name, desc, api_key, budget, tier in agent_configs:
         existing = db.query(Agent).filter(Agent.name == name).first()
         if not existing:
-            db.add(Agent(
-                name=name,
-                description=desc,
-                api_key=api_key,
-                budget_total=budget,
-                budget_remaining=budget,
-                tier=tier,
-            ))
+            db.add(
+                Agent(
+                    name=name,
+                    description=desc,
+                    api_key=api_key,
+                    budget_total=budget,
+                    budget_remaining=budget,
+                    tier=tier,
+                )
+            )
     db.commit()
 
 
@@ -179,10 +182,7 @@ async def _submit_agent_bid(agent_name: str, db: Session, auction_id: int):
 
         # Sync Groq LLM call — run in thread executor to keep asyncio non-blocking
         loop = asyncio.get_event_loop()
-        decision = await loop.run_in_executor(
-            None,
-            lambda: agent_obj.analyze_task(task)
-        )
+        decision = await loop.run_in_executor(None, lambda: agent_obj.analyze_task(task))
 
         # Accumulate LLM telemetry
         _llm_stats["total_calls"] += 1
@@ -191,8 +191,7 @@ async def _submit_agent_bid(agent_name: str, db: Session, auction_id: int):
 
         # Create combinatorial bid
         combo_bid = await loop.run_in_executor(
-            None,
-            lambda: agent_obj.create_bid(task_description=task, decision=decision, bid_type="bundle")
+            None, lambda: agent_obj.create_bid(task_description=task, decision=decision, bid_type="bundle")
         )
 
         # Validate resources exist in DB
@@ -237,20 +236,22 @@ async def _submit_agent_bid(agent_name: str, db: Session, auction_id: int):
         )
 
         # Broadcast bid to WebSocket live ticker
-        await manager.broadcast_json({
-            "type": "bid_submitted",
-            "agent": agent_name,
-            "bundle": bundle,
-            "amount": round(bid_amount, 2),
-            "priority": decision.priority,
-            "task": task,
-            "complexity": decision.complexity,
-            "confidence": decision.confidence,
-            "wtp": decision.max_willingness_to_pay,
-            "llm_latency_ms": round(decision.llm_latency_ms, 1),
-            "submitted_at": db_bid.submitted_at,
-            "mode": "autonomous",
-        })
+        await manager.broadcast_json(
+            {
+                "type": "bid_submitted",
+                "agent": agent_name,
+                "bundle": bundle,
+                "amount": round(bid_amount, 2),
+                "priority": decision.priority,
+                "task": task,
+                "complexity": decision.complexity,
+                "confidence": decision.confidence,
+                "wtp": decision.max_willingness_to_pay,
+                "llm_latency_ms": round(decision.llm_latency_ms, 1),
+                "submitted_at": db_bid.submitted_at,
+                "mode": "autonomous",
+            }
+        )
 
     except Exception as e:
         logger.error(f"[AutonomousSim] {agent_name} bid failed: {type(e).__name__}: {e}")
@@ -261,17 +262,11 @@ async def run_autonomous_round(db: Session, auction_id: int):
     Submit bids from all 4 autonomous agents concurrently for the given auction round.
     Each agent failure is isolated — others still bid.
     """
-    tasks = [
-        _submit_agent_bid(name, db, auction_id)
-        for name in _agent_objects
-    ]
+    tasks = [_submit_agent_bid(name, db, auction_id) for name in _agent_objects]
     await asyncio.gather(*tasks, return_exceptions=True)
 
     # Refill agent budgets if running low to keep simulation going
-    active_agents = db.query(Agent).filter(
-        Agent.name.in_(list(_agent_objects.keys())),
-        Agent.is_active.is_(True)
-    ).all()
+    active_agents = db.query(Agent).filter(Agent.name.in_(list(_agent_objects.keys())), Agent.is_active.is_(True)).all()
     for a in active_agents:
         if a.budget_remaining < 100.0:
             a.budget_remaining = min(a.budget_total, a.budget_remaining + 300.0)
@@ -297,10 +292,7 @@ async def _autonomous_simulation_loop():
         while not _auto_sim_stop.is_set():
             try:
                 active_auction = (
-                    db.query(Auction)
-                    .filter(Auction.status == "open")
-                    .order_by(Auction.round_number.desc())
-                    .first()
+                    db.query(Auction).filter(Auction.status == "open").order_by(Auction.round_number.desc()).first()
                 )
                 if active_auction:
                     await run_autonomous_round(db, active_auction.id)

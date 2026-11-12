@@ -19,7 +19,6 @@
 =============================================================
 """
 
-
 import pytest
 
 from backend.app.auction.engine import (
@@ -47,6 +46,7 @@ from compute_bazaar.llm import GroqLLMClient, LLMConfig
 # FIXTURES
 # ─────────────────────────────────────────────────────────────
 
+
 @pytest.fixture
 def mock_llm_client():
     """Mock Groq client for agent testing."""
@@ -69,11 +69,11 @@ def fairness_tracker():
 def auction_engine():
     """Standard AuctionEngine instance loaded with 5 compute resources."""
     resources = [
-        EngineResource("GPU-Slot-1",     "gpu",        1.0),
-        EngineResource("GPU-Slot-2",     "gpu",        1.0),
+        EngineResource("GPU-Slot-1", "gpu", 1.0),
+        EngineResource("GPU-Slot-2", "gpu", 1.0),
         EngineResource("API-Budget-100", "api_budget", 100.0),
-        EngineResource("RAM-Block-32GB", "ram",        32.0),
-        EngineResource("CPU-Cores-8",    "cpu",        8.0),
+        EngineResource("RAM-Block-32GB", "ram", 32.0),
+        EngineResource("CPU-Cores-8", "cpu", 8.0),
     ]
     return AuctionEngine(resources, method=SolverMethod.LP)
 
@@ -82,13 +82,16 @@ def auction_engine():
 # GROUP 1: AgentMemory Cognitive Operations
 # ─────────────────────────────────────────────────────────────
 
+
 def test_agent_memory_record_outcome(memory):
     """AgentMemory should record round outcomes and update win/loss metrics."""
     assert memory.total_wins == 0
     assert memory.total_losses == 0
 
     # Win round 1
-    memory.record_outcome("bid-1", round_id=1, won=True, bid_amount=100.0, payment_amount=80.0, resources_allocated=["GPU-Slot-1"])
+    memory.record_outcome(
+        "bid-1", round_id=1, won=True, bid_amount=100.0, payment_amount=80.0, resources_allocated=["GPU-Slot-1"]
+    )
     assert memory.total_wins == 1
     assert memory.consecutive_wins == 1
     assert memory.consecutive_losses == 0
@@ -109,7 +112,7 @@ def test_agent_memory_starvation_and_win_rate(memory):
 
     # Simulate 3 consecutive losses
     for i in range(3):
-        memory.record_outcome(f"bid-loss-{i}", round_id=i+1, won=False, bid_amount=50.0)
+        memory.record_outcome(f"bid-loss-{i}", round_id=i + 1, won=False, bid_amount=50.0)
 
     assert memory.is_starved(threshold=3) is True
     assert memory.get_win_rate(10) == 0.0
@@ -117,8 +120,12 @@ def test_agent_memory_starvation_and_win_rate(memory):
 
 def test_agent_memory_clearing_price_history(memory):
     """Memory should maintain running average clearing prices per resource."""
-    memory.record_outcome("b1", round_id=1, won=True, bid_amount=100.0, payment_amount=60.0, resources_allocated=["GPU-Slot-1"])
-    memory.record_outcome("b2", round_id=2, won=True, bid_amount=100.0, payment_amount=80.0, resources_allocated=["GPU-Slot-1"])
+    memory.record_outcome(
+        "b1", round_id=1, won=True, bid_amount=100.0, payment_amount=60.0, resources_allocated=["GPU-Slot-1"]
+    )
+    memory.record_outcome(
+        "b2", round_id=2, won=True, bid_amount=100.0, payment_amount=80.0, resources_allocated=["GPU-Slot-1"]
+    )
 
     avg_price = memory.get_average_clearing_price("GPU-Slot-1")
     assert avg_price == pytest.approx(70.0)  # (60 + 80) / 2
@@ -127,6 +134,7 @@ def test_agent_memory_clearing_price_history(memory):
 # ─────────────────────────────────────────────────────────────
 # GROUP 2: Fairness Metrics & FairnessTracker
 # ─────────────────────────────────────────────────────────────
+
 
 def test_jains_fairness_index_equal_distribution():
     """Jain's index for equal values should be 1.0 (perfectly fair)."""
@@ -151,11 +159,14 @@ def test_starvation_risk_score():
 
 def test_fairness_tracker_recording(fairness_tracker):
     """FairnessTracker should record outcomes and compute market equity."""
-    fairness_tracker.record_round_outcome(1, {
-        "Agent-A": {"won": True, "surplus": 30.0, "payment": 70.0},
-        "Agent-B": {"won": True, "surplus": 25.0, "payment": 50.0},
-        "Agent-C": {"won": False, "surplus": 0.0, "payment": 0.0},
-    })
+    fairness_tracker.record_round_outcome(
+        1,
+        {
+            "Agent-A": {"won": True, "surplus": 30.0, "payment": 70.0},
+            "Agent-B": {"won": True, "surplus": 25.0, "payment": 50.0},
+            "Agent-C": {"won": False, "surplus": 0.0, "payment": 0.0},
+        },
+    )
 
     assert len(fairness_tracker.agent_stats) == 3
     assert fairness_tracker.compute_jains_fairness_surplus() < 1.0
@@ -166,10 +177,13 @@ def test_fairness_tracker_detect_starvation_and_boost(fairness_tracker):
     """FairnessTracker should identify starved agents and suggest priority boosts."""
     # Simulate Agent-C losing 3 rounds in a row
     for r in range(1, 4):
-        fairness_tracker.record_round_outcome(r, {
-            "Agent-A": {"won": True, "surplus": 20.0, "payment": 80.0},
-            "Agent-C": {"won": False, "surplus": 0.0, "payment": 0.0},
-        })
+        fairness_tracker.record_round_outcome(
+            r,
+            {
+                "Agent-A": {"won": True, "surplus": 20.0, "payment": 80.0},
+                "Agent-C": {"won": False, "surplus": 0.0, "payment": 0.0},
+            },
+        )
 
     starved = fairness_tracker.detect_starved_agents(threshold=3)
     assert "Agent-C" in starved
@@ -183,6 +197,7 @@ def test_fairness_tracker_detect_starvation_and_boost(fairness_tracker):
 # GROUP 3: Adaptive Bidding via Memory
 # ─────────────────────────────────────────────────────────────
 
+
 def test_adaptive_bidding_under_starvation(mock_llm_client):
     """Starved agent should automatically boost shading multiplier and priority."""
     agent = CodingAgent("StarvedBot", budget=500.0, llm_client=mock_llm_client)
@@ -194,7 +209,7 @@ def test_adaptive_bidding_under_starvation(mock_llm_client):
 
     # Force 3 consecutive losses into memory
     for i in range(3):
-        agent.memory.record_outcome(f"b-{i}", round_id=i+1, won=False, bid_amount=50.0)
+        agent.memory.record_outcome(f"b-{i}", round_id=i + 1, won=False, bid_amount=50.0)
 
     assert agent.memory.is_starved(threshold=3) is True
 
@@ -213,7 +228,9 @@ def test_adaptive_bidding_under_high_win_rate(mock_llm_client):
     # Force 8 wins out of 10 in memory
     for i in range(10):
         won = i < 8
-        agent.memory.record_outcome(f"b-{i}", round_id=i+1, won=won, bid_amount=100.0, payment_amount=70.0 if won else 0.0)
+        agent.memory.record_outcome(
+            f"b-{i}", round_id=i + 1, won=won, bid_amount=100.0, payment_amount=70.0 if won else 0.0
+        )
 
     assert agent.memory.get_win_rate(10) == 0.80
 
@@ -230,7 +247,14 @@ def test_clearing_price_alignment(mock_llm_client):
 
     # Record historical high clearing price for GPU-Slot-1
     for i in range(3):
-        agent.memory.record_outcome(f"b-{i}", round_id=i+1, won=True, bid_amount=120.0, payment_amount=90.0, resources_allocated=["GPU-Slot-1"])
+        agent.memory.record_outcome(
+            f"b-{i}",
+            round_id=i + 1,
+            won=True,
+            bid_amount=120.0,
+            payment_amount=90.0,
+            resources_allocated=["GPU-Slot-1"],
+        )
 
     decision = agent.analyze_task("GPU task")
     decision.required_resources = ["GPU-Slot-1"]
@@ -246,9 +270,8 @@ def test_clearing_price_alignment(mock_llm_client):
 # GROUP 4: Multi-Round Simulation & End-to-End Integration
 # ─────────────────────────────────────────────────────────────
 
-def test_multi_round_fairness_and_memory_simulation(
-    mock_llm_client, auction_engine
-):
+
+def test_multi_round_fairness_and_memory_simulation(mock_llm_client, auction_engine):
     """
     Multi-round Simulation (5 Rounds):
     4 AI Agents (Coding, Research, Data, Analysis) compete across rounds.

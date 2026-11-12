@@ -82,8 +82,7 @@ def main():
         all_seed_results.append(result["summary"])
 
     methods = ["ILP + VCG", "Round-Robin", "FCFS", "Random"]
-    keys = ["total_social_welfare", "mean_resource_utilization_pct",
-            "jains_fairness_welfare", "total_cost"]
+    keys = ["total_social_welfare", "mean_resource_utilization_pct", "jains_fairness_welfare", "total_cost"]
 
     print("\n\n" + "=" * 80)
     print("  MULTI-SEED BENCHMARK SUMMARY (seeds 1-10, 25 rounds each)")
@@ -102,8 +101,12 @@ def main():
         m = aggregated[method]
         print(f"\n{method}:")
         print(f"  Social Welfare:  {m['total_social_welfare']['mean']:.2f} ± {m['total_social_welfare']['std']:.2f}")
-        print(f"  Utilization %:   {m['mean_resource_utilization_pct']['mean']:.2f} ± {m['mean_resource_utilization_pct']['std']:.2f}")
-        print(f"  Jain's Index:    {m['jains_fairness_welfare']['mean']:.4f} ± {m['jains_fairness_welfare']['std']:.4f}")
+        print(
+            f"  Utilization %:   {m['mean_resource_utilization_pct']['mean']:.2f} ± {m['mean_resource_utilization_pct']['std']:.2f}"
+        )
+        print(
+            f"  Jain's Index:    {m['jains_fairness_welfare']['mean']:.4f} ± {m['jains_fairness_welfare']['std']:.4f}"
+        )
         print(f"  Total Cost:      {m['total_cost']['mean']:.2f} ± {m['total_cost']['std']:.2f}")
 
     # Save aggregated results

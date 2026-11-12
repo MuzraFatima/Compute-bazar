@@ -39,6 +39,7 @@ from compute_bazaar.llm.client import (
 # FIXTURES
 # ─────────────────────────────────────────────────────────────
 
+
 @pytest.fixture
 def mock_client():
     """Create a GroqLLMClient in mock mode (no API key needed)."""
@@ -62,6 +63,7 @@ def custom_config():
 # ─────────────────────────────────────────────────────────────
 # GROUP 1: Configuration
 # ─────────────────────────────────────────────────────────────
+
 
 def test_default_config():
     """Default LLMConfig should have sensible defaults."""
@@ -96,6 +98,7 @@ def test_supported_models_list():
 # GROUP 2: Client Initialization
 # ─────────────────────────────────────────────────────────────
 
+
 def test_mock_client_init(mock_client):
     """Mock client should initialize without an API key."""
     assert mock_client.config.mock_mode is True
@@ -114,6 +117,7 @@ def test_live_client_no_key_raises():
     """Creating a live client without API key should raise LLMAuthenticationError."""
     # Temporarily unset the env var
     import os
+
     original = os.environ.pop("GROQ_API_KEY", None)
     try:
         with pytest.raises(LLMAuthenticationError, match="No Groq API key found"):
@@ -126,6 +130,7 @@ def test_live_client_no_key_raises():
 # ─────────────────────────────────────────────────────────────
 # GROUP 3: Mock Completion
 # ─────────────────────────────────────────────────────────────
+
 
 def test_mock_complete_returns_response(mock_client):
     """Mock complete() should return a valid LLMResponse."""
@@ -155,14 +160,13 @@ def test_mock_complete_tracks_usage(mock_client):
     response = mock_client.complete("Hello world test prompt")
     assert response.usage.prompt_tokens > 0
     assert response.usage.completion_tokens > 0
-    assert response.usage.total_tokens == (
-        response.usage.prompt_tokens + response.usage.completion_tokens
-    )
+    assert response.usage.total_tokens == (response.usage.prompt_tokens + response.usage.completion_tokens)
 
 
 # ─────────────────────────────────────────────────────────────
 # GROUP 4: JSON Mode
 # ─────────────────────────────────────────────────────────────
+
 
 def test_mock_json_mode(mock_client):
     """JSON mode should return parseable JSON content."""
@@ -209,6 +213,7 @@ def test_json_parsing_invalid_json():
 # ─────────────────────────────────────────────────────────────
 # GROUP 5: Usage Tracking
 # ─────────────────────────────────────────────────────────────
+
 
 def test_usage_tracker_records_calls(mock_client):
     """Usage tracker should count calls and tokens."""
@@ -259,6 +264,7 @@ def test_usage_tracker_record_error():
 # GROUP 6: LLMResponse
 # ─────────────────────────────────────────────────────────────
 
+
 def test_llm_response_to_dict(mock_client):
     """LLMResponse.to_dict() should return serializable data."""
     response = mock_client.complete("test")
@@ -286,6 +292,7 @@ def test_llm_usage_to_dict():
 # GROUP 7: Error Classes
 # ─────────────────────────────────────────────────────────────
 
+
 def test_error_hierarchy():
     """All error classes should inherit from LLMError."""
     assert issubclass(LLMAuthenticationError, LLMError)
@@ -306,6 +313,7 @@ def test_error_messages():
 # GROUP 8: Mock Response Generator
 # ─────────────────────────────────────────────────────────────
 
+
 def test_mock_generator_text_mode():
     """Text mode mock should include prompt echo."""
     resp = _generate_mock_response("hello world", "test-model", json_mode=False)
@@ -325,6 +333,7 @@ def test_mock_generator_json_mode():
 # ─────────────────────────────────────────────────────────────
 # GROUP 9: Parameter Overrides
 # ─────────────────────────────────────────────────────────────
+
 
 def test_complete_with_overrides(mock_client):
     """complete() should accept per-call parameter overrides."""

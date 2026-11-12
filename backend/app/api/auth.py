@@ -65,7 +65,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
 def get_current_agent(
     credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
     api_key: str | None = Depends(api_key_header),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ) -> Agent:
     """
     Authenticate agent via Bearer JWT token or X-API-Key header.

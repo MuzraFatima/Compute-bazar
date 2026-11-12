@@ -15,7 +15,6 @@
 =============================================================
 """
 
-
 import pytest
 
 from backend.app.auction.engine import (
@@ -40,6 +39,7 @@ from compute_bazaar.tools import (
 # ─────────────────────────────────────────────────────────────
 # FIXTURES
 # ─────────────────────────────────────────────────────────────
+
 
 @pytest.fixture
 def mock_llm_client():
@@ -67,6 +67,7 @@ def coding_agent(mock_llm_client):
 # ─────────────────────────────────────────────────────────────
 # GROUP 1: ResourcePredictor Forecasting & Learning
 # ─────────────────────────────────────────────────────────────
+
 
 def test_resource_predictor_cold_start(predictor):
     """ResourcePredictor should generate valid predictions even with zero history (cold start)."""
@@ -117,6 +118,7 @@ def test_model_summary(predictor):
 # GROUP 2: Safe Toolset Functions
 # ─────────────────────────────────────────────────────────────
 
+
 def test_tool_check_resources():
     """check_resources tool should return market inventory snapshot."""
     marketplace = DynamicMarketplace("Test Market")
@@ -163,6 +165,7 @@ def test_tool_execute_task(coding_agent, predictor):
 # GROUP 3: ToolRegistry & Agent Integration
 # ─────────────────────────────────────────────────────────────
 
+
 def test_tool_registry_invocation(tool_registry, coding_agent):
     """ToolRegistry should list and invoke tools by string name."""
     tools = tool_registry.list_tools()
@@ -193,6 +196,7 @@ def test_agent_invoke_tool_and_execute_task(coding_agent):
 # GROUP 4: Full End-to-End Prediction -> Auction -> Task Execution
 # ─────────────────────────────────────────────────────────────
 
+
 def test_end_to_end_prediction_auction_execution(mock_llm_client):
     """
     End-to-End Test:
@@ -204,13 +208,16 @@ def test_end_to_end_prediction_auction_execution(mock_llm_client):
     6. Performance metrics feed back into ML predictor and AgentMemory.
     """
     agent = CodingAgent("AutoDevBot", budget=400.0, llm_client=mock_llm_client)
-    engine = AuctionEngine([
-        EngineResource("GPU-Slot-1", "gpu", 1.0),
-        EngineResource("GPU-Slot-2", "gpu", 1.0),
-        EngineResource("RAM-Block-32GB", "ram", 32.0),
-        EngineResource("CPU-Cores-8", "cpu", 8.0),
-        EngineResource("API-Budget-100", "api_budget", 100.0),
-    ], method=SolverMethod.LP)
+    engine = AuctionEngine(
+        [
+            EngineResource("GPU-Slot-1", "gpu", 1.0),
+            EngineResource("GPU-Slot-2", "gpu", 1.0),
+            EngineResource("RAM-Block-32GB", "ram", 32.0),
+            EngineResource("CPU-Cores-8", "cpu", 8.0),
+            EngineResource("API-Budget-100", "api_budget", 100.0),
+        ],
+        method=SolverMethod.LP,
+    )
 
     task = "Deploy automated test pipeline"
 

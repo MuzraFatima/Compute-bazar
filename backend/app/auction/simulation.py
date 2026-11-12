@@ -24,11 +24,11 @@ from backend.app.db.models import Agent, Auction, Bid, Resource, SessionLocal, i
 
 # Simulated Agent configurations
 AGENT_BEHAVIORS = {
-    "Agent-Alpha":   {"tier": "gold",   "strategy": "ml_adaptive", "desc": "Reinforcement learning bidder"},
-    "Agent-Beta":    {"tier": "gold",   "strategy": "truthful",    "desc": "True value bidder"},
-    "Agent-Gamma":   {"tier": "silver", "strategy": "shading",     "desc": "Strategic under-bidder"},
-    "Agent-Delta":   {"tier": "silver", "strategy": "critical",    "desc": "Urgent critical task bidder"},
-    "Agent-Epsilon": {"tier": "bronze", "strategy": "bargain",     "desc": "Low cost task seeker"},
+    "Agent-Alpha": {"tier": "gold", "strategy": "ml_adaptive", "desc": "Reinforcement learning bidder"},
+    "Agent-Beta": {"tier": "gold", "strategy": "truthful", "desc": "True value bidder"},
+    "Agent-Gamma": {"tier": "silver", "strategy": "shading", "desc": "Strategic under-bidder"},
+    "Agent-Delta": {"tier": "silver", "strategy": "critical", "desc": "Urgent critical task bidder"},
+    "Agent-Epsilon": {"tier": "bronze", "strategy": "bargain", "desc": "Low cost task seeker"},
 }
 
 _sim_loop_task = None
@@ -47,7 +47,7 @@ def ensure_simulated_agents_exist(db: Session):
                 api_key=f"sim_key_{name.lower().replace('-', '_')}",
                 budget_total=1000.0,
                 budget_remaining=1000.0,
-                tier=config["tier"]
+                tier=config["tier"],
             )
             db.add(agent)
     db.commit()
@@ -55,6 +55,7 @@ def ensure_simulated_agents_exist(db: Session):
 
 class WinRateTracker:
     """Tracks simple win-rate history for ML adaptive agents."""
+
     def __init__(self, agent_name: str):
         self.agent_name = agent_name
         self.history = []  # List of booleans (True = won, False = lost)
@@ -158,7 +159,7 @@ async def generate_simulated_bids(db: Session, auction_id: int):
             "Customer sentiment classifier task",
             "Compile LLM benchmark analytics",
             "Clean dataset outlier entries",
-            "Cache inference logits batch"
+            "Cache inference logits batch",
         ]
         task_desc = random.choice(tasks)
 
@@ -169,7 +170,7 @@ async def generate_simulated_bids(db: Session, auction_id: int):
             resource_bundle=json.dumps(bundle),
             bid_amount=round(bid_val, 2),
             task_description=task_desc,
-            priority=priority
+            priority=priority,
         )
         db.add(bid)
         db.commit()
@@ -178,15 +179,17 @@ async def generate_simulated_bids(db: Session, auction_id: int):
         # We query and update win rates on round completion
 
         # Broadcast the newly submitted bid to WebSockets for live feed
-        await manager.broadcast_json({
-            "type": "bid_submitted",
-            "agent": agent_name,
-            "bundle": bundle,
-            "amount": round(bid_val, 2),
-            "priority": priority,
-            "task": task_desc,
-            "submitted_at": bid.submitted_at
-        })
+        await manager.broadcast_json(
+            {
+                "type": "bid_submitted",
+                "agent": agent_name,
+                "bundle": bundle,
+                "amount": round(bid_val, 2),
+                "priority": priority,
+                "task": task_desc,
+                "submitted_at": bid.submitted_at,
+            }
+        )
 
 
 async def _simulation_loop():
@@ -199,7 +202,9 @@ async def _simulation_loop():
         while not _sim_stop_event.is_set():
             try:
                 # Find current open auction round
-                active_auction = db.query(Auction).filter(Auction.status == "open").order_by(Auction.round_number.desc()).first()
+                active_auction = (
+                    db.query(Auction).filter(Auction.status == "open").order_by(Auction.round_number.desc()).first()
+                )
                 if active_auction:
                     # Submit some simulated bids
                     await generate_simulated_bids(db, active_auction.id)

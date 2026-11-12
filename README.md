@@ -494,9 +494,9 @@ from backend.app.auction.engine import AuctionEngine, Resource, Bid, SolverMetho
 
 # 1. Initialize Infrastructure & Engine
 resources = [
-    Resource("GPU-Slot-1",    "gpu", 1.0,  "slot"),
-    Resource("RAM-Block-32GB","ram", 32.0, "gb"),
-    Resource("CPU-Cores-8",   "cpu", 8.0,  "cores"),
+    Resource("GPU-Slot-1", "gpu", 1.0, "slot"),
+    Resource("RAM-Block-32GB", "ram", 32.0, "gb"),
+    Resource("CPU-Cores-8", "cpu", 8.0, "cores"),
 ]
 engine = AuctionEngine(resources, method=SolverMethod.LP)
 
@@ -513,8 +513,8 @@ print(f"ML Forecast: {prediction.predicted_execution_time_sec}s runtime | ${pred
 # AutoDevBot bids $145 for GPU+CPU; ResearchBot bids $60 (GPU-only);
 # AnalysisBot bids $70 (CPU+RAM). ILP picks AutoDevBot ($145 > $130 combined).
 # VCG payment = value without AutoDevBot ($60+$70=$130) - 0 = $130.
-bid_a = Bid(bid_id="bid-A", agent_id="AutoDevBot",  resource_bundle=["GPU-Slot-1", "CPU-Cores-8"], bid_amount=145.0)
-bid_b = Bid(bid_id="bid-B", agent_id="ResearchBot", resource_bundle=["GPU-Slot-1"],               bid_amount=60.0)
+bid_a = Bid(bid_id="bid-A", agent_id="AutoDevBot", resource_bundle=["GPU-Slot-1", "CPU-Cores-8"], bid_amount=145.0)
+bid_b = Bid(bid_id="bid-B", agent_id="ResearchBot", resource_bundle=["GPU-Slot-1"], bid_amount=60.0)
 bid_c = Bid(bid_id="bid-C", agent_id="AnalysisBot", resource_bundle=["CPU-Cores-8", "RAM-Block-32GB"], bid_amount=70.0)
 
 engine.submit_bid(bid_a)

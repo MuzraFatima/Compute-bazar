@@ -16,7 +16,6 @@
 =============================================================
 """
 
-
 try:
     from examples.evaluation_suite import (
         run_architecture_comparison,

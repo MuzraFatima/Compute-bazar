@@ -72,6 +72,7 @@ from compute_bazaar.llm import GroqLLMClient, LLMConfig, LLMError
 # SHARED FIXTURES
 # ─────────────────────────────────────────────────────────────
 
+
 @pytest.fixture(scope="module")
 def live_llm_client():
     """Single shared Groq LLM client for the module (reduces cold-start overhead)."""
@@ -87,11 +88,11 @@ def live_llm_client():
 def engine_resources() -> list[EngineResource]:
     """Standard 5-resource pool mirroring the production DB seed."""
     return [
-        EngineResource("GPU-Slot-1",    "gpu",        capacity=1.0,   unit="slot"),
-        EngineResource("GPU-Slot-2",    "gpu",        capacity=1.0,   unit="slot"),
-        EngineResource("API-Budget-100","api_budget",  capacity=100.0, unit="dollars"),
-        EngineResource("RAM-Block-32GB","ram",         capacity=32.0,  unit="gb"),
-        EngineResource("CPU-Cores-8",   "cpu",        capacity=8.0,   unit="cores"),
+        EngineResource("GPU-Slot-1", "gpu", capacity=1.0, unit="slot"),
+        EngineResource("GPU-Slot-2", "gpu", capacity=1.0, unit="slot"),
+        EngineResource("API-Budget-100", "api_budget", capacity=100.0, unit="dollars"),
+        EngineResource("RAM-Block-32GB", "ram", capacity=32.0, unit="gb"),
+        EngineResource("CPU-Cores-8", "cpu", capacity=8.0, unit="cores"),
     ]
 
 
@@ -99,25 +100,26 @@ def engine_resources() -> list[EngineResource]:
 def four_agents(live_llm_client) -> dict[str, object]:
     """4 domain agents sharing one Groq client."""
     return {
-        "DevBot":      CodingAgent("DevBot",      budget=800.0,  llm_client=live_llm_client),
-        "ScholarBot":  ResearchAgent("ScholarBot", budget=700.0,  llm_client=live_llm_client),
-        "ETLBot":      DataAgent("ETLBot",         budget=600.0,  llm_client=live_llm_client),
-        "QuantBot":    AnalysisAgent("QuantBot",   budget=500.0,  llm_client=live_llm_client),
+        "DevBot": CodingAgent("DevBot", budget=800.0, llm_client=live_llm_client),
+        "ScholarBot": ResearchAgent("ScholarBot", budget=700.0, llm_client=live_llm_client),
+        "ETLBot": DataAgent("ETLBot", budget=600.0, llm_client=live_llm_client),
+        "QuantBot": AnalysisAgent("QuantBot", budget=500.0, llm_client=live_llm_client),
     }
 
 
 # Realistic per-domain tasks
 AGENT_TASKS = {
-    "DevBot":     "Build and deploy a GPU-accelerated FastAPI microservice with async database writes and load testing",
+    "DevBot": "Build and deploy a GPU-accelerated FastAPI microservice with async database writes and load testing",
     "ScholarBot": "Survey 40 recent LLM papers, extract evaluation benchmarks, and produce a comparative summary report",
-    "ETLBot":     "Clean, embed, and index 5 million product descriptions into a vector database for semantic search",
-    "QuantBot":   "Run 30,000-iteration Monte Carlo simulation for equity portfolio tail-risk and VaR estimation",
+    "ETLBot": "Clean, embed, and index 5 million product descriptions into a vector database for semantic search",
+    "QuantBot": "Run 30,000-iteration Monte Carlo simulation for equity portfolio tail-risk and VaR estimation",
 }
 
 
 # ─────────────────────────────────────────────────────────────
 # GROUP 1: Individual Live Agent Task Analysis
 # ─────────────────────────────────────────────────────────────
+
 
 @pytest.mark.live
 def test_live_coding_agent_task_analysis(live_llm_client):
@@ -139,8 +141,10 @@ def test_live_coding_agent_task_analysis(live_llm_client):
     assert decision.estimated_utility > 0
     assert 0 < decision.max_willingness_to_pay <= min(decision.estimated_utility, 600.0)
     assert len(decision.required_resources) >= 1
-    assert all(r in ["GPU-Slot-1","GPU-Slot-2","API-Budget-100","RAM-Block-32GB","CPU-Cores-8"]
-               for r in decision.required_resources)
+    assert all(
+        r in ["GPU-Slot-1", "GPU-Slot-2", "API-Budget-100", "RAM-Block-32GB", "CPU-Cores-8"]
+        for r in decision.required_resources
+    )
     assert decision.priority in ("critical", "high", "normal", "low")
     assert isinstance(decision.reasoning, list) and len(decision.reasoning) >= 1
 
@@ -148,10 +152,12 @@ def test_live_coding_agent_task_analysis(live_llm_client):
     assert decision.llm_latency_ms > 0
     assert decision.llm_latency_ms < 30_000
 
-    print(f"\n  [CodingAgent] complexity={decision.complexity} | "
-          f"wtp=${decision.max_willingness_to_pay:.2f} | "
-          f"latency={decision.llm_latency_ms:.0f}ms | "
-          f"resources={decision.required_resources}")
+    print(
+        f"\n  [CodingAgent] complexity={decision.complexity} | "
+        f"wtp=${decision.max_willingness_to_pay:.2f} | "
+        f"latency={decision.llm_latency_ms:.0f}ms | "
+        f"resources={decision.required_resources}"
+    )
 
 
 @pytest.mark.live
@@ -168,9 +174,11 @@ def test_live_research_agent_task_analysis(live_llm_client):
     assert decision.max_willingness_to_pay <= min(decision.estimated_utility, 500.0)
     assert len(decision.required_resources) >= 1
 
-    print(f"\n  [ResearchAgent] complexity={decision.complexity} | "
-          f"wtp=${decision.max_willingness_to_pay:.2f} | "
-          f"resources={decision.required_resources}")
+    print(
+        f"\n  [ResearchAgent] complexity={decision.complexity} | "
+        f"wtp=${decision.max_willingness_to_pay:.2f} | "
+        f"resources={decision.required_resources}"
+    )
 
 
 @pytest.mark.live
@@ -182,12 +190,14 @@ def test_live_data_agent_task_analysis(live_llm_client):
     decision = agent.analyze_task(task)
 
     assert not decision.is_mock
-    assert decision.agent_type == "data_processing"   # DataAgent returns "data_processing"
+    assert decision.agent_type == "data_processing"  # DataAgent returns "data_processing"
     assert decision.max_willingness_to_pay <= min(decision.estimated_utility, 650.0)
 
-    print(f"\n  [DataAgent] complexity={decision.complexity} | "
-          f"wtp=${decision.max_willingness_to_pay:.2f} | "
-          f"resources={decision.required_resources}")
+    print(
+        f"\n  [DataAgent] complexity={decision.complexity} | "
+        f"wtp=${decision.max_willingness_to_pay:.2f} | "
+        f"resources={decision.required_resources}"
+    )
 
 
 @pytest.mark.live
@@ -202,14 +212,17 @@ def test_live_analysis_agent_task_analysis(live_llm_client):
     assert decision.agent_type == "analysis"
     assert decision.max_willingness_to_pay <= min(decision.estimated_utility, 400.0)
 
-    print(f"\n  [AnalysisAgent] complexity={decision.complexity} | "
-          f"wtp=${decision.max_willingness_to_pay:.2f} | "
-          f"resources={decision.required_resources}")
+    print(
+        f"\n  [AnalysisAgent] complexity={decision.complexity} | "
+        f"wtp=${decision.max_willingness_to_pay:.2f} | "
+        f"resources={decision.required_resources}"
+    )
 
 
 # ─────────────────────────────────────────────────────────────
 # GROUP 2: Intelligent Bid Creation (Live)
 # ─────────────────────────────────────────────────────────────
+
 
 @pytest.mark.live
 def test_live_intelligent_bundle_bid_creation(live_llm_client):
@@ -221,13 +234,12 @@ def test_live_intelligent_bundle_bid_creation(live_llm_client):
 
     # Bid structure
     assert bid.bid_amount > 0
-    assert bid.bid_amount <= 300.0                # must not exceed budget
+    assert bid.bid_amount <= 300.0  # must not exceed budget
     assert len(bid.resource_bundle) >= 1
     assert bid.task_description == task
     assert bid.priority in ("critical", "high", "normal", "low")
 
-    print(f"\n  [Bundle Bid] amount=${bid.bid_amount:.2f} | "
-          f"bundle={bid.resource_bundle} | priority={bid.priority}")
+    print(f"\n  [Bundle Bid] amount=${bid.bid_amount:.2f} | bundle={bid.resource_bundle} | priority={bid.priority}")
 
 
 @pytest.mark.live
@@ -243,15 +255,15 @@ def test_live_intelligent_single_bids_creation(live_llm_client):
     for bid in bids:
         assert bid.bid_amount > 0
         assert bid.bid_amount <= 400.0
-        assert len(bid.resource_bundle) == 1   # each single bid is for exactly 1 resource
+        assert len(bid.resource_bundle) == 1  # each single bid is for exactly 1 resource
 
-    print(f"\n  [Single Bids] count={len(bids)} | "
-          f"amounts={[round(b.bid_amount,2) for b in bids]}")
+    print(f"\n  [Single Bids] count={len(bids)} | amounts={[round(b.bid_amount, 2) for b in bids]}")
 
 
 # ─────────────────────────────────────────────────────────────
 # GROUP 3: Full Live Auction Round (Single Agent → Engine)
 # ─────────────────────────────────────────────────────────────
+
 
 @pytest.mark.live
 def test_live_single_agent_full_auction_round(live_llm_client, engine_resources):
@@ -270,6 +282,7 @@ def test_live_single_agent_full_auction_round(live_llm_client, engine_resources)
 
     # 3. Submit to engine
     from compute_bazaar.agents.base import to_engine_bid
+
     engine_bid = to_engine_bid(bid)
     engine.submit_bid(engine_bid)
 
@@ -283,7 +296,7 @@ def test_live_single_agent_full_auction_round(live_llm_client, engine_resources)
     assert winner.agent_id == "StressETL"
 
     # 5. VCG payment: with no other bidders, payment = 0 (no externality)
-    payments = result.payments            # correct attribute: payments (Dict[bid_id, float])
+    payments = result.payments  # correct attribute: payments (Dict[bid_id, float])
     assert isinstance(payments, dict)
     vcg_pay = payments.get(winner.bid_id, 0.0)
     assert vcg_pay >= 0.0
@@ -300,13 +313,16 @@ def test_live_single_agent_full_auction_round(live_llm_client, engine_resources)
     )
     assert agent.memory.total_wins == 1
 
-    print(f"\n  [Single-Agent Round] bid=${winner.bid_amount:.2f} | "
-          f"vcg_payment=${vcg_pay:.2f} | resources={winner.resource_bundle}")
+    print(
+        f"\n  [Single-Agent Round] bid=${winner.bid_amount:.2f} | "
+        f"vcg_payment=${vcg_pay:.2f} | resources={winner.resource_bundle}"
+    )
 
 
 # ─────────────────────────────────────────────────────────────
 # GROUP 4: ★ MAIN STRESS TEST — 4 Agents Concurrently
 # ─────────────────────────────────────────────────────────────
+
 
 def _agent_analyze_and_bid(
     agent_name: str,
@@ -334,15 +350,17 @@ def _agent_analyze_and_bid(
                 "bid": bid,
                 "elapsed_ms": elapsed,
             }
-            return   # success
+            return  # success
         except LLMRateLimitError as e:
             # Parse "Please try again in X.Xs" from the error message
             wait = 15.0
             m = re.search(r"try again in (\d+\.?\d*)s", str(e))
             if m:
-                wait = float(m.group(1)) + 2.0   # add 2s buffer
-            print(f"    [{agent_name}] Rate limit hit (attempt {attempt}/{max_retries})"
-                  f" - waiting {wait:.0f}s before retry...")
+                wait = float(m.group(1)) + 2.0  # add 2s buffer
+            print(
+                f"    [{agent_name}] Rate limit hit (attempt {attempt}/{max_retries})"
+                f" - waiting {wait:.0f}s before retry..."
+            )
             time.sleep(wait)
         except Exception as e:
             errors[agent_name] = str(e)
@@ -370,7 +388,7 @@ def test_four_agent_concurrent_stress(four_agents, engine_resources):
     agent_names = list(agents.keys())
 
     results: dict[str, dict] = {}
-    errors:  dict[str, str]  = {}
+    errors: dict[str, str] = {}
 
     # ── Phase 1: Concurrent LLM reasoning — STAGGERED to respect TPM rate limit ──
     print("\n  [STRESS] Phase 1: Staggered Groq LLM reasoning for 4 agents...")
@@ -386,7 +404,7 @@ def test_four_agent_concurrent_stress(four_agents, engine_resources):
             pool.submit(_staggered_worker, name, agents[name], AGENT_TASKS[name], i * 5): name
             for i, name in enumerate(agent_names)
         }
-        concurrent.futures.wait(futures, timeout=300)   # allow for rate-limit retries
+        concurrent.futures.wait(futures, timeout=300)  # allow for rate-limit retries
 
     total_elapsed = (time.time() - start_total) * 1000
     print(f"  [STRESS] All 4 agents completed in {total_elapsed:.0f}ms")
@@ -406,24 +424,25 @@ def test_four_agent_concurrent_stress(four_agents, engine_resources):
         assert 1 <= decision.complexity <= 10, f"{name}: invalid complexity"
         assert 0.0 < decision.confidence <= 1.0, f"{name}: invalid confidence"
         assert decision.estimated_utility > 0, f"{name}: utility must be positive"
-        assert 0 < decision.max_willingness_to_pay <= agents[name].budget, \
-            f"{name}: WTP exceeds budget"
+        assert 0 < decision.max_willingness_to_pay <= agents[name].budget, f"{name}: WTP exceeds budget"
         assert len(decision.required_resources) >= 1, f"{name}: no resources selected"
         assert bid.bid_amount > 0, f"{name}: bid amount must be positive"
-        assert bid.bid_amount <= agents[name].budget, \
-            f"{name}: bid exceeds budget"
+        assert bid.bid_amount <= agents[name].budget, f"{name}: bid exceeds budget"
 
-        print(f"    {name:12} | complexity={decision.complexity} | "
-              f"wtp=${decision.max_willingness_to_pay:6.2f} | "
-              f"bid=${bid.bid_amount:6.2f} | "
-              f"resources={decision.required_resources} | "
-              f"latency={decision.llm_latency_ms:.0f}ms")
+        print(
+            f"    {name:12} | complexity={decision.complexity} | "
+            f"wtp=${decision.max_willingness_to_pay:6.2f} | "
+            f"bid=${bid.bid_amount:6.2f} | "
+            f"resources={decision.required_resources} | "
+            f"latency={decision.llm_latency_ms:.0f}ms"
+        )
 
     # ── Phase 3: Submit all bids to AuctionEngine ──────────
     print("\n  [STRESS] Phase 3: Submitting all bids to ILP AuctionEngine...")
     engine = AuctionEngine(engine_resources)
 
     from compute_bazaar.agents.base import to_engine_bid
+
     bid_map: dict[str, tuple[str, float]] = {}  # bid_id → (agent_name, bid_amount)
 
     for name in agent_names:
@@ -464,8 +483,7 @@ def test_four_agent_concurrent_stress(four_agents, engine_resources):
 
         # Core VCG invariants
         assert vcg_payment >= 0.0, f"{agent_name}: VCG payment must be non-negative"
-        assert vcg_payment <= bid_amount, \
-            f"{agent_name}: VCG payment (${vcg_payment:.2f}) > bid (${bid_amount:.2f})"
+        assert vcg_payment <= bid_amount, f"{agent_name}: VCG payment (${vcg_payment:.2f}) > bid (${bid_amount:.2f})"
 
         surplus = bid_amount - vcg_payment
         agent_surpluses.append(surplus)
@@ -475,8 +493,10 @@ def test_four_agent_concurrent_stress(four_agents, engine_resources):
         # Deduct payment from agent budget
         agents[agent_name].budget = max(0.0, agents[agent_name].budget - vcg_payment)
 
-        print(f"    WINNER  {agent_name:12} | bid=${bid_amount:6.2f} | "
-              f"vcg_pay=${vcg_payment:6.2f} | surplus=${surplus:6.2f}")
+        print(
+            f"    WINNER  {agent_name:12} | bid=${bid_amount:6.2f} | "
+            f"vcg_pay=${vcg_payment:6.2f} | surplus=${surplus:6.2f}"
+        )
 
     for name in loser_names:
         print(f"    LOSER   {name:12} | no allocation")
@@ -524,8 +544,7 @@ def test_four_agent_concurrent_stress(four_agents, engine_resources):
     outcomes = {}
     for name in winner_names:
         surplus = results[name]["bid"].bid_amount - result.payments.get(
-            next(wb.bid_id for wb in result.winning_bids
-                 if bid_map.get(wb.bid_id, (None,))[0] == name), 0.0
+            next(wb.bid_id for wb in result.winning_bids if bid_map.get(wb.bid_id, (None,))[0] == name), 0.0
         )
         outcomes[name] = {"won": True, "surplus": max(0.0, surplus), "payment": 0.0}
     for name in loser_names:
@@ -537,8 +556,10 @@ def test_four_agent_concurrent_stress(four_agents, engine_resources):
     assert "jains_fairness_surplus" in report
     assert report["jains_fairness_surplus"] >= 0.0
 
-    print(f"    FairnessTracker report: jains_surplus={report['jains_fairness_surplus']:.4f} | "
-          f"starved={report['starved_agents']}")
+    print(
+        f"    FairnessTracker report: jains_surplus={report['jains_fairness_surplus']:.4f} | "
+        f"starved={report['starved_agents']}"
+    )
 
     # ── Phase 8: Budget sanity check ──────────────────────
     print("\n  [STRESS] Phase 8: Budget integrity check...")
@@ -546,11 +567,9 @@ def test_four_agent_concurrent_stress(four_agents, engine_resources):
         budget_after = agents[name].budget
         budget_before = budgets_before[name]
         if name in winner_names:
-            assert budget_after <= budget_before, \
-                f"{name}: winner budget should decrease or stay same"
+            assert budget_after <= budget_before, f"{name}: winner budget should decrease or stay same"
         else:
-            assert budget_after == budget_before, \
-                f"{name}: loser budget should not change"
+            assert budget_after == budget_before, f"{name}: loser budget should not change"
         print(f"    {name:12} | before=${budget_before:.2f} | after=${budget_after:.2f}")
 
     # -- Summary ------------------------------------------------
@@ -569,6 +588,7 @@ def test_four_agent_concurrent_stress(four_agents, engine_resources):
 # GROUP 5: Multi-Round Adaptive Learning
 # ─────────────────────────────────────────────────────────────
 
+
 @pytest.mark.live
 def test_multi_round_adaptive_bidding(live_llm_client, engine_resources):
     """
@@ -577,12 +597,12 @@ def test_multi_round_adaptive_bidding(live_llm_client, engine_resources):
     """
     agents_local = {
         "AlphaBot": ResearchAgent("AlphaBot", budget=500.0, llm_client=live_llm_client),
-        "BetaBot":  DataAgent("BetaBot",      budget=450.0, llm_client=live_llm_client),
+        "BetaBot": DataAgent("BetaBot", budget=450.0, llm_client=live_llm_client),
         "GammaBot": AnalysisAgent("GammaBot", budget=400.0, llm_client=live_llm_client),
     }
     tasks = {
         "AlphaBot": "Deep literature review of auction theory and mechanism design for AI agents",
-        "BetaBot":  "Ingest 1TB of log data and extract structured event sequences for ML training",
+        "BetaBot": "Ingest 1TB of log data and extract structured event sequences for ML training",
         "GammaBot": "Compute optimal Markowitz efficient frontier with 200-asset covariance matrix",
     }
 
@@ -591,6 +611,7 @@ def test_multi_round_adaptive_bidding(live_llm_client, engine_resources):
 
     engine1 = AuctionEngine(engine_resources)
     from compute_bazaar.agents.base import to_engine_bid
+
     bid_map1: dict[str, tuple[str, float]] = {}
 
     for name, agent in agents_local.items():
@@ -609,8 +630,11 @@ def test_multi_round_adaptive_bidding(live_llm_client, engine_resources):
         agent_name, _ = bid_map1[wb.bid_id]
         vcg = result1.payments.get(wb.bid_id, 0.0)
         agents_local[agent_name].record_auction_outcome(
-            bid_id=wb.bid_id, round_id=1, won=True,
-            bid_amount=wb.bid_amount, payment_amount=vcg,
+            bid_id=wb.bid_id,
+            round_id=1,
+            won=True,
+            bid_amount=wb.bid_amount,
+            payment_amount=vcg,
             resources_allocated=wb.resource_bundle,
         )
         won1.add(agent_name)
@@ -618,8 +642,7 @@ def test_multi_round_adaptive_bidding(live_llm_client, engine_resources):
     for name in agents_local:
         if name not in won1:
             agents_local[name].record_auction_outcome(
-                bid_id="r1-lost", round_id=1, won=False,
-                bid_amount=round1_bids[name], payment_amount=0.0
+                bid_id="r1-lost", round_id=1, won=False, bid_amount=round1_bids[name], payment_amount=0.0
             )
 
     print(f"    Round 1 winners: {won1}")
@@ -644,7 +667,7 @@ def test_multi_round_adaptive_bidding(live_llm_client, engine_resources):
     assert result2.total_value >= 0
 
     # Losers in Round 1 should bid higher or equal in Round 2 (starvation boost)
-    for name in (set(agents_local) - won1):
+    for name in set(agents_local) - won1:
         starvation = agents_local[name].memory.consecutive_losses
         if starvation >= 1:
             # Agent memory should be tracking consecutive losses
@@ -652,13 +675,14 @@ def test_multi_round_adaptive_bidding(live_llm_client, engine_resources):
 
     won2 = {bid_map2[wb.bid_id][0] for wb in result2.winning_bids}
     print(f"    Round 2 winners: {won2}")
-    print(f"    Round 1 bids  : { {k: f'${v:.2f}' for k,v in round1_bids.items()} }")
-    print(f"    Round 2 bids  : { {k: f'${v:.2f}' for k,v in round2_bids.items()} }")
+    print(f"    Round 1 bids  : { {k: f'${v:.2f}' for k, v in round1_bids.items()} }")
+    print(f"    Round 2 bids  : { {k: f'${v:.2f}' for k, v in round2_bids.items()} }")
 
 
 # ─────────────────────────────────────────────────────────────
 # GROUP 6: Error Handling & Resilience
 # ─────────────────────────────────────────────────────────────
+
 
 @pytest.mark.live
 def test_live_graceful_error_on_missing_key():
@@ -667,6 +691,7 @@ def test_live_graceful_error_on_missing_key():
     The system must not crash silently.
     """
     from compute_bazaar.llm import LLMAuthenticationError
+
     bad_client = GroqLLMClient(
         config=LLMConfig(model="openai/gpt-oss-120b", mock_mode=False),
         api_key="gsk_BAD_KEY_FOR_TESTING_12345",
@@ -690,9 +715,10 @@ def test_budget_constraint_enforced_in_live_bid(live_llm_client):
     decision = agent.analyze_task(task)
     bid = agent.create_bid(task, decision=decision, bid_type="bundle")
 
-    assert bid.bid_amount <= tight_budget, \
-        f"Bid (${bid.bid_amount:.2f}) must not exceed budget (${tight_budget:.2f})"
+    assert bid.bid_amount <= tight_budget, f"Bid (${bid.bid_amount:.2f}) must not exceed budget (${tight_budget:.2f})"
     assert decision.max_willingness_to_pay <= tight_budget
 
-    print(f"\n  [Budget constraint] wtp=${decision.max_willingness_to_pay:.2f} | "
-          f"bid=${bid.bid_amount:.2f} | budget=${tight_budget:.2f} OK")
+    print(
+        f"\n  [Budget constraint] wtp=${decision.max_willingness_to_pay:.2f} | "
+        f"bid=${bid.bid_amount:.2f} | budget=${tight_budget:.2f} OK"
+    )

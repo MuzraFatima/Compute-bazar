@@ -110,14 +110,11 @@ def generate_workload_batch(
 ) -> list[CombinatorialBid]:
     """Generate a batch of competitive bids from diverse simulated agents."""
     if available_resources is None:
-        available_resources = [
-            "GPU-Slot-1", "GPU-Slot-2", "API-Budget-100",
-            "RAM-Block-32GB", "CPU-Cores-8"
-        ]
+        available_resources = ["GPU-Slot-1", "GPU-Slot-2", "API-Budget-100", "RAM-Block-32GB", "CPU-Cores-8"]
 
     bids = []
     for i in range(num_agents):
-        agent_name = f"Agent-{i+1:02d}"
+        agent_name = f"Agent-{i + 1:02d}"
         bid = generate_synthetic_bid(agent_name, available_resource_names=available_resources)
         bids.append(bid)
     return bids

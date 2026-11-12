@@ -49,30 +49,31 @@ NUM_ROUNDS = 20
 AGENTS_PER_ROUND = 8
 
 RESOURCES = [
-    Resource("GPU-Slot-1",     "gpu",        1.0, "slot"),
-    Resource("GPU-Slot-2",     "gpu",        1.0, "slot"),
+    Resource("GPU-Slot-1", "gpu", 1.0, "slot"),
+    Resource("GPU-Slot-2", "gpu", 1.0, "slot"),
     Resource("API-Budget-100", "api_budget", 100.0, "dollars"),
-    Resource("RAM-Block-32GB", "ram",        32.0, "gb"),
-    Resource("CPU-Cores-8",    "cpu",        8.0, "cores"),
+    Resource("RAM-Block-32GB", "ram", 32.0, "gb"),
+    Resource("CPU-Cores-8", "cpu", 8.0, "cores"),
 ]
 
 RESOURCE_NAMES = [r.name for r in RESOURCES]
 
 AGENT_PROFILES = [
-    {"name": "Agent-Alpha",   "tier": "gold",   "strategy": "ml_adaptive"},
-    {"name": "Agent-Beta",    "tier": "gold",   "strategy": "truthful"},
-    {"name": "Agent-Gamma",   "tier": "silver", "strategy": "shading"},
-    {"name": "Agent-Delta",   "tier": "silver", "strategy": "critical"},
+    {"name": "Agent-Alpha", "tier": "gold", "strategy": "ml_adaptive"},
+    {"name": "Agent-Beta", "tier": "gold", "strategy": "truthful"},
+    {"name": "Agent-Gamma", "tier": "silver", "strategy": "shading"},
+    {"name": "Agent-Delta", "tier": "silver", "strategy": "critical"},
     {"name": "Agent-Epsilon", "tier": "bronze", "strategy": "bargain"},
-    {"name": "Agent-Zeta",    "tier": "gold",   "strategy": "truthful"},
-    {"name": "Agent-Eta",     "tier": "silver", "strategy": "shading"},
-    {"name": "Agent-Theta",   "tier": "bronze", "strategy": "bargain"},
+    {"name": "Agent-Zeta", "tier": "gold", "strategy": "truthful"},
+    {"name": "Agent-Eta", "tier": "silver", "strategy": "shading"},
+    {"name": "Agent-Theta", "tier": "bronze", "strategy": "bargain"},
 ]
 
 
 # ─────────────────────────────────────────────────────────────
 # HELPER: Generate deterministic bids per round
 # ─────────────────────────────────────────────────────────────
+
 
 def generate_round_bids(rng: random.Random, round_id: int) -> list[Bid]:
     """Generate a set of deterministic bids for one auction round."""
@@ -109,14 +110,16 @@ def generate_round_bids(rng: random.Random, round_id: int) -> list[Bid]:
 
         bid_amount = round(max(1.0, bid_amount), 2)
 
-        bids.append(Bid(
-            bid_id=f"R{round_id}-{agent['name']}-{uuid.UUID(int=rng.getrandbits(128)).hex[:8]}",
-            agent_id=agent["name"],
-            resource_bundle=bundle,
-            bid_amount=bid_amount,
-            task_description=f"Benchmark task round {round_id}",
-            priority="normal",
-        ))
+        bids.append(
+            Bid(
+                bid_id=f"R{round_id}-{agent['name']}-{uuid.UUID(int=rng.getrandbits(128)).hex[:8]}",
+                agent_id=agent["name"],
+                resource_bundle=bundle,
+                bid_amount=bid_amount,
+                task_description=f"Benchmark task round {round_id}",
+                priority="normal",
+            )
+        )
 
     return bids
 
@@ -124,6 +127,7 @@ def generate_round_bids(rng: random.Random, round_id: int) -> list[Bid]:
 # ─────────────────────────────────────────────────────────────
 # JAIN'S FAIRNESS INDEX
 # ─────────────────────────────────────────────────────────────
+
 
 def jains_fairness_index(values: list[float]) -> float:
     """
@@ -146,17 +150,18 @@ def jains_fairness_index(values: list[float]) -> float:
 
     n = len(values)
     sum_x = sum(values)
-    sum_x_sq = sum(v ** 2 for v in values)
+    sum_x_sq = sum(v**2 for v in values)
 
     if sum_x_sq == 0:
         return 0.0
 
-    return (sum_x ** 2) / (n * sum_x_sq)
+    return (sum_x**2) / (n * sum_x_sq)
 
 
 # ─────────────────────────────────────────────────────────────
 # BENCHMARK RUNNER
 # ─────────────────────────────────────────────────────────────
+
 
 def run_benchmark():
     """Execute the full benchmark and print results."""

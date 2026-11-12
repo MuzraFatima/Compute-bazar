@@ -22,7 +22,6 @@
 =============================================================
 """
 
-
 import pytest
 
 from backend.app.auction.engine import (
@@ -50,6 +49,7 @@ from compute_bazaar.models.bundle import CombinatorialBid
 # FIXTURES
 # ─────────────────────────────────────────────────────────────
 
+
 @pytest.fixture
 def mock_llm_client():
     """Mock Groq client for agent testing."""
@@ -60,11 +60,11 @@ def mock_llm_client():
 def auction_engine():
     """Standard AuctionEngine instance loaded with 5 compute resources."""
     resources = [
-        EngineResource("GPU-Slot-1",     "gpu",        1.0),
-        EngineResource("GPU-Slot-2",     "gpu",        1.0),
+        EngineResource("GPU-Slot-1", "gpu", 1.0),
+        EngineResource("GPU-Slot-2", "gpu", 1.0),
         EngineResource("API-Budget-100", "api_budget", 100.0),
-        EngineResource("RAM-Block-32GB", "ram",        32.0),
-        EngineResource("CPU-Cores-8",    "cpu",        8.0),
+        EngineResource("RAM-Block-32GB", "ram", 32.0),
+        EngineResource("CPU-Cores-8", "cpu", 8.0),
     ]
     return AuctionEngine(resources, method=SolverMethod.LP)
 
@@ -93,25 +93,47 @@ def analysis_agent(mock_llm_client):
 # GROUP 1: Intelligent Bid Calculation
 # ─────────────────────────────────────────────────────────────
 
+
 def test_priority_based_shading(coding_agent):
     """Critical priority tasks should bid higher fraction of WTP than normal/low priority."""
     d_critical = TaskDecision(
-        agent_name="DevBot", agent_type="coding", task_description="Emergency fix",
-        understood_task="Critical fix", required_resources=["GPU-Slot-1"],
-        complexity=9, estimated_utility=100.0, max_willingness_to_pay=100.0,
-        priority="critical", reasoning=["Critical priority"], confidence=0.9,
+        agent_name="DevBot",
+        agent_type="coding",
+        task_description="Emergency fix",
+        understood_task="Critical fix",
+        required_resources=["GPU-Slot-1"],
+        complexity=9,
+        estimated_utility=100.0,
+        max_willingness_to_pay=100.0,
+        priority="critical",
+        reasoning=["Critical priority"],
+        confidence=0.9,
     )
     d_normal = TaskDecision(
-        agent_name="DevBot", agent_type="coding", task_description="Routine update",
-        understood_task="Routine task", required_resources=["GPU-Slot-1"],
-        complexity=4, estimated_utility=100.0, max_willingness_to_pay=100.0,
-        priority="normal", reasoning=["Normal priority"], confidence=0.8,
+        agent_name="DevBot",
+        agent_type="coding",
+        task_description="Routine update",
+        understood_task="Routine task",
+        required_resources=["GPU-Slot-1"],
+        complexity=4,
+        estimated_utility=100.0,
+        max_willingness_to_pay=100.0,
+        priority="normal",
+        reasoning=["Normal priority"],
+        confidence=0.8,
     )
     d_low = TaskDecision(
-        agent_name="DevBot", agent_type="coding", task_description="Background task",
-        understood_task="Low task", required_resources=["GPU-Slot-1"],
-        complexity=2, estimated_utility=100.0, max_willingness_to_pay=100.0,
-        priority="low", reasoning=["Low priority"], confidence=0.7,
+        agent_name="DevBot",
+        agent_type="coding",
+        task_description="Background task",
+        understood_task="Low task",
+        required_resources=["GPU-Slot-1"],
+        complexity=2,
+        estimated_utility=100.0,
+        max_willingness_to_pay=100.0,
+        priority="low",
+        reasoning=["Low priority"],
+        confidence=0.7,
     )
 
     bid_critical = coding_agent.compute_intelligent_bid_amount(d_critical)
@@ -128,10 +150,17 @@ def test_bid_amount_budget_and_utility_capping(mock_llm_client):
     """Bid amount must never exceed budget or estimated utility."""
     broke_agent = CodingAgent("BrokeBot", budget=40.0, llm_client=mock_llm_client)
     decision = TaskDecision(
-        agent_name="BrokeBot", agent_type="coding", task_description="Huge job",
-        understood_task="Huge job", required_resources=["GPU-Slot-1"],
-        complexity=8, estimated_utility=300.0, max_willingness_to_pay=250.0,
-        priority="critical", reasoning=["High WTP but low budget"], confidence=0.9,
+        agent_name="BrokeBot",
+        agent_type="coding",
+        task_description="Huge job",
+        understood_task="Huge job",
+        required_resources=["GPU-Slot-1"],
+        complexity=8,
+        estimated_utility=300.0,
+        max_willingness_to_pay=250.0,
+        priority="critical",
+        reasoning=["High WTP but low budget"],
+        confidence=0.9,
     )
 
     bid_amount = broke_agent.compute_intelligent_bid_amount(decision)
@@ -141,10 +170,17 @@ def test_bid_amount_budget_and_utility_capping(mock_llm_client):
 def test_custom_shading_factor_override(coding_agent):
     """Passing explicit shading_factor should override default priority multiplier."""
     decision = TaskDecision(
-        agent_name="DevBot", agent_type="coding", task_description="Task",
-        understood_task="Task", required_resources=["GPU-Slot-1"],
-        complexity=5, estimated_utility=200.0, max_willingness_to_pay=100.0,
-        priority="normal", reasoning=["Shading override"], confidence=0.8,
+        agent_name="DevBot",
+        agent_type="coding",
+        task_description="Task",
+        understood_task="Task",
+        required_resources=["GPU-Slot-1"],
+        complexity=5,
+        estimated_utility=200.0,
+        max_willingness_to_pay=100.0,
+        priority="normal",
+        reasoning=["Shading override"],
+        confidence=0.8,
     )
 
     bid_amount = coding_agent.compute_intelligent_bid_amount(decision, shading_factor=0.50)
@@ -154,6 +190,7 @@ def test_custom_shading_factor_override(coding_agent):
 # ─────────────────────────────────────────────────────────────
 # GROUP 2: Single-Resource & Bundle Bid Generation
 # ─────────────────────────────────────────────────────────────
+
 
 def test_create_combinatorial_bundle_bid(coding_agent):
     """create_bid(bid_type='bundle') should return a single CombinatorialBid with full bundle."""
@@ -171,10 +208,17 @@ def test_create_combinatorial_bundle_bid(coding_agent):
 def test_create_single_resource_bids(coding_agent):
     """create_bid(bid_type='single') should return a list of per-resource bids."""
     decision = TaskDecision(
-        agent_name="DevBot", agent_type="coding", task_description="Multi-resource task",
-        understood_task="Multi task", required_resources=["GPU-Slot-1", "CPU-Cores-8"],
-        complexity=6, estimated_utility=100.0, max_willingness_to_pay=80.0,
-        priority="normal", reasoning=["Two resources needed"], confidence=0.8,
+        agent_name="DevBot",
+        agent_type="coding",
+        task_description="Multi-resource task",
+        understood_task="Multi task",
+        required_resources=["GPU-Slot-1", "CPU-Cores-8"],
+        complexity=6,
+        estimated_utility=100.0,
+        max_willingness_to_pay=80.0,
+        priority="normal",
+        reasoning=["Two resources needed"],
+        confidence=0.8,
     )
 
     bids = coding_agent.create_bid("Multi-resource task", decision=decision, bid_type="single")
@@ -192,6 +236,7 @@ def test_create_single_resource_bids(coding_agent):
 # ─────────────────────────────────────────────────────────────
 # GROUP 3: Conversion to EXISTING Auction Engine
 # ─────────────────────────────────────────────────────────────
+
 
 def test_to_engine_bid_converter():
     """to_engine_bid should convert CombinatorialBid to backend EngineBid."""
@@ -234,9 +279,8 @@ def test_submit_to_engine_single_and_multiple(coding_agent, auction_engine):
 # GROUP 4: End-to-End Auction Integration (Multi-Agent)
 # ─────────────────────────────────────────────────────────────
 
-def test_end_to_end_intelligent_auction(
-    coding_agent, research_agent, data_agent, analysis_agent, auction_engine
-):
+
+def test_end_to_end_intelligent_auction(coding_agent, research_agent, data_agent, analysis_agent, auction_engine):
     """
     End-to-End Test:
     4 AI Agents analyze distinct domain tasks via Groq (MOCK mode),
@@ -279,9 +323,7 @@ def test_end_to_end_intelligent_auction(
         assert payment >= 0.0, f"Winner {w.agent_id} had negative payment!"
 
 
-def test_mixed_single_and_bundle_bids_auction(
-    coding_agent, research_agent, auction_engine
-):
+def test_mixed_single_and_bundle_bids_auction(coding_agent, research_agent, auction_engine):
     """
     Auction should seamlessly process a mix of bundle bids and single-resource bids.
     """

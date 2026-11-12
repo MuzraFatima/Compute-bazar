@@ -21,9 +21,9 @@ import uuid
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Ensure UTF-8 stdout on Windows terminals
-if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     try:
-        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     except Exception:
         pass
 
@@ -45,6 +45,7 @@ from backend.app.auction.pricing import (
 # HELPERS
 # ─────────────────────────────────────────────────────────────
 
+
 def make_bid(agent: str, bundle: list[str], amount: float, task: str = "") -> Bid:
     return Bid(
         bid_id=str(uuid.uuid4())[:8],
@@ -56,11 +57,11 @@ def make_bid(agent: str, bundle: list[str], amount: float, task: str = "") -> Bi
 
 
 RESOURCES = [
-    Resource("GPU-1",    "gpu",        1.0, "slot"),
-    Resource("GPU-2",    "gpu",        1.0, "slot"),
-    Resource("API-100",  "api_budget", 100.0, "dollars"),
-    Resource("RAM-32GB", "ram",        32.0, "gb"),
-    Resource("CPU-8",    "cpu",        8.0,  "cores"),
+    Resource("GPU-1", "gpu", 1.0, "slot"),
+    Resource("GPU-2", "gpu", 1.0, "slot"),
+    Resource("API-100", "api_budget", 100.0, "dollars"),
+    Resource("RAM-32GB", "ram", 32.0, "gb"),
+    Resource("CPU-8", "cpu", 8.0, "cores"),
 ]
 
 RES_MAP = {r.name: r for r in RESOURCES}
@@ -69,6 +70,7 @@ RES_MAP = {r.name: r for r in RESOURCES}
 # ─────────────────────────────────────────────────────────────
 # DEMO 1 — LP vs Greedy: the critical difference
 # ─────────────────────────────────────────────────────────────
+
 
 def demo_lp_vs_greedy():
     """
@@ -149,8 +151,8 @@ def demo_lp_vs_greedy():
     print("=" * 64)
 
     resources_2 = {
-        "GPU-1":   Resource("GPU-1",   "gpu",       1.0),
-        "GPU-2":   Resource("GPU-2",   "gpu",       1.0),
+        "GPU-1": Resource("GPU-1", "gpu", 1.0),
+        "GPU-2": Resource("GPU-2", "gpu", 1.0),
         "API-100": Resource("API-100", "api_budget", 100.0),
     }
 
@@ -185,17 +187,16 @@ def demo_lp_vs_greedy():
 
     bids = [
         make_bid("Bundle-Agent", ["GPU-1", "GPU-2", "API-100"], 260.0, "Full stack AI job"),
-        make_bid("Agent-B",      ["GPU-1"],                      90.0, "GPU-intensive task"),
-        make_bid("Agent-C",      ["GPU-2"],                      85.0, "Secondary GPU task"),
-        make_bid("Agent-D",      ["API-100"],                    70.0, "API-heavy task"),
+        make_bid("Agent-B", ["GPU-1"], 90.0, "GPU-intensive task"),
+        make_bid("Agent-C", ["GPU-2"], 85.0, "Secondary GPU task"),
+        make_bid("Agent-D", ["API-100"], 70.0, "API-heavy task"),
     ]
 
     print("\n  Bids submitted:")
     for b in bids:
         vpr = b.bid_amount / len(b.resource_bundle)
         bundle = "+".join(b.resource_bundle)
-        print(f"    {b.agent_id:15s}: [{bundle:30s}] ${b.bid_amount:6.2f}  "
-              f"(${vpr:.2f}/resource)")
+        print(f"    {b.agent_id:15s}: [{bundle:30s}] ${b.bid_amount:6.2f}  (${vpr:.2f}/resource)")
 
     # Run both solvers
     greedy_winners, greedy_value = solve_greedy(bids, resources_2)
@@ -222,6 +223,7 @@ def demo_lp_vs_greedy():
 # ─────────────────────────────────────────────────────────────
 # DEMO 2 — VCG Pricing: Truthfulness Proof
 # ─────────────────────────────────────────────────────────────
+
 
 def demo_vcg_pricing():
     """
@@ -269,15 +271,15 @@ def demo_vcg_pricing():
     """)
 
     resources_vcg = {
-        "GPU-1":   Resource("GPU-1",   "gpu",        1.0),
+        "GPU-1": Resource("GPU-1", "gpu", 1.0),
         "API-100": Resource("API-100", "api_budget", 100.0),
     }
 
     # Finance's true value is $110 — they bid truthfully
     bids = [
         make_bid("Agent-Finance", ["GPU-1", "API-100"], 110.0, "Finance processing"),
-        make_bid("Agent-Gamer",   ["GPU-1"],              60.0, "GPU rendering"),
-        make_bid("Agent-Writer",  ["API-100"],             45.0, "Content generation"),
+        make_bid("Agent-Gamer", ["GPU-1"], 60.0, "GPU rendering"),
+        make_bid("Agent-Writer", ["API-100"], 45.0, "Content generation"),
     ]
 
     winners, total = solve_wdp_lp(bids, resources_vcg)
@@ -313,6 +315,7 @@ def demo_vcg_pricing():
 # DEMO 3 — Stress Test: 50 Agents
 # ─────────────────────────────────────────────────────────────
 
+
 def demo_stress_test(n_agents: int = 50):
     """
     Generate n_agents random bids and time the LP solver.
@@ -331,9 +334,7 @@ def demo_stress_test(n_agents: int = 50):
         bundle_size = random.randint(1, min(3, len(res_names)))
         bundle = random.sample(res_names, bundle_size)
         amount = round(random.uniform(10.0, 200.0), 2)
-        bids.append(make_bid(
-            f"Agent-{i:03d}", bundle, amount, f"Task {i}"
-        ))
+        bids.append(make_bid(f"Agent-{i:03d}", bundle, amount, f"Task {i}"))
 
     print(f"\n  Generated {n_agents} random bids over {len(RESOURCES)} resources")
 
@@ -362,6 +363,7 @@ def demo_stress_test(n_agents: int = 50):
 # DEMO 4 — Tier Pricing
 # ─────────────────────────────────────────────────────────────
 
+
 def demo_tier_pricing():
     """Show Gold/Silver/Bronze discount tiers applied to VCG payments."""
     print("\n" + "=" * 64)
@@ -371,9 +373,9 @@ def demo_tier_pricing():
     engine = AuctionEngine(RESOURCES, method=SolverMethod.LP)
 
     bids_data = [
-        ("gold-agent",   ["GPU-1"],              80.0, "gold"),
-        ("silver-agent", ["GPU-2"],              70.0, "silver"),
-        ("bronze-agent", ["API-100"],            60.0, "bronze"),
+        ("gold-agent", ["GPU-1"], 80.0, "gold"),
+        ("silver-agent", ["GPU-2"], 70.0, "silver"),
+        ("bronze-agent", ["API-100"], 60.0, "bronze"),
     ]
     agent_tiers = {}
     for agent_id, bundle, amount, tier in bids_data:
@@ -393,6 +395,7 @@ def demo_tier_pricing():
 
 if __name__ == "__main__":
     import sys
+
     # Set UTF-8 output for Windows
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
