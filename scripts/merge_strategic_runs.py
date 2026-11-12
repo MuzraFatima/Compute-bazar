@@ -1,10 +1,13 @@
 """
 Merge per-model strategic-study runs into results/strategic_study.json.
 
-Live LLM runs are split by model (each Groq model has its own rate limits),
-so they run as separate processes and are merged here. A run can be marked
-partial: Groq's daily token cap for openai/gpt-oss-120b was hit mid-study,
-so only its first two conditions have data, and the second is flagged.
+Live LLM runs go one model per process (each Groq model has its own rate
+limits) and are saved raw in results/llm_runs/. The free tier also has a
+daily token cap that two models reached mid-study, so conditions are
+classified automatically:
+  * every LLM call failed           -> omitted
+  * some calls failed after retries -> kept, flagged partial (failed bids are
+                                       already excluded from the ratios)
 
     python scripts/merge_strategic_runs.py
 """
@@ -15,46 +18,37 @@ import json
 from pathlib import Path
 
 R = Path(__file__).resolve().parents[1] / "results"
-
-
-def load(name: str) -> dict:
-    p = R / name
-    return json.loads(p.read_text()) if p.exists() else {"learning": {}, "llm": {}}
+RUNS = R / "llm_runs"
 
 
 def main() -> None:
-    p1 = load("_llm_gptoss_part1.json")
-    qwen = load("_llm_qwen.json")
-    small = load("_llm_gptoss20b.json")
-
-    big = p1["llm"].get("openai/gpt-oss-120b", {})
-    big_kept = {}
-    if "vcg_informed" in big:
-        big_kept["vcg_informed"] = big["vcg_informed"]
-    if "vcg_uninformed" in big:
-        r = dict(big["vcg_uninformed"])
-        r["partial_reason"] = (
-            f"{r['errors']} of 45 bids hit Groq's per-minute token limit; ratios use the remaining bids"
-        )
-        big_kept["vcg_uninformed"] = r
-    big_kept["_note"] = {
-        "omitted": ["first_price", "vcg_chat", "core_chat"],
-        "reason": "Groq daily token cap (200k tokens/day) for openai/gpt-oss-120b was reached",
-    }
-
-    out = {
-        "learning": p1["learning"],
-        "llm": {"openai/gpt-oss-120b": big_kept, **qwen["llm"], **small["llm"]},
-        "notes": {
-            "qwen/qwen3.8-27b": "15 rounds per condition",
-            "openai/gpt-oss-20b": "10 rounds per condition (to fit its daily token cap)",
-            "openai/gpt-oss-120b": "15 rounds per condition; partial, see _note",
-            "llama-3.3-70b-versatile": "planned, but retired by Groq (404) at run time",
-        },
-    }
+    learning = {}
+    llm: dict = {}
+    for f in sorted(RUNS.glob("*.json")):
+        data = json.loads(f.read_text())
+        learning = learning or data.get("learning", {})
+        for model, conds in data["llm"].items():
+            kept, omitted = {}, []
+            for cond, r in conds.items():
+                if cond.startswith("_"):
+                    continue
+                calls = len(r["transcript"]) and 3 * sum(1 for t in r["transcript"] if "values" in t)
+                if r["errors"] >= calls:
+                    omitted.append(cond)
+                    continue
+                if r["errors"]:
+                    r = {**r, "partial_reason": f"{r['errors']} of {calls} LLM calls failed (Groq token limits)"}
+                kept[cond] = r
+            if omitted:
+                kept["_omitted"] = {"conditions": omitted, "reason": "Groq daily token cap reached; every call failed"}
+            llm[model] = kept
+    out = {"learning": learning, "llm": llm, "raw_runs": "results/llm_runs/"}
     (R / "strategic_study.json").write_text(json.dumps(out, indent=2, default=float))
-    for model, conds in out["llm"].items():
-        print(model, [c for c in conds if not c.startswith("_")])
+    for model, conds in llm.items():
+        print(
+            model,
+            {c: ("partial" if r.get("partial_reason") else "ok") for c, r in conds.items() if not c.startswith("_")},
+        )
 
 
 if __name__ == "__main__":

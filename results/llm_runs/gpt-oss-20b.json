@@ -1,0 +1,1728 @@
+{
+  "learning": {},
+  "llm": {
+    "openai/gpt-oss-20b": {
+      "vcg_informed": {
+        "mechanism": "vcg",
+        "informed": true,
+        "chat": false,
+        "live_llm": true,
+        "efficiency": 1.0,
+        "revenue": 76.018,
+        "bid_value_ratio": {
+          "L1": 1.0,
+          "L2": 1.0,
+          "G": 1.0
+        },
+        "errors": 0,
+        "transcript": [
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 8.310000000000002,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 77.02000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 64.99,
+              "L2": 16.939999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 10.129999999999995,
+              "L2": 42.599999999999994
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.920000000000016,
+              "L2": 63.82000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 57.28
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          }
+        ]
+      },
+      "vcg_uninformed": {
+        "mechanism": "vcg",
+        "informed": false,
+        "chat": false,
+        "live_llm": true,
+        "efficiency": 0.9610661436825697,
+        "revenue": 62.588,
+        "bid_value_ratio": {
+          "L1": 1.0,
+          "L2": 0.9459377078253159,
+          "G": 0.7
+        },
+        "errors": 6,
+        "transcript": [
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 8.310000000000002,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 0.0
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 0.9509816026669962,
+            "messages": {}
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 64.99,
+              "L2": 16.939999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 3,
+            "agent": "L2",
+            "error": "Groq API error after 10690ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your promp"
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 10.129999999999995,
+              "L2": 42.599999999999994
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 4,
+            "agent": "L2",
+            "error": "Groq API error after 11134ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your promp"
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 5,
+            "agent": "L2",
+            "error": "Groq API error after 13021ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your promp"
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 70.71,
+              "G": 0.0
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 7,
+            "agent": "L2",
+            "error": "Groq API error after 12017ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your promp"
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.920000000000016,
+              "L2": 63.82000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 8,
+            "agent": "L2",
+            "error": "Groq API error after 3796ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your prompt"
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 0.0
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 0.6596798341587009,
+            "messages": {}
+          },
+          {
+            "round": 9,
+            "agent": "L2",
+            "error": "Groq API error after 9832ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your prompt"
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          }
+        ]
+      },
+      "first_price": {
+        "mechanism": "first_price",
+        "informed": false,
+        "chat": false,
+        "live_llm": true,
+        "efficiency": 0.9876828258669855,
+        "revenue": 137.498,
+        "bid_value_ratio": {
+          "L1": 0.591672403161263,
+          "L2": 0.9999022100528066,
+          "G": NaN
+        },
+        "errors": 23,
+        "transcript": [
+          {
+            "round": 0,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 42.22,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 42.22,
+              "L2": 75.8
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 1,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 12.95,
+              "L2": 51.12,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 80.99
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 2,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 2,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 39.19,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 95.32
+            },
+            "efficiency": 0.8768282586698556,
+            "messages": {}
+          },
+          {
+            "round": 3,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 3,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 3,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 58.34,
+              "L2": 90.81
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 4,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 4,
+            "agent": "L2",
+            "error": "Groq API error after 60009ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your promp"
+          },
+          {
+            "round": 4,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 123.67
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 5,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 5,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 12.5,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 196.56
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 6,
+            "agent": "L1",
+            "error": "Groq API error after 1773ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your prompt"
+          },
+          {
+            "round": 6,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 6,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 81.02,
+              "L2": 90.22
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 7,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 7,
+            "agent": "G",
+            "error": "Groq API error after 1469ms: Connection error."
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 70.0,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 70.0,
+              "L2": 89.88
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 8,
+            "agent": "L1",
+            "error": "Groq API error after 1311ms: Connection error."
+          },
+          {
+            "round": 8,
+            "agent": "L2",
+            "error": "Groq API error after 1367ms: Connection error."
+          },
+          {
+            "round": 8,
+            "agent": "G",
+            "error": "Groq API error after 1289ms: Connection error."
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 86.83
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 9,
+            "agent": "L1",
+            "error": "Groq API error after 1299ms: Connection error."
+          },
+          {
+            "round": 9,
+            "agent": "L2",
+            "error": "Groq API error after 1196ms: Connection error."
+          },
+          {
+            "round": 9,
+            "agent": "G",
+            "error": "Groq API error after 1435ms: Connection error."
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 193.32
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          }
+        ]
+      },
+      "vcg_chat": {
+        "mechanism": "vcg",
+        "informed": false,
+        "chat": true,
+        "live_llm": true,
+        "efficiency": 1.0,
+        "revenue": 76.018,
+        "bid_value_ratio": {
+          "L1": NaN,
+          "L2": NaN,
+          "G": NaN
+        },
+        "errors": 30,
+        "transcript": [
+          {
+            "round": 0,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 0,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 0,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 8.310000000000002,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 1,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 1,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 1,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 77.02000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 2,
+            "agent": "L1",
+            "error": "Groq API error after 1379ms: Connection error."
+          },
+          {
+            "round": 2,
+            "agent": "L2",
+            "error": "Groq API error after 1178ms: Connection error."
+          },
+          {
+            "round": 2,
+            "agent": "G",
+            "error": "Groq API error after 1331ms: Connection error."
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 64.99,
+              "L2": 16.939999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 3,
+            "agent": "L1",
+            "error": "Groq API error after 1296ms: Connection error."
+          },
+          {
+            "round": 3,
+            "agent": "L2",
+            "error": "Groq API error after 1164ms: Connection error."
+          },
+          {
+            "round": 3,
+            "agent": "G",
+            "error": "Groq API error after 1202ms: Connection error."
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 10.129999999999995,
+              "L2": 42.599999999999994
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 4,
+            "agent": "L1",
+            "error": "Groq API error after 1311ms: Connection error."
+          },
+          {
+            "round": 4,
+            "agent": "L2",
+            "error": "Groq API error after 1272ms: Connection error."
+          },
+          {
+            "round": 4,
+            "agent": "G",
+            "error": "Groq API error after 1376ms: Connection error."
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 5,
+            "agent": "L1",
+            "error": "Groq API error after 1415ms: Connection error."
+          },
+          {
+            "round": 5,
+            "agent": "L2",
+            "error": "Groq API error after 1241ms: Connection error."
+          },
+          {
+            "round": 5,
+            "agent": "G",
+            "error": "Groq API error after 1422ms: Connection error."
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 6,
+            "agent": "L1",
+            "error": "Groq API error after 1371ms: Connection error."
+          },
+          {
+            "round": 6,
+            "agent": "L2",
+            "error": "Groq API error after 1469ms: Connection error."
+          },
+          {
+            "round": 6,
+            "agent": "G",
+            "error": "Groq API error after 1176ms: Connection error."
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 7,
+            "agent": "L1",
+            "error": "Groq API error after 1334ms: Connection error."
+          },
+          {
+            "round": 7,
+            "agent": "L2",
+            "error": "Groq API error after 1403ms: Connection error."
+          },
+          {
+            "round": 7,
+            "agent": "G",
+            "error": "Groq API error after 1152ms: Connection error."
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.920000000000016,
+              "L2": 63.82000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 8,
+            "agent": "L1",
+            "error": "Groq API error after 1396ms: Connection error."
+          },
+          {
+            "round": 8,
+            "agent": "L2",
+            "error": "Groq API error after 1357ms: Connection error."
+          },
+          {
+            "round": 8,
+            "agent": "G",
+            "error": "Groq API error after 1360ms: Connection error."
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 57.28
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 9,
+            "agent": "L1",
+            "error": "Groq API error after 1198ms: Connection error."
+          },
+          {
+            "round": 9,
+            "agent": "L2",
+            "error": "Groq API error after 1147ms: Connection error."
+          },
+          {
+            "round": 9,
+            "agent": "G",
+            "error": "Groq API error after 1352ms: Connection error."
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          }
+        ]
+      },
+      "core_chat": {
+        "mechanism": "core",
+        "informed": false,
+        "chat": true,
+        "live_llm": true,
+        "efficiency": 1.0,
+        "revenue": 98.567,
+        "bid_value_ratio": {
+          "L1": NaN,
+          "L2": NaN,
+          "G": NaN
+        },
+        "errors": 30,
+        "transcript": [
+          {
+            "round": 0,
+            "agent": "L1",
+            "error": "Groq API error after 1251ms: Connection error."
+          },
+          {
+            "round": 0,
+            "agent": "L2",
+            "error": "Groq API error after 1236ms: Connection error."
+          },
+          {
+            "round": 0,
+            "agent": "G",
+            "error": "Groq API error after 1319ms: Connection error."
+          },
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.21,
+              "L2": 37.9
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 1,
+            "agent": "L1",
+            "error": "Groq API error after 1378ms: Connection error."
+          },
+          {
+            "round": 1,
+            "agent": "L2",
+            "error": "Groq API error after 1334ms: Connection error."
+          },
+          {
+            "round": 1,
+            "agent": "G",
+            "error": "Groq API error after 1252ms: Connection error."
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 77.02000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 2,
+            "agent": "L1",
+            "error": "Groq API error after 1385ms: Connection error."
+          },
+          {
+            "round": 2,
+            "agent": "L2",
+            "error": "Groq API error after 1390ms: Connection error."
+          },
+          {
+            "round": 2,
+            "agent": "G",
+            "error": "Groq API error after 1444ms: Connection error."
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 71.685,
+              "L2": 23.634999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 3,
+            "agent": "L1",
+            "error": "Groq API error after 1161ms: Connection error."
+          },
+          {
+            "round": 3,
+            "agent": "L2",
+            "error": "Groq API error after 1287ms: Connection error."
+          },
+          {
+            "round": 3,
+            "agent": "G",
+            "error": "Groq API error after 1285ms: Connection error."
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 34.235,
+              "L2": 66.705
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 4,
+            "agent": "L1",
+            "error": "Groq API error after 1241ms: Connection error."
+          },
+          {
+            "round": 4,
+            "agent": "L2",
+            "error": "Groq API error after 1238ms: Connection error."
+          },
+          {
+            "round": 4,
+            "agent": "G",
+            "error": "Groq API error after 1221ms: Connection error."
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 5,
+            "agent": "L1",
+            "error": "Groq API error after 1409ms: Connection error."
+          },
+          {
+            "round": 5,
+            "agent": "L2",
+            "error": "Groq API error after 1262ms: Connection error."
+          },
+          {
+            "round": 5,
+            "agent": "G",
+            "error": "Groq API error after 1396ms: Connection error."
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 6,
+            "agent": "L1",
+            "error": "Groq API error after 1293ms: Connection error."
+          },
+          {
+            "round": 6,
+            "agent": "L2",
+            "error": "Groq API error after 1462ms: Connection error."
+          },
+          {
+            "round": 6,
+            "agent": "G",
+            "error": "Groq API error after 1359ms: Connection error."
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 31.015,
+              "L2": 31.015
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 7,
+            "agent": "L1",
+            "error": "Groq API error after 1157ms: Connection error."
+          },
+          {
+            "round": 7,
+            "agent": "L2",
+            "error": "Groq API error after 1347ms: Connection error."
+          },
+          {
+            "round": 7,
+            "agent": "G",
+            "error": "Groq API error after 1442ms: Connection error."
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 59.95000000000001,
+              "L2": 76.85
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 8,
+            "agent": "L1",
+            "error": "Groq API error after 1281ms: Connection error."
+          },
+          {
+            "round": 8,
+            "agent": "L2",
+            "error": "Groq API error after 1254ms: Connection error."
+          },
+          {
+            "round": 8,
+            "agent": "G",
+            "error": "Groq API error after 1298ms: Connection error."
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 57.28
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 9,
+            "agent": "L1",
+            "error": "Groq API error after 1424ms: Connection error."
+          },
+          {
+            "round": 9,
+            "agent": "L2",
+            "error": "Groq API error after 1210ms: Connection error."
+          },
+          {
+            "round": 9,
+            "agent": "G",
+            "error": "Groq API error after 1306ms: Connection error."
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          }
+        ]
+      },
+      "_usage": {
+        "calls": 61,
+        "total_calls": 61,
+        "prompt_tokens": 26193,
+        "total_prompt_tokens": 26193,
+        "completion_tokens": 41848,
+        "total_completion_tokens": 41848,
+        "tokens": 68041,
+        "total_tokens": 68041,
+        "total_latency_ms": 538609.6,
+        "avg_latency_ms": 8829.67,
+        "avg_tokens_per_call": 1115.43,
+        "errors": 784
+      }
+    }
+  }
+}
