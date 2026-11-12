@@ -1,0 +1,81 @@
+{
+  "instances": "20 resources, 2-8 units, 2 OR bids per agent",
+  "rows": [
+    {
+      "config": "exact-1",
+      "bids": 50,
+      "wdp_ms": 329.7,
+      "vcg_total_ms": 4792.2
+    },
+    {
+      "config": "exact-8",
+      "bids": 50,
+      "wdp_ms": 606.9,
+      "vcg_total_ms": 2576.8
+    },
+    {
+      "config": "gap1%-8",
+      "bids": 50,
+      "wdp_ms": 361.4,
+      "vcg_total_ms": 2499.2,
+      "max_payment_dev_over_vstar": 0.00351
+    },
+    {
+      "config": "exact-1",
+      "bids": 100,
+      "wdp_ms": 574.0,
+      "vcg_total_ms": 18377.0
+    },
+    {
+      "config": "exact-8",
+      "bids": 100,
+      "wdp_ms": 716.7,
+      "vcg_total_ms": 8130.4
+    },
+    {
+      "config": "gap1%-8",
+      "bids": 100,
+      "wdp_ms": 623.9,
+      "vcg_total_ms": 6650.4,
+      "max_payment_dev_over_vstar": 0.0968
+    },
+    {
+      "config": "exact-1",
+      "bids": 200,
+      "wdp_ms": 680.1,
+      "vcg_total_ms": 21042.2
+    },
+    {
+      "config": "exact-8",
+      "bids": 200,
+      "wdp_ms": 1186.1,
+      "vcg_total_ms": 11902.1
+    },
+    {
+      "config": "gap1%-8",
+      "bids": 200,
+      "wdp_ms": 828.4,
+      "vcg_total_ms": 9615.5,
+      "max_payment_dev_over_vstar": 0.05563
+    },
+    {
+      "config": "exact-1",
+      "bids": 400,
+      "wdp_ms": 1076.6,
+      "vcg_total_ms": 24899.9
+    },
+    {
+      "config": "exact-8",
+      "bids": 400,
+      "wdp_ms": 966.7,
+      "vcg_total_ms": 12447.5
+    },
+    {
+      "config": "gap1%-8",
+      "bids": 400,
+      "wdp_ms": 926.9,
+      "vcg_total_ms": 9963.7,
+      "max_payment_dev_over_vstar": 0.02459
+    }
+  ]
+}
