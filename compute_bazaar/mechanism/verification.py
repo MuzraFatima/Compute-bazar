@@ -49,9 +49,7 @@ def random_instance(
     max_units: int = 2,
     xor_per_agent: bool = False,
 ) -> Instance:
-    resources = {
-        f"R{j}": Resource(f"R{j}", "gpu", units=rng.randint(1, max_units)) for j in range(n_resources)
-    }
+    resources = {f"R{j}": Resource(f"R{j}", "gpu", units=rng.randint(1, max_units)) for j in range(n_resources)}
     names = list(resources)
     bids = []
     for a in range(n_agents):
