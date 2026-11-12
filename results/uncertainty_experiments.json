@@ -1,0 +1,282 @@
+{
+  "setup": {
+    "seeds": 3,
+    "rounds": 200,
+    "agents": 12,
+    "capacity": {
+      "gpu": 8,
+      "cpu": 16,
+      "ram": 16
+    }
+  },
+  "summary": {
+    "vcg_point": {
+      "welfare": 90025.2,
+      "welfare_pct_of_oracle": 0.7211,
+      "welfare_pct_std": 0.0242,
+      "overrun_rate": 0.2548,
+      "ex_post_ir_violation_rate": 0.2797,
+      "mean_winner_utility": 27.57,
+      "revenue": 45478.5
+    },
+    "vcg_point_upper90": {
+      "welfare": 91912.4,
+      "welfare_pct_of_oracle": 0.7369,
+      "welfare_pct_std": 0.0215,
+      "overrun_rate": 0.0111,
+      "ex_post_ir_violation_rate": 0.1498,
+      "mean_winner_utility": 42.42,
+      "revenue": 44636.2
+    },
+    "vcg_contingent": {
+      "welfare": 90025.2,
+      "welfare_pct_of_oracle": 0.7211,
+      "welfare_pct_std": 0.0242,
+      "overrun_rate": 0.2548,
+      "ex_post_ir_violation_rate": 0.9331,
+      "mean_winner_utility": -214.55,
+      "revenue": 435733.2
+    },
+    "vcg_contingent_upper90": {
+      "welfare": 91912.4,
+      "welfare_pct_of_oracle": 0.7369,
+      "welfare_pct_std": 0.0215,
+      "overrun_rate": 0.0111,
+      "ex_post_ir_violation_rate": 0.6725,
+      "mean_winner_utility": -54.35,
+      "revenue": 155304.7
+    },
+    "vcg_calibrated_fixed": {
+      "welfare": 90189.6,
+      "welfare_pct_of_oracle": 0.7218,
+      "welfare_pct_std": 0.0194,
+      "overrun_rate": 0.0112,
+      "ex_post_ir_violation_rate": 0.3195,
+      "mean_winner_utility": 29.79,
+      "revenue": 58388.4
+    },
+    "vcg_calibrated": {
+      "welfare": 97354.5,
+      "welfare_pct_of_oracle": 0.7796,
+      "welfare_pct_std": 0.019,
+      "overrun_rate": 0.1546,
+      "ex_post_ir_violation_rate": 0.304,
+      "mean_winner_utility": 46.69,
+      "revenue": 30356.4
+    },
+    "oracle": {
+      "welfare": 124691.6,
+      "welfare_pct_of_oracle": 1.0,
+      "welfare_pct_std": 0.0,
+      "overrun_rate": 0.0,
+      "ex_post_ir_violation_rate": 0.0,
+      "mean_winner_utility": 50.39,
+      "revenue": 41779.0
+    }
+  },
+  "proposition1_check": [
+    {
+      "rounds_checked": 200,
+      "violations": 0,
+      "mean_loss_over_bound": 0.05546078704135066,
+      "max_loss_over_bound": 0.37539378108357246
+    },
+    {
+      "rounds_checked": 200,
+      "violations": 0,
+      "mean_loss_over_bound": 0.04037640047063161,
+      "max_loss_over_bound": 0.3390145045219944
+    },
+    {
+      "rounds_checked": 200,
+      "violations": 0,
+      "mean_loss_over_bound": 0.06835123186540373,
+      "max_loss_over_bound": 0.7115757377004785
+    }
+  ],
+  "runs": {
+    "vcg_point": [
+      {
+        "welfare": 104098.99962241613,
+        "revenue": 47198.93826599996,
+        "overrun_rate": 0.23728813559322035,
+        "ex_post_ir_violation_rate": 0.26997578692493945,
+        "mean_winner_utility": 34.443136414295495,
+        "wins": 1652
+      },
+      {
+        "welfare": 72431.9512861247,
+        "revenue": 44963.551854000005,
+        "overrun_rate": 0.25739458779106356,
+        "ex_post_ir_violation_rate": 0.3190685966016362,
+        "mean_winner_utility": 17.286594985603923,
+        "wins": 1589
+      },
+      {
+        "welfare": 93544.65503541009,
+        "revenue": 44273.00972899996,
+        "overrun_rate": 0.26964173475801384,
+        "ex_post_ir_violation_rate": 0.2501571338780641,
+        "mean_winner_utility": 30.96897882238219,
+        "wins": 1591
+      }
+    ],
+    "vcg_point_upper90": [
+      {
+        "welfare": 105550.35256737171,
+        "revenue": 47947.666801,
+        "overrun_rate": 0.012195121951219513,
+        "ex_post_ir_violation_rate": 0.1402439024390244,
+        "mean_winner_utility": 50.17655554561995,
+        "wins": 1148
+      },
+      {
+        "welfare": 74631.27960039338,
+        "revenue": 42705.081707,
+        "overrun_rate": 0.01733102253032929,
+        "ex_post_ir_violation_rate": 0.21837088388214904,
+        "mean_winner_utility": 27.6656827499076,
+        "wins": 1154
+      },
+      {
+        "welfare": 95555.65347250101,
+        "revenue": 43255.903422999974,
+        "overrun_rate": 0.003780718336483932,
+        "ex_post_ir_violation_rate": 0.09073724007561437,
+        "mean_winner_utility": 49.43265600141874,
+        "wins": 1058
+      }
+    ],
+    "vcg_contingent": [
+      {
+        "welfare": 104098.99962241613,
+        "revenue": 472336.9470444001,
+        "overrun_rate": 0.23728813559322035,
+        "ex_post_ir_violation_rate": 0.9364406779661016,
+        "mean_winner_utility": -222.90432652662446,
+        "wins": 1652
+      },
+      {
+        "welfare": 72431.9512861247,
+        "revenue": 501800.16211826046,
+        "overrun_rate": 0.25739458779106356,
+        "ex_post_ir_violation_rate": 0.9899307740717432,
+        "mean_winner_utility": -270.21284508001,
+        "wins": 1589
+      },
+      {
+        "welfare": 93544.65503541009,
+        "revenue": 333062.404858845,
+        "overrun_rate": 0.26964173475801384,
+        "ex_post_ir_violation_rate": 0.8730358265241986,
+        "mean_winner_utility": -150.54541157978295,
+        "wins": 1591
+      }
+    ],
+    "vcg_contingent_upper90": [
+      {
+        "welfare": 105550.35256737171,
+        "revenue": 170601.2214814215,
+        "overrun_rate": 0.012195121951219513,
+        "ex_post_ir_violation_rate": 0.7456445993031359,
+        "mean_winner_utility": -56.664519959973596,
+        "wins": 1148
+      },
+      {
+        "welfare": 74631.27960039338,
+        "revenue": 225640.47923410565,
+        "overrun_rate": 0.01733102253032929,
+        "ex_post_ir_violation_rate": 0.9402079722703639,
+        "mean_winner_utility": -130.8571920569431,
+        "wins": 1154
+      },
+      {
+        "welfare": 95555.65347250101,
+        "revenue": 69672.42418937357,
+        "overrun_rate": 0.003780718336483932,
+        "ex_post_ir_violation_rate": 0.33175803402646503,
+        "mean_winner_utility": 24.46429988953446,
+        "wins": 1058
+      }
+    ],
+    "vcg_calibrated_fixed": [
+      {
+        "welfare": 103638.26954877505,
+        "revenue": 65366.09243794946,
+        "overrun_rate": 0.011915673693858845,
+        "ex_post_ir_violation_rate": 0.3318056828597617,
+        "mean_winner_utility": 35.079905692782376,
+        "wins": 1091
+      },
+      {
+        "welfare": 71679.65589858587,
+        "revenue": 56982.1484886523,
+        "overrun_rate": 0.012287334593572778,
+        "ex_post_ir_violation_rate": 0.3657844990548204,
+        "mean_winner_utility": 13.891783941336108,
+        "wins": 1058
+      },
+      {
+        "welfare": 95250.79679907522,
+        "revenue": 52817.004770968546,
+        "overrun_rate": 0.009523809523809525,
+        "ex_post_ir_violation_rate": 0.26095238095238094,
+        "mean_winner_utility": 40.41313526486359,
+        "wins": 1050
+      }
+    ],
+    "vcg_calibrated": [
+      {
+        "welfare": 111620.19557558955,
+        "revenue": 31182.399493729754,
+        "overrun_rate": 0.14227365554799182,
+        "ex_post_ir_violation_rate": 0.2899931926480599,
+        "mean_winner_utility": 54.75683872148387,
+        "wins": 1469
+      },
+      {
+        "welfare": 77868.7010982004,
+        "revenue": 31209.27891118659,
+        "overrun_rate": 0.1535181236673774,
+        "ex_post_ir_violation_rate": 0.3354655294953802,
+        "mean_winner_utility": 33.16234697015903,
+        "wins": 1407
+      },
+      {
+        "welfare": 102574.66622291204,
+        "revenue": 28677.652282902513,
+        "overrun_rate": 0.1679604798870854,
+        "ex_post_ir_violation_rate": 0.2865208186309104,
+        "mean_winner_utility": 52.15032741002785,
+        "wins": 1417
+      }
+    ],
+    "oracle": [
+      {
+        "welfare": 139270.830367725,
+        "revenue": 41332.08642800001,
+        "overrun_rate": 0.0,
+        "ex_post_ir_violation_rate": 0.0,
+        "mean_winner_utility": 58.29687139269344,
+        "wins": 1680
+      },
+      {
+        "welfare": 101148.2427902789,
+        "revenue": 35720.995206999985,
+        "overrun_rate": 0.0,
+        "ex_post_ir_violation_rate": 0.0,
+        "mean_winner_utility": 40.09022523485225,
+        "wins": 1632
+      },
+      {
+        "welfare": 133655.72353116417,
+        "revenue": 48283.86925199996,
+        "overrun_rate": 0.0,
+        "ex_post_ir_violation_rate": 0.0,
+        "mean_winner_utility": 52.796446678518336,
+        "wins": 1617
+      }
+    ]
+  },
+  "runtime_sec": 506.0
+}
