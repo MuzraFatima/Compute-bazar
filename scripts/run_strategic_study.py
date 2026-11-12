@@ -44,15 +44,22 @@ def main() -> None:
     ap.add_argument("--learning-seeds", type=int, default=5)
     ap.add_argument("--learning-rounds", type=int, default=3000)
     ap.add_argument("--llm", choices=["live", "mock", "skip"], default="live")
-    ap.add_argument("--models", default="openai/gpt-oss-120b,llama-3.3-70b-versatile")
+    ap.add_argument("--models", default="openai/gpt-oss-120b,qwen/qwen3.8-27b")
     ap.add_argument("--llm-rounds", type=int, default=15)
     ap.add_argument("--out", default="results/strategic_study.json")
+    ap.add_argument("--conditions", default=",".join(CONDITIONS))
+    ap.add_argument("--skip-learning", action="store_true", help="only run the LLM part (e.g. one model per process)")
     args = ap.parse_args()
     logger.remove()
     load_dotenv()
 
     out: dict = {"learning": {}, "llm": {}}
-    for mech in ("vcg", "first_price", "core"):
+
+    def save() -> None:  # after every condition, so a long live run is never lost
+        Path(args.out).parent.mkdir(parents=True, exist_ok=True)
+        Path(args.out).write_text(json.dumps(out, indent=2, default=float))
+
+    for mech in () if args.skip_learning else ("vcg", "first_price", "core"):
         rs = [run_learning(mech, rounds=args.learning_rounds, seed=s) for s in range(args.learning_seeds)]
         out["learning"][mech] = {
             "efficiency": statistics.mean(r["efficiency"] for r in rs),
@@ -72,10 +79,12 @@ def main() -> None:
 
                 client = GroqLLMClient(config=LLMConfig(model=model, max_tokens=1200))
             out["llm"][model] = {}
-            for cond, (mech, informed, chat) in CONDITIONS.items():
+            for cond in args.conditions.split(","):
+                mech, informed, chat = CONDITIONS[cond]
                 t0 = time.perf_counter()
                 res = run_llm(mech, informed, chat, rounds=args.llm_rounds, seed=0, client=client)
                 out["llm"][model][cond] = res
+                save()
                 print(
                     f"{model} {cond}: eff={res['efficiency']:.3f} rev={res['revenue']:.1f} "
                     f"ratios={ {k: round(v, 2) for k, v in res['bid_value_ratio'].items()} } "
@@ -85,8 +94,7 @@ def main() -> None:
             if client is not None:
                 out["llm"][model]["_usage"] = client.get_usage()
 
-    Path(args.out).parent.mkdir(parents=True, exist_ok=True)
-    Path(args.out).write_text(json.dumps(out, indent=2, default=float))
+    save()
 
 
 if __name__ == "__main__":
