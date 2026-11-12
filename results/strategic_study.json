@@ -1,0 +1,3621 @@
+{
+  "learning": {
+    "vcg": {
+      "efficiency": 0.9917691834794351,
+      "revenue": 57.29917931544416,
+      "bid_value_ratio": {
+        "L1": 1.0147333333333335,
+        "L2": 1.0064,
+        "G": 1.0366333333333333
+      },
+      "seeds": 5,
+      "rounds": 3000
+    },
+    "first_price": {
+      "efficiency": 0.9907229743102633,
+      "revenue": 48.646957782487945,
+      "bid_value_ratio": {
+        "L1": 0.3567666666666667,
+        "L2": 0.34973333333333334,
+        "G": 0.3972333333333333
+      },
+      "seeds": 5,
+      "rounds": 3000
+    },
+    "core": {
+      "efficiency": 0.9706764569920746,
+      "revenue": 56.622870998736666,
+      "bid_value_ratio": {
+        "L1": 0.7347666666666667,
+        "L2": 0.7148333333333333,
+        "G": 1.0626666666666666
+      },
+      "seeds": 5,
+      "rounds": 3000
+    }
+  },
+  "llm": {
+    "openai/gpt-oss-120b": {
+      "vcg_informed": {
+        "mechanism": "vcg",
+        "informed": true,
+        "chat": false,
+        "live_llm": true,
+        "efficiency": 1.0,
+        "revenue": 65.60066666666667,
+        "bid_value_ratio": {
+          "L1": 1.0,
+          "L2": 1.0,
+          "G": 1.0
+        },
+        "errors": 0,
+        "transcript": [
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 8.310000000000002,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 77.02000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 64.99,
+              "L2": 16.939999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 10.129999999999995,
+              "L2": 42.599999999999994
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.920000000000016,
+              "L2": 63.82000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 57.28
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 10,
+            "values": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "bids": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 4.399999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 11,
+            "values": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "bids": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 12,
+            "values": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "bids": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 111.85
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 13,
+            "values": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "bids": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 66.92999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 14,
+            "values": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "bids": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 40.650000000000006,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          }
+        ]
+      },
+      "vcg_uninformed": {
+        "mechanism": "vcg",
+        "informed": false,
+        "chat": false,
+        "live_llm": true,
+        "efficiency": 0.9967321068444664,
+        "revenue": 60.474,
+        "bid_value_ratio": {
+          "L1": 1.0,
+          "L2": 1.0,
+          "G": 0.8001188825044581
+        },
+        "errors": 29,
+        "transcript": [
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 8.310000000000002,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 0.0
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 0.9509816026669962,
+            "messages": {}
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 64.99,
+              "L2": 16.939999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 101.0
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 10.189999999999998,
+              "L2": 42.66
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 5,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 5,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 6,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 7,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.920000000000016,
+              "L2": 63.82000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 8,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 57.28
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 9,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 10,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "values": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "bids": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 4.399999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 11,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "values": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "bids": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 12,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "values": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "bids": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 111.85
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 13,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "values": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "bids": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 66.92999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 14,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "values": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "bids": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 40.650000000000006,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          }
+        ],
+        "partial_reason": "29 of 45 LLM calls failed (Groq token limits)"
+      },
+      "_omitted": {
+        "conditions": [
+          "first_price",
+          "vcg_chat",
+          "core_chat"
+        ],
+        "reason": "Groq daily token cap reached; every call failed"
+      }
+    },
+    "openai/gpt-oss-20b": {
+      "vcg_informed": {
+        "mechanism": "vcg",
+        "informed": true,
+        "chat": false,
+        "live_llm": true,
+        "efficiency": 1.0,
+        "revenue": 76.018,
+        "bid_value_ratio": {
+          "L1": 1.0,
+          "L2": 1.0,
+          "G": 1.0
+        },
+        "errors": 0,
+        "transcript": [
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 8.310000000000002,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 77.02000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 64.99,
+              "L2": 16.939999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 10.129999999999995,
+              "L2": 42.599999999999994
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.920000000000016,
+              "L2": 63.82000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 57.28
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          }
+        ]
+      },
+      "vcg_uninformed": {
+        "mechanism": "vcg",
+        "informed": false,
+        "chat": false,
+        "live_llm": true,
+        "efficiency": 0.9610661436825697,
+        "revenue": 62.588,
+        "bid_value_ratio": {
+          "L1": 1.0,
+          "L2": 0.9459377078253159,
+          "G": 0.7
+        },
+        "errors": 6,
+        "transcript": [
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 8.310000000000002,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 0.0
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 0.9509816026669962,
+            "messages": {}
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 64.99,
+              "L2": 16.939999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 3,
+            "agent": "L2",
+            "error": "Groq API error after 10690ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your promp"
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 10.129999999999995,
+              "L2": 42.599999999999994
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 4,
+            "agent": "L2",
+            "error": "Groq API error after 11134ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your promp"
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 5,
+            "agent": "L2",
+            "error": "Groq API error after 13021ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your promp"
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 70.71,
+              "G": 0.0
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 7,
+            "agent": "L2",
+            "error": "Groq API error after 12017ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your promp"
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.920000000000016,
+              "L2": 63.82000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 8,
+            "agent": "L2",
+            "error": "Groq API error after 3796ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your prompt"
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 0.0
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 0.6596798341587009,
+            "messages": {}
+          },
+          {
+            "round": 9,
+            "agent": "L2",
+            "error": "Groq API error after 9832ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your prompt"
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          }
+        ],
+        "partial_reason": "6 of 30 LLM calls failed (Groq token limits)"
+      },
+      "first_price": {
+        "mechanism": "first_price",
+        "informed": false,
+        "chat": false,
+        "live_llm": true,
+        "efficiency": 0.9876828258669855,
+        "revenue": 137.498,
+        "bid_value_ratio": {
+          "L1": 0.591672403161263,
+          "L2": 0.9999022100528066,
+          "G": NaN
+        },
+        "errors": 23,
+        "transcript": [
+          {
+            "round": 0,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 42.22,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 42.22,
+              "L2": 75.8
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 1,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 12.95,
+              "L2": 51.12,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 80.99
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 2,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 2,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 39.19,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 95.32
+            },
+            "efficiency": 0.8768282586698556,
+            "messages": {}
+          },
+          {
+            "round": 3,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 3,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 3,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 58.34,
+              "L2": 90.81
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 4,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 4,
+            "agent": "L2",
+            "error": "Groq API error after 60009ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your promp"
+          },
+          {
+            "round": 4,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 123.67
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 5,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 5,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 12.5,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 196.56
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 6,
+            "agent": "L1",
+            "error": "Groq API error after 1773ms: Error code: 400 - {'error': {'message': \"Failed to validate JSON. Please adjust your prompt"
+          },
+          {
+            "round": 6,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 6,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 81.02,
+              "L2": 90.22
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 7,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-20b` in "
+          },
+          {
+            "round": 7,
+            "agent": "G",
+            "error": "Groq API error after 1469ms: Connection error."
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 70.0,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 70.0,
+              "L2": 89.88
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 8,
+            "agent": "L1",
+            "error": "Groq API error after 1311ms: Connection error."
+          },
+          {
+            "round": 8,
+            "agent": "L2",
+            "error": "Groq API error after 1367ms: Connection error."
+          },
+          {
+            "round": 8,
+            "agent": "G",
+            "error": "Groq API error after 1289ms: Connection error."
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 86.83
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 9,
+            "agent": "L1",
+            "error": "Groq API error after 1299ms: Connection error."
+          },
+          {
+            "round": 9,
+            "agent": "L2",
+            "error": "Groq API error after 1196ms: Connection error."
+          },
+          {
+            "round": 9,
+            "agent": "G",
+            "error": "Groq API error after 1435ms: Connection error."
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 193.32
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          }
+        ],
+        "partial_reason": "23 of 30 LLM calls failed (Groq token limits)"
+      },
+      "_omitted": {
+        "conditions": [
+          "vcg_chat",
+          "core_chat"
+        ],
+        "reason": "Groq daily token cap reached; every call failed"
+      }
+    },
+    "qwen/qwen3.8-27b": {
+      "vcg_informed": {
+        "mechanism": "vcg",
+        "informed": true,
+        "chat": false,
+        "live_llm": true,
+        "efficiency": 1.0,
+        "revenue": 65.60066666666667,
+        "bid_value_ratio": {
+          "L1": 1.0,
+          "L2": 1.0,
+          "G": 1.0
+        },
+        "errors": 0,
+        "transcript": [
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 8.310000000000002,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 77.02000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 64.99,
+              "L2": 16.939999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 10.129999999999995,
+              "L2": 42.599999999999994
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.920000000000016,
+              "L2": 63.82000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 57.28
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 10,
+            "values": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "bids": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 4.399999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 11,
+            "values": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "bids": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 12,
+            "values": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "bids": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 111.85
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 13,
+            "values": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "bids": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 66.92999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 14,
+            "values": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "bids": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 40.650000000000006,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          }
+        ]
+      },
+      "vcg_uninformed": {
+        "mechanism": "vcg",
+        "informed": false,
+        "chat": false,
+        "live_llm": true,
+        "efficiency": 1.0,
+        "revenue": 65.60066666666667,
+        "bid_value_ratio": {
+          "L1": 1.0,
+          "L2": 1.0,
+          "G": 1.0
+        },
+        "errors": 1,
+        "transcript": [
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 8.310000000000002,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 77.02000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 64.99,
+              "L2": 16.939999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 10.129999999999995,
+              "L2": 42.599999999999994
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 7,
+            "agent": "L1",
+            "error": "Groq API error after 3727ms: Error code: 400 - {'error': {'message': \"Failed to generate JSON. Please adjust your prompt"
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.920000000000016,
+              "L2": 63.82000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 57.28
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 10,
+            "values": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "bids": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 4.399999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 11,
+            "values": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "bids": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 12,
+            "values": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "bids": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 111.85
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 13,
+            "values": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "bids": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 66.92999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 14,
+            "values": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "bids": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 40.650000000000006,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          }
+        ],
+        "partial_reason": "1 of 45 LLM calls failed (Groq token limits)"
+      },
+      "first_price": {
+        "mechanism": "first_price",
+        "informed": false,
+        "chat": false,
+        "live_llm": true,
+        "efficiency": 1.0,
+        "revenue": 132.256,
+        "bid_value_ratio": {
+          "L1": 0.999991718426501,
+          "L2": 0.8571428571428571,
+          "G": 1.044093849886791
+        },
+        "errors": 0,
+        "transcript": [
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 84.44,
+              "L2": 75.8
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 84.11
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 84.11
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 78.38,
+              "L2": 30.33
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 58.34,
+              "L2": 90.81
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 0.0,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 123.67
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 123.67
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 123.67
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 81.02,
+              "L2": 90.22
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 72.98,
+              "L2": 89.88
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 86.83
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 193.32
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 10,
+            "values": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "bids": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 47.7,
+              "L2": 86.53
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 11,
+            "values": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "bids": {
+              "L1": 80.49,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 80.49,
+              "L2": 54.87
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 12,
+            "values": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "bids": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 164.97
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 13,
+            "values": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "bids": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 98.72
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 14,
+            "values": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "bids": {
+              "L1": 86.76,
+              "L2": 0.0,
+              "G": 65.04
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 86.76,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          }
+        ]
+      },
+      "vcg_chat": {
+        "mechanism": "vcg",
+        "informed": false,
+        "chat": true,
+        "live_llm": true,
+        "efficiency": 1.0,
+        "revenue": 65.60066666666667,
+        "bid_value_ratio": {
+          "L1": 1.0,
+          "L2": 1.0,
+          "G": 1.0
+        },
+        "errors": 0,
+        "transcript": [
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 8.310000000000002,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "L1 bids truthfully for GPU A. VCG ensures truthful bidding is dominant.",
+              "L2": "Bidding my true valuation for GPU B. VCG ensures efficiency.",
+              "G": "G is bidding the full package value. L1 and L2, if your combined bids are >= 84.11, you will win and pay 0. If your combined bids are < 84.11, G wins and pays the difference (84.11 - (L1_bid + L2_bid)"
+            }
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 77.02000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "L1 bids truthfully at $25.89. VCG mechanism makes truthful bidding a dominant strategy. G's package bid must exceed my bid plus L2's bid to win, ensuring fair allocation.",
+              "L2": "Bidding my true valuation for GPU B. VCG ensures truthful bidding is dominant.",
+              "G": "Bidding my true package value of 80.99. VCG mechanism incentivizes truthfulness; I will only win if my value exceeds the sum of L1 and L2's bids."
+            }
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 64.99,
+              "L2": 16.939999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Bidding my true valuation of $78.38. VCG mechanism makes truthful bidding a dominant strategy. G wins only if their package value exceeds the sum of L1 and L2's bids, ensuring efficient allocation.",
+              "L2": "Bidding my true valuation of $30.33 for GPU B. VCG ensures truthful bidding is the dominant strategy to maximize long-term profit.",
+              "G": "Bidding my true package value of $95.32. Under VCG, truthful bidding is a dominant strategy; I win only if my value exceeds the combined value of the individual bidders, ensuring efficient allocation."
+            }
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 10.129999999999995,
+              "L2": 42.599999999999994
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Bidding my true valuation of $58.34 for GPU A. VCG truth-telling is a dominant strategy; my presence only affects the outcome if it blocks G's package, and I pay the exact externality imposed.",
+              "L2": "Bidding my true valuation of $90.81 for GPU B. Truthful bidding is the dominant strategy in VCG auctions, maximizing my expected profit while ensuring efficient allocation.",
+              "G": "Bidding my true package value of $100.94. VCG truthfulness is dominant, maximizing long-term surplus."
+            }
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Bidding my true valuation of $28.18 for GPU A. In VCG auctions, truthful bidding is a dominant strategy that maximizes expected profit by ensuring efficient allocation and paying the true externality.",
+              "L2": "Bidding my true valuation of $75.58 for GPU B. In a VCG auction, truthful bidding is a dominant strategy that maximizes expected profit. I am confident this bid reflects my current private value, ensu",
+              "G": "Bidding my true package value of $123.67. In VCG auctions, truthful bidding is a dominant strategy. By bidding truthfully, I ensure efficient allocation and maximize my expected long-term profit, rega"
+            }
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Bidding my true valuation of $25.05 for GPU A. Truthful bidding remains the dominant strategy in VCG auctions to maximize long-run expected profit.",
+              "L2": "Bidding my true valuation of $90.97 for GPU B. In VCG auctions, truthful bidding is a dominant strategy that maximizes expected profit. I am confident this bid reflects my current private value.",
+              "G": "Bidding my true package value of $196.56 for GPUs A and B. In VCG auctions, truthful bidding is a dominant strategy that maximizes expected profit by ensuring efficient allocation and paying the true "
+            }
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Bidding my true valuation of $81.02 for GPU A. Truthful bidding is the dominant strategy in VCG auctions to maximize long-run expected profit.",
+              "L2": "Bidding my true valuation of $90.22 for GPU B. Truthful bidding is the dominant strategy in VCG auctions to maximize long-run expected profit.",
+              "G": "Bidding my true package value of $62.03 for GPUs A and B. Truthful bidding is the dominant strategy in VCG mechanisms, ensuring I capture all available surplus when my joint valuation exceeds the sum "
+            }
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.920000000000016,
+              "L2": 63.82000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Bidding my true valuation of $72.98 for GPU A. Truthful bidding is the dominant strategy in VCG auctions, maximizing expected long-run profit against rational bidders.",
+              "L2": "Bidding my true valuation of $89.88 for GPU B. Truthful bidding remains the dominant strategy in VCG auctions, ensuring efficient allocation and maximizing my expected profit over time.",
+              "G": "Bidding my true package value of $136.80 for GPUs A and B. Truthful bidding remains the dominant strategy in VCG auctions, allowing me to secure the resources whenever my combined valuation exceeds th"
+            }
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 57.28
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Bidding my true valuation of $47.21 for GPU A. As established, truthful bidding is the dominant strategy in VCG, ensuring I maximize my long-run expected profit.",
+              "L2": "Bidding my true valuation of $10.07 for GPU B. I maintain that truthful bidding is the dominant strategy in VCG auctions, ensuring I maximize my long-run expected profit by aligning my bids with my ac",
+              "G": "Bidding my true package value of $86.83 for GPUs A and B. While truthful bidding is dominant in standard VCG, my recent loss at $136.80 against the sum of $162.86 (L1+L2) indicates the market sum is c"
+            }
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Bidding my true valuation of $61.09 for GPU A. In a VCG mechanism, truthful bidding is the dominant strategy. This ensures my allocation is efficient and my payment reflects the true externality I imp",
+              "L2": "Bidding my true valuation of $91.30 for GPU B. As demonstrated in prior rounds (e.g., Round 3 where I paid $0.00 and Round 4 where I paid $63.82), truthful bidding in VCG ensures I capture the correct",
+              "G": "Bidding my true package value of $193.32 for GPUs A and B. As stated by L1 and L2, truthful bidding is the dominant strategy in VCG. My previous losses occurred when the sum of L1 and L2's valuations "
+            }
+          },
+          {
+            "round": 10,
+            "values": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "bids": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 4.399999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Bidding my true valuation of $47.70 for GPU A. As established in previous rounds, truthful bidding is the dominant strategy in this VCG mechanism. This ensures efficient allocation and that my payment",
+              "L2": "Bidding my true valuation of $86.53 for GPU B. In a VCG mechanism, truthful bidding is the dominant strategy, ensuring efficient allocation and payments that reflect the true externality I impose on o",
+              "G": "Bidding my true package value of $52.10 for GPUs A and B. Truthful bidding remains the dominant strategy in VCG. Given L1's and L2's recent valuations (~$61 and ~$91), their combined bid exceeds my va"
+            }
+          },
+          {
+            "round": 11,
+            "values": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "bids": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Bidding my true valuation of $80.50 for GPU A. I continue to follow the dominant strategy of truthful bidding in this VCG mechanism to ensure efficient resource allocation. My recent history shows tha",
+              "L2": "Bidding my true valuation of $54.87 for GPU B. Truthful bidding remains the dominant strategy in this VCG mechanism, ensuring efficient allocation and payments based on the true externality I impose o",
+              "G": "Bidding my true package value of $2.81 for GPUs A and B. In a VCG mechanism, truthful bidding is the dominant strategy. Given L1's and L2's public valuations ($47.70 and $86.53), their combined bid si"
+            }
+          },
+          {
+            "round": 12,
+            "values": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "bids": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 111.85
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Bidding my true valuation of $71.97 for GPU A. As a rational bidder in a VCG mechanism, truthful bidding is the dominant strategy. The externality I impose is determined by the difference in the maxim",
+              "L2": "Bidding my true valuation of $39.88 for GPU B. As a rational agent in a VCG mechanism, truthful bidding remains my dominant strategy. My recent history shows that by bidding my true value, I have secu",
+              "G": "Bidding my true package value of $164.97 for GPUs A and B. Truthful bidding is the dominant strategy in VCG auctions, ensuring efficient allocation and maximizing my expected profit over the long term"
+            }
+          },
+          {
+            "round": 13,
+            "values": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "bids": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 66.92999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Bidding my true valuation of $66.82 for GPU A. In a VCG mechanism, truthful bidding is the dominant strategy, ensuring that I only pay the externality I impose while maximizing my long-term expected p",
+              "L2": "Bidding my true valuation of $0.11 for GPU B. In a VCG mechanism, truthful bidding is the dominant strategy. My recent history confirms that bidding my true value maximizes expected profit, as winning",
+              "G": "Bidding my true package value of $98.72 for GPUs A and B. Truthful bidding remains the dominant strategy in VCG auctions, ensuring I maximize my expected profit over the long term by winning exactly w"
+            }
+          },
+          {
+            "round": 14,
+            "values": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "bids": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 40.650000000000006,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Bidding my true valuation of $86.76 for GPU A. Adhering to the dominant strategy of truthful bidding in this VCG mechanism ensures I maximize my long-term expected profit by securing the item exactly ",
+              "L2": "Bidding my true valuation of $24.39 for GPU B. In a VCG mechanism, truthful bidding is the dominant strategy, ensuring I maximize my expected profit over the long term by winning exactly when my value",
+              "G": "Bidding my true package value of $65.04 for GPUs A and B. In a VCG mechanism, truthful bidding is the dominant strategy. It ensures I win exactly when my value exceeds the externality I impose, maximi"
+            }
+          }
+        ]
+      },
+      "core_chat": {
+        "mechanism": "core",
+        "informed": false,
+        "chat": true,
+        "live_llm": true,
+        "efficiency": 1.0,
+        "revenue": 85.62666666666667,
+        "bid_value_ratio": {
+          "L1": 1.0,
+          "L2": 1.0,
+          "G": 1.0
+        },
+        "errors": 0,
+        "transcript": [
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.21,
+              "L2": 37.9
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "I value GPU A at my maximum willingness to pay.",
+              "L2": "Committing to value-based bidding for GPU B. Expecting competitive tension from package bidder G.",
+              "G": "Valuing the A+B bundle at 84.11."
+            }
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 77.02000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Valuing GPU A at 25.89. Bidding truthfully.",
+              "L2": "Bidding at my true valuation for GPU B. G's package bid is high, but I am committed to fair value-based bidding.",
+              "G": "Bidding my true value for the A+B bundle. The allocation rule favors the highest total bid, so I will only win if my bid exceeds the combined bids of L1 and L2. I am not overbidding to avoid negative "
+            }
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 71.685,
+              "L2": 23.634999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Valuing GPU A at 78.38. Bidding truthfully.",
+              "L2": "Valuing GPU B at 30.33. Bidding my true valuation to maximize long-term surplus.",
+              "G": "Bidding my true value of $95.32 for the A+B bundle. L1 and L2 have signaled low valuations ($25.89 for A), implying their combined bid is well below my threshold. I am committed to truthful bidding to"
+            }
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 34.235,
+              "L2": 66.705
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Valuing GPU A at 58.34. Bidding truthfully to maximize long-term surplus.",
+              "L2": "Valuing GPU B at 90.81. Bidding truthfully to secure the resource and maximize long-term surplus.",
+              "G": "Bidding my true value of $100.94 for the A+B bundle. I remain committed to truthful bidding to maximize long-term efficiency and surplus."
+            }
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Valuing GPU A at 28.18. Bidding truthfully to maximize long-term surplus.",
+              "L2": "Valuing GPU B at 75.58. Bidding truthfully to maximize long-term surplus.",
+              "G": "Valuing the A+B bundle at $123.67. I am bidding my true value to ensure efficient allocation and maximize long-term surplus. Truthful bidding remains my optimal strategy to secure the bundle when it i"
+            }
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Valuing GPU A at 25.05. Bidding truthfully to maximize long-term surplus.",
+              "L2": "Valuing GPU B at 90.97. Bidding truthfully to maximize long-term surplus.",
+              "G": "Valuing the A+B bundle at $196.56. Bidding my true value to ensure efficient allocation and maximize long-term surplus."
+            }
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 31.015,
+              "L2": 31.015
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Valuing GPU A at $81.02. Bidding truthfully to maximize long-term surplus.",
+              "L2": "Valuing GPU B at 90.22. Bidding my true value to ensure efficient allocation and maximize long-term surplus.",
+              "G": "Valuing the A+B bundle at $62.03. Bidding truthfully to maximize long-term surplus."
+            }
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 59.95000000000001,
+              "L2": 76.85
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Valuing GPU A at $72.98. Bidding my true value to ensure efficient allocation and maximize long-term surplus.",
+              "L2": "Valuing GPU B at $89.88. Bidding my true value to ensure efficient allocation and maximize long-term surplus.",
+              "G": "Valuing the A+B bundle at $136.80. Bidding my true value to ensure efficient allocation and maximize long-term surplus."
+            }
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 57.28
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Valuing GPU A at $47.21. Bidding my true value to ensure efficient allocation and maximize long-term surplus.",
+              "L2": "Valuing GPU B at $10.07. Bidding my true value to ensure efficient allocation.",
+              "G": "Valuing the A+B bundle at $86.83. Bidding my true value to ensure efficient allocation and maximize long-term surplus."
+            }
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Valuing GPU A at $61.09. Bidding my true value to ensure efficient allocation and maximize long-term surplus.",
+              "L2": "Valuing GPU B at $91.30. Bidding my true value to ensure efficient allocation and maximize long-term surplus.",
+              "G": "Valuing the A+B bundle at $193.32. Bidding my true value to ensure efficient allocation and maximize long-term surplus."
+            }
+          },
+          {
+            "round": 10,
+            "values": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "bids": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 23.85,
+              "L2": 28.25
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Valuing GPU A at $47.70. Bidding my true value to support efficient allocation.",
+              "L2": "Valuing GPU B at $86.53. Bidding my true value to ensure efficient allocation and maximize long-term surplus.",
+              "G": "Valuing the A+B bundle at $52.10. Bidding my true value to ensure efficient allocation and maximize long-term surplus."
+            }
+          },
+          {
+            "round": 11,
+            "values": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "bids": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 1.405,
+              "L2": 1.405
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Valuing GPU A at $80.50. Bidding my true value to support efficient allocation.",
+              "L2": "Valuing GPU B at $54.87. Bidding my true value to ensure efficient allocation and maximize long-term surplus.",
+              "G": "Valuing the A+B bundle at $2.81. Bidding my true value to ensure efficient allocation and maximize long-term surplus."
+            }
+          },
+          {
+            "round": 12,
+            "values": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "bids": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 111.85
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Valuing GPU A at $71.97. Bidding my true value to support efficient allocation.",
+              "L2": "Valuing GPU B at $39.88. Bidding my true value to ensure efficient allocation and maximize long-term surplus.",
+              "G": "Valuing the A+B bundle at $164.97. Bidding my true value to ensure efficient allocation and maximize long-term surplus."
+            }
+          },
+          {
+            "round": 13,
+            "values": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "bids": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 66.92999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Valuing GPU A at $66.82. Bidding my true value to support efficient allocation.",
+              "L2": "Valuing GPU B at $0.11. Bidding my true value to ensure efficient allocation and maximize long-term surplus.",
+              "G": "Valuing the A+B bundle at $98.72. Bidding my true value to support efficient allocation."
+            }
+          },
+          {
+            "round": 14,
+            "values": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "bids": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 52.845000000000006,
+              "L2": 12.195
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "Valuing GPU A at $86.76. Bidding my true value to support efficient allocation.",
+              "L2": "Valuing GPU B at $24.39. Bidding my true value to ensure efficient allocation.",
+              "G": "Valuing the A+B bundle at $65.04. Bidding my true value to support efficient allocation."
+            }
+          }
+        ]
+      }
+    }
+  },
+  "raw_runs": "results/llm_runs/"
+}

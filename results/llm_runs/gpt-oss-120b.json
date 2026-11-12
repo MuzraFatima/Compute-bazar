@@ -1,0 +1,2732 @@
+{
+  "learning": {
+    "vcg": {
+      "efficiency": 0.9917691834794351,
+      "revenue": 57.29917931544416,
+      "bid_value_ratio": {
+        "L1": 1.0147333333333335,
+        "L2": 1.0064,
+        "G": 1.0366333333333333
+      },
+      "seeds": 5,
+      "rounds": 3000
+    },
+    "first_price": {
+      "efficiency": 0.9907229743102633,
+      "revenue": 48.646957782487945,
+      "bid_value_ratio": {
+        "L1": 0.3567666666666667,
+        "L2": 0.34973333333333334,
+        "G": 0.3972333333333333
+      },
+      "seeds": 5,
+      "rounds": 3000
+    },
+    "core": {
+      "efficiency": 0.9706764569920746,
+      "revenue": 56.622870998736666,
+      "bid_value_ratio": {
+        "L1": 0.7347666666666667,
+        "L2": 0.7148333333333333,
+        "G": 1.0626666666666666
+      },
+      "seeds": 5,
+      "rounds": 3000
+    }
+  },
+  "llm": {
+    "openai/gpt-oss-120b": {
+      "vcg_informed": {
+        "mechanism": "vcg",
+        "informed": true,
+        "chat": false,
+        "live_llm": true,
+        "efficiency": 1.0,
+        "revenue": 65.60066666666667,
+        "bid_value_ratio": {
+          "L1": 1.0,
+          "L2": 1.0,
+          "G": 1.0
+        },
+        "errors": 0,
+        "transcript": [
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 8.310000000000002,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 77.02000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 64.99,
+              "L2": 16.939999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 10.129999999999995,
+              "L2": 42.599999999999994
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.920000000000016,
+              "L2": 63.82000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 57.28
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 10,
+            "values": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "bids": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 4.399999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 11,
+            "values": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "bids": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 12,
+            "values": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "bids": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 111.85
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 13,
+            "values": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "bids": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 66.92999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 14,
+            "values": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "bids": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 40.650000000000006,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          }
+        ]
+      },
+      "vcg_uninformed": {
+        "mechanism": "vcg",
+        "informed": false,
+        "chat": false,
+        "live_llm": true,
+        "efficiency": 0.9967321068444664,
+        "revenue": 60.474,
+        "bid_value_ratio": {
+          "L1": 1.0,
+          "L2": 1.0,
+          "G": 0.8001188825044581
+        },
+        "errors": 29,
+        "transcript": [
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 8.310000000000002,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 0.0
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 0.9509816026669962,
+            "messages": {}
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 64.99,
+              "L2": 16.939999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 101.0
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 10.189999999999998,
+              "L2": 42.66
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 5,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 5,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 6,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 7,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.920000000000016,
+              "L2": 63.82000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 8,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 57.28
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 9,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 10,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "values": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "bids": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 4.399999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 11,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "values": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "bids": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 12,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "values": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "bids": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 111.85
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 13,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "values": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "bids": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 66.92999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 14,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "values": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "bids": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 40.650000000000006,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          }
+        ]
+      },
+      "first_price": {
+        "mechanism": "first_price",
+        "informed": false,
+        "chat": false,
+        "live_llm": true,
+        "efficiency": 1.0,
+        "revenue": 138.534,
+        "bid_value_ratio": {
+          "L1": NaN,
+          "L2": NaN,
+          "G": NaN
+        },
+        "errors": 45,
+        "transcript": [
+          {
+            "round": 0,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 0,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 0,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 84.44,
+              "L2": 75.8
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 1,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 1,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 1,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 80.99
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 2,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 2,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 2,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 78.38,
+              "L2": 30.33
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 3,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 3,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 3,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 58.34,
+              "L2": 90.81
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 4,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 4,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 4,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 123.67
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 5,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 5,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 5,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 196.56
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 6,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 81.02,
+              "L2": 90.22
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 7,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 72.98,
+              "L2": 89.88
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 8,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 86.83
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 9,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 193.32
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 10,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "values": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "bids": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 47.7,
+              "L2": 86.53
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 11,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "values": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "bids": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 80.5,
+              "L2": 54.87
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 12,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "values": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "bids": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 164.97
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 13,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "values": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "bids": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 98.72
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          },
+          {
+            "round": 14,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "values": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "bids": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 86.76,
+              "L2": 24.39
+            },
+            "efficiency": 1.0,
+            "messages": {}
+          }
+        ]
+      },
+      "vcg_chat": {
+        "mechanism": "vcg",
+        "informed": false,
+        "chat": true,
+        "live_llm": true,
+        "efficiency": 1.0,
+        "revenue": 65.60066666666667,
+        "bid_value_ratio": {
+          "L1": NaN,
+          "L2": NaN,
+          "G": NaN
+        },
+        "errors": 45,
+        "transcript": [
+          {
+            "round": 0,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 0,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 0,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 8.310000000000002,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 1,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 1,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 1,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 77.02000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 2,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 2,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 2,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 64.99,
+              "L2": 16.939999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 3,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 3,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 3,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 10.129999999999995,
+              "L2": 42.599999999999994
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 4,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 4,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 4,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 5,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 5,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 5,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 6,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 7,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.920000000000016,
+              "L2": 63.82000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 8,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 57.28
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 9,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 10,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "values": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "bids": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 4.399999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 11,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "values": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "bids": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 0.0,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 12,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "values": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "bids": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 111.85
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 13,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "values": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "bids": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 66.92999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 14,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "values": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "bids": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 40.650000000000006,
+              "L2": 0.0
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          }
+        ]
+      },
+      "core_chat": {
+        "mechanism": "core",
+        "informed": false,
+        "chat": true,
+        "live_llm": true,
+        "efficiency": 1.0,
+        "revenue": 85.62666666666667,
+        "bid_value_ratio": {
+          "L1": NaN,
+          "L2": NaN,
+          "G": NaN
+        },
+        "errors": 45,
+        "transcript": [
+          {
+            "round": 0,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 0,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 0,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 0,
+            "values": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "bids": {
+              "L1": 84.44,
+              "L2": 75.8,
+              "G": 84.11
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 46.21,
+              "L2": 37.9
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 1,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 1,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 1,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 1,
+            "values": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "bids": {
+              "L1": 25.89,
+              "L2": 51.13,
+              "G": 80.99
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 77.02000000000001
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 2,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 2,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 2,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 2,
+            "values": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "bids": {
+              "L1": 78.38,
+              "L2": 30.33,
+              "G": 95.32
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 71.685,
+              "L2": 23.634999999999998
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 3,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 3,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 3,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 3,
+            "values": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "bids": {
+              "L1": 58.34,
+              "L2": 90.81,
+              "G": 100.94
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 34.235,
+              "L2": 66.705
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 4,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 4,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 4,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 4,
+            "values": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "bids": {
+              "L1": 28.18,
+              "L2": 75.58,
+              "G": 123.67
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 103.75999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 5,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 5,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 5,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 5,
+            "values": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "bids": {
+              "L1": 25.05,
+              "L2": 90.97,
+              "G": 196.56
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 116.02
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 6,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 6,
+            "values": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "bids": {
+              "L1": 81.02,
+              "L2": 90.22,
+              "G": 62.03
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 31.015,
+              "L2": 31.015
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 7,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 7,
+            "values": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "bids": {
+              "L1": 72.98,
+              "L2": 89.88,
+              "G": 136.8
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 59.95000000000001,
+              "L2": 76.85
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 8,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 8,
+            "values": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "bids": {
+              "L1": 47.21,
+              "L2": 10.07,
+              "G": 86.83
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 57.28
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 9,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 9,
+            "values": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "bids": {
+              "L1": 61.09,
+              "L2": 91.3,
+              "G": 193.32
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 152.39
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 10,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 10,
+            "values": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "bids": {
+              "L1": 47.7,
+              "L2": 86.53,
+              "G": 52.1
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 23.85,
+              "L2": 28.25
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 11,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 11,
+            "values": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "bids": {
+              "L1": 80.5,
+              "L2": 54.87,
+              "G": 2.81
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 1.405,
+              "L2": 1.405
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 12,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 12,
+            "values": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "bids": {
+              "L1": 71.97,
+              "L2": 39.88,
+              "G": 164.97
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 111.85
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 13,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 13,
+            "values": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "bids": {
+              "L1": 66.82,
+              "L2": 0.11,
+              "G": 98.72
+            },
+            "winners": [
+              "G"
+            ],
+            "payments": {
+              "G": 66.92999999999999
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          },
+          {
+            "round": 14,
+            "agent": "L1",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "agent": "L2",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "agent": "G",
+            "error": "Groq rate limit exceeded: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in"
+          },
+          {
+            "round": 14,
+            "values": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "bids": {
+              "L1": 86.76,
+              "L2": 24.39,
+              "G": 65.04
+            },
+            "winners": [
+              "L1",
+              "L2"
+            ],
+            "payments": {
+              "L1": 52.845000000000006,
+              "L2": 12.195
+            },
+            "efficiency": 1.0,
+            "messages": {
+              "L1": "",
+              "L2": "",
+              "G": ""
+            }
+          }
+        ]
+      },
+      "_usage": {
+        "calls": 61,
+        "total_calls": 61,
+        "prompt_tokens": 27134,
+        "total_prompt_tokens": 27134,
+        "completion_tokens": 27571,
+        "total_completion_tokens": 27571,
+        "tokens": 54705,
+        "total_tokens": 54705,
+        "total_latency_ms": 307737.46,
+        "avg_latency_ms": 5044.88,
+        "avg_tokens_per_call": 896.8,
+        "errors": 501
+      }
+    }
+  }
+}
