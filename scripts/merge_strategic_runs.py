@@ -15,10 +15,21 @@ classified automatically:
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 
 R = Path(__file__).resolve().parents[1] / "results"
 RUNS = R / "llm_runs"
+
+
+def _no_nan(obj):
+    if isinstance(obj, float) and math.isnan(obj):
+        return None
+    if isinstance(obj, dict):
+        return {k: _no_nan(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_no_nan(v) for v in obj]
+    return obj
 
 
 def main() -> None:
@@ -43,7 +54,8 @@ def main() -> None:
                 kept["_omitted"] = {"conditions": omitted, "reason": "Groq daily token cap reached; every call failed"}
             llm[model] = kept
     out = {"learning": learning, "llm": llm, "raw_runs": "results/llm_runs/"}
-    (R / "strategic_study.json").write_text(json.dumps(out, indent=2, default=float))
+    # A ratio with no valid bids is NaN in Python; write null so strict JSON parsers can read it.
+    (R / "strategic_study.json").write_text(json.dumps(_no_nan(out), indent=2, allow_nan=False))
     for model, conds in llm.items():
         print(
             model,

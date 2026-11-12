@@ -1405,7 +1405,7 @@
         "bid_value_ratio": {
           "L1": 0.591672403161263,
           "L2": 0.9999022100528066,
-          "G": NaN
+          "G": null
         },
         "errors": 23,
         "transcript": [
