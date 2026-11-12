@@ -50,28 +50,28 @@
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, field
-from typing import List, Dict, Optional, Tuple, Set
+from dataclasses import dataclass
 from enum import Enum
 
 import pulp
 from loguru import logger
 
-
 # ─────────────────────────────────────────────────────────────
 # DATA CLASSES
 # ─────────────────────────────────────────────────────────────
 
+
 class SolverMethod(str, Enum):
-    GREEDY = "greedy"   # Week 1 approach — fast approximation
-    LP     = "lp"       # Week 2 approach — exact optimal solution
+    GREEDY = "greedy"  # Week 1 approach — fast approximation
+    LP = "lp"  # Week 2 approach — exact optimal solution
 
 
 @dataclass
 class Resource:
     """A compute resource agents can bid on."""
+
     name: str
-    resource_type: str   # "gpu", "api_budget", "ram", "cpu"
+    resource_type: str  # "gpu", "api_budget", "ram", "cpu"
     capacity: float = 1.0
     unit: str = "slot"
 
@@ -88,10 +88,11 @@ class Bid:
     A combinatorial bid: agent wants this BUNDLE of resources,
     and values the bundle at bid_amount dollars.
     """
-    bid_id: str           # Unique identifier
-    agent_id: str         # Who is bidding
-    resource_bundle: List[str]  # Resource names in this bundle
-    bid_amount: float     # Agent's declared value for this bundle
+
+    bid_id: str  # Unique identifier
+    agent_id: str  # Who is bidding
+    resource_bundle: list[str]  # Resource names in this bundle
+    bid_amount: float  # Agent's declared value for this bundle
     task_description: str = ""
     priority: str = "normal"
 
@@ -109,13 +110,14 @@ class Bid:
 @dataclass
 class AllocationResult:
     """The outcome of one auction round."""
+
     round_id: int
-    winning_bids: List[Bid]
-    payments: Dict[str, float]        # bid_id → payment amount
+    winning_bids: list[Bid]
+    payments: dict[str, float]  # bid_id → payment amount
     total_value: float
     solver_method: SolverMethod
     solve_time_ms: float
-    unallocated_resources: List[str]
+    unallocated_resources: list[str]
 
     # Comparison metrics
     greedy_value: float = 0.0
@@ -133,20 +135,17 @@ class AllocationResult:
 # GREEDY SOLVER (Week 1 reference — kept for benchmarking)
 # ─────────────────────────────────────────────────────────────
 
-def solve_greedy(bids: List[Bid], resources: Dict[str, Resource]) -> Tuple[List[Bid], float]:
+
+def solve_greedy(bids: list[Bid], resources: dict[str, Resource]) -> tuple[list[Bid], float]:
     """
     Greedy WDP: sort by value-per-resource, pick greedily.
     Returns (winning_bids, total_value).
     Fast O(n log n) but not always optimal.
     """
-    sorted_bids = sorted(
-        bids,
-        key=lambda b: b.bid_amount / len(b.resource_bundle),
-        reverse=True
-    )
+    sorted_bids = sorted(bids, key=lambda b: b.bid_amount / len(b.resource_bundle), reverse=True)
 
-    allocated: Set[str] = set()
-    winners: List[Bid] = []
+    allocated: set[str] = set()
+    winners: list[Bid] = []
     total = 0.0
 
     for bid in sorted_bids:
@@ -166,10 +165,11 @@ def solve_greedy(bids: List[Bid], resources: Dict[str, Resource]) -> Tuple[List[
 # LP SOLVER — Exact Winner Determination Problem
 # ─────────────────────────────────────────────────────────────
 
+
 def solve_wdp_lp(
-    bids: List[Bid],
-    resources: Dict[str, Resource],
-) -> Tuple[List[Bid], float]:
+    bids: list[Bid],
+    resources: dict[str, Resource],
+) -> tuple[list[Bid], float]:
     """
     Solve the Winner Determination Problem using Integer Linear Programming.
 
@@ -186,10 +186,7 @@ def solve_wdp_lp(
         return [], 0.0
 
     # Filter bids: only keep bids whose resources all exist
-    valid_bids = [
-        b for b in bids
-        if all(r in resources for r in b.resource_bundle)
-    ]
+    valid_bids = [b for b in bids if all(r in resources for r in b.resource_bundle)]
 
     if not valid_bids:
         logger.warning("No valid bids (all resources missing)")
@@ -206,7 +203,7 @@ def solve_wdp_lp(
             f"x_{bid.bid_id.replace('-', '_').replace(' ', '_')}",
             lowBound=0,
             upBound=1,
-            cat="Binary",   # Must be 0 or 1 (Integer LP)
+            cat="Binary",  # Must be 0 or 1 (Integer LP)
         )
         x[bid.bid_id] = var
 
@@ -216,13 +213,11 @@ def solve_wdp_lp(
     # ── Step 4: Constraints — no resource double-allocated ──────
     # For each resource r:  sum of x_i for all bids i containing r ≤ 1
     for res_name in resources:
-        bids_wanting_this_resource = [
-            bid for bid in valid_bids if res_name in bid.resource_bundle
-        ]
+        bids_wanting_this_resource = [bid for bid in valid_bids if res_name in bid.resource_bundle]
         if bids_wanting_this_resource:
             prob += (
                 pulp.lpSum(x[bid.bid_id] for bid in bids_wanting_this_resource) <= 1,
-                f"Resource_{res_name.replace('-', '_').replace(' ', '_')}"
+                f"Resource_{res_name.replace('-', '_').replace(' ', '_')}",
             )
 
     # ── Step 5: Solve! ─────────────────────────────────────────
@@ -238,9 +233,7 @@ def solve_wdp_lp(
 
     # ── Step 6: Extract winners ─────────────────────────────────
     winners = [
-        bid for bid in valid_bids
-        if pulp.value(x[bid.bid_id]) is not None
-        and round(pulp.value(x[bid.bid_id])) == 1
+        bid for bid in valid_bids if pulp.value(x[bid.bid_id]) is not None and round(pulp.value(x[bid.bid_id])) == 1
     ]
     total_value = pulp.value(prob.objective) or 0.0
 
@@ -251,11 +244,12 @@ def solve_wdp_lp(
 # VCG PRICING ENGINE
 # ─────────────────────────────────────────────────────────────
 
+
 def compute_vcg_prices(
-    winning_bids: List[Bid],
-    all_bids: List[Bid],
-    resources: Dict[str, Resource],
-) -> Dict[str, float]:
+    winning_bids: list[Bid],
+    all_bids: list[Bid],
+    resources: dict[str, Resource],
+) -> dict[str, float]:
     """
     Compute VCG (Vickrey-Clarke-Groves) payments for all winners.
 
@@ -285,7 +279,7 @@ def compute_vcg_prices(
     # (We already know this, but recalculate cleanly)
     total_value_with_all, _ = _solve_optimal(all_bids, resources)
 
-    payments: Dict[str, float] = {}
+    payments: dict[str, float] = {}
 
     for winner in winning_bids:
         # ── Solve WITHOUT this winner's bid ──────────────────
@@ -318,9 +312,9 @@ def compute_vcg_prices(
 
 
 def _solve_optimal(
-    bids: List[Bid],
-    resources: Dict[str, Resource],
-) -> Tuple[float, List[Bid]]:
+    bids: list[Bid],
+    resources: dict[str, Resource],
+) -> tuple[float, list[Bid]]:
     """Helper: run LP solver and return (optimal_value, winning_bids)."""
     winners, value = solve_wdp_lp(bids, resources)
     return value, winners
@@ -329,6 +323,7 @@ def _solve_optimal(
 # ─────────────────────────────────────────────────────────────
 # MAIN AUCTION ENGINE (Orchestrator)
 # ─────────────────────────────────────────────────────────────
+
 
 class AuctionEngine:
     """
@@ -342,12 +337,12 @@ class AuctionEngine:
 
     def __init__(
         self,
-        resources: List[Resource],
+        resources: list[Resource],
         method: SolverMethod = SolverMethod.LP,
     ):
-        self.resources: Dict[str, Resource] = {r.name: r for r in resources}
+        self.resources: dict[str, Resource] = {r.name: r for r in resources}
         self.method = method
-        self._bids: List[Bid] = []
+        self._bids: list[Bid] = []
         self._round_counter = 0
 
     # ── Bid Management ──────────────────────────────────────
@@ -371,7 +366,7 @@ class AuctionEngine:
         logger.info(f"Bid accepted: {bid}")
         return True
 
-    def get_bids(self) -> List[Bid]:
+    def get_bids(self) -> list[Bid]:
         return list(self._bids)
 
     def reset(self):
@@ -380,7 +375,7 @@ class AuctionEngine:
 
     # ── Auction Execution ───────────────────────────────────
 
-    def run_auction(self, round_id: Optional[int] = None) -> AllocationResult:
+    def run_auction(self, round_id: int | None = None) -> AllocationResult:
         """
         Run one complete auction round:
           1. Solve WDP (find optimal winners)
@@ -432,7 +427,9 @@ class AuctionEngine:
         return result
 
     def _log_result(self, result: AllocationResult):
-        logger.info(f"[Round {result.round_id}] Auction complete | "
-                    f"winners={len(result.winning_bids)} | "
-                    f"value=${result.total_value:.2f} | "
-                    f"time={result.solve_time_ms:.1f}ms")
+        logger.info(
+            f"[Round {result.round_id}] Auction complete | "
+            f"winners={len(result.winning_bids)} | "
+            f"value=${result.total_value:.2f} | "
+            f"time={result.solve_time_ms:.1f}ms"
+        )

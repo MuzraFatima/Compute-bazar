@@ -13,10 +13,11 @@
 =============================================================
 """
 
-import sys
 import os
+import sys
 import time
-from typing import Dict, Any, List
+from typing import Any
+
 from dotenv import load_dotenv
 
 # Ensure compute-bazaar project root is in path
@@ -32,11 +33,12 @@ if hasattr(sys.stdout, "reconfigure"):
 # Load environment variables (GROQ_API_KEY)
 load_dotenv()
 
-from compute_bazaar.llm import GroqLLMClient, LLMConfig, LLMError, LLMAuthenticationError
-from compute_bazaar.agents import ResearchAgent, DataAgent, AnalysisAgent, TaskDecision
-from compute_bazaar.marketplace import DynamicMarketplace
+from backend.app.auction.engine import AuctionEngine, SolverMethod
+from backend.app.auction.engine import Resource as EngineResource
+from compute_bazaar.agents import AnalysisAgent, DataAgent, ResearchAgent, TaskDecision
 from compute_bazaar.fairness import FairnessTracker
-from backend.app.auction.engine import AuctionEngine, Resource as EngineResource, SolverMethod
+from compute_bazaar.llm import GroqLLMClient, LLMAuthenticationError, LLMConfig, LLMError
+from compute_bazaar.marketplace import DynamicMarketplace
 
 
 def print_banner(text: str, width: int = 75, char: str = "="):
@@ -114,10 +116,12 @@ def run_end_to_end_demo():
     available_market_res = marketplace.list_available_resources()
 
     print(f"  Marketplace: '{marketplace.name}'")
-    print(f"  Active Providers: {len(marketplace.list_providers())} | Operational Resources: {len(available_market_res)}")
+    print(
+        f"  Active Providers: {len(marketplace.list_providers())} | Operational Resources: {len(available_market_res)}"
+    )
     print("\n  Available Market Supply Inventory:")
     print(f"   {'Resource Name':<18} {'Category':<14} {'Capacity':<12} {'Base Floor Price':<18}")
-    print(f"   {'-'*18} {'-'*14} {'-'*12} {'-'*18}")
+    print(f"   {'-' * 18} {'-' * 14} {'-' * 12} {'-' * 18}")
     for r in available_market_res:
         print(f"   {r.name:<18} {r.resource_type:<14} {r.total_capacity:<12.1f} ${r.min_price:<17.2f}")
 
@@ -145,22 +149,28 @@ def run_end_to_end_demo():
         ),
     }
 
-    decisions: Dict[Any, TaskDecision] = {}
+    decisions: dict[Any, TaskDecision] = {}
 
     for agent, task in tasks.items():
         print(f"\n  [Agent: {agent.name}] Analyzing Task via Groq LLM...")
-        print(f"   Task: \"{task}\"")
+        print(f'   Task: "{task}"')
         try:
             t0 = time.perf_counter()
             decision = agent.analyze_task(task)
             elapsed = (time.perf_counter() - t0) * 1000
             decisions[agent] = decision
 
-            print(f"   [DONE] Analysis Complete in {elapsed:.0f}ms (Groq Latency: {decision.llm_latency_ms:.0f}ms | Tokens: {decision.llm_tokens_used})")
+            print(
+                f"   [DONE] Analysis Complete in {elapsed:.0f}ms (Groq Latency: {decision.llm_latency_ms:.0f}ms | Tokens: {decision.llm_tokens_used})"
+            )
             print(f"     - Understood Goal: {decision.understood_task[:70]}...")
             print(f"     - Required Resources: {decision.required_resources}")
-            print(f"     - Complexity (1-10): {decision.complexity} | Confidence: {decision.confidence:.2f} | Priority: {decision.priority.upper()}")
-            print(f"     - Est. Utility: ${decision.estimated_utility:.2f} | Max WTP: ${decision.max_willingness_to_pay:.2f}")
+            print(
+                f"     - Complexity (1-10): {decision.complexity} | Confidence: {decision.confidence:.2f} | Priority: {decision.priority.upper()}"
+            )
+            print(
+                f"     - Est. Utility: ${decision.estimated_utility:.2f} | Max WTP: ${decision.max_willingness_to_pay:.2f}"
+            )
             if decision.reasoning:
                 print(f"     - LLM Reasoning: {decision.reasoning[0]}")
         except LLMError as e:
@@ -196,21 +206,20 @@ def run_end_to_end_demo():
 
     print("  Resource Scarcity & Dynamic Price Shift in Round 1:")
     print(f"   {'Resource Name':<18} {'Demand':<10} {'Available':<12} {'Scarcity Ratio':<16} {'Updated Price':<14}")
-    print(f"   {'-'*18} {'-'*10} {'-'*12} {'-'*16} {'-'*14}")
+    print(f"   {'-' * 18} {'-' * 10} {'-' * 12} {'-' * 16} {'-' * 14}")
     for r in available_market_res:
         scarcity = marketplace.calculate_scarcity(r.name)
         demand_count = marketplace.demand_history.get(r.name, 0)
-        print(f"   {r.name:<18} {demand_count:<10.0f} {r.available_capacity:<12.1f} {scarcity:<16.2f} ${r.current_price:<13.2f}")
+        print(
+            f"   {r.name:<18} {demand_count:<10.0f} {r.available_capacity:<12.1f} {scarcity:<16.2f} ${r.current_price:<13.2f}"
+        )
 
     # ─────────────────────────────────────────────────────────────
     # STEP 6: Submit to Auction Engine & Run Winner Determination (WDP + VCG)
     # ─────────────────────────────────────────────────────────────
     print_section("STEP 6: Auction Solving (ILP Winner Determination & VCG Pricing)", icon="[6/8]")
 
-    engine_resources = [
-        EngineResource(r.name, r.resource_type, r.total_capacity)
-        for r in available_market_res
-    ]
+    engine_resources = [EngineResource(r.name, r.resource_type, r.total_capacity) for r in available_market_res]
     engine = AuctionEngine(engine_resources, method=SolverMethod.LP)
 
     for agent, bid in bids.items():
@@ -279,9 +288,11 @@ def run_end_to_end_demo():
             )
 
             print(f"\n  [SUCCESS] {agent.name}:")
-            print(f"     Task Executed: \"{exec_res.get('task_description')[:50]}...\"")
+            print(f'     Task Executed: "{exec_res.get("task_description")[:50]}..."')
             print(f"     Resources Used: {exec_res.get('resources_used')}")
-            print(f"     Simulated Execution Time: {exec_res.get('execution_time_sec')}s | Cost Paid: ${exec_res.get('actual_cost'):.2f}")
+            print(
+                f"     Simulated Execution Time: {exec_res.get('execution_time_sec')}s | Cost Paid: ${exec_res.get('actual_cost'):.2f}"
+            )
             print(f"     Remaining Budget: ${agent.budget:.2f}")
 
             round_outcomes_fairness[agent.name] = {
@@ -324,22 +335,28 @@ def run_end_to_end_demo():
     fairness_report = fairness_tracker.get_fairness_report()
 
     print("  Agent Lifecycle Summary Table:")
-    print(f"   {'Agent Name':<16} {'Complexity':<12} {'Confidence':<12} {'Bid':<10} {'Status':<10} {'Payment':<10} {'Rem. Budget':<14}")
-    print(f"   {'-'*16} {'-'*12} {'-'*12} {'-'*10} {'-'*10} {'-'*10} {'-'*14}")
+    print(
+        f"   {'Agent Name':<16} {'Complexity':<12} {'Confidence':<12} {'Bid':<10} {'Status':<10} {'Payment':<10} {'Rem. Budget':<14}"
+    )
+    print(f"   {'-' * 16} {'-' * 12} {'-' * 12} {'-' * 10} {'-' * 10} {'-' * 10} {'-' * 14}")
     for a in agents:
         d = decisions[a]
         b = bids[a]
         won = a.name in winning_agent_names
         status_str = "WON" if won else "LOST"
         payment_val = allocation.payments.get(winning_bids_by_agent[a.name].bid_id, 0.0) if won else 0.0
-        print(f"   {a.name:<16} {d.complexity:<12} {d.confidence:<12.2f} ${b.bid_amount:<9.2f} {status_str:<10} ${payment_val:<9.2f} ${a.budget:<13.2f}")
+        print(
+            f"   {a.name:<16} {d.complexity:<12} {d.confidence:<12.2f} ${b.bid_amount:<9.2f} {status_str:<10} ${payment_val:<9.2f} ${a.budget:<13.2f}"
+        )
 
     print("\n  Marketplace & Fairness Telemetry:")
     print(f"   * Jain's Fairness Index (Surplus Distribution): {fairness_report['jains_fairness_surplus']:.4f}")
     print(f"   * Jain's Fairness Index (Win Rate Distribution): {fairness_report['jains_fairness_wins']:.4f}")
     print(f"   * Starved Agents Detected: {fairness_report['starved_agents'] or 'None'}")
     print(f"   * Dominating Agents Detected: {fairness_report['dominating_agents'] or 'None'}")
-    print(f"   * Market Efficiency: Social Welfare = ${allocation.total_value:.2f} across {len(allocation.winning_bids)} allocations")
+    print(
+        f"   * Market Efficiency: Social Welfare = ${allocation.total_value:.2f} across {len(allocation.winning_bids)} allocations"
+    )
 
     print_banner("END-TO-END DEMO COMPLETED SUCCESSFULLY", char="=")
 

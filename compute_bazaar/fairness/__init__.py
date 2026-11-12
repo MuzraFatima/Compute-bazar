@@ -8,9 +8,9 @@
 """
 
 from compute_bazaar.fairness.metrics import (
-    jains_fairness_index,
-    calculate_starvation_score,
     FairnessTracker,
+    calculate_starvation_score,
+    jains_fairness_index,
 )
 
 __all__ = [

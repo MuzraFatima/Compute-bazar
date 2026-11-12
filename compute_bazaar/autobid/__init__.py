@@ -1,10 +1,10 @@
 from compute_bazaar.autobid.strategies import (
-    BiddingStrategy,
-    TruthfulStrategy,
-    BudgetAwareShadingStrategy,
-    UrgentPriorityStrategy,
     AdaptiveQLearner,
+    BiddingStrategy,
+    BudgetAwareShadingStrategy,
     ContextualBanditStrategy,
+    TruthfulStrategy,
+    UrgentPriorityStrategy,
 )
 
 __all__ = [

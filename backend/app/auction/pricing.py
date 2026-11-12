@@ -12,20 +12,19 @@
 """
 
 from __future__ import annotations
-from typing import Dict, List, Optional
+
 from dataclasses import dataclass
 
-from .engine import Bid, AllocationResult
-
+from .engine import AllocationResult, Bid
 
 # ─────────────────────────────────────────────────────────────
 # TIER DISCOUNTS
 # ─────────────────────────────────────────────────────────────
 
 TIER_DISCOUNTS = {
-    "gold":   0.10,   # Gold agents get 10% off VCG price
-    "silver": 0.05,   # Silver agents get 5% off
-    "bronze": 0.00,   # No discount
+    "gold": 0.10,  # Gold agents get 10% off VCG price
+    "silver": 0.05,  # Silver agents get 5% off
+    "bronze": 0.00,  # No discount
 }
 
 
@@ -34,17 +33,17 @@ class PricedPayment:
     bid_id: str
     agent_id: str
     bid_amount: float
-    vcg_payment: float          # Raw VCG price
-    discount_pct: float         # Tier discount applied
-    final_payment: float        # What agent actually pays
-    savings: float              # bid_amount - final_payment
-    savings_pct: float          # savings as % of bid
+    vcg_payment: float  # Raw VCG price
+    discount_pct: float  # Tier discount applied
+    final_payment: float  # What agent actually pays
+    savings: float  # bid_amount - final_payment
+    savings_pct: float  # savings as % of bid
 
     def __repr__(self):
         return (
             f"  {self.agent_id}: bid=${self.bid_amount:.2f} | "
             f"VCG=${self.vcg_payment:.2f} | "
-            f"discount={self.discount_pct*100:.0f}% | "
+            f"discount={self.discount_pct * 100:.0f}% | "
             f"pays=${self.final_payment:.2f} | "
             f"saves=${self.savings:.2f}"
         )
@@ -52,9 +51,9 @@ class PricedPayment:
 
 def apply_tier_pricing(
     result: AllocationResult,
-    agent_tiers: Dict[str, str],     # agent_id → "gold"/"silver"/"bronze"
-    reserve_prices: Optional[Dict[str, float]] = None,  # resource_name → min price
-) -> List[PricedPayment]:
+    agent_tiers: dict[str, str],  # agent_id → "gold"/"silver"/"bronze"
+    reserve_prices: dict[str, float] | None = None,  # resource_name → min price
+) -> list[PricedPayment]:
     """
     Apply tier discounts to VCG payments and enforce reserve prices.
 
@@ -78,34 +77,32 @@ def apply_tier_pricing(
 
         # Enforce reserve price: payment must cover reserve cost
         if reserve_prices:
-            min_payment = sum(
-                reserve_prices.get(r, 0.0)
-                for r in bid.resource_bundle
-            )
+            min_payment = sum(reserve_prices.get(r, 0.0) for r in bid.resource_bundle)
             after_discount = max(after_discount, min_payment)
 
         # Never charge more than the bid (sanity cap)
         final = min(after_discount, bid.bid_amount)
         final = max(0.0, final)  # Never negative
 
-        priced.append(PricedPayment(
-            bid_id=bid.bid_id,
-            agent_id=bid.agent_id,
-            bid_amount=bid.bid_amount,
-            vcg_payment=vcg,
-            discount_pct=discount,
-            final_payment=round(final, 4),
-            savings=round(bid.bid_amount - final, 4),
-            savings_pct=round((bid.bid_amount - final) / bid.bid_amount * 100, 2)
-                        if bid.bid_amount > 0 else 0.0,
-        ))
+        priced.append(
+            PricedPayment(
+                bid_id=bid.bid_id,
+                agent_id=bid.agent_id,
+                bid_amount=bid.bid_amount,
+                vcg_payment=vcg,
+                discount_pct=discount,
+                final_payment=round(final, 4),
+                savings=round(bid.bid_amount - final, 4),
+                savings_pct=round((bid.bid_amount - final) / bid.bid_amount * 100, 2) if bid.bid_amount > 0 else 0.0,
+            )
+        )
 
     return priced
 
 
 def format_payment_report(
     result: AllocationResult,
-    priced_payments: List[PricedPayment],
+    priced_payments: list[PricedPayment],
 ) -> str:
     """
     Return a formatted string report of auction payments.
@@ -116,8 +113,7 @@ def format_payment_report(
         "=" * 62,
         f"  PAYMENT REPORT — Round #{result.round_id}",
         "=" * 62,
-        f"  Solver: {result.solver_method.value.upper()} | "
-        f"Time: {result.solve_time_ms:.1f}ms",
+        f"  Solver: {result.solver_method.value.upper()} | Time: {result.solve_time_ms:.1f}ms",
         "",
         f"  WINNERS ({len(result.winning_bids)}):",
         "  " + "─" * 58,
@@ -153,9 +149,9 @@ def format_payment_report(
 
 
 def check_budget_feasibility(
-    bids: List[Bid],
-    agent_budgets: Dict[str, float],  # agent_id → remaining budget
-) -> List[Bid]:
+    bids: list[Bid],
+    agent_budgets: dict[str, float],  # agent_id → remaining budget
+) -> list[Bid]:
     """
     Filter out bids from agents who can't afford their bid amount.
     Prevents agents from bidding more than they have.
@@ -169,8 +165,8 @@ def check_budget_feasibility(
             feasible.append(bid)
         else:
             from loguru import logger
+
             logger.warning(
-                f"Bid {bid.bid_id} rejected: {bid.agent_id} bid "
-                f"${bid.bid_amount:.2f} but only has ${budget:.2f}"
+                f"Bid {bid.bid_id} rejected: {bid.agent_id} bid ${bid.bid_amount:.2f} but only has ${budget:.2f}"
             )
     return feasible

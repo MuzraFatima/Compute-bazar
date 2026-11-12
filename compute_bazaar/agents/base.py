@@ -21,23 +21,23 @@
 from __future__ import annotations
 
 import abc
-import json
 import uuid
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Dict, List, Optional, Union
+from typing import Any
 
 from loguru import logger
 
-from compute_bazaar.llm.client import GroqLLMClient, LLMConfig, LLMResponse, LLMError
-
+from compute_bazaar.llm.client import GroqLLMClient, LLMConfig, LLMError
 
 # ─────────────────────────────────────────────────────────────
 # DATA STRUCTURES
 # ─────────────────────────────────────────────────────────────
 
+
 class AgentCapability(str, Enum):
     """Domain capabilities that agents can declare."""
+
     CODING = "coding"
     RESEARCH = "research"
     DATA_PROCESSING = "data_processing"
@@ -52,26 +52,27 @@ class TaskDecision:
     This is the result of the LLM reasoning about a task.
     It does NOT submit a bid -- that is a separate step (Week 4).
     """
+
     agent_name: str
     agent_type: str
     task_description: str
 
     # LLM-determined fields
-    understood_task: str          # Agent's rephrasing of what the task requires
-    required_resources: List[str] # Resource names needed (e.g. ["GPU-Slot-1", "RAM-Block-32GB"])
-    complexity: int               # 1 (trivial) to 10 (extremely complex)
-    estimated_utility: float      # Dollar value the agent assigns to completing this task
-    max_willingness_to_pay: float # Maximum the agent would bid
-    priority: str                 # "critical" | "high" | "normal" | "low"
-    reasoning: List[str]          # Step-by-step reasoning from the LLM
-    confidence: float             # 0.0 to 1.0 -- how confident the agent is
+    understood_task: str  # Agent's rephrasing of what the task requires
+    required_resources: list[str]  # Resource names needed (e.g. ["GPU-Slot-1", "RAM-Block-32GB"])
+    complexity: int  # 1 (trivial) to 10 (extremely complex)
+    estimated_utility: float  # Dollar value the agent assigns to completing this task
+    max_willingness_to_pay: float  # Maximum the agent would bid
+    priority: str  # "critical" | "high" | "normal" | "low"
+    reasoning: list[str]  # Step-by-step reasoning from the LLM
+    confidence: float  # 0.0 to 1.0 -- how confident the agent is
 
     # Metadata
     llm_latency_ms: float = 0.0
     llm_tokens_used: int = 0
     is_mock: bool = False
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "agent_name": self.agent_name,
             "agent_type": self.agent_type,
@@ -146,11 +147,12 @@ Return ONLY the JSON object, no other text."""
 # MOCK DECISION GENERATOR
 # ─────────────────────────────────────────────────────────────
 
+
 def _generate_mock_decision(
     agent_name: str,
     agent_type: str,
     task_description: str,
-    preferred_resources: List[str],
+    preferred_resources: list[str],
     budget: float,
 ) -> TaskDecision:
     """
@@ -158,7 +160,7 @@ def _generate_mock_decision(
     No LLM call is made.
     """
     # Pick resources based on agent type preferences
-    resources = preferred_resources[:min(3, len(preferred_resources))]
+    resources = preferred_resources[: min(3, len(preferred_resources))]
     complexity = 5
     utility = min(budget * 0.8, 120.0)
     wtp = min(utility * 0.9, budget)
@@ -185,11 +187,12 @@ def _generate_mock_decision(
     )
 
 
-from compute_bazaar.models.bundle import CombinatorialBid, PriorityLevel
-from backend.app.auction.engine import AuctionEngine, Bid as EngineBid
-from compute_bazaar.agents.memory import AgentMemory, BidOutcome
-from compute_bazaar.prediction import ResourcePredictor, ResourcePrediction
-from compute_bazaar.tools import ToolRegistry, check_resources, check_budget, estimate_cost, execute_task
+from backend.app.auction.engine import AuctionEngine
+from backend.app.auction.engine import Bid as EngineBid
+from compute_bazaar.agents.memory import AgentMemory
+from compute_bazaar.models.bundle import CombinatorialBid
+from compute_bazaar.prediction import ResourcePredictor
+from compute_bazaar.tools import ToolRegistry
 
 
 def to_engine_bid(bid: CombinatorialBid) -> EngineBid:
@@ -210,6 +213,7 @@ def to_engine_bid(bid: CombinatorialBid) -> EngineBid:
 # ─────────────────────────────────────────────────────────────
 # BASE AGENT
 # ─────────────────────────────────────────────────────────────
+
 
 class BaseAgent(abc.ABC):
     """
@@ -234,21 +238,20 @@ class BaseAgent(abc.ABC):
       - invoke_tool(): Executes a safe tool from the agent's tool registry
       - execute_awarded_task(): Safely executes a task and logs ML performance metrics
     """
+
     def __init__(
         self,
         name: str,
         budget: float = 500.0,
-        llm_client: Optional[GroqLLMClient] = None,
-        available_resources: Optional[List[str]] = None,
+        llm_client: GroqLLMClient | None = None,
+        available_resources: list[str] | None = None,
     ):
         self.name = name
         self.budget = budget
-        self.available_resources = (
-            available_resources or DEFAULT_AVAILABLE_RESOURCES
-        )
+        self.available_resources = available_resources or DEFAULT_AVAILABLE_RESOURCES
 
-        self.decision_history: List[TaskDecision] = []
-        self.submitted_bids: List[CombinatorialBid] = []
+        self.decision_history: list[TaskDecision] = []
+        self.submitted_bids: list[CombinatorialBid] = []
 
         self.memory = AgentMemory(agent_name=name)
         self.predictor = ResourcePredictor()
@@ -285,13 +288,14 @@ class BaseAgent(abc.ABC):
 
     @property
     @abc.abstractmethod
-    def preferred_resources(self) -> List[str]:
+    def preferred_resources(self) -> list[str]:
         """Return ordered list of preferred resource names for this agent type."""
         ...
+
     def analyze_task(
         self,
         task_description: str,
-        budget_override: Optional[float] = None,
+        budget_override: float | None = None,
     ) -> TaskDecision:
         """
         Use the LLM to analyze a task and produce a structured decision.
@@ -396,14 +400,14 @@ class BaseAgent(abc.ABC):
             raise
         except Exception as e:
             logger.error(f"[{self.name}] Task analysis failed: {e}")
-            raise LLMError(f"Agent {self.name} task analysis failed: {e}")
+            raise LLMError(f"Agent {self.name} task analysis failed: {e}") from e
 
     # ── Intelligent & Adaptive Bidding Mechanics (Weeks 4-6) ────
 
     def compute_intelligent_bid_amount(
         self,
         decision: TaskDecision,
-        shading_factor: Optional[float] = None,
+        shading_factor: float | None = None,
     ) -> float:
         """
         Compute an adaptive intelligent bid amount based on Groq decision metrics & AgentMemory:
@@ -419,11 +423,15 @@ class BaseAgent(abc.ABC):
         elif self.memory.is_starved(threshold=3):
             # Starvation Adaptation: increase multiplier aggressively to win allocation
             multiplier = 0.96
-            logger.info(f"[{self.name}] Adaptive Bidding: Starvation detected ({self.memory.consecutive_losses} losses). Boosting bid multiplier to {multiplier}.")
+            logger.info(
+                f"[{self.name}] Adaptive Bidding: Starvation detected ({self.memory.consecutive_losses} losses). Boosting bid multiplier to {multiplier}."
+            )
         elif self.memory.get_win_rate(window=10) > 0.70:
             # High win rate: shade bid to maximize surplus margin
             multiplier = 0.72
-            logger.info(f"[{self.name}] Adaptive Bidding: High win rate detected ({self.memory.get_win_rate(10)*100:.0f}%). Shading bid multiplier to {multiplier} for margin maximization.")
+            logger.info(
+                f"[{self.name}] Adaptive Bidding: High win rate detected ({self.memory.get_win_rate(10) * 100:.0f}%). Shading bid multiplier to {multiplier} for margin maximization."
+            )
         else:
             priority_multipliers = {
                 "critical": 0.98,
@@ -438,8 +446,7 @@ class BaseAgent(abc.ABC):
         # Clearing price alignment: ensure bid is at least average clearing price if known
         if decision.required_resources:
             clearing_prices = [
-                self.memory.get_average_clearing_price(r, default=0.0)
-                for r in decision.required_resources
+                self.memory.get_average_clearing_price(r, default=0.0) for r in decision.required_resources
             ]
             avg_clearing = sum(clearing_prices)
             if avg_clearing > 0:
@@ -456,10 +463,10 @@ class BaseAgent(abc.ABC):
     def create_bid(
         self,
         task_description: str,
-        decision: Optional[TaskDecision] = None,
+        decision: TaskDecision | None = None,
         bid_type: str = "bundle",
-        shading_factor: Optional[float] = None,
-    ) -> Union[CombinatorialBid, List[CombinatorialBid]]:
+        shading_factor: float | None = None,
+    ) -> CombinatorialBid | list[CombinatorialBid]:
         """
         Generate intelligent adaptive bid(s) using Groq-based task analysis and memory history.
 
@@ -483,14 +490,16 @@ class BaseAgent(abc.ABC):
         total_bid_amount = self.compute_intelligent_bid_amount(decision, shading_factor=shading_factor)
 
         if bid_type.lower() == "single":
-            bids: List[CombinatorialBid] = []
+            bids: list[CombinatorialBid] = []
             num_res = len(resources)
             per_resource_amount = round(total_bid_amount / num_res, 2) if num_res > 0 else total_bid_amount
             per_resource_amount = max(0.01, per_resource_amount)
-            per_resource_valuation = round(decision.estimated_utility / num_res, 2) if num_res > 0 else decision.estimated_utility
+            per_resource_valuation = (
+                round(decision.estimated_utility / num_res, 2) if num_res > 0 else decision.estimated_utility
+            )
 
             for i, res in enumerate(resources):
-                bid_id = f"{self.name[:4].lower()}-s{i+1}-{uuid.uuid4().hex[:6]}"
+                bid_id = f"{self.name[:4].lower()}-s{i + 1}-{uuid.uuid4().hex[:6]}"
                 bid = CombinatorialBid(
                     bid_id=bid_id,
                     agent_name=self.name,
@@ -527,7 +536,7 @@ class BaseAgent(abc.ABC):
         won: bool,
         bid_amount: float,
         payment_amount: float = 0.0,
-        resources_allocated: Optional[List[str]] = None,
+        resources_allocated: list[str] | None = None,
     ):
         """
         Record auction round outcome in agent's AgentMemory.
@@ -550,8 +559,8 @@ class BaseAgent(abc.ABC):
     def submit_to_engine(
         self,
         engine: AuctionEngine,
-        bid_or_bids: Union[CombinatorialBid, EngineBid, List[Union[CombinatorialBid, EngineBid]]],
-    ) -> List[bool]:
+        bid_or_bids: CombinatorialBid | EngineBid | list[CombinatorialBid | EngineBid],
+    ) -> list[bool]:
         """
         Connect generated intelligent bid(s) to the EXISTING AuctionEngine.
 
@@ -572,7 +581,7 @@ class BaseAgent(abc.ABC):
 
             success = engine.submit_bid(engine_bid)
             results.append(success)
-            
+
             if success:
                 logger.info(
                     f"[{self.name}] Intelligent bid connected to AuctionEngine: "
@@ -600,8 +609,8 @@ class BaseAgent(abc.ABC):
     def execute_awarded_task(
         self,
         task_description: str,
-        allocation_result: Optional[Dict[str, Any]] = None,
-    ) -> Dict[str, Any]:
+        allocation_result: dict[str, Any] | None = None,
+    ) -> dict[str, Any]:
         """
         Safely execute a task using awarded compute resources.
 
@@ -616,7 +625,7 @@ class BaseAgent(abc.ABC):
             predictor=self.predictor,
         )
 
-    def get_history(self) -> List[Dict[str, Any]]:
+    def get_history(self) -> list[dict[str, Any]]:
         """Return serialized decision history."""
         return [d.to_dict() for d in self.decision_history]
 
@@ -627,5 +636,3 @@ class BaseAgent(abc.ABC):
             f"type={self.agent_type!r}, budget=${self.budget:.2f}, "
             f"mode={mode})"
         )
-
-

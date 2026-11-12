@@ -55,7 +55,7 @@ from compute_bazaar.llm import GroqLLMClient, LLMConfig
 # Mock mode (no API key needed)
 client = GroqLLMClient(config=LLMConfig(mock_mode=True))
 response = client.complete("Hello!")
-print(response.content)      # Mock response
+print(response.content)  # Mock response
 print(response.usage.to_dict())  # Token counts
 
 # Live mode (requires GROQ_API_KEY in .env)
@@ -85,8 +85,8 @@ print(response.content)
 
 ```python
 client = GroqLLMClient(
-    config=LLMConfig(...),   # optional, uses defaults
-    api_key="gsk_...",       # optional, overrides env var
+    config=LLMConfig(...),  # optional, uses defaults
+    api_key="gsk_...",  # optional, overrides env var
 )
 ```
 
@@ -179,9 +179,7 @@ All models are available on the Groq free tier. The default
 from compute_bazaar.llm import GroqLLMClient
 
 client = GroqLLMClient()
-response = client.complete(
-    "Explain VCG pricing in 2 sentences."
-)
+response = client.complete("Explain VCG pricing in 2 sentences.")
 print(response.content)
 print(f"Latency: {response.latency_ms:.0f}ms")
 print(f"Tokens: {response.usage.total_tokens}")

@@ -9,10 +9,9 @@
 
 from __future__ import annotations
 
-import json
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import List, Dict, Optional, Any, Set
+from typing import Any
 
 
 class ResourceType(str, Enum):
@@ -40,6 +39,7 @@ class AgentTier(str, Enum):
 @dataclass
 class ResourceItem:
     """Represents a compute resource unit."""
+
     name: str
     resource_type: str = ResourceType.GPU.value
     capacity: float = 1.0
@@ -55,7 +55,7 @@ class ResourceItem:
             return self.name == other.name
         return False
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "name": self.name,
             "resource_type": self.resource_type,
@@ -69,16 +69,17 @@ class ResourceItem:
 @dataclass
 class CombinatorialBid:
     """Represents a combinatorial bid submitted by an agent for a bundle."""
+
     agent_name: str
-    resource_bundle: List[str]
+    resource_bundle: list[str]
     bid_amount: float
-    bid_id: Optional[str] = None
+    bid_id: str | None = None
     task_description: str = ""
     priority: str = PriorityLevel.NORMAL.value
-    valuation: Optional[float] = None
-    submitted_at: Optional[str] = None
+    valuation: float | None = None
+    submitted_at: str | None = None
     is_winner: bool = False
-    payment_amount: Optional[float] = None
+    payment_amount: float | None = None
 
     def __post_init__(self):
         if self.valuation is None:
@@ -94,7 +95,7 @@ class CombinatorialBid:
             return 0.0
         return self.bid_amount / len(self.resource_bundle)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "bid_id": self.bid_id,
             "agent_name": self.agent_name,
@@ -111,10 +112,11 @@ class CombinatorialBid:
 @dataclass
 class AllocationResult:
     """Represents an allocation awarded to a winning agent."""
+
     round_id: int
     agent_name: str
     bid_id: str
-    resources_allocated: List[str]
+    resources_allocated: list[str]
     bid_amount: float
     payment_amount: float
     discount_applied: float = 0.0
@@ -123,7 +125,7 @@ class AllocationResult:
     def __post_init__(self):
         self.surplus = self.bid_amount - self.payment_amount
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "round_id": self.round_id,
             "agent_name": self.agent_name,
@@ -139,18 +141,19 @@ class AllocationResult:
 @dataclass
 class AuctionRoundOutcome:
     """Outcome and diagnostics for an entire combinatorial auction round."""
+
     round_number: int
     solver_method: str
     total_value_extracted: float
-    winning_bids: List[CombinatorialBid] = field(default_factory=list)
-    all_bids: List[CombinatorialBid] = field(default_factory=list)
-    unallocated_resources: List[str] = field(default_factory=list)
-    allocations: List[AllocationResult] = field(default_factory=list)
+    winning_bids: list[CombinatorialBid] = field(default_factory=list)
+    all_bids: list[CombinatorialBid] = field(default_factory=list)
+    unallocated_resources: list[str] = field(default_factory=list)
+    allocations: list[AllocationResult] = field(default_factory=list)
     solve_duration_ms: float = 0.0
     greedy_benchmark_value: float = 0.0
     efficiency_gain_pct: float = 0.0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "round_number": self.round_number,
             "solver_method": self.solver_method,

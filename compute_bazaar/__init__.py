@@ -9,66 +9,66 @@
 
 __version__ = "0.1.0"
 
-from compute_bazaar.models.bundle import (
-    ResourceItem,
-    ResourceType,
-    CombinatorialBid,
-    AllocationResult,
-    AuctionRoundOutcome,
-    PriorityLevel,
-    AgentTier,
-)
-from compute_bazaar.generators.workload import (
-    generate_synthetic_bid,
-    generate_workload_batch,
-    TASK_TEMPLATES,
+from compute_bazaar.agents import (
+    AgentCapability,
+    AgentMemory,
+    AnalysisAgent,
+    BaseAgent,
+    BidOutcome,
+    CodingAgent,
+    DataAgent,
+    ResearchAgent,
+    TaskDecision,
+    to_engine_bid,
 )
 from compute_bazaar.autobid.strategies import (
-    BiddingStrategy,
-    TruthfulStrategy,
-    BudgetAwareShadingStrategy,
-    UrgentPriorityStrategy,
     AdaptiveQLearner,
+    BiddingStrategy,
+    BudgetAwareShadingStrategy,
     ContextualBanditStrategy,
+    TruthfulStrategy,
+    UrgentPriorityStrategy,
 )
 from compute_bazaar.client.sdk import (
     ComputeBazaarClient,
     ComputeBazaarError,
 )
-from compute_bazaar.llm import GroqLLMClient, LLMConfig, LLMResponse, LLMUsage, LLMError
-from compute_bazaar.agents import (
-    BaseAgent,
-    TaskDecision,
-    AgentCapability,
-    to_engine_bid,
-    AgentMemory,
-    BidOutcome,
-    CodingAgent,
-    ResearchAgent,
-    DataAgent,
-    AnalysisAgent,
+from compute_bazaar.fairness import (
+    FairnessTracker,
+    calculate_starvation_score,
+    jains_fairness_index,
 )
+from compute_bazaar.generators.workload import (
+    TASK_TEMPLATES,
+    generate_synthetic_bid,
+    generate_workload_batch,
+)
+from compute_bazaar.llm import GroqLLMClient, LLMConfig, LLMError, LLMResponse, LLMUsage
 from compute_bazaar.marketplace import (
-    ResourceProvider,
+    DynamicMarketplace,
     MarketResource,
     MarketResourceType,
-    DynamicMarketplace,
+    ResourceProvider,
 )
-from compute_bazaar.fairness import (
-    jains_fairness_index,
-    calculate_starvation_score,
-    FairnessTracker,
+from compute_bazaar.models.bundle import (
+    AgentTier,
+    AllocationResult,
+    AuctionRoundOutcome,
+    CombinatorialBid,
+    PriorityLevel,
+    ResourceItem,
+    ResourceType,
 )
 from compute_bazaar.prediction import (
     ResourcePrediction,
     ResourcePredictor,
 )
 from compute_bazaar.tools import (
-    check_resources,
+    ToolRegistry,
     check_budget,
+    check_resources,
     estimate_cost,
     execute_task,
-    ToolRegistry,
 )
 
 __all__ = [
@@ -130,5 +130,3 @@ __all__ = [
     "execute_task",
     "ToolRegistry",
 ]
-
-

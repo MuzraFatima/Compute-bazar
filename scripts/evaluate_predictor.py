@@ -7,50 +7,58 @@ Usage:
     python scripts/evaluate_predictor.py
 """
 
-import sys
-import os
 import json
-import math
+import os
 import random
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from compute_bazaar.prediction.predictor import ResourcePredictor, ExecutionRecord
-
+from compute_bazaar.prediction.predictor import ResourcePredictor
 
 # Synthetic ground-truth task definitions per category
 CATEGORY_GROUND_TRUTH = {
     "llm_training": {
         "desc_template": "Fine-tune a language model for task {i}",
-        "gpus": 2, "cpus": 8, "ram_gb": 32,
+        "gpus": 2,
+        "cpus": 8,
+        "ram_gb": 32,
         "time_sec_range": (600, 2400),
         "cost_range": (40, 150),
         "tokens": 50000,
     },
     "data_etl": {
         "desc_template": "Run ETL pipeline and clean dataset {i}",
-        "gpus": 0, "cpus": 8, "ram_gb": 32,
+        "gpus": 0,
+        "cpus": 8,
+        "ram_gb": 32,
         "time_sec_range": (200, 500),
         "cost_range": (15, 35),
         "tokens": 10000,
     },
     "research": {
         "desc_template": "Literature synthesis and research for topic {i}",
-        "gpus": 0, "cpus": 4, "ram_gb": 32,
+        "gpus": 0,
+        "cpus": 4,
+        "ram_gb": 32,
         "time_sec_range": (80, 180),
         "cost_range": (10, 25),
         "tokens": 25000,
     },
     "quantitative_analysis": {
         "desc_template": "Run Monte Carlo simulation and risk model {i}",
-        "gpus": 0, "cpus": 8, "ram_gb": 32,
+        "gpus": 0,
+        "cpus": 8,
+        "ram_gb": 32,
         "time_sec_range": (150, 350),
         "cost_range": (20, 45),
         "tokens": 5000,
     },
     "general_compute": {
         "desc_template": "General compute backend task {i}",
-        "gpus": 1, "cpus": 8, "ram_gb": 16,
+        "gpus": 1,
+        "cpus": 8,
+        "ram_gb": 16,
         "time_sec_range": (100, 200),
         "cost_range": (15, 30),
         "tokens": 5000,
@@ -65,16 +73,18 @@ def generate_synthetic_tasks(category, n, rng, start_idx=0):
     for i in range(n):
         time_sec = rng.uniform(*cfg["time_sec_range"])
         cost = rng.uniform(*cfg["cost_range"])
-        tasks.append({
-            "desc": cfg["desc_template"].format(i=start_idx + i),
-            "category": category,
-            "gpus": cfg["gpus"],
-            "cpus": cfg["cpus"],
-            "ram_gb": cfg["ram_gb"],
-            "time_sec": round(time_sec, 2),
-            "cost": round(cost, 2),
-            "tokens": cfg["tokens"],
-        })
+        tasks.append(
+            {
+                "desc": cfg["desc_template"].format(i=start_idx + i),
+                "category": category,
+                "gpus": cfg["gpus"],
+                "cpus": cfg["cpus"],
+                "ram_gb": cfg["ram_gb"],
+                "time_sec": round(time_sec, 2),
+                "cost": round(cost, 2),
+                "tokens": cfg["tokens"],
+            }
+        )
     return tasks
 
 
@@ -82,17 +92,14 @@ def mae(preds, actuals):
     n = len(preds)
     if n == 0:
         return 0.0
-    return sum(abs(p - a) for p, a in zip(preds, actuals)) / n
+    return sum(abs(p - a) for p, a in zip(preds, actuals, strict=False)) / n
 
 
 def mape(preds, actuals):
     n = len(preds)
     if n == 0:
         return 0.0
-    return 100.0 * sum(
-        abs(p - a) / max(abs(a), 1e-9)
-        for p, a in zip(preds, actuals)
-    ) / n
+    return 100.0 * sum(abs(p - a) / max(abs(a), 1e-9) for p, a in zip(preds, actuals, strict=False)) / n
 
 
 def main():
@@ -123,27 +130,29 @@ def main():
     results = []
     for t in test_tasks:
         pred = predictor.predict(t["desc"], task_category=t["category"])
-        results.append({
-            "category": t["category"],
-            "actual_gpus": t["gpus"],
-            "pred_gpus": pred.predicted_gpus,
-            "actual_cpus": t["cpus"],
-            "pred_cpus": pred.predicted_cpu_cores,
-            "actual_ram_gb": t["ram_gb"],
-            "pred_ram_gb": pred.predicted_ram_gb,
-            "actual_time_sec": t["time_sec"],
-            "pred_time_sec": pred.predicted_execution_time_sec,
-            "actual_cost": t["cost"],
-            "pred_cost": pred.predicted_cost,
-        })
+        results.append(
+            {
+                "category": t["category"],
+                "actual_gpus": t["gpus"],
+                "pred_gpus": pred.predicted_gpus,
+                "actual_cpus": t["cpus"],
+                "pred_cpus": pred.predicted_cpu_cores,
+                "actual_ram_gb": t["ram_gb"],
+                "pred_ram_gb": pred.predicted_ram_gb,
+                "actual_time_sec": t["time_sec"],
+                "pred_time_sec": pred.predicted_execution_time_sec,
+                "actual_cost": t["cost"],
+                "pred_cost": pred.predicted_cost,
+            }
+        )
 
     # Compute MAE and MAPE per field
     fields = [
-        ("gpu_slots",  "pred_gpus",     "actual_gpus"),
-        ("cpu_cores",  "pred_cpus",     "actual_cpus"),
-        ("ram_gb",     "pred_ram_gb",   "actual_ram_gb"),
-        ("time_sec",   "pred_time_sec", "actual_time_sec"),
-        ("cost_usd",   "pred_cost",     "actual_cost"),
+        ("gpu_slots", "pred_gpus", "actual_gpus"),
+        ("cpu_cores", "pred_cpus", "actual_cpus"),
+        ("ram_gb", "pred_ram_gb", "actual_ram_gb"),
+        ("time_sec", "pred_time_sec", "actual_time_sec"),
+        ("cost_usd", "pred_cost", "actual_cost"),
     ]
 
     print("\n" + "=" * 70)

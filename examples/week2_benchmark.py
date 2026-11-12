@@ -11,37 +11,42 @@
 =============================================================
 """
 
-import sys
 import os
-import time
 import random
+import sys
+import time
 import uuid
-from typing import List
 
 # Add repo root to sys.path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # Ensure UTF-8 stdout on Windows terminals
-if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
+if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
     try:
-        sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     except Exception:
         pass
 
 from backend.app.auction.engine import (
-    AuctionEngine, Resource, Bid, SolverMethod,
-    solve_greedy, solve_wdp_lp, compute_vcg_prices,
+    AuctionEngine,
+    Bid,
+    Resource,
+    SolverMethod,
+    compute_vcg_prices,
+    solve_greedy,
+    solve_wdp_lp,
 )
 from backend.app.auction.pricing import (
-    apply_tier_pricing, format_payment_report,
+    apply_tier_pricing,
+    format_payment_report,
 )
-
 
 # ─────────────────────────────────────────────────────────────
 # HELPERS
 # ─────────────────────────────────────────────────────────────
 
-def make_bid(agent: str, bundle: List[str], amount: float, task: str = "") -> Bid:
+
+def make_bid(agent: str, bundle: list[str], amount: float, task: str = "") -> Bid:
     return Bid(
         bid_id=str(uuid.uuid4())[:8],
         agent_id=agent,
@@ -52,11 +57,11 @@ def make_bid(agent: str, bundle: List[str], amount: float, task: str = "") -> Bi
 
 
 RESOURCES = [
-    Resource("GPU-1",    "gpu",        1.0, "slot"),
-    Resource("GPU-2",    "gpu",        1.0, "slot"),
-    Resource("API-100",  "api_budget", 100.0, "dollars"),
-    Resource("RAM-32GB", "ram",        32.0, "gb"),
-    Resource("CPU-8",    "cpu",        8.0,  "cores"),
+    Resource("GPU-1", "gpu", 1.0, "slot"),
+    Resource("GPU-2", "gpu", 1.0, "slot"),
+    Resource("API-100", "api_budget", 100.0, "dollars"),
+    Resource("RAM-32GB", "ram", 32.0, "gb"),
+    Resource("CPU-8", "cpu", 8.0, "cores"),
 ]
 
 RES_MAP = {r.name: r for r in RESOURCES}
@@ -66,6 +71,7 @@ RES_MAP = {r.name: r for r in RESOURCES}
 # DEMO 1 — LP vs Greedy: the critical difference
 # ─────────────────────────────────────────────────────────────
 
+
 def demo_lp_vs_greedy():
     """
     Scenario where GREEDY fails but LP finds the true optimum.
@@ -74,7 +80,7 @@ def demo_lp_vs_greedy():
     individual bids, so greedy picks the wrong set. LP does it right.
 
     Resources: GPU-1, GPU-2
-    
+
     Bids:
       A: {GPU-1}       → $60   (value-per-res: $60)
       B: {GPU-2}       → $55   (value-per-res: $55)
@@ -145,8 +151,8 @@ def demo_lp_vs_greedy():
     print("=" * 64)
 
     resources_2 = {
-        "GPU-1":   Resource("GPU-1",   "gpu",       1.0),
-        "GPU-2":   Resource("GPU-2",   "gpu",       1.0),
+        "GPU-1": Resource("GPU-1", "gpu", 1.0),
+        "GPU-2": Resource("GPU-2", "gpu", 1.0),
         "API-100": Resource("API-100", "api_budget", 100.0),
     }
 
@@ -181,43 +187,43 @@ def demo_lp_vs_greedy():
 
     bids = [
         make_bid("Bundle-Agent", ["GPU-1", "GPU-2", "API-100"], 260.0, "Full stack AI job"),
-        make_bid("Agent-B",      ["GPU-1"],                      90.0, "GPU-intensive task"),
-        make_bid("Agent-C",      ["GPU-2"],                      85.0, "Secondary GPU task"),
-        make_bid("Agent-D",      ["API-100"],                    70.0, "API-heavy task"),
+        make_bid("Agent-B", ["GPU-1"], 90.0, "GPU-intensive task"),
+        make_bid("Agent-C", ["GPU-2"], 85.0, "Secondary GPU task"),
+        make_bid("Agent-D", ["API-100"], 70.0, "API-heavy task"),
     ]
 
     print("\n  Bids submitted:")
     for b in bids:
         vpr = b.bid_amount / len(b.resource_bundle)
         bundle = "+".join(b.resource_bundle)
-        print(f"    {b.agent_id:15s}: [{bundle:30s}] ${b.bid_amount:6.2f}  "
-              f"(${vpr:.2f}/resource)")
+        print(f"    {b.agent_id:15s}: [{bundle:30s}] ${b.bid_amount:6.2f}  (${vpr:.2f}/resource)")
 
     # Run both solvers
     greedy_winners, greedy_value = solve_greedy(bids, resources_2)
     lp_winners, lp_value = solve_wdp_lp(bids, resources_2)
 
-    print(f"\n  ┌─────────────────────────────────────────────────┐")
+    print("\n  ┌─────────────────────────────────────────────────┐")
     print(f"  │  GREEDY RESULT: ${greedy_value:6.2f}                         │")
     print(f"  │  Winners: {', '.join(w.agent_id for w in greedy_winners):38s}│")
-    print(f"  ├─────────────────────────────────────────────────┤")
+    print("  ├─────────────────────────────────────────────────┤")
     print(f"  │  LP RESULT:     ${lp_value:6.2f}                         │")
     print(f"  │  Winners: {', '.join(w.agent_id for w in lp_winners):38s}│")
-    print(f"  └─────────────────────────────────────────────────┘")
+    print("  └─────────────────────────────────────────────────┘")
 
     if lp_value > greedy_value:
         gain = lp_value - greedy_value
         print(f"\n  ✅ LP is ${gain:.2f} BETTER than greedy!")
-        print(f"     Greedy missed the bundle bid that dominates 3 individual bids.")
+        print("     Greedy missed the bundle bid that dominates 3 individual bids.")
     elif lp_value == greedy_value:
-        print(f"\n  ✅ Both solvers found the same optimum this time.")
+        print("\n  ✅ Both solvers found the same optimum this time.")
     else:
-        print(f"\n  ⚠️  Unexpected: greedy beat LP? Check input data.")
+        print("\n  ⚠️  Unexpected: greedy beat LP? Check input data.")
 
 
 # ─────────────────────────────────────────────────────────────
 # DEMO 2 — VCG Pricing: Truthfulness Proof
 # ─────────────────────────────────────────────────────────────
+
 
 def demo_vcg_pricing():
     """
@@ -245,35 +251,35 @@ def demo_vcg_pricing():
 
   With Agent-Finance winning:
     → Others get $0
-    → Agent-Finance's VCG price = $105 - $0 = $105? 
-    
+    → Agent-Finance's VCG price = $105 - $0 = $105?
+
   Wait — $105 > $100 bid! Finance wouldn't bid if it costs more.
-  
+
   Key: If VCG price > bid, Finance wouldn't WIN in the first place
   (Finance only wins if their bid is ≥ the displaced value of others).
-  
+
   Let's verify with actual numbers:
     Finance bid $100 vs Gamer+Writer = $105
     → LP picks Gamer+Writer ($105 > $100)! Finance LOSES.
-  
+
   Now if Finance bids $110 (their TRUE value):
     $110 vs $105 → Finance WINS
     VCG price = $105 (displaces $60+$45 from others) ≤ $110 ✅
-    
+
   Finance's surplus = $110 (true value) - $105 (payment) = $5
   This is WHY agents bid truthfully: surplus is maximized at truth!
     """)
 
     resources_vcg = {
-        "GPU-1":   Resource("GPU-1",   "gpu",        1.0),
+        "GPU-1": Resource("GPU-1", "gpu", 1.0),
         "API-100": Resource("API-100", "api_budget", 100.0),
     }
 
     # Finance's true value is $110 — they bid truthfully
     bids = [
         make_bid("Agent-Finance", ["GPU-1", "API-100"], 110.0, "Finance processing"),
-        make_bid("Agent-Gamer",   ["GPU-1"],              60.0, "GPU rendering"),
-        make_bid("Agent-Writer",  ["API-100"],             45.0, "Content generation"),
+        make_bid("Agent-Gamer", ["GPU-1"], 60.0, "GPU rendering"),
+        make_bid("Agent-Writer", ["API-100"], 45.0, "Content generation"),
     ]
 
     winners, total = solve_wdp_lp(bids, resources_vcg)
@@ -292,7 +298,7 @@ def demo_vcg_pricing():
         print()
 
     print(f"  Total value extracted: ${total:.2f}")
-    print(f"\n  TRUTHFULNESS CHECK:")
+    print("\n  TRUTHFULNESS CHECK:")
     all_pass = True
     for w in winners:
         p = payments.get(w.bid_id, 0.0)
@@ -308,6 +314,7 @@ def demo_vcg_pricing():
 # ─────────────────────────────────────────────────────────────
 # DEMO 3 — Stress Test: 50 Agents
 # ─────────────────────────────────────────────────────────────
+
 
 def demo_stress_test(n_agents: int = 50):
     """
@@ -327,9 +334,7 @@ def demo_stress_test(n_agents: int = 50):
         bundle_size = random.randint(1, min(3, len(res_names)))
         bundle = random.sample(res_names, bundle_size)
         amount = round(random.uniform(10.0, 200.0), 2)
-        bids.append(make_bid(
-            f"Agent-{i:03d}", bundle, amount, f"Task {i}"
-        ))
+        bids.append(make_bid(f"Agent-{i:03d}", bundle, amount, f"Task {i}"))
 
     print(f"\n  Generated {n_agents} random bids over {len(RESOURCES)} resources")
 
@@ -345,11 +350,11 @@ def demo_stress_test(n_agents: int = 50):
 
     gain = ((lp_val - g_val) / g_val * 100) if g_val > 0 else 0
 
-    print(f"\n  ┌──────────────────────────────────────────────┐")
+    print("\n  ┌──────────────────────────────────────────────┐")
     print(f"  │  GREEDY  │ value=${g_val:7.2f}  │ time={greedy_ms:6.1f}ms │")
     print(f"  │  LP      │ value=${lp_val:7.2f}  │ time={lp_ms:6.1f}ms │")
     print(f"  │  LP gain │ +{gain:5.1f}% better                     │")
-    print(f"  └──────────────────────────────────────────────┘")
+    print("  └──────────────────────────────────────────────┘")
     print(f"\n  LP winners: {len(lp_winners)} of {n_agents} agents")
     print(f"  Greedy winners: {len(g_winners)} of {n_agents} agents")
 
@@ -357,6 +362,7 @@ def demo_stress_test(n_agents: int = 50):
 # ─────────────────────────────────────────────────────────────
 # DEMO 4 — Tier Pricing
 # ─────────────────────────────────────────────────────────────
+
 
 def demo_tier_pricing():
     """Show Gold/Silver/Bronze discount tiers applied to VCG payments."""
@@ -367,9 +373,9 @@ def demo_tier_pricing():
     engine = AuctionEngine(RESOURCES, method=SolverMethod.LP)
 
     bids_data = [
-        ("gold-agent",   ["GPU-1"],              80.0, "gold"),
-        ("silver-agent", ["GPU-2"],              70.0, "silver"),
-        ("bronze-agent", ["API-100"],            60.0, "bronze"),
+        ("gold-agent", ["GPU-1"], 80.0, "gold"),
+        ("silver-agent", ["GPU-2"], 70.0, "silver"),
+        ("bronze-agent", ["API-100"], 60.0, "bronze"),
     ]
     agent_tiers = {}
     for agent_id, bundle, amount, tier in bids_data:
@@ -389,6 +395,7 @@ def demo_tier_pricing():
 
 if __name__ == "__main__":
     import sys
+
     # Set UTF-8 output for Windows
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")

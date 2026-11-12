@@ -28,19 +28,16 @@
 =============================================================
 """
 
-import os
 import json
-import time
+import os
 import random
-import uuid
 import statistics
-from typing import List, Dict, Any, Tuple
+import time
+import uuid
+from typing import Any
 
-from backend.app.auction.engine import (
-    AuctionEngine, Resource, Bid, SolverMethod
-)
+from backend.app.auction.engine import AuctionEngine, Bid, Resource, SolverMethod
 from compute_bazaar.fairness.metrics import jains_fairness_index
-
 
 # -------------------------------------------------------------
 # BENCHMARK CONFIGURATION
@@ -50,31 +47,31 @@ NUM_ROUNDS = 25
 AGENTS_PER_ROUND = 8
 
 AGENT_PROFILES = [
-    {"name": "Agent-Alpha",   "tier": "gold",   "strategy": "ml_adaptive", "domain": "ML Training"},
-    {"name": "Agent-Beta",    "tier": "gold",   "strategy": "truthful",    "domain": "LLM Inference"},
-    {"name": "Agent-Gamma",   "tier": "silver", "strategy": "shading",     "domain": "ETL Pipeline"},
-    {"name": "Agent-Delta",   "tier": "silver", "strategy": "critical",    "domain": "Option Pricing"},
-    {"name": "Agent-Epsilon", "tier": "bronze", "strategy": "bargain",     "domain": "Batch Processing"},
-    {"name": "Agent-Zeta",    "tier": "gold",   "strategy": "truthful",    "domain": "Simulation"},
-    {"name": "Agent-Eta",     "tier": "silver", "strategy": "shading",     "domain": "Data Analytics"},
-    {"name": "Agent-Theta",   "tier": "bronze", "strategy": "bargain",     "domain": "Web Scraping"},
+    {"name": "Agent-Alpha", "tier": "gold", "strategy": "ml_adaptive", "domain": "ML Training"},
+    {"name": "Agent-Beta", "tier": "gold", "strategy": "truthful", "domain": "LLM Inference"},
+    {"name": "Agent-Gamma", "tier": "silver", "strategy": "shading", "domain": "ETL Pipeline"},
+    {"name": "Agent-Delta", "tier": "silver", "strategy": "critical", "domain": "Option Pricing"},
+    {"name": "Agent-Epsilon", "tier": "bronze", "strategy": "bargain", "domain": "Batch Processing"},
+    {"name": "Agent-Zeta", "tier": "gold", "strategy": "truthful", "domain": "Simulation"},
+    {"name": "Agent-Eta", "tier": "silver", "strategy": "shading", "domain": "Data Analytics"},
+    {"name": "Agent-Theta", "tier": "bronze", "strategy": "bargain", "domain": "Web Scraping"},
 ]
 
 AGENT_NAMES = [a["name"] for a in AGENT_PROFILES]
 
 
-def get_standard_resources() -> List[Resource]:
+def get_standard_resources() -> list[Resource]:
     """Returns the standard 5 heterogeneous compute resources."""
     return [
-        Resource("GPU-Slot-1",     "gpu",        1.0, "slot"),
-        Resource("GPU-Slot-2",     "gpu",        1.0, "slot"),
+        Resource("GPU-Slot-1", "gpu", 1.0, "slot"),
+        Resource("GPU-Slot-2", "gpu", 1.0, "slot"),
         Resource("API-Budget-100", "api_budget", 100.0, "dollars"),
-        Resource("RAM-Block-32GB", "ram",        32.0, "gb"),
-        Resource("CPU-Cores-8",    "cpu",        8.0, "cores"),
+        Resource("RAM-Block-32GB", "ram", 32.0, "gb"),
+        Resource("CPU-Cores-8", "cpu", 8.0, "cores"),
     ]
 
 
-def generate_round_workload(rng: random.Random, round_id: int) -> List[Bid]:
+def generate_round_workload(rng: random.Random, round_id: int) -> list[Bid]:
     """
     Generate a deterministic, realistic workload of bids for one auction round.
     All 4 allocation methods receive this identical list of bids.
@@ -116,14 +113,16 @@ def generate_round_workload(rng: random.Random, round_id: int) -> List[Bid]:
         bid_uuid = uuid.UUID(int=rng.getrandbits(128)).hex[:8]
         bid_id = f"R{round_id:02d}-{agent['name']}-{bid_uuid}"
 
-        bids.append(Bid(
-            bid_id=bid_id,
-            agent_id=agent["name"],
-            resource_bundle=bundle,
-            bid_amount=bid_amount,
-            task_description=f"{agent['domain']} workload round {round_id}",
-            priority="normal",
-        ))
+        bids.append(
+            Bid(
+                bid_id=bid_id,
+                agent_id=agent["name"],
+                resource_bundle=bundle,
+                bid_amount=bid_amount,
+                task_description=f"{agent['domain']} workload round {round_id}",
+                priority="normal",
+            )
+        )
 
     return bids
 
@@ -132,7 +131,8 @@ def generate_round_workload(rng: random.Random, round_id: int) -> List[Bid]:
 # ALLOCATION MECHANISM RUNNERS
 # -------------------------------------------------------------
 
-def run_ilp_vcg(bids: List[Bid], resources: List[Resource], round_id: int) -> Dict[str, Any]:
+
+def run_ilp_vcg(bids: list[Bid], resources: list[Resource], round_id: int) -> dict[str, Any]:
     """
     Method 1: Integer Linear Programming (PuLP / CBC) WDP solver
     with Vickrey-Clarke-Groves (VCG) externality pricing.
@@ -189,9 +189,7 @@ def run_ilp_vcg(bids: List[Bid], resources: List[Resource], round_id: int) -> Di
     }
 
 
-def run_round_robin(
-    bids: List[Bid], resources: List[Resource], round_id: int, start_agent_idx: int
-) -> Dict[str, Any]:
+def run_round_robin(bids: list[Bid], resources: list[Resource], round_id: int, start_agent_idx: int) -> dict[str, Any]:
     """
     Method 2: Round-Robin allocation across participating agents.
     Agents take cyclic turns. In each turn, the agent's first feasible pending
@@ -205,12 +203,12 @@ def run_round_robin(
     ordered_agents = [AGENT_NAMES[(start_agent_idx + i) % n_agents] for i in range(n_agents)]
 
     # Group pending bids by agent in arrival order
-    agent_pending: Dict[str, List[Bid]] = {a: [] for a in AGENT_NAMES}
+    agent_pending: dict[str, list[Bid]] = {a: [] for a in AGENT_NAMES}
     for b in bids:
         if b.agent_id in agent_pending:
             agent_pending[b.agent_id].append(b)
 
-    winners: List[Bid] = []
+    winners: list[Bid] = []
 
     # Cycle through agents while feasible allocations can be made
     allocated_in_pass = True
@@ -266,7 +264,7 @@ def run_round_robin(
     }
 
 
-def run_fcfs(bids: List[Bid], resources: List[Resource], round_id: int) -> Dict[str, Any]:
+def run_fcfs(bids: list[Bid], resources: list[Resource], round_id: int) -> dict[str, Any]:
     """
     Method 3: First-Come, First-Served (FCFS) allocation.
     Evaluates bids in strict arrival order. If requested bundle is available,
@@ -274,7 +272,7 @@ def run_fcfs(bids: List[Bid], resources: List[Resource], round_id: int) -> Dict[
     """
     t0 = time.perf_counter()
     available_resources = set(r.name for r in resources)
-    winners: List[Bid] = []
+    winners: list[Bid] = []
 
     for bid in bids:
         bundle = set(bid.resource_bundle)
@@ -322,9 +320,7 @@ def run_fcfs(bids: List[Bid], resources: List[Resource], round_id: int) -> Dict[
     }
 
 
-def run_random(
-    bids: List[Bid], resources: List[Resource], round_id: int, rng_random: random.Random
-) -> Dict[str, Any]:
+def run_random(bids: list[Bid], resources: list[Resource], round_id: int, rng_random: random.Random) -> dict[str, Any]:
     """
     Method 4: Random serial allocation.
     Bids are considered in uniform random order. If requested bundle is available,
@@ -335,7 +331,7 @@ def run_random(
     shuffled_bids = list(bids)
     rng_random.shuffle(shuffled_bids)
 
-    winners: List[Bid] = []
+    winners: list[Bid] = []
     for bid in shuffled_bids:
         bundle = set(bid.resource_bundle)
         if bundle.issubset(available_resources):
@@ -382,7 +378,7 @@ def run_random(
     }
 
 
-def run_greedy_value(bids: List[Bid], resources: List[Resource], round_id: int) -> Dict[str, Any]:
+def run_greedy_value(bids: list[Bid], resources: list[Resource], round_id: int) -> dict[str, Any]:
     """
     Method: Greedy-by-Value baseline allocation.
     Sorts bids by declared bid amount descending, awarding each feasible bundle.
@@ -391,7 +387,7 @@ def run_greedy_value(bids: List[Bid], resources: List[Resource], round_id: int) 
     t0 = time.perf_counter()
     available_resources = set(r.name for r in resources)
     sorted_bids = sorted(bids, key=lambda b: b.bid_amount, reverse=True)
-    winners: List[Bid] = []
+    winners: list[Bid] = []
     for candidate in sorted_bids:
         candidate_bundle = set(candidate.resource_bundle)
         if candidate_bundle.issubset(available_resources):
@@ -439,7 +435,10 @@ def run_greedy_value(bids: List[Bid], resources: List[Resource], round_id: int) 
 # MASTER BENCHMARK CONTROLLER
 # -------------------------------------------------------------
 
-def execute_week12_benchmark(rounds: int = NUM_ROUNDS, seed: int = SEED, write_artifacts: bool = True) -> Dict[str, Any]:
+
+def execute_week12_benchmark(
+    rounds: int = NUM_ROUNDS, seed: int = SEED, write_artifacts: bool = True
+) -> dict[str, Any]:
     print("=============================================================")
     print(" COMPUTE BAZAAR 2.0 -- Week 12 Allocation Benchmarking")
     print("=============================================================")
@@ -455,21 +454,21 @@ def execute_week12_benchmark(rounds: int = NUM_ROUNDS, seed: int = SEED, write_a
     methods = ["ILP + VCG", "Greedy-Value", "Round-Robin", "FCFS", "Random"]
 
     # Metrics storage
-    round_records: List[Dict[str, Any]] = []
+    round_records: list[dict[str, Any]] = []
 
     # Aggregators across all rounds per method
-    cum_welfare: Dict[str, List[float]] = {m: [] for m in methods}
-    cum_utilization: Dict[str, List[float]] = {m: [] for m in methods}
-    cum_cost: Dict[str, List[float]] = {m: [] for m in methods}
-    cum_winners: Dict[str, List[int]] = {m: [] for m in methods}
-    cum_avg_price: Dict[str, List[float]] = {m: [] for m in methods}
-    cum_exec_time: Dict[str, List[float]] = {m: [] for m in methods}
+    cum_welfare: dict[str, list[float]] = {m: [] for m in methods}
+    cum_utilization: dict[str, list[float]] = {m: [] for m in methods}
+    cum_cost: dict[str, list[float]] = {m: [] for m in methods}
+    cum_winners: dict[str, list[int]] = {m: [] for m in methods}
+    cum_avg_price: dict[str, list[float]] = {m: [] for m in methods}
+    cum_exec_time: dict[str, list[float]] = {m: [] for m in methods}
 
     # Cumulative agent metrics per method
-    cum_agent_welfare: Dict[str, Dict[str, float]] = {m: {a: 0.0 for a in AGENT_NAMES} for m in methods}
-    cum_agent_wins: Dict[str, Dict[str, int]] = {m: {a: 0 for a in AGENT_NAMES} for m in methods}
-    cum_agent_payments: Dict[str, Dict[str, float]] = {m: {a: 0.0 for a in AGENT_NAMES} for m in methods}
-    cum_agent_surplus: Dict[str, Dict[str, float]] = {m: {a: 0.0 for a in AGENT_NAMES} for m in methods}
+    cum_agent_welfare: dict[str, dict[str, float]] = {m: {a: 0.0 for a in AGENT_NAMES} for m in methods}
+    cum_agent_wins: dict[str, dict[str, int]] = {m: {a: 0 for a in AGENT_NAMES} for m in methods}
+    cum_agent_payments: dict[str, dict[str, float]] = {m: {a: 0.0 for a in AGENT_NAMES} for m in methods}
+    cum_agent_surplus: dict[str, dict[str, float]] = {m: {a: 0.0 for a in AGENT_NAMES} for m in methods}
 
     for round_id in range(1, rounds + 1):
         resources = get_standard_resources()
@@ -501,7 +500,7 @@ def execute_week12_benchmark(rounds: int = NUM_ROUNDS, seed: int = SEED, write_a
                 "Round-Robin": res_rr,
                 "FCFS": res_fcfs,
                 "Random": res_rand,
-            }
+            },
         }
         round_records.append(round_data)
 
@@ -521,13 +520,15 @@ def execute_week12_benchmark(rounds: int = NUM_ROUNDS, seed: int = SEED, write_a
                 cum_agent_surplus[m][a] += res["agent_surplus"][a]
 
         if round_id % 5 == 0 or round_id == rounds:
-            print(f"  [Round {round_id:02d}/{rounds}] ILP Welfare: ${res_ilp['social_welfare']:.2f} | "
-                  f"RR Welfare: ${res_rr['social_welfare']:.2f} | "
-                  f"FCFS: ${res_fcfs['social_welfare']:.2f} | "
-                  f"Random: ${res_rand['social_welfare']:.2f}")
+            print(
+                f"  [Round {round_id:02d}/{rounds}] ILP Welfare: ${res_ilp['social_welfare']:.2f} | "
+                f"RR Welfare: ${res_rr['social_welfare']:.2f} | "
+                f"FCFS: ${res_fcfs['social_welfare']:.2f} | "
+                f"Random: ${res_rand['social_welfare']:.2f}"
+            )
 
     # Compute Jain's Fairness Index for each method
-    summary_metrics: Dict[str, Dict[str, Any]] = {}
+    summary_metrics: dict[str, dict[str, Any]] = {}
 
     for m in methods:
         welfare_vals = list(cum_agent_welfare[m].values())
@@ -569,7 +570,7 @@ def execute_week12_benchmark(rounds: int = NUM_ROUNDS, seed: int = SEED, write_a
                     "total_surplus": round(cum_agent_surplus[m][a], 2),
                 }
                 for a in AGENT_NAMES
-            ]
+            ],
         }
 
     full_payload = {
@@ -607,7 +608,7 @@ def execute_week12_benchmark(rounds: int = NUM_ROUNDS, seed: int = SEED, write_a
     return full_payload
 
 
-def print_terminal_summary(summary: Dict[str, Dict[str, Any]], rounds: int):
+def print_terminal_summary(summary: dict[str, dict[str, Any]], rounds: int):
     print("\n" + "=" * 90)
     print(f"  WEEK 12 BENCHMARK RESULTS SUMMARY ({rounds} ROUNDS)")
     print("=" * 90)
@@ -629,7 +630,7 @@ def print_terminal_summary(summary: Dict[str, Dict[str, Any]], rounds: int):
     print("=" * 90)
 
 
-def generate_markdown_benchmark_doc(data: Dict[str, Any], filepath: str):
+def generate_markdown_benchmark_doc(data: dict[str, Any], filepath: str):
     s = data["summary"]
     meta = data["metadata"]
     rounds = meta["rounds"]
@@ -641,22 +642,38 @@ def generate_markdown_benchmark_doc(data: Dict[str, Any], filepath: str):
     rand = s["Random"]
 
     # Comparative welfare gains
-    gain_vs_greedy = ((ilp["total_social_welfare"] - greedy["total_social_welfare"]) / greedy["total_social_welfare"]) * 100 if greedy["total_social_welfare"] > 0 else 0.0
-    gain_vs_rr = ((ilp["total_social_welfare"] - rr["total_social_welfare"]) / rr["total_social_welfare"]) * 100 if rr["total_social_welfare"] > 0 else 0.0
-    gain_vs_fcfs = ((ilp["total_social_welfare"] - fcfs["total_social_welfare"]) / fcfs["total_social_welfare"]) * 100 if fcfs["total_social_welfare"] > 0 else 0.0
-    gain_vs_rand = ((ilp["total_social_welfare"] - rand["total_social_welfare"]) / rand["total_social_welfare"]) * 100 if rand["total_social_welfare"] > 0 else 0.0
+    gain_vs_greedy = (
+        ((ilp["total_social_welfare"] - greedy["total_social_welfare"]) / greedy["total_social_welfare"]) * 100
+        if greedy["total_social_welfare"] > 0
+        else 0.0
+    )
+    gain_vs_rr = (
+        ((ilp["total_social_welfare"] - rr["total_social_welfare"]) / rr["total_social_welfare"]) * 100
+        if rr["total_social_welfare"] > 0
+        else 0.0
+    )
+    gain_vs_fcfs = (
+        ((ilp["total_social_welfare"] - fcfs["total_social_welfare"]) / fcfs["total_social_welfare"]) * 100
+        if fcfs["total_social_welfare"] > 0
+        else 0.0
+    )
+    gain_vs_rand = (
+        ((ilp["total_social_welfare"] - rand["total_social_welfare"]) / rand["total_social_welfare"]) * 100
+        if rand["total_social_welfare"] > 0
+        else 0.0
+    )
 
     # VCG surplus discount
     vcg_savings = ilp["total_social_welfare"] - ilp["total_cost"]
     vcg_discount_pct = (vcg_savings / ilp["total_social_welfare"]) * 100 if ilp["total_social_welfare"] > 0 else 0.0
 
-    md = f"""# Compute Bazaar 2.0 — Week 12 Empirical Benchmark Report
+    md = rf"""# Compute Bazaar 2.0 — Week 12 Empirical Benchmark Report
 
-> **Benchmark Date**: {meta['timestamp']}  
-> **Evaluation Setup**: {rounds} reproducible auction rounds comparing 5 allocation & pricing methods under an identical shared multi-agent workload.  
-> **Fixed Random Seed**: `{meta['seed']}`  
-> **Compute Infrastructure**: 5 heterogeneous resources (`GPU-Slot-1`, `GPU-Slot-2`, `API-Budget-100`, `RAM-Block-32GB`, `CPU-Cores-8`).  
-> **Participating Agents**: {meta['agents_count']} agents with diverse bidding strategies (truthful, shading, critical, bargain, ml_adaptive).  
+> **Benchmark Date**: {meta["timestamp"]}
+> **Evaluation Setup**: {rounds} reproducible auction rounds comparing 5 allocation & pricing methods under an identical shared multi-agent workload.
+> **Fixed Random Seed**: `{meta["seed"]}`
+> **Compute Infrastructure**: 5 heterogeneous resources (`GPU-Slot-1`, `GPU-Slot-2`, `API-Budget-100`, `RAM-Block-32GB`, `CPU-Cores-8`).
+> **Participating Agents**: {meta["agents_count"]} agents with diverse bidding strategies (truthful, shading, critical, bargain, ml_adaptive).
 > **Integrity Guarantee**: Zero simulated or fabricated figures. All numbers derived from real code execution.
 
 ---
@@ -673,10 +690,10 @@ This benchmark compares five foundational resource allocation and pricing mechan
 
 ### Key Empirical Findings:
 
-- **Social Welfare Maximization**: **ILP + VCG** achieves the highest social welfare (**${ilp['total_social_welfare']:.2f}** total, **${ilp['mean_social_welfare']:.2f}** per round), outperforming Greedy-Value by **+{gain_vs_greedy:.2f}%**, Round-Robin by **+{gain_vs_rr:.2f}%**, FCFS by **+{gain_vs_fcfs:.2f}%**, and Random by **+{gain_vs_rand:.2f}%**.
-- **Incentive Compatibility & Agent Savings**: Under VCG pricing, winning agents paid **${ilp['total_cost']:.2f}** against a declared valuation of **${ilp['total_social_welfare']:.2f}**, returning **${vcg_savings:.2f} ({vcg_discount_pct:.1f}%)** in economic surplus to agents. In contrast, all pay-as-bid baselines extracted 100% of declared bids as payment.
-- **Resource Utilization**: ILP + VCG attained **{ilp['mean_resource_utilization_pct']:.1f}%** average resource utilization across rounds, superior to FCFS ({fcfs['mean_resource_utilization_pct']:.1f}%) and Random ({rand['mean_resource_utilization_pct']:.1f}%), due to optimal combinatorial packing of multi-resource bundles.
-- **Allocation Latency**: The ILP solver resolved combinatorial bundle constraints and calculated VCG externalities across all counterfactuals in **{ilp['mean_execution_time_ms']:.3f} ms** on average (median **{ilp['median_execution_time_ms']:.3f} ms**).
+- **Social Welfare Maximization**: **ILP + VCG** achieves the highest social welfare (**${ilp["total_social_welfare"]:.2f}** total, **${ilp["mean_social_welfare"]:.2f}** per round), outperforming Greedy-Value by **+{gain_vs_greedy:.2f}%**, Round-Robin by **+{gain_vs_rr:.2f}%**, FCFS by **+{gain_vs_fcfs:.2f}%**, and Random by **+{gain_vs_rand:.2f}%**.
+- **Incentive Compatibility & Agent Savings**: Under VCG pricing, winning agents paid **${ilp["total_cost"]:.2f}** against a declared valuation of **${ilp["total_social_welfare"]:.2f}**, returning **${vcg_savings:.2f} ({vcg_discount_pct:.1f}%)** in economic surplus to agents. In contrast, all pay-as-bid baselines extracted 100% of declared bids as payment.
+- **Resource Utilization**: ILP + VCG attained **{ilp["mean_resource_utilization_pct"]:.1f}%** average resource utilization across rounds, superior to FCFS ({fcfs["mean_resource_utilization_pct"]:.1f}%) and Random ({rand["mean_resource_utilization_pct"]:.1f}%), due to optimal combinatorial packing of multi-resource bundles.
+- **Allocation Latency**: The ILP solver resolved combinatorial bundle constraints and calculated VCG externalities across all counterfactuals in **{ilp["mean_execution_time_ms"]:.3f} ms** on average (median **{ilp["median_execution_time_ms"]:.3f} ms**).
 
 ---
 
@@ -686,16 +703,16 @@ The table below summarizes the target metrics measured across all **{rounds} rep
 
 | Allocation Method | Social Welfare ($) | Resource Utilization (%) | Jain Fairness ($J$) | Total Cost ($) | Winners | Average Clearing Price ($) | Execution Time (ms) |
 |:------------------|:------------------:|:------------------------:|:-------------------:|:--------------:|:-------:|:--------------------------:|:-------------------:|
-| **ILP + VCG** | **${ilp['total_social_welfare']:.2f}** | **{ilp['mean_resource_utilization_pct']:.1f}%** | {ilp['jains_fairness_welfare']:.4f} | ${ilp['total_cost']:.2f} | {ilp['total_winners']} | ${ilp['avg_clearing_price']:.2f} | {ilp['mean_execution_time_ms']:.3f} ms |
-| **Greedy-Value** | ${greedy['total_social_welfare']:.2f} | {greedy['mean_resource_utilization_pct']:.1f}% | {greedy['jains_fairness_welfare']:.4f} | ${greedy['total_cost']:.2f} | {greedy['total_winners']} | ${greedy['avg_clearing_price']:.2f} | {greedy['mean_execution_time_ms']:.3f} ms |
-| **Round-Robin** | ${rr['total_social_welfare']:.2f} | {rr['mean_resource_utilization_pct']:.1f}% | **{rr['jains_fairness_welfare']:.4f}** | ${rr['total_cost']:.2f} | {rr['total_winners']} | ${rr['avg_clearing_price']:.2f} | {rr['mean_execution_time_ms']:.3f} ms |
-| **FCFS** | ${fcfs['total_social_welfare']:.2f} | {fcfs['mean_resource_utilization_pct']:.1f}% | {fcfs['jains_fairness_welfare']:.4f} | ${fcfs['total_cost']:.2f} | {fcfs['total_winners']} | ${fcfs['avg_clearing_price']:.2f} | **{fcfs['mean_execution_time_ms']:.3f} ms** |
-| **Random** | ${rand['total_social_welfare']:.2f} | {rand['mean_resource_utilization_pct']:.1f}% | {rand['jains_fairness_welfare']:.4f} | ${rand['total_cost']:.2f} | {rand['total_winners']} | ${rand['avg_clearing_price']:.2f} | {rand['mean_execution_time_ms']:.3f} ms |
+| **ILP + VCG** | **${ilp["total_social_welfare"]:.2f}** | **{ilp["mean_resource_utilization_pct"]:.1f}%** | {ilp["jains_fairness_welfare"]:.4f} | ${ilp["total_cost"]:.2f} | {ilp["total_winners"]} | ${ilp["avg_clearing_price"]:.2f} | {ilp["mean_execution_time_ms"]:.3f} ms |
+| **Greedy-Value** | ${greedy["total_social_welfare"]:.2f} | {greedy["mean_resource_utilization_pct"]:.1f}% | {greedy["jains_fairness_welfare"]:.4f} | ${greedy["total_cost"]:.2f} | {greedy["total_winners"]} | ${greedy["avg_clearing_price"]:.2f} | {greedy["mean_execution_time_ms"]:.3f} ms |
+| **Round-Robin** | ${rr["total_social_welfare"]:.2f} | {rr["mean_resource_utilization_pct"]:.1f}% | **{rr["jains_fairness_welfare"]:.4f}** | ${rr["total_cost"]:.2f} | {rr["total_winners"]} | ${rr["avg_clearing_price"]:.2f} | {rr["mean_execution_time_ms"]:.3f} ms |
+| **FCFS** | ${fcfs["total_social_welfare"]:.2f} | {fcfs["mean_resource_utilization_pct"]:.1f}% | {fcfs["jains_fairness_welfare"]:.4f} | ${fcfs["total_cost"]:.2f} | {fcfs["total_winners"]} | ${fcfs["avg_clearing_price"]:.2f} | **{fcfs["mean_execution_time_ms"]:.3f} ms** |
+| **Random** | ${rand["total_social_welfare"]:.2f} | {rand["mean_resource_utilization_pct"]:.1f}% | {rand["jains_fairness_welfare"]:.4f} | ${rand["total_cost"]:.2f} | {rand["total_winners"]} | ${rand["avg_clearing_price"]:.2f} | {rand["mean_execution_time_ms"]:.3f} ms |
 
 > **Trade-offs**: ILP+VCG gives the highest welfare and utilization but lower fairness (Jain 0.6642) than Round-Robin and Random, and ~127 ms solve time vs <0.04 ms.
 >
 > **Note**: Baselines (Greedy-Value, Round-Robin, FCFS, Random) use pay-as-bid pricing; cost columns are not like-for-like with ILP+VCG (VCG pricing). Screenshots show 9 simulated dashboard agents — the benchmark uses 8.
-> *Note on Jain Fairness*: Measured using Jain's Fairness Index J(x) = (sum(x_i))^2 / (n * sum(x_i^2)) over cumulative allocated agent welfare (n = {meta['agents_count']} agents).
+> *Note on Jain Fairness*: Measured using Jain's Fairness Index J(x) = (sum(x_i))^2 / (n * sum(x_i^2)) over cumulative allocated agent welfare (n = {meta["agents_count"]} agents).
 
 ---
 
@@ -703,10 +720,10 @@ The table below summarizes the target metrics measured across all **{rounds} rep
 
 ### 3.1 Efficiency vs. Heuristics (Social Welfare Gap)
 - **Integer Linear Programming** guarantees finding the globally optimal combination of bids that maximizes system value subject to resource capacity constraints (W* = max sum(v_i * x_i)).
-- **FCFS** suffers from head-of-line blocking: an early low-value bid requesting multiple resources blocks higher-value tasks that arrive mere milliseconds later. Over {rounds} rounds, FCFS extracted ${fcfs['total_social_welfare']:.2f}, trailing ILP by **${ilp['total_social_welfare'] - fcfs['total_social_welfare']:.2f}**.
+- **FCFS** suffers from head-of-line blocking: an early low-value bid requesting multiple resources blocks higher-value tasks that arrive mere milliseconds later. Over {rounds} rounds, FCFS extracted ${fcfs["total_social_welfare"]:.2f}, trailing ILP by **${ilp["total_social_welfare"] - fcfs["total_social_welfare"]:.2f}**.
 - **Round-Robin** provides structural turn-taking equity but lacks combinatorial intelligence.
-- **Random Allocation** yielded ${rand['total_social_welfare']:.2f}, displaying high variance across rounds.
-- **Greedy-by-Value** captures high-value bids first (${greedy['total_social_welfare']:.2f}) but cannot resolve complex bundle complementarities.
+- **Random Allocation** yielded ${rand["total_social_welfare"]:.2f}, displaying high variance across rounds.
+- **Greedy-by-Value** captures high-value bids first (${greedy["total_social_welfare"]:.2f}) but cannot resolve complex bundle complementarities.
 
 ### 3.2 VCG Pricing vs. Pay-as-Bid Mechanics
 - In pay-as-bid mechanisms (**Greedy-Value, Round-Robin, FCFS, Random**), agents pay their exact bid amount:
@@ -758,7 +775,7 @@ To re-run this exact empirical benchmark and verify the results:
 python benchmark.py
 ```
 
-All metrics will deterministically reproduce due to the fixed seed (`SEED = {meta['seed']}`).
+All metrics will deterministically reproduce due to the fixed seed (`SEED = {meta["seed"]}`).
 Raw per-round outputs are archived in `results/benchmark_results.json`.
 """
 
@@ -766,7 +783,9 @@ Raw per-round outputs are archived in `results/benchmark_results.json`.
         f.write(md)
 
 
-def run_multiseed_benchmark(seeds: List[int] = list(range(1, 11)), rounds: int = NUM_ROUNDS) -> Dict[str, Any]:
+def run_multiseed_benchmark(seeds: list[int] = None, rounds: int = NUM_ROUNDS) -> dict[str, Any]:
+    if seeds is None:
+        seeds = list(range(1, 11))
     print("\n" + "=" * 90)
     print(f"  RUNNING MULTI-SEED BENCHMARK (Seeds {seeds[0]}–{seeds[-1]}, {rounds} Rounds Each)")
     print("=" * 90)
@@ -780,7 +799,7 @@ def run_multiseed_benchmark(seeds: List[int] = list(range(1, 11)), rounds: int =
         all_seed_results.append(res["summary"])
 
     keys = ["total_social_welfare", "mean_resource_utilization_pct", "jains_fairness_welfare", "total_cost"]
-    aggregated: Dict[str, Dict[str, Dict[str, float]]] = {}
+    aggregated: dict[str, dict[str, dict[str, float]]] = {}
 
     for method in methods:
         aggregated[method] = {}
@@ -799,7 +818,9 @@ def run_multiseed_benchmark(seeds: List[int] = list(range(1, 11)), rounds: int =
     for m in methods:
         agg = aggregated[m]
         w_str = f"${agg['total_social_welfare']['mean']:.2f} ± ${agg['total_social_welfare']['std']:.2f}"
-        u_str = f"{agg['mean_resource_utilization_pct']['mean']:.2f}% ± {agg['mean_resource_utilization_pct']['std']:.2f}%"
+        u_str = (
+            f"{agg['mean_resource_utilization_pct']['mean']:.2f}% ± {agg['mean_resource_utilization_pct']['std']:.2f}%"
+        )
         j_str = f"{agg['jains_fairness_welfare']['mean']:.4f} ± {agg['jains_fairness_welfare']['std']:.4f}"
         c_str = f"${agg['total_cost']['mean']:.2f} ± ${agg['total_cost']['std']:.2f}"
         print(f"{m:<14} | {w_str:<26} | {u_str:<23} | {j_str:<23} | {c_str:<24}")

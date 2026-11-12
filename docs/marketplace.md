@@ -87,14 +87,16 @@ groq_provider = ResourceProvider(
     name="Groq Cloud Infrastructure",
     provider_type="api_vendor",
 )
-groq_provider.add_resource(MarketResource(
-    name="Groq-Llama3-API",
-    resource_type=MarketResourceType.LLM_API.value,
-    total_capacity=10000.0,
-    available_capacity=10000.0,
-    min_price=25.0,
-    unit="tokens",
-))
+groq_provider.add_resource(
+    MarketResource(
+        name="Groq-Llama3-API",
+        resource_type=MarketResourceType.LLM_API.value,
+        total_capacity=10000.0,
+        available_capacity=10000.0,
+        min_price=25.0,
+        unit="tokens",
+    )
+)
 market.register_provider(groq_provider)
 
 # 3. Record Demand & Update Dynamic Prices

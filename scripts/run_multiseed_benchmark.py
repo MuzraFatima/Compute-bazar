@@ -6,18 +6,16 @@ Usage:
     python scripts/run_multiseed_benchmark.py
 """
 
-import sys
-import os
 import json
+import os
 import statistics
+import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from benchmark import execute_week12_benchmark, AGENT_NAMES, AGENT_PROFILES, get_standard_resources
-from backend.app.auction.engine import AuctionEngine, Resource, Bid, SolverMethod
-from compute_bazaar.fairness.metrics import jains_fairness_index
-import time, random
+import time
 
+from benchmark import AGENT_NAMES, execute_week12_benchmark
 
 SEEDS = list(range(1, 11))
 NUM_ROUNDS = 25
@@ -84,8 +82,7 @@ def main():
         all_seed_results.append(result["summary"])
 
     methods = ["ILP + VCG", "Round-Robin", "FCFS", "Random"]
-    keys = ["total_social_welfare", "mean_resource_utilization_pct",
-            "jains_fairness_welfare", "total_cost"]
+    keys = ["total_social_welfare", "mean_resource_utilization_pct", "jains_fairness_welfare", "total_cost"]
 
     print("\n\n" + "=" * 80)
     print("  MULTI-SEED BENCHMARK SUMMARY (seeds 1-10, 25 rounds each)")
@@ -104,8 +101,12 @@ def main():
         m = aggregated[method]
         print(f"\n{method}:")
         print(f"  Social Welfare:  {m['total_social_welfare']['mean']:.2f} ± {m['total_social_welfare']['std']:.2f}")
-        print(f"  Utilization %:   {m['mean_resource_utilization_pct']['mean']:.2f} ± {m['mean_resource_utilization_pct']['std']:.2f}")
-        print(f"  Jain's Index:    {m['jains_fairness_welfare']['mean']:.4f} ± {m['jains_fairness_welfare']['std']:.4f}")
+        print(
+            f"  Utilization %:   {m['mean_resource_utilization_pct']['mean']:.2f} ± {m['mean_resource_utilization_pct']['std']:.2f}"
+        )
+        print(
+            f"  Jain's Index:    {m['jains_fairness_welfare']['mean']:.4f} ± {m['jains_fairness_welfare']['std']:.4f}"
+        )
         print(f"  Total Cost:      {m['total_cost']['mean']:.2f} ± {m['total_cost']['std']:.2f}")
 
     # Save aggregated results

@@ -20,12 +20,12 @@
 
 import pytest
 from fastapi.testclient import TestClient
-from sqlalchemy import create_engine, StaticPool
+from sqlalchemy import StaticPool, create_engine
 from sqlalchemy.orm import sessionmaker
 
-from backend.app.main import app
-from backend.app.db.models import Base
 from backend.app.api.auth import get_db
+from backend.app.db.models import Base
+from backend.app.main import app
 
 
 @pytest.fixture(autouse=True)

@@ -6,8 +6,8 @@
 =============================================================
 """
 
-import sqlite3
 import os
+import sqlite3
 from datetime import datetime
 
 # Database location (consistent with models.py and DATABASE_URL)
@@ -34,7 +34,7 @@ def get_connection():
 def create_tables():
     """
     Create all database tables if they don't already exist.
-    
+
     This is the 'schema' — the blueprint for our data.
     Run this once when setting up the project.
     """
@@ -85,7 +85,7 @@ def create_tables():
         CREATE TABLE IF NOT EXISTS auctions (
             id              INTEGER PRIMARY KEY AUTOINCREMENT,
             round_number    INTEGER NOT NULL,       -- Auction #1, #2, #3...
-            status          TEXT NOT NULL DEFAULT 'open',  
+            status          TEXT NOT NULL DEFAULT 'open',
                             -- 'open' → accepting bids
                             -- 'running' → solving WDP
                             -- 'closed' → results finalized
@@ -159,39 +159,46 @@ def seed_demo_data():
 
     # Insert sample resources
     resources = [
-        ("GPU-Slot-1",    "gpu",        1.0,   "slot",    "NVIDIA A100 GPU, 1 compute slot",      2.50),
-        ("GPU-Slot-2",    "gpu",        1.0,   "slot",    "NVIDIA A100 GPU, 1 compute slot",      2.50),
-        ("API-Budget-100","api_budget", 100.0, "dollars", "OpenAI API budget ($100)",              1.00),
-        ("RAM-Block-32GB","ram",        32.0,  "gb",      "32GB RAM allocation",                  0.10),
-        ("CPU-Cores-8",   "cpu",        8.0,   "cores",   "8 CPU cores for light compute tasks",  0.05),
+        ("GPU-Slot-1", "gpu", 1.0, "slot", "NVIDIA A100 GPU, 1 compute slot", 2.50),
+        ("GPU-Slot-2", "gpu", 1.0, "slot", "NVIDIA A100 GPU, 1 compute slot", 2.50),
+        ("API-Budget-100", "api_budget", 100.0, "dollars", "OpenAI API budget ($100)", 1.00),
+        ("RAM-Block-32GB", "ram", 32.0, "gb", "32GB RAM allocation", 0.10),
+        ("CPU-Cores-8", "cpu", 8.0, "cores", "8 CPU cores for light compute tasks", 0.05),
     ]
 
     for r in resources:
         try:
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO resources (name, resource_type, capacity, unit, description, cost_per_unit, created_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (*r, now))
+            """,
+                (*r, now),
+            )
         except sqlite3.IntegrityError:
             pass  # Already exists, skip
 
     # Insert sample agents
     import secrets
+
     agents = [
-        ("Agent-Alpha",   "Marketing copy generator",         "gold"),
-        ("Agent-Beta",    "Financial transaction processor",   "gold"),
-        ("Agent-Gamma",   "Image processing pipeline",        "silver"),
-        ("Agent-Delta",   "Customer support chatbot",         "silver"),
-        ("Agent-Epsilon", "Fraud detection system",           "bronze"),
+        ("Agent-Alpha", "Marketing copy generator", "gold"),
+        ("Agent-Beta", "Financial transaction processor", "gold"),
+        ("Agent-Gamma", "Image processing pipeline", "silver"),
+        ("Agent-Delta", "Customer support chatbot", "silver"),
+        ("Agent-Epsilon", "Fraud detection system", "bronze"),
     ]
 
     for name, desc, tier in agents:
         try:
             api_key = f"cb_{secrets.token_hex(16)}"
-            cursor.execute("""
+            cursor.execute(
+                """
                 INSERT INTO agents (name, description, api_key, budget_total, budget_remaining, tier, created_at)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
-            """, (name, desc, api_key, 1000.0, 1000.0, tier, now))
+            """,
+                (name, desc, api_key, 1000.0, 1000.0, tier, now),
+            )
         except sqlite3.IntegrityError:
             pass  # Already exists, skip
 

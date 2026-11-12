@@ -14,8 +14,8 @@
 import abc
 import math
 import random
-from typing import Dict, List, Optional, Tuple, Any
-from compute_bazaar.models.bundle import CombinatorialBid, AllocationResult, PriorityLevel
+
+from compute_bazaar.models.bundle import CombinatorialBid
 
 
 class BiddingStrategy(abc.ABC):
@@ -26,11 +26,11 @@ class BiddingStrategy(abc.ABC):
         self.tier = tier
 
     @abc.abstractmethod
-    def compute_bid_amount(self, valuation: float, bundle: List[str], current_budget: float) -> float:
+    def compute_bid_amount(self, valuation: float, bundle: list[str], current_budget: float) -> float:
         """Compute the bid amount to submit given true valuation and bundle."""
         pass
 
-    def feedback(self, bid: CombinatorialBid, won: bool, payment: float, surplus: float):
+    def feedback(self, bid: CombinatorialBid, won: bool, payment: float, surplus: float):  # noqa: B027 - optional hook, most strategies ignore feedback
         """Receive outcome feedback from the completed auction round to learn/adapt."""
         pass
 
@@ -42,7 +42,7 @@ class TruthfulStrategy(BiddingStrategy):
     true valuation is a dominant strategy (DSIC).
     """
 
-    def compute_bid_amount(self, valuation: float, bundle: List[str], current_budget: float) -> float:
+    def compute_bid_amount(self, valuation: float, bundle: list[str], current_budget: float) -> float:
         return min(valuation, current_budget)
 
 
@@ -57,7 +57,7 @@ class BudgetAwareShadingStrategy(BiddingStrategy):
         super().__init__(agent_name, tier)
         self.shade_fraction = shade_fraction
 
-    def compute_bid_amount(self, valuation: float, bundle: List[str], current_budget: float) -> float:
+    def compute_bid_amount(self, valuation: float, bundle: list[str], current_budget: float) -> float:
         bid = valuation * self.shade_fraction
         return max(0.0, min(bid, current_budget))
 
@@ -69,7 +69,7 @@ class UrgentPriorityStrategy(BiddingStrategy):
     with Critical priority tagging to maximize allocation probability.
     """
 
-    def compute_bid_amount(self, valuation: float, bundle: List[str], current_budget: float) -> float:
+    def compute_bid_amount(self, valuation: float, bundle: list[str], current_budget: float) -> float:
         bid = valuation * 0.98
         return max(0.0, min(bid, current_budget))
 
@@ -85,7 +85,7 @@ class AdaptiveQLearner(BiddingStrategy):
     def __init__(
         self,
         agent_name: str,
-        actions: Optional[List[float]] = None,
+        actions: list[float] | None = None,
         learning_rate: float = 0.15,
         discount_factor: float = 0.90,
         epsilon: float = 0.20,
@@ -96,10 +96,10 @@ class AdaptiveQLearner(BiddingStrategy):
         self.lr = learning_rate
         self.gamma = discount_factor
         self.epsilon = epsilon
-        
+
         # Q-table: state (win_rate_bucket) -> action_idx -> expected_q_value
-        self.q_table: Dict[int, List[float]] = {}
-        self.history: List[bool] = []
+        self.q_table: dict[int, list[float]] = {}
+        self.history: list[bool] = []
         self.last_state: int = 0
         self.last_action_idx: int = 0
 
@@ -115,9 +115,9 @@ class AdaptiveQLearner(BiddingStrategy):
             return 1  # Moderate
         elif win_rate < 0.75:
             return 2  # Good
-        return 3      # High win rate
+        return 3  # High win rate
 
-    def compute_bid_amount(self, valuation: float, bundle: List[str], current_budget: float) -> float:
+    def compute_bid_amount(self, valuation: float, bundle: list[str], current_budget: float) -> float:
         state = self._get_state()
         if state not in self.q_table:
             self.q_table[state] = [0.0] * len(self.actions)
@@ -139,7 +139,7 @@ class AdaptiveQLearner(BiddingStrategy):
         """Update Q-table with observed reward."""
         self.history.append(won)
         reward = surplus if won else -1.0  # Penalize losing slightly to encourage competitive bidding
-        
+
         next_state = self._get_state()
         if next_state not in self.q_table:
             self.q_table[next_state] = [0.0] * len(self.actions)
@@ -161,12 +161,12 @@ class ContextualBanditStrategy(BiddingStrategy):
         super().__init__(agent_name, tier)
         self.multipliers = [0.50, 0.65, 0.80, 0.95, 1.00]
         # Counts and rewards per bundle size category (1-item, 2-item, 3+-item)
-        self.action_counts: Dict[str, List[int]] = {
+        self.action_counts: dict[str, list[int]] = {
             "small": [0] * len(self.multipliers),
             "medium": [0] * len(self.multipliers),
             "large": [0] * len(self.multipliers),
         }
-        self.action_rewards: Dict[str, List[float]] = {
+        self.action_rewards: dict[str, list[float]] = {
             "small": [0.0] * len(self.multipliers),
             "medium": [0.0] * len(self.multipliers),
             "large": [0.0] * len(self.multipliers),
@@ -174,17 +174,17 @@ class ContextualBanditStrategy(BiddingStrategy):
         self.last_category: str = "small"
         self.last_action_idx: int = 0
 
-    def _category(self, bundle: List[str]) -> str:
+    def _category(self, bundle: list[str]) -> str:
         if len(bundle) <= 1:
             return "small"
         elif len(bundle) == 2:
             return "medium"
         return "large"
 
-    def compute_bid_amount(self, valuation: float, bundle: List[str], current_budget: float) -> float:
+    def compute_bid_amount(self, valuation: float, bundle: list[str], current_budget: float) -> float:
         cat = self._category(bundle)
         total_counts = sum(self.action_counts[cat])
-        
+
         # UCB selection
         selected_idx = 0
         if 0 in self.action_counts[cat]:

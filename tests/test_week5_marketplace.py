@@ -15,26 +15,27 @@
 """
 
 import pytest
-from typing import List
 
-from compute_bazaar.marketplace import (
-    ResourceProvider,
-    MarketResource,
-    MarketResourceType,
-    DynamicMarketplace,
-)
-from compute_bazaar.agents import CodingAgent, ResearchAgent
-from compute_bazaar.llm import GroqLLMClient, LLMConfig
 from backend.app.auction.engine import (
     AuctionEngine,
-    Resource as EngineResource,
     SolverMethod,
 )
-
+from backend.app.auction.engine import (
+    Resource as EngineResource,
+)
+from compute_bazaar.agents import CodingAgent
+from compute_bazaar.llm import GroqLLMClient, LLMConfig
+from compute_bazaar.marketplace import (
+    DynamicMarketplace,
+    MarketResource,
+    MarketResourceType,
+    ResourceProvider,
+)
 
 # ─────────────────────────────────────────────────────────────
 # FIXTURES
 # ─────────────────────────────────────────────────────────────
+
 
 @pytest.fixture
 def marketplace():
@@ -51,30 +52,35 @@ def custom_provider():
         provider_type="api_vendor",
         reliability_score=0.99,
     )
-    provider.add_resource(MarketResource(
-        name="Groq-Llama3-API",
-        resource_type=MarketResourceType.LLM_API.value,
-        total_capacity=5000.0,
-        available_capacity=5000.0,
-        min_price=20.0,
-        current_price=20.0,
-        unit="tokens",
-    ))
-    provider.add_resource(MarketResource(
-        name="Lambda-H100-GPU",
-        resource_type=MarketResourceType.GPU.value,
-        total_capacity=4.0,
-        available_capacity=4.0,
-        min_price=80.0,
-        current_price=80.0,
-        unit="slot",
-    ))
+    provider.add_resource(
+        MarketResource(
+            name="Groq-Llama3-API",
+            resource_type=MarketResourceType.LLM_API.value,
+            total_capacity=5000.0,
+            available_capacity=5000.0,
+            min_price=20.0,
+            current_price=20.0,
+            unit="tokens",
+        )
+    )
+    provider.add_resource(
+        MarketResource(
+            name="Lambda-H100-GPU",
+            resource_type=MarketResourceType.GPU.value,
+            total_capacity=4.0,
+            available_capacity=4.0,
+            min_price=80.0,
+            current_price=80.0,
+            unit="slot",
+        )
+    )
     return provider
 
 
 # ─────────────────────────────────────────────────────────────
 # GROUP 1: ResourceProvider Model
 # ─────────────────────────────────────────────────────────────
+
 
 def test_resource_provider_initialization(custom_provider):
     """ResourceProvider should retain metadata and resource inventory."""
@@ -112,6 +118,7 @@ def test_provider_serialization(custom_provider):
 # ─────────────────────────────────────────────────────────────
 # GROUP 2: MarketResource Categories & Capacity Logic
 # ─────────────────────────────────────────────────────────────
+
 
 def test_market_resource_types():
     """MarketResource should support GPU, CPU, RAM, and LLM/API categories."""
@@ -151,6 +158,7 @@ def test_minimum_floor_price_enforcement():
 # ─────────────────────────────────────────────────────────────
 # GROUP 3: DynamicMarketplace & Scarcity-Based Pricing
 # ─────────────────────────────────────────────────────────────
+
 
 def test_marketplace_registration(marketplace, custom_provider):
     """DynamicMarketplace should register providers and catalogue all resources."""
@@ -232,6 +240,7 @@ def test_market_summary_output(marketplace, custom_provider):
 # GROUP 4: Integration with Existing AuctionEngine & AI Agents
 # ─────────────────────────────────────────────────────────────
 
+
 def test_marketplace_interoperability_with_auction_engine(marketplace):
     """
     Marketplace resources can be converted to EngineResource objects
@@ -239,8 +248,7 @@ def test_marketplace_interoperability_with_auction_engine(marketplace):
     """
     # 1. Convert marketplace resources to EngineResource
     engine_resources = [
-        EngineResource(r.name, r.resource_type, r.total_capacity)
-        for r in marketplace.list_available_resources()
+        EngineResource(r.name, r.resource_type, r.total_capacity) for r in marketplace.list_available_resources()
     ]
     engine = AuctionEngine(engine_resources, method=SolverMethod.LP)
 

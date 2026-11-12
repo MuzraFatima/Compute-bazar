@@ -13,13 +13,14 @@
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Set
+from typing import Any
+
 from loguru import logger
 
 from compute_bazaar.marketplace.provider import (
-    ResourceProvider,
     MarketResource,
     MarketResourceType,
+    ResourceProvider,
 )
 
 
@@ -37,12 +38,12 @@ class DynamicMarketplace:
 
     def __init__(self, name: str = "Compute Bazaar Dynamic Marketplace"):
         self.name = name
-        self.providers: Dict[str, ResourceProvider] = {}
-        self.resources: Dict[str, MarketResource] = {}
-        
+        self.providers: dict[str, ResourceProvider] = {}
+        self.resources: dict[str, MarketResource] = {}
+
         # Demand tracking: resource_name -> total_requested_capacity
-        self.demand_history: Dict[str, float] = {}
-        self.round_demand_log: List[Dict[str, float]] = []
+        self.demand_history: dict[str, float] = {}
+        self.round_demand_log: list[dict[str, float]] = []
         self.alpha_pricing_factor: float = 0.5
 
         # Pre-seed default provider for default resources if needed
@@ -56,14 +57,56 @@ class DynamicMarketplace:
             provider_type="on_prem",
             reliability_score=1.0,
         )
-        
+
         default_resources = [
-            MarketResource(name="GPU-Slot-1", resource_type=MarketResourceType.GPU.value, total_capacity=1.0, min_price=30.0, current_price=30.0, unit="slot"),
-            MarketResource(name="GPU-Slot-2", resource_type=MarketResourceType.GPU.value, total_capacity=1.0, min_price=30.0, current_price=30.0, unit="slot"),
-            MarketResource(name="API-Budget-100", resource_type=MarketResourceType.API_BUDGET.value, total_capacity=100.0, min_price=20.0, current_price=20.0, unit="dollars"),
-            MarketResource(name="RAM-Block-32GB", resource_type=MarketResourceType.RAM.value, total_capacity=32.0, min_price=15.0, current_price=15.0, unit="gb"),
-            MarketResource(name="CPU-Cores-8", resource_type=MarketResourceType.CPU.value, total_capacity=8.0, min_price=10.0, current_price=10.0, unit="cores"),
-            MarketResource(name="Groq-Llama3-API", resource_type=MarketResourceType.LLM_API.value, total_capacity=1000.0, min_price=25.0, current_price=25.0, unit="tokens"),
+            MarketResource(
+                name="GPU-Slot-1",
+                resource_type=MarketResourceType.GPU.value,
+                total_capacity=1.0,
+                min_price=30.0,
+                current_price=30.0,
+                unit="slot",
+            ),
+            MarketResource(
+                name="GPU-Slot-2",
+                resource_type=MarketResourceType.GPU.value,
+                total_capacity=1.0,
+                min_price=30.0,
+                current_price=30.0,
+                unit="slot",
+            ),
+            MarketResource(
+                name="API-Budget-100",
+                resource_type=MarketResourceType.API_BUDGET.value,
+                total_capacity=100.0,
+                min_price=20.0,
+                current_price=20.0,
+                unit="dollars",
+            ),
+            MarketResource(
+                name="RAM-Block-32GB",
+                resource_type=MarketResourceType.RAM.value,
+                total_capacity=32.0,
+                min_price=15.0,
+                current_price=15.0,
+                unit="gb",
+            ),
+            MarketResource(
+                name="CPU-Cores-8",
+                resource_type=MarketResourceType.CPU.value,
+                total_capacity=8.0,
+                min_price=10.0,
+                current_price=10.0,
+                unit="cores",
+            ),
+            MarketResource(
+                name="Groq-Llama3-API",
+                resource_type=MarketResourceType.LLM_API.value,
+                total_capacity=1000.0,
+                min_price=25.0,
+                current_price=25.0,
+                unit="tokens",
+            ),
         ]
 
         for res in default_resources:
@@ -79,13 +122,15 @@ class DynamicMarketplace:
         self.providers[provider.provider_id] = provider
         for res_name, res in provider.resources.items():
             self.resources[res_name] = res
-        logger.info(f"Registered provider '{provider.name}' ({provider.provider_id}) with {len(provider.resources)} resources.")
+        logger.info(
+            f"Registered provider '{provider.name}' ({provider.provider_id}) with {len(provider.resources)} resources."
+        )
 
-    def get_provider(self, provider_id: str) -> Optional[ResourceProvider]:
+    def get_provider(self, provider_id: str) -> ResourceProvider | None:
         """Fetch provider by ID."""
         return self.providers.get(provider_id)
 
-    def list_providers(self) -> List[ResourceProvider]:
+    def list_providers(self) -> list[ResourceProvider]:
         """List all registered providers."""
         return list(self.providers.values())
 
@@ -97,23 +142,26 @@ class DynamicMarketplace:
         if not provider:
             provider = ResourceProvider(provider_id=provider_id, name=f"Provider {provider_id}")
             self.register_provider(provider)
-        
+
         provider.add_resource(resource)
         self.resources[resource.name] = resource
 
-    def get_resource(self, name: str) -> Optional[MarketResource]:
+    def get_resource(self, name: str) -> MarketResource | None:
         """Fetch resource by name."""
         return self.resources.get(name)
 
-    def list_all_resources(self) -> List[MarketResource]:
+    def list_all_resources(self) -> list[MarketResource]:
         """List all market resources across all providers."""
         return list(self.resources.values())
 
-    def list_available_resources(self) -> List[MarketResource]:
+    def list_available_resources(self) -> list[MarketResource]:
         """List currently operational and unallocated resources."""
         return [
-            r for r in self.resources.values()
-            if r.is_available and r.available_capacity > 0 and self.providers.get(r.provider_id, ResourceProvider(provider_id="x", name="x")).is_active
+            r
+            for r in self.resources.values()
+            if r.is_available
+            and r.available_capacity > 0
+            and self.providers.get(r.provider_id, ResourceProvider(provider_id="x", name="x")).is_active
         ]
 
     def set_resource_availability(self, resource_name: str, is_available: bool):
@@ -127,7 +175,7 @@ class DynamicMarketplace:
 
     # ── Demand & Supply Tracking ─────────────────────────────
 
-    def record_demand(self, bid_bundles: List[List[str]]):
+    def record_demand(self, bid_bundles: list[list[str]]):
         """
         Record demand requested for resources in an auction round.
 
@@ -135,7 +183,7 @@ class DynamicMarketplace:
             bid_bundles: List of resource bundles requested by submitted bids
                          (e.g., [["GPU-Slot-1", "RAM-Block-32GB"], ["GPU-Slot-1"]])
         """
-        current_round_demand: Dict[str, float] = {}
+        current_round_demand: dict[str, float] = {}
         for bundle in bid_bundles:
             for res_name in bundle:
                 current_round_demand[res_name] = current_round_demand.get(res_name, 0.0) + 1.0
@@ -143,15 +191,18 @@ class DynamicMarketplace:
 
         self.round_demand_log.append(current_round_demand)
 
-    def get_supply_summary(self) -> Dict[str, Any]:
+    def get_supply_summary(self) -> dict[str, Any]:
         """Return total and available supply capacity grouped by resource category."""
-        summary: Dict[str, Dict[str, float]] = {}
+        summary: dict[str, dict[str, float]] = {}
 
         for res in self.resources.values():
             cat = res.resource_type
             if cat not in summary:
                 summary[cat] = {"total_capacity": 0.0, "available_capacity": 0.0}
-            if res.is_available and self.providers.get(res.provider_id, ResourceProvider(provider_id="x", name="x")).is_active:
+            if (
+                res.is_available
+                and self.providers.get(res.provider_id, ResourceProvider(provider_id="x", name="x")).is_active
+            ):
                 summary[cat]["total_capacity"] += res.total_capacity
                 summary[cat]["available_capacity"] += res.available_capacity
 
@@ -177,7 +228,7 @@ class DynamicMarketplace:
 
     # ── Dynamic Pricing ───────────────────────────────────────
 
-    def update_dynamic_pricing(self, alpha: Optional[float] = None):
+    def update_dynamic_pricing(self, alpha: float | None = None):
         """
         Recalculate dynamic reserve prices across all resources based on scarcity:
           current_price = min_price * (1 + alpha * scarcity_ratio)
@@ -195,7 +246,7 @@ class DynamicMarketplace:
 
     # ── Market Summary ────────────────────────────────────────
 
-    def get_market_summary(self) -> Dict[str, Any]:
+    def get_market_summary(self) -> dict[str, Any]:
         """Return comprehensive marketplace diagnostic state."""
         return {
             "marketplace_name": self.name,

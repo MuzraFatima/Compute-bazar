@@ -69,9 +69,7 @@ coder = CodingAgent(name="DevBot-01", budget=500.0, llm_client=llm)
 researcher = ResearchAgent(name="ScholarBot-01", budget=300.0, llm_client=llm)
 
 # 3. Perform task analysis
-decision_code = coder.analyze_task(
-    "Implement a high-throughput WebSocket broadcast handler in Python"
-)
+decision_code = coder.analyze_task("Implement a high-throughput WebSocket broadcast handler in Python")
 
 print(f"Understood: {decision_code.understood_task}")
 print(f"Resources Needed: {decision_code.required_resources}")

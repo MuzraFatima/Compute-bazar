@@ -109,9 +109,7 @@ agent.record_auction_outcome(
     resources_allocated=bid.resource_bundle,
 )
 
-tracker.record_round_outcome(1, {
-    "CodeBot": {"won": True, "surplus": bid.bid_amount - 75.0, "payment": 75.0}
-})
+tracker.record_round_outcome(1, {"CodeBot": {"won": True, "surplus": bid.bid_amount - 75.0, "payment": 75.0}})
 
 # 4. Check Fairness Analytics
 print(f"Jain's Surplus Index: {tracker.compute_jains_fairness_surplus():.4f}")

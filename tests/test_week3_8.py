@@ -12,20 +12,21 @@
 =============================================================
 """
 
-import os
 import json
+
 import pytest
 from fastapi.testclient import TestClient
-from sqlalchemy import create_engine, StaticPool
+from sqlalchemy import StaticPool, create_engine
 from sqlalchemy.orm import sessionmaker
 
-# Setup test database path
-from backend.app.db.models import Base, Agent, Resource, Auction, Bid, Allocation
-from backend.app.main import app
 from backend.app.api.auth import get_db
 
+# Setup test database path
+from backend.app.db.models import Agent, Auction, Base, Bid, Resource
+from backend.app.main import app
 
 # ── Per-test in-memory DB fixture ─────────────────────────────
+
 
 @pytest.fixture()
 def test_client():
@@ -70,6 +71,7 @@ def test_client():
 
 
 # ── REST API Integration Tests ────────────────────────────────
+
 
 def test_register_agent_success(test_client):
     payload = {"name": "Test-Agent-Alpha", "description": "Integrator agent", "tier": "gold"}
@@ -187,10 +189,12 @@ def test_get_resources_list(test_client):
 
 # ── Database Model & Scheduler solver tests ──────────────────
 
+
 @pytest.mark.asyncio
 async def test_scheduler_loop_runs_correctly(test_client):
     # Access the current test's overridden DB via the fixture's override
     from backend.app.api.auth import get_db as _get_db
+
     db_gen = app.dependency_overrides[_get_db]()
     db = next(db_gen)
 
@@ -204,13 +208,26 @@ async def test_scheduler_loop_runs_correctly(test_client):
     active_auction = db.query(Auction).filter(Auction.status == "open").first()
 
     # 2. Submit conflicting bids
-    b1 = Bid(auction_id=active_auction.id, agent_id=a1.id, resource_bundle=json.dumps(["GPU-1"]), bid_amount=80.0, priority="normal")
-    b2 = Bid(auction_id=active_auction.id, agent_id=a2.id, resource_bundle=json.dumps(["GPU-1"]), bid_amount=50.0, priority="normal")
+    b1 = Bid(
+        auction_id=active_auction.id,
+        agent_id=a1.id,
+        resource_bundle=json.dumps(["GPU-1"]),
+        bid_amount=80.0,
+        priority="normal",
+    )
+    b2 = Bid(
+        auction_id=active_auction.id,
+        agent_id=a2.id,
+        resource_bundle=json.dumps(["GPU-1"]),
+        bid_amount=50.0,
+        priority="normal",
+    )
     db.add_all([b1, b2])
     db.commit()
 
     # 3. Call run_auction_round
     from backend.app.auction.scheduler import run_auction_round
+
     await run_auction_round(db)
 
     # Verify outcomes
@@ -220,8 +237,8 @@ async def test_scheduler_loop_runs_correctly(test_client):
 
     win_bid = db.query(Bid).filter(Bid.id == b1.id).first()
     lost_bid = db.query(Bid).filter(Bid.id == b2.id).first()
-    assert win_bid.is_winner == True
-    assert lost_bid.is_winner == False
+    assert win_bid.is_winner
+    assert not lost_bid.is_winner
 
     # VCG Payment: value without A = 50; tier discount Gold 10% -> 50 * 0.90 = 45
     assert win_bid.payment_amount == pytest.approx(45.0)

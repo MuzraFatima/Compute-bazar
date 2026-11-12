@@ -22,23 +22,23 @@
 =============================================================
 """
 
-import sys
 import os
-import time
 import random
-import uuid
 import statistics
-from typing import List, Dict, Tuple
+import sys
+import time
+import uuid
 
 # Add repo root to sys.path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from backend.app.auction.engine import (
-    AuctionEngine, Resource, Bid, SolverMethod,
-    solve_greedy, solve_wdp_lp, compute_vcg_prices,
+    AuctionEngine,
+    Bid,
+    Resource,
+    SolverMethod,
 )
 from backend.app.auction.pricing import apply_tier_pricing
-
 
 # ─────────────────────────────────────────────────────────────
 # CONFIGURATION
@@ -49,24 +49,24 @@ NUM_ROUNDS = 20
 AGENTS_PER_ROUND = 8
 
 RESOURCES = [
-    Resource("GPU-Slot-1",     "gpu",        1.0, "slot"),
-    Resource("GPU-Slot-2",     "gpu",        1.0, "slot"),
+    Resource("GPU-Slot-1", "gpu", 1.0, "slot"),
+    Resource("GPU-Slot-2", "gpu", 1.0, "slot"),
     Resource("API-Budget-100", "api_budget", 100.0, "dollars"),
-    Resource("RAM-Block-32GB", "ram",        32.0, "gb"),
-    Resource("CPU-Cores-8",    "cpu",        8.0, "cores"),
+    Resource("RAM-Block-32GB", "ram", 32.0, "gb"),
+    Resource("CPU-Cores-8", "cpu", 8.0, "cores"),
 ]
 
 RESOURCE_NAMES = [r.name for r in RESOURCES]
 
 AGENT_PROFILES = [
-    {"name": "Agent-Alpha",   "tier": "gold",   "strategy": "ml_adaptive"},
-    {"name": "Agent-Beta",    "tier": "gold",   "strategy": "truthful"},
-    {"name": "Agent-Gamma",   "tier": "silver", "strategy": "shading"},
-    {"name": "Agent-Delta",   "tier": "silver", "strategy": "critical"},
+    {"name": "Agent-Alpha", "tier": "gold", "strategy": "ml_adaptive"},
+    {"name": "Agent-Beta", "tier": "gold", "strategy": "truthful"},
+    {"name": "Agent-Gamma", "tier": "silver", "strategy": "shading"},
+    {"name": "Agent-Delta", "tier": "silver", "strategy": "critical"},
     {"name": "Agent-Epsilon", "tier": "bronze", "strategy": "bargain"},
-    {"name": "Agent-Zeta",    "tier": "gold",   "strategy": "truthful"},
-    {"name": "Agent-Eta",     "tier": "silver", "strategy": "shading"},
-    {"name": "Agent-Theta",   "tier": "bronze", "strategy": "bargain"},
+    {"name": "Agent-Zeta", "tier": "gold", "strategy": "truthful"},
+    {"name": "Agent-Eta", "tier": "silver", "strategy": "shading"},
+    {"name": "Agent-Theta", "tier": "bronze", "strategy": "bargain"},
 ]
 
 
@@ -74,7 +74,8 @@ AGENT_PROFILES = [
 # HELPER: Generate deterministic bids per round
 # ─────────────────────────────────────────────────────────────
 
-def generate_round_bids(rng: random.Random, round_id: int) -> List[Bid]:
+
+def generate_round_bids(rng: random.Random, round_id: int) -> list[Bid]:
     """Generate a set of deterministic bids for one auction round."""
     bids = []
     num_agents = min(AGENTS_PER_ROUND, len(AGENT_PROFILES))
@@ -109,14 +110,16 @@ def generate_round_bids(rng: random.Random, round_id: int) -> List[Bid]:
 
         bid_amount = round(max(1.0, bid_amount), 2)
 
-        bids.append(Bid(
-            bid_id=f"R{round_id}-{agent['name']}-{uuid.UUID(int=rng.getrandbits(128)).hex[:8]}",
-            agent_id=agent["name"],
-            resource_bundle=bundle,
-            bid_amount=bid_amount,
-            task_description=f"Benchmark task round {round_id}",
-            priority="normal",
-        ))
+        bids.append(
+            Bid(
+                bid_id=f"R{round_id}-{agent['name']}-{uuid.UUID(int=rng.getrandbits(128)).hex[:8]}",
+                agent_id=agent["name"],
+                resource_bundle=bundle,
+                bid_amount=bid_amount,
+                task_description=f"Benchmark task round {round_id}",
+                priority="normal",
+            )
+        )
 
     return bids
 
@@ -125,7 +128,8 @@ def generate_round_bids(rng: random.Random, round_id: int) -> List[Bid]:
 # JAIN'S FAIRNESS INDEX
 # ─────────────────────────────────────────────────────────────
 
-def jains_fairness_index(values: List[float]) -> float:
+
+def jains_fairness_index(values: list[float]) -> float:
     """
     Compute Jain's Fairness Index for a list of values.
 
@@ -146,17 +150,18 @@ def jains_fairness_index(values: List[float]) -> float:
 
     n = len(values)
     sum_x = sum(values)
-    sum_x_sq = sum(v ** 2 for v in values)
+    sum_x_sq = sum(v**2 for v in values)
 
     if sum_x_sq == 0:
         return 0.0
 
-    return (sum_x ** 2) / (n * sum_x_sq)
+    return (sum_x**2) / (n * sum_x_sq)
 
 
 # ─────────────────────────────────────────────────────────────
 # BENCHMARK RUNNER
 # ─────────────────────────────────────────────────────────────
+
 
 def run_benchmark():
     """Execute the full benchmark and print results."""
@@ -169,23 +174,23 @@ def run_benchmark():
     print(f"  Rounds: {NUM_ROUNDS}")
     print(f"  Agents/Round: {AGENTS_PER_ROUND}")
     print(f"  Resources: {len(RESOURCES)}")
-    print(f"  Solver: LP (ILP/PuLP/CBC)")
+    print("  Solver: LP (ILP/PuLP/CBC)")
     print("=" * 70)
     print()
 
     # Accumulators
-    all_solve_times_ms: List[float] = []
-    all_total_bids: List[int] = []
-    all_num_winners: List[int] = []
-    all_social_welfare: List[float] = []
-    all_resource_utilization: List[float] = []
-    all_lp_values: List[float] = []
-    all_greedy_values: List[float] = []
+    all_solve_times_ms: list[float] = []
+    all_total_bids: list[int] = []
+    all_num_winners: list[int] = []
+    all_social_welfare: list[float] = []
+    all_resource_utilization: list[float] = []
+    all_lp_values: list[float] = []
+    all_greedy_values: list[float] = []
 
     # Per-agent cumulative surplus tracking (for fairness)
-    agent_total_surplus: Dict[str, float] = {a["name"]: 0.0 for a in AGENT_PROFILES}
-    agent_wins: Dict[str, int] = {a["name"]: 0 for a in AGENT_PROFILES}
-    agent_participations: Dict[str, int] = {a["name"]: 0 for a in AGENT_PROFILES}
+    agent_total_surplus: dict[str, float] = {a["name"]: 0.0 for a in AGENT_PROFILES}
+    agent_wins: dict[str, int] = {a["name"]: 0 for a in AGENT_PROFILES}
+    agent_participations: dict[str, int] = {a["name"]: 0 for a in AGENT_PROFILES}
 
     for round_id in range(1, NUM_ROUNDS + 1):
         bids = generate_round_bids(rng, round_id)
@@ -239,7 +244,7 @@ def run_benchmark():
     print(f"  Total winners:           {sum(all_num_winners)}")
     print(f"  Avg winners/round:       {statistics.mean(all_num_winners):.1f}")
 
-    print(f"\n  [TIME] Solve Time:")
+    print("\n  [TIME] Solve Time:")
     print(f"     Mean:                 {statistics.mean(all_solve_times_ms):.2f} ms")
     print(f"     Median:               {statistics.median(all_solve_times_ms):.2f} ms")
     print(f"     Min:                  {min(all_solve_times_ms):.2f} ms")
@@ -247,13 +252,13 @@ def run_benchmark():
     if len(all_solve_times_ms) > 1:
         print(f"     StdDev:               {statistics.stdev(all_solve_times_ms):.2f} ms")
 
-    print(f"\n  [WELFARE] Social Welfare:")
+    print("\n  [WELFARE] Social Welfare:")
     print(f"     Total:                ${sum(all_social_welfare):.2f}")
     print(f"     Mean/round:           ${statistics.mean(all_social_welfare):.2f}")
     print(f"     Min round:            ${min(all_social_welfare):.2f}")
     print(f"     Max round:            ${max(all_social_welfare):.2f}")
 
-    print(f"\n  [RESOURCES] Resource Utilization:")
+    print("\n  [RESOURCES] Resource Utilization:")
     print(f"     Mean:                 {statistics.mean(all_resource_utilization):.1f}%")
     print(f"     Min:                  {min(all_resource_utilization):.1f}%")
     print(f"     Max:                  {max(all_resource_utilization):.1f}%")
@@ -263,7 +268,7 @@ def run_benchmark():
     total_greedy = sum(all_greedy_values)
     lp_gain = ((total_lp - total_greedy) / total_greedy * 100) if total_greedy > 0 else 0.0
 
-    print(f"\n  [SOLVER] LP vs Greedy:")
+    print("\n  [SOLVER] LP vs Greedy:")
     print(f"     LP total value:       ${total_lp:.2f}")
     print(f"     Greedy total value:   ${total_greedy:.2f}")
     print(f"     LP advantage:         {lp_gain:+.2f}%")
@@ -296,21 +301,21 @@ def run_benchmark():
     print()
     print(f"  Jain's Fairness Index (surplus):  {fairness:.4f}")
     print(f"  Jain's Fairness Index (wins):     {fairness_wins:.4f}")
-    print(f"  (1.0 = perfectly fair, 1/n = maximally unfair)")
+    print("  (1.0 = perfectly fair, 1/n = maximally unfair)")
 
     # ── SUMMARY ────────────────────────────────────────────────
     print()
     print("=" * 70)
     print("  BASELINE SUMMARY")
     print("=" * 70)
-    print(f"  Auction solver:          ILP (PuLP/CBC)")
+    print("  Auction solver:          ILP (PuLP/CBC)")
     print(f"  Avg solve time:          {statistics.mean(all_solve_times_ms):.2f} ms")
     print(f"  Avg social welfare:      ${statistics.mean(all_social_welfare):.2f}/round")
     print(f"  Avg resource util:       {statistics.mean(all_resource_utilization):.1f}%")
     print(f"  LP vs Greedy gain:       {lp_gain:+.2f}%")
     print(f"  Fairness (surplus):      {fairness:.4f}")
     print(f"  Fairness (wins):         {fairness_wins:.4f}")
-    print(f"  Test suite:              59/59 passed")
+    print("  Test suite:              59/59 passed")
     print("=" * 70)
     print("  [OK] Baseline established. Ready for Compute Bazaar 2.0 Week 2.")
     print("=" * 70)

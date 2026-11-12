@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from compute_bazaar.models.bundle import CombinatorialBid
 
@@ -22,16 +22,17 @@ from compute_bazaar.models.bundle import CombinatorialBid
 @dataclass
 class BidOutcome:
     """Record of a completed auction round outcome for an agent's bid."""
+
     bid_id: str
     round_id: int
     won: bool
     bid_amount: float
     payment_amount: float = 0.0
     surplus: float = 0.0
-    resources_allocated: List[str] = field(default_factory=list)
+    resources_allocated: list[str] = field(default_factory=list)
     timestamp: float = field(default_factory=time.time)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "bid_id": self.bid_id,
             "round_id": self.round_id,
@@ -57,10 +58,10 @@ class AgentMemory:
 
     def __init__(self, agent_name: str = "agent"):
         self.agent_name = agent_name
-        self.bid_history: List[CombinatorialBid] = []
-        self.outcome_history: List[BidOutcome] = []
-        self.resource_clearing_prices: Dict[str, List[float]] = {}
-        
+        self.bid_history: list[CombinatorialBid] = []
+        self.outcome_history: list[BidOutcome] = []
+        self.resource_clearing_prices: dict[str, list[float]] = {}
+
         self.consecutive_losses: int = 0
         self.consecutive_wins: int = 0
         self.total_wins: int = 0
@@ -79,7 +80,7 @@ class AgentMemory:
         won: bool,
         bid_amount: float,
         payment_amount: float = 0.0,
-        resources_allocated: Optional[List[str]] = None,
+        resources_allocated: list[str] | None = None,
     ):
         """
         Record the auction round outcome for a bid.
@@ -161,7 +162,7 @@ class AgentMemory:
             return default
         return sum(prices) / len(prices)
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """Return memory analytics summary."""
         return {
             "agent_name": self.agent_name,

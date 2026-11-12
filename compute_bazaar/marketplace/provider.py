@@ -14,11 +14,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 
 class MarketResourceType(str, Enum):
     """Supported resource categories in Compute Bazaar 2.0."""
+
     GPU = "gpu"
     CPU = "cpu"
     RAM = "ram"
@@ -44,6 +45,7 @@ class MarketResource:
         unit: Unit of measurement ('slot', 'cores', 'gb', 'tokens', 'dollars')
         is_available: Operational availability flag (False if offline/maintenance)
     """
+
     name: str
     resource_type: str = MarketResourceType.GPU.value
     provider_id: str = "default_provider"
@@ -80,7 +82,7 @@ class MarketResource:
         factor = max(0.0, float(scarcity_factor))
         self.current_price = round(self.min_price * (1.0 + alpha * factor), 2)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "name": self.name,
             "resource_type": self.resource_type,
@@ -105,12 +107,13 @@ class ResourceProvider:
       - AWS US-East (EC2 CPU & RAM blocks)
       - Local Enterprise Server Farm
     """
+
     provider_id: str
     name: str
     provider_type: str = "cloud"  # "cloud", "api_vendor", "on_prem", "decentralized"
     reliability_score: float = 1.0  # 0.0 to 1.0
     is_active: bool = True
-    resources: Dict[str, MarketResource] = field(default_factory=dict)
+    resources: dict[str, MarketResource] = field(default_factory=dict)
 
     def add_resource(self, resource: MarketResource):
         """Register a resource under this provider."""
@@ -134,13 +137,13 @@ class ResourceProvider:
         """Return aggregate total capacity across all provider resources."""
         return sum(r.total_capacity for r in self.resources.values())
 
-    def get_available_resources(self) -> List[MarketResource]:
+    def get_available_resources(self) -> list[MarketResource]:
         """Return list of active, available resources."""
         if not self.is_active:
             return []
         return [r for r in self.resources.values() if r.is_available]
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "provider_id": self.provider_id,
             "name": self.name,

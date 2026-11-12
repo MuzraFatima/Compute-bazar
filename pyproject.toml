@@ -1,0 +1,34 @@
+[project]
+name = "compute-bazaar"
+version = "2.1.0"
+description = "Combinatorial compute market for LLM agents with uncertain valuations"
+requires-python = ">=3.11"
+readme = "README.md"
+license = { text = "MIT" }
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+extend-exclude = ["venv", ".venv", "scratch", "backend/app/static"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes
+    "W",   # pycodestyle warnings
+    "I",   # import sorting
+    "B",   # bugbear
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # long lines are handled by the formatter where it matters
+    "B008",  # FastAPI's Depends() in defaults is idiomatic
+    "E402",  # a few scripts tweak sys.path before importing project modules
+    "UP042", # (str, Enum) keeps str() output stable for API payloads
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["B011"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["compute_bazaar", "backend", "examples"]

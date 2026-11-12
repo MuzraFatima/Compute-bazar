@@ -12,16 +12,15 @@
 """
 
 import os
-from datetime import datetime, timezone
-from typing import List
+from datetime import UTC, datetime
+
 
 def utc_now_iso() -> str:
-    return datetime.now(timezone.utc).isoformat()
+    return datetime.now(UTC).isoformat()
 
-from sqlalchemy import (
-    create_engine, Column, Integer, String, Float, Boolean, ForeignKey, Index, Table
-)
-from sqlalchemy.orm import declarative_base, sessionmaker, relationship
+
+from sqlalchemy import Boolean, Column, Float, ForeignKey, Index, Integer, String, create_engine, event
+from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
 # Define database location (SQLite file)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -37,6 +36,7 @@ if DATABASE_URL.startswith("sqlite:///"):
     DB_PATH = sqlite_path
 
 Base = declarative_base()
+
 
 # ── Agent Model ──────────────────────────────────────────────
 class Agent(Base):
@@ -57,6 +57,7 @@ class Agent(Base):
     bids = relationship("Bid", back_populates="agent")
     allocations = relationship("Allocation", back_populates="agent")
 
+
 # ── Resource Model ───────────────────────────────────────────
 class Resource(Base):
     __tablename__ = "resources"
@@ -69,6 +70,7 @@ class Resource(Base):
     cost_per_unit = Column(Float, default=0.0, nullable=False)
     is_available = Column(Boolean, default=True, nullable=False)
     created_at = Column(String, default=utc_now_iso, nullable=False)
+
 
 # ── Auction Model ────────────────────────────────────────────
 class Auction(Base):
@@ -86,6 +88,7 @@ class Auction(Base):
     # Relationships
     bids = relationship("Bid", back_populates="auction")
     allocations = relationship("Allocation", back_populates="auction")
+
 
 # ── Bid Model ────────────────────────────────────────────────
 class Bid(Base):
@@ -106,6 +109,7 @@ class Bid(Base):
     auction = relationship("Auction", back_populates="bids")
     agent = relationship("Agent", back_populates="bids")
     allocation = relationship("Allocation", uselist=False, back_populates="bid")
+
 
 # ── Allocation Model ─────────────────────────────────────────
 class Allocation(Base):
@@ -131,13 +135,47 @@ class Allocation(Base):
 Index("idx_bids_auction", Bid.auction_id)
 Index("idx_bids_agent", Bid.agent_id)
 Index("idx_allocations_auction", Allocation.auction_id)
+# Composite indexes for the hot paths: per-agent win/loss aggregation on the
+# dashboard, settlement lookups by (auction, winner), and "latest open round".
+Index("idx_bids_agent_winner", Bid.agent_id, Bid.is_winner)
+Index("idx_bids_auction_winner", Bid.auction_id, Bid.is_winner)
+Index("idx_allocations_agent", Allocation.agent_id)
+Index("idx_auctions_status_round", Auction.status, Auction.round_number)
 
 
 # ── Engine & Session setup ────────────────────────────────────
-engine = create_engine(
-    DATABASE_URL,
-    connect_args={"check_same_thread": False}  # Safe for SQLite with multiple threads in FastAPI
-)
+def _engine_options(url: str) -> dict:
+    """Connection-pool settings that suit the configured database.
+
+    SQLite (the default) uses a file lock, so a small pool plus
+    ``check_same_thread=False`` is enough. Server databases such as Postgres get
+    a real pool with pre-ping so stale connections are recycled instead of
+    surfacing as request errors. All sizes can be tuned through env vars.
+    """
+    if url.startswith("sqlite"):
+        return {"connect_args": {"check_same_thread": False}, "pool_pre_ping": True}
+    return {
+        "pool_size": int(os.getenv("DB_POOL_SIZE", "10")),
+        "max_overflow": int(os.getenv("DB_MAX_OVERFLOW", "20")),
+        "pool_timeout": int(os.getenv("DB_POOL_TIMEOUT", "30")),
+        "pool_recycle": int(os.getenv("DB_POOL_RECYCLE", "1800")),
+        "pool_pre_ping": True,
+    }
+
+
+engine = create_engine(DATABASE_URL, **_engine_options(DATABASE_URL))
+
+if DATABASE_URL.startswith("sqlite:///") and ":memory:" not in DATABASE_URL:
+
+    @event.listens_for(engine, "connect")
+    def _sqlite_pragmas(dbapi_conn, _record):
+        # WAL lets the dashboard keep reading while the scheduler writes a round.
+        cur = dbapi_conn.cursor()
+        cur.execute("PRAGMA journal_mode=WAL")
+        cur.execute("PRAGMA synchronous=NORMAL")
+        cur.execute("PRAGMA foreign_keys=ON")
+        cur.close()
+
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
@@ -145,6 +183,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 def init_db():
     """Create all tables in the database."""
     Base.metadata.create_all(bind=engine)
+
 
 # Auto-initialize tables on module import
 init_db()
