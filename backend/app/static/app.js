@@ -24,23 +24,78 @@ let auctionActivityChart = null;
 // WebSocket reference
 let ws = null;
 
+// Last raw payload per view, so unchanged polls skip DOM and chart work
+const lastPayload = { metrics: null, round: null, status: null };
+
+// ── Small performance helpers ───────────────────────────────
+/** Run `fn` only while the tab is visible; background tabs stop polling. */
+function whenVisible(fn) {
+    return () => { if (!document.hidden) fn(); };
+}
+
+/**
+ * Debounce a click handler: ignore repeat clicks within `wait` ms and while
+ * the previous call is still in flight, so a double-click can't fire twice.
+ */
+function debounceAsync(fn, wait = 400) {
+    let busy = false;
+    let last = 0;
+    return async (...args) => {
+        const now = Date.now();
+        if (busy || now - last < wait) return;
+        busy = true;
+        last = now;
+        try { await fn(...args); } finally { busy = false; }
+    };
+}
+
+/** Fetch JSON, returning null when the body is identical to the previous one. */
+async function fetchIfChanged(url, key) {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const text = await res.text();
+    if (text === lastPayload[key]) return null;
+    lastPayload[key] = text;
+    return JSON.parse(text);
+}
+
+/** Resolve once Chart.js is present, loading the CDN build as a fallback. */
+function ensureChartJs() {
+    if (typeof Chart !== "undefined") return Promise.resolve();
+    return new Promise((resolve, reject) => {
+        const tag = document.createElement("script");
+        tag.src = "https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js";
+        tag.onload = resolve;
+        tag.onerror = reject;
+        document.head.appendChild(tag);
+    });
+}
+
 // ── Document Initialization ─────────────────────────────────
-document.addEventListener("DOMContentLoaded", () => {
-    initCharts();
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        await ensureChartJs();
+        initCharts();
+    } catch (e) {
+        console.error("Chart.js unavailable:", e);
+    }
     loadDashboardMetrics();
     loadCurrentRound();
     connectWebSocket();
     checkSimulationStatus();
-    
-    // Poll metrics every 3 seconds for smooth real-time dashboard updates
-    setInterval(loadDashboardMetrics, 3000);
-    setInterval(loadCurrentRound, 3000);
-    setInterval(checkSimulationStatus, 5000);
-    
-    // Control bindings
-    document.getElementById("btn-start-classic").addEventListener("click", () => startSimulation("classic"));
-    document.getElementById("btn-start-groq").addEventListener("click",   () => startSimulation("autonomous"));
-    document.getElementById("btn-stop-sim").addEventListener("click", stopSimulation);
+
+    // Poll every few seconds while the tab is visible
+    setInterval(whenVisible(loadDashboardMetrics), 3000);
+    setInterval(whenVisible(loadCurrentRound), 3000);
+    setInterval(whenVisible(checkSimulationStatus), 5000);
+    document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) { loadDashboardMetrics(); loadCurrentRound(); }
+    });
+
+    // Control bindings (debounced)
+    document.getElementById("btn-start-classic").addEventListener("click", debounceAsync(() => startSimulation("classic")));
+    document.getElementById("btn-start-groq").addEventListener("click", debounceAsync(() => startSimulation("autonomous")));
+    document.getElementById("btn-stop-sim").addEventListener("click", debounceAsync(stopSimulation));
 });
 
 // ── Initialize Chart.js Instances ────────────────────────────
@@ -254,9 +309,8 @@ function initCharts() {
 // ── Fetch & Update Real Database Metrics ──────────────────────
 async function loadDashboardMetrics() {
     try {
-        const res = await fetch("/api/v1/dashboard/metrics");
-        if (!res.ok) return;
-        const data = await res.json();
+        const data = await fetchIfChanged("/api/v1/dashboard/metrics", "metrics");
+        if (!data) return;
         
         // 1. Update KPI Header Cards
         const s = data.summary;
@@ -378,7 +432,7 @@ function updateChartsWithRealData(data) {
             u.ram || 0,
             u.api_budget || 0,
         ];
-        resourceUtilChart.update();
+        resourceUtilChart.update('none');
     }
 
     // 2. Chart 2: Costs & Surplus Savings Over Time
@@ -408,7 +462,7 @@ function updateChartsWithRealData(data) {
         costSavingsChart.data.datasets[0].data = welfareData;
         costSavingsChart.data.datasets[1].data = spentData;
         costSavingsChart.data.datasets[2].data = savingsData;
-        costSavingsChart.update();
+        costSavingsChart.update('none');
     }
 
     // 3. Chart 3: Agent Wins vs Losses
@@ -420,7 +474,7 @@ function updateChartsWithRealData(data) {
         agentWinsLossesChart.data.labels = agentNames;
         agentWinsLossesChart.data.datasets[0].data = wins;
         agentWinsLossesChart.data.datasets[1].data = losses;
-        agentWinsLossesChart.update();
+        agentWinsLossesChart.update('none');
     }
 
     // 4. Chart 4: Auction Activity & Welfare Extracted
@@ -433,16 +487,15 @@ function updateChartsWithRealData(data) {
         auctionActivityChart.data.labels = labels;
         auctionActivityChart.data.datasets[0].data = welfareData;
         auctionActivityChart.data.datasets[1].data = bidsData;
-        auctionActivityChart.update();
+        auctionActivityChart.update('none');
     }
 }
 
 // ── Load Current Open Round & Live Bids ───────────────────────
 async function loadCurrentRound() {
     try {
-        const res = await fetch("/api/v1/auctions/current");
-        if (!res.ok) return;
-        const round = await res.json();
+        const round = await fetchIfChanged("/api/v1/auctions/current", "round");
+        if (!round) return;
         
         document.getElementById("metric-round-number").innerText = `#${round.round_number}`;
         document.getElementById("metric-round-status").innerText = round.status.toUpperCase();
@@ -474,6 +527,8 @@ async function loadCurrentRound() {
                 `;
                 tbody.appendChild(tr);
             });
+        } else if (tbody && tbody.querySelector(".skeleton-row")) {
+            tbody.innerHTML = `<tr id="empty-bids-message"><td colspan="5" class="text-center py-16 text-slate-500">Waiting for live agent bids... Click "Start Simulation Loop" above to trigger.</td></tr>`;
         }
     } catch (e) {
         console.error("Error loading current round:", e);
@@ -512,6 +567,7 @@ function appendLiveTickerBid(b) {
     // Remove placeholder row if present
     const placeholder = document.getElementById("empty-bids-message");
     if (placeholder) placeholder.remove();
+    tbody.querySelectorAll(".skeleton-row").forEach(row => row.remove());
 
     const isAutonomous = b.mode === "autonomous";
     const priorityColors = {
@@ -547,9 +603,8 @@ function appendLiveTickerBid(b) {
 // ── Check & Control Simulation ───────────────────────────────
 async function checkSimulationStatus() {
     try {
-        const res = await fetch("/api/v1/simulation/status");
-        if (!res.ok) return;
-        const data = await res.json();
+        const data = await fetchIfChanged("/api/v1/simulation/status", "status");
+        if (!data) return;
         
         const btnClassic    = document.getElementById("btn-start-classic");
         const btnGroq       = document.getElementById("btn-start-groq");
@@ -582,6 +637,7 @@ async function checkSimulationStatus() {
 async function startSimulation(mode = "classic") {
     try {
         await fetch(`/api/v1/simulation/start?mode=${mode}`, { method: "POST" });
+        lastPayload.status = null;
         checkSimulationStatus();
         loadDashboardMetrics();
     } catch (e) {
@@ -592,6 +648,7 @@ async function startSimulation(mode = "classic") {
 async function stopSimulation() {
     try {
         await fetch("/api/v1/simulation/stop", { method: "POST" });
+        lastPayload.status = null;
         checkSimulationStatus();
     } catch (e) {
         console.error("Error stopping simulation:", e);
