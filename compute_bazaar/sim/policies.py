@@ -100,7 +100,9 @@ def _density(j: Job, epoch: int) -> float:
     return j.value_if_started(epoch) / j.gpu_time
 
 
-def bazaar(pending, free, epoch, sim, max_bids: int = 80, reserve_quantile: float | None = 0.5):
+def bazaar(
+    pending, free, epoch, sim, max_bids: int = 80, reserve_quantile: float | None = 0.5, fairness_alpha: float = 0.0
+):
     """
     Exact multi-unit WDP over the ``max_bids`` densest pending jobs.
 
@@ -110,6 +112,11 @@ def bazaar(pending, free, epoch, sim, max_bids: int = 80, reserve_quantile: floa
     jobs that block denser work arriving later. A fixed reserve is the
     "seller as a phantom bidder", so VCG with it remains truthful.
     ``reserve_quantile=None`` gives the plain myopic auction.
+
+    ``fairness_alpha`` > 0 weights each bid by ρ̂^α, where ρ̂ = (wait + duration)
+    / duration is the job's finish-time-fairness ratio if started now. The
+    weight depends on queueing time, never on the bid, so the rule is an
+    affine maximizer: VCG on weighted values stays truthful (Roberts 1979).
     """
     cands = sorted(pending, key=lambda j: -_density(j, epoch))[:max_bids]
     lam = 0.0
@@ -123,7 +130,8 @@ def bazaar(pending, free, epoch, sim, max_bids: int = 80, reserve_quantile: floa
         dem = {k: v for k, v in sim.demand(j).items() if v > 0}
         if any(k not in resources or v > resources[k].units for k, v in dem.items()):
             continue
-        val = j.value_if_started(epoch) - lam * j.gpu_time
+        weight = ((epoch - j.submit + j.duration) / j.duration) ** fairness_alpha if fairness_alpha else 1.0
+        val = weight * (j.value_if_started(epoch) - lam * j.gpu_time)
         if val <= 1e-9:
             continue
         bids.append(Bid(j.job_id, j.user, list(dem), round(val, 6), quantities=dem))
@@ -145,6 +153,14 @@ def bazaar_myopic(pending, free, epoch, sim):
     return bazaar(pending, free, epoch, sim, reserve_quantile=None)
 
 
+def _fair(alpha: float):
+    def policy(pending, free, epoch, sim):
+        return bazaar(pending, free, epoch, sim, fairness_alpha=alpha)
+
+    policy.__name__ = f"bazaar_fair_{alpha:g}"
+    return policy
+
+
 POLICIES = {
     "fifo": fifo,
     "fifo_backfill": fifo_backfill,
@@ -153,4 +169,7 @@ POLICIES = {
     "greedy_value": greedy_value,
     "bazaar_myopic": bazaar_myopic,
     "bazaar": bazaar,
+    "bazaar_fair_0.5": _fair(0.5),
+    "bazaar_fair_1": _fair(1.0),
+    "bazaar_fair_2": _fair(2.0),
 }
